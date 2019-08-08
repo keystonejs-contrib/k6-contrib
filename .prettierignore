@@ -1,0 +1,13 @@
+package.json
+packages/icons/icons/*
+reports
+coverage
+packages/test-project/public
+website/.cache/**/*
+website/public/**/*
+demo-projects/todo/.cache
+demo-projects/blog/app/.next
+packages/arch/www/public/**/*
+.changeset/**/*
+**/dist
+**/.next
