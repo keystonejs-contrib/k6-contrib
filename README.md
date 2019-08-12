@@ -5,7 +5,7 @@ A collection of community projects for KeystoneJs ecosystem
 
 # Projects
 
-## @keystone-ks/view
+## @keystone-js/view
 This package is port of KeystoneJS v4 View functionality in v5.
 
 
