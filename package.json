@@ -1,8 +1,8 @@
 {
-  "name": "keystone-js",
+  "name": "keystonejs-contrib",
   "version": "1.0.0",
   "description": "monorepo for keystonejs community projects initiated by Gautam Singh",
-  "author": "Keystone-JS Community Development Team",
+  "author": "KeystoneJS-Contrib Community Development Team",
   "license": "MIT",
   "private": true,
   "bolt": {

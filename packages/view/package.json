@@ -1,8 +1,8 @@
 {
-  "name": "@keystone-js/view",
+  "name": "@keystonejs-contrib/view",
   "description": "Provides functionality similar to Keystone 4 views.",
   "version": "1.0.0",
-  "author": "The Keystone-JS Community Development Team",
+  "author": "The KeystoneJS-Contrib Community Development Team",
   "license": "MIT",
   "engines": {
     "node": ">=8.4.0"

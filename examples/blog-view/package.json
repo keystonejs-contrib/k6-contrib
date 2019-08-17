@@ -1,9 +1,9 @@
 {
-  "name": "@keystone-js/example-blog-with-view",
+  "name": "@keystonejs-contrib/example-blog-with-view",
   "description": "An example KeystoneJS project showcasing a Blogging Site using View and express view engine pug.",
   "private": true,
   "version": "0.0.0",
-  "author": "The Keystone-JS Community Development Team",
+  "author": "The KeystoneJS-Contrib Community Development Team",
   "license": "MIT",
   "engines": {
     "node": ">=8.4.0"
@@ -24,7 +24,7 @@
     "@keystone-alpha/fields-wysiwyg-tinymce": "^3.0.5",
     "@keystone-alpha/file-adapters": "^1.1.1",
     "@keystone-alpha/keystone": "^9.1.0",
-    "@keystone-js/view": "^0.0.0",
+    "@keystonejs-contrib/view": "^1.0.0",
     "body-parser": "^1.19.0",
     "chalk": "^2.4.2",
     "ci-info": "^2.0.0",
