@@ -249,7 +249,7 @@ module.exports = class View {
       const queryFn = this.keystone.executeQuery;
       const context = this.keystone.getGraphQlContext({schemaName: this.schemaName, req: this.req })
       try {
-        const { data, errors } = await queryFn(query, context, variables);
+        const { data, errors } = await queryFn(query, { context, variables });
         locals[key] = data;
         const resultKeys = Object.keys(data || {});
         if (unwrap && resultKeys.length === 1) {

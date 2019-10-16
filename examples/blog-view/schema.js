@@ -10,7 +10,7 @@ const {
 } = require('@keystone-alpha/fields');
 const { Wysiwyg } = require('@keystone-alpha/fields-wysiwyg-tinymce');
 const { LocalFileAdapter } = require('@keystone-alpha/file-adapters');
-const getYear = require('date-fns/getYear');
+const { getYear } = require('date-fns');
 
 const { staticRoute, staticPath } = require('./config');
 
