@@ -38,7 +38,7 @@ module.exports = class View {
     keystone,
     req,
     res,
-    { schemaName = 'admin', populateRelated = null, allowQueryFromAction = true } = {}
+    { schemaName = 'public', populateRelated = null, allowQueryFromAction = true } = {}
   ) {
     if (!req || req.constructor.name !== 'IncomingMessage') {
       throw new Error('Keystone.View Error: Express request object is required.');
@@ -246,8 +246,8 @@ module.exports = class View {
 
     this.queryQueue.push(async () => {
       const callbacks = chain.callbacks;
-      const queryFn = this.keystone._graphQLQuery[this.schemaName];
-      const context = this.keystone.getAccessContext(this.schemaName, this.req);
+      const queryFn = this.keystone.executeQuery;
+      const context = this.keystone.getGraphQlContext({schemaName: this.schemaName, req: this.req })
       try {
         const { data, errors } = await queryFn(query, context, variables);
         locals[key] = data;

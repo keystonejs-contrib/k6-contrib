@@ -1,4 +1,4 @@
-const View = require('@keystone-alpha/view');
+const View = require('@keystonejs-contrib/view');
 const { format } = require('date-fns');
 const multer = require('multer');
 const { Readable } = require('stream');

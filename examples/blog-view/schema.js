@@ -10,18 +10,18 @@ const {
 } = require('@keystone-alpha/fields');
 const { Wysiwyg } = require('@keystone-alpha/fields-wysiwyg-tinymce');
 const { LocalFileAdapter } = require('@keystone-alpha/file-adapters');
-const getYear = require('date-fns/get_year');
+const getYear = require('date-fns/getYear');
 
 const { staticRoute, staticPath } = require('./config');
 
 const fileAdapter = new LocalFileAdapter({
-  directory: `${staticPath}/uploads`,
-  route: `${staticRoute}/uploads`,
+  src: `${staticPath}/uploads`,
+  path: `${staticRoute}/uploads`,
 });
 
 const avatarFileAdapter = new LocalFileAdapter({
-  directory: `${staticPath}/avatars`,
-  route: `${staticRoute}/avatars`,
+  src: `${staticPath}/avatars`,
+  path: `${staticRoute}/avatars`,
 });
 
 exports.User = {
