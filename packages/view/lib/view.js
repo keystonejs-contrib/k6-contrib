@@ -247,7 +247,10 @@ module.exports = class View {
     this.queryQueue.push(async () => {
       const callbacks = chain.callbacks;
       const queryFn = this.keystone.executeQuery;
-      const context = this.keystone.getGraphQlContext({schemaName: this.schemaName, req: this.req })
+      const context = this.keystone.getGraphQlContext({
+        schemaName: this.schemaName,
+        req: this.req,
+      });
       try {
         const { data, errors } = await queryFn(query, { context, variables });
         locals[key] = data;

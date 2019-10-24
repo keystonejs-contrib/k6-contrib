@@ -16,6 +16,7 @@
   "dependencies": {
     "@arch-ui/layout": "^0.2.4",
     "@arch-ui/typography": "^0.0.8",
+    "@keystonejs-contrib/view": "^1.0.0",
     "@keystonejs/adapter-mongoose": "^5.0.0",
     "@keystonejs/app-admin-ui": "^5.0.0",
     "@keystonejs/app-graphql": "^5.0.0",
@@ -25,7 +26,6 @@
     "@keystonejs/fields-wysiwyg-tinymce": "^5.0.0",
     "@keystonejs/file-adapters": "^5.0.0",
     "@keystonejs/keystone": "^5.0.0",
-    "@keystonejs-contrib/view": "^1.0.0",
     "body-parser": "^1.19.0",
     "chalk": "^2.4.2",
     "ci-info": "^2.0.0",
