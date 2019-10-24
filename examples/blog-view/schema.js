@@ -7,9 +7,9 @@ const {
   Checkbox,
   CalendarDay,
   DateTime,
-} = require('@keystone-alpha/fields');
-const { Wysiwyg } = require('@keystone-alpha/fields-wysiwyg-tinymce');
-const { LocalFileAdapter } = require('@keystone-alpha/file-adapters');
+} = require('@keystonejs/fields');
+const { Wysiwyg } = require('@keystonejs/fields-wysiwyg-tinymce');
+const { LocalFileAdapter } = require('@keystonejs/file-adapters');
 const { getYear } = require('date-fns');
 
 const { staticRoute, staticPath } = require('./config');

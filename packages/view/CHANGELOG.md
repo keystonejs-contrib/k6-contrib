@@ -1,1 +1,1 @@
-# @keystone-alpha/view
+# @keystonejs-contrib/view
