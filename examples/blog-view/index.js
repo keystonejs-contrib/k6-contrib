@@ -6,7 +6,7 @@ const { GraphQLApp } = require('@keystonejs/app-graphql');
 const { AdminUIApp } = require('@keystonejs/app-admin-ui');
 const { StaticApp } = require('@keystonejs/app-static');
 
-const { staticRoute, staticPath, distDir } = require('./config');
+const { staticSrc, staticPath, distDir } = require('./config');
 const { User, Post, PostCategory, Comment } = require('./schema');
 
 const keystone = new Keystone({
@@ -59,6 +59,6 @@ const adminApp = new AdminUIApp({
 
 module.exports = {
   keystone,
-  apps: [new GraphQLApp(), new StaticApp({ path: staticRoute, src: staticPath }), adminApp],
+  apps: [new GraphQLApp(), new StaticApp({ path: staticPath, src: staticSrc }), adminApp],
   distDir,
 };

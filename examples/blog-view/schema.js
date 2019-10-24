@@ -12,16 +12,16 @@ const { Wysiwyg } = require('@keystonejs/fields-wysiwyg-tinymce');
 const { LocalFileAdapter } = require('@keystonejs/file-adapters');
 const { getYear } = require('date-fns');
 
-const { staticRoute, staticPath } = require('./config');
+const { staticSrc, staticPath } = require('./config');
 
 const fileAdapter = new LocalFileAdapter({
-  src: `${staticPath}/uploads`,
-  path: `${staticRoute}/uploads`,
+  src: `${staticSrc}/uploads`,
+  path: `${staticPath}/uploads`,
 });
 
 const avatarFileAdapter = new LocalFileAdapter({
-  src: `${staticPath}/avatars`,
-  path: `${staticRoute}/avatars`,
+  src: `${staticSrc}/avatars`,
+  path: `${staticPath}/avatars`,
 });
 
 exports.User = {
