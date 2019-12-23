@@ -59,6 +59,10 @@ const adminApp = new AdminUIApp({
 
 module.exports = {
   keystone,
-  apps: [new GraphQLApp(), new StaticApp({ path: staticPath, src: staticSrc }), adminApp],
+  apps: [
+    new GraphQLApp(),
+    new StaticApp({ path: staticPath, src: staticSrc }),
+    adminApp,
+  ],
   distDir,
 };
