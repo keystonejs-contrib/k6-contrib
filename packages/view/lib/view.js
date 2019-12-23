@@ -1,5 +1,5 @@
-const every = require('lodash.every');
-const last = require('lodash.last');
+const every = require('lodash/every');
+const last = require('lodash/last');
 
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
