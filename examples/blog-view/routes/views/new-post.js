@@ -29,7 +29,7 @@ module.exports = (keystone, app) => {
       input.posted = new Date().toISOString();
       if (req.file) {
         const { buffer, originalname: filename, mimetype, encoding } = req.file;
-        input['image'] = { stream: bufferToStream(buffer), filename, mimetype, encoding };
+        input['image'] = { createReadStream: () => bufferToStream(buffer), filename, mimetype, encoding };
       }
       view
         .query(
