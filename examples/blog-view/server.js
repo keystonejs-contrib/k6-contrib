@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { keystone, apps } = require('./index');
+const { keystone, apps } = require('./index_custom');
 const { port } = require('./config');
 const initRoutes = require('./routes');
 const { logAdminRoutes } = require('./utils');

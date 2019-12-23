@@ -8,14 +8,14 @@ The Blog is a great example and boilerplate for more complex, real-world impleme
 
 ## Running the Project.
 
-To run this project, open your terminal and run `bolt` within the Keystone project root to install all required packages, then run `bolt start blog` to begin running Keystone.
+To run this project, open your terminal and run `yarn` within the Keystone Contrib project root to install all required packages, then run `yarn dev` or `yarn start` to begin running Keystone.
 
 The Keystone Admin UI is reachable from `localhost:3000/admin`. To log in, use the following credentials:
 
 Username: `admin@keystonejs.com`
 Password: `password`
 
-To see an example Next.js app using Keystone's GraphQl APIs, head to `localhost:3000`.
+To see an example view app using Keystone's GraphQl APIs, head to `localhost:3000`.
 
 You can change the port that this demo runs on by setting the `PORT` environment variable.
 
@@ -23,8 +23,44 @@ You can change the port that this demo runs on by setting the `PORT` environment
 PORT=5000 bolt start blog
 ```
 
-## TODO: Permissions and Authorisation
+## Example Running Mode
 
-Although the "Password" auth strategy is enabled for the Admin UI on this project, we haven't implemented any restrictions on the GraphQL API yet. So unauthenticated users are able to create and destroy admin users (!)
+### using keystone
+see `index.js`, especially use of `blogApp` where we mimic this as keystone middleware alike.
 
-See the [Access Control](https://v5.keystonejs.com/guides/access-control) documentation for information on how to do this.
+run `yarn dev` or `yarn start`
+
+> `configureExpress` method does not seems to work currently.  
+
+To make use of this method, you must do it like this:-
+```js
+const blogApp = {
+  prepareMiddleware: ({ keystone }) => {
+    const app = express();
+    app.use(bodyParser.urlencoded({ extended: true })); // use correct body parser for this sub app.
+    app.set('views', './templates'); // set view path
+    app.set('view engine', 'pug'); // set view engine
+    initRoutes(keystone, app); // initialize your express routes
+
+    return app;
+  }
+}
+
+// later use this in exporting
+module.exports = {
+  keystone,
+  apps: [
+    // .. other keystone apps like admin ui, graphql or static app.
+    blogApp,
+  ],
+  distDir,
+};
+
+```
+
+
+
+### Custom Server
+see `server.js` and `index_custom.js` for how to use custom server.
+
+run `yarn dev:custom` or `yarn start:custom`
