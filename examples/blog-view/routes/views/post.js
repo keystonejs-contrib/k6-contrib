@@ -1,4 +1,4 @@
-const View = require('@keystone-alpha/view');
+const View = require('@keystonejs-contrib/view');
 const bodyParser = require('body-parser');
 const { format } = require('date-fns');
 

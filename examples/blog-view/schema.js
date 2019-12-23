@@ -7,21 +7,21 @@ const {
   Checkbox,
   CalendarDay,
   DateTime,
-} = require('@keystone-alpha/fields');
-const { Wysiwyg } = require('@keystone-alpha/fields-wysiwyg-tinymce');
-const { LocalFileAdapter } = require('@keystone-alpha/file-adapters');
-const getYear = require('date-fns/get_year');
+} = require('@keystonejs/fields');
+const { Wysiwyg } = require('@keystonejs/fields-wysiwyg-tinymce');
+const { LocalFileAdapter } = require('@keystonejs/file-adapters');
+const { getYear } = require('date-fns');
 
-const { staticRoute, staticPath } = require('./config');
+const { staticSrc, staticPath } = require('./config');
 
 const fileAdapter = new LocalFileAdapter({
-  directory: `${staticPath}/uploads`,
-  route: `${staticRoute}/uploads`,
+  src: `${staticSrc}/uploads`,
+  path: `${staticPath}/uploads`,
 });
 
 const avatarFileAdapter = new LocalFileAdapter({
-  directory: `${staticPath}/avatars`,
-  route: `${staticRoute}/avatars`,
+  src: `${staticSrc}/avatars`,
+  path: `${staticPath}/avatars`,
 });
 
 exports.User = {

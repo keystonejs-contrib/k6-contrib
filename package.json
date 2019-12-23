@@ -1,39 +1,31 @@
 {
   "name": "keystonejs-contrib",
-  "version": "1.0.0",
-  "description": "monorepo for keystonejs community projects initiated by Gautam Singh",
+  "version": "1.1.0",
+  "description": "monorepo for KeystoneJs community projects initiated by Gautam Singh",
   "author": "KeystoneJS-Contrib Community Development Team",
   "license": "MIT",
   "private": true,
-  "bolt": {
-    "workspaces": [
+  "scripts": {
+    "format:file": "prettier --write",
+    "format": "prettier --write \"**/*.js{,on}\" \"**/*.md\"",
+    "fresh": "yarn clean && yarn",
+    "clean": "manypkg exec rimraf node_modules website/.cache && rimraf node_modules"
+  },
+  "workspaces": {
+    "packages": [
       "packages/*",
       "examples/*"
     ]
   },
   "dependencies": {
-    "@arch-ui/layout": "^0.2.4",
-    "@arch-ui/typography": "^0.0.8",
-    "@keystone-alpha/adapter-mongoose": "^3.0.1",
-    "@keystone-alpha/app-admin-ui": "^5.1.0",
-    "@keystone-alpha/app-graphql": "^6.3.1",
-    "@keystone-alpha/app-static": "^1.0.3",
-    "@keystone-alpha/fields": "^10.1.0",
-    "@keystone-alpha/fields-wysiwyg-tinymce": "^3.0.5",
-    "@keystone-alpha/file-adapters": "^1.1.1",
-    "@keystone-alpha/keystone": "^9.1.0",
-    "body-parser": "^1.19.0",
-    "chalk": "^2.4.2",
-    "ci-info": "^2.0.0",
-    "cross-env": "^5.2.0",
-    "date-fns": "^1.30.1",
-    "dotenv-safe": "^6.1.0",
-    "express": "^4.17.1",
-    "lodash.every": "^4.6.0",
-    "lodash.last": "^3.0.0",
-    "multer": "^1.4.2",
-    "pug": "^2.0.4",
-    "react": "^16.8.6",
-    "terminal-link": "^1.3.0"
+    "@manypkg/cli": "^0.9.0",
+    "prettier": "^1.18.2",
+    "rimraf": "^2.6.2"
+  },
+  "prettier": {
+    "proseWrap": "preserve",
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "printWidth": 100
   }
 }
