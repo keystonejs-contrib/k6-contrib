@@ -5,7 +5,7 @@ const { MongooseAdapter } = require('@keystonejs/adapter-mongoose');
 const { GraphQLApp } = require('@keystonejs/app-graphql');
 const { AdminUIApp } = require('@keystonejs/app-admin-ui');
 const { StaticApp } = require('@keystonejs/app-static');
-const express = require('express');
+const { ExpressApp } = require('@keystonejs-contrib/app-express');
 const bodyParser = require('body-parser');
 
 const initRoutes = require('./routes');
@@ -60,25 +60,18 @@ const adminApp = new AdminUIApp({
   ],
 });
 
-const blogApp = {
-  prepareMiddleware: ({ keystone }) => {
-    const app = express();
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.set('views', './templates');
-    app.set('view engine', 'pug');
-    initRoutes(keystone, app);
+const blogApp = new ExpressApp({
+  views: './templates',
+  'view engine': 'pug',
+});
 
-    return app;
-  }
-}
+blogApp.configureExpress(app => {
+  app.use(bodyParser.urlencoded({ extended: true }));
+  initRoutes(keystone, app);
+});
 
 module.exports = {
   keystone,
-  apps: [
-    new GraphQLApp(),
-    new StaticApp({ path: staticPath, src: staticSrc }),
-    adminApp,
-    blogApp,
-  ],
+  apps: [new GraphQLApp(), new StaticApp({ path: staticPath, src: staticSrc }), adminApp, blogApp],
   distDir,
 };
