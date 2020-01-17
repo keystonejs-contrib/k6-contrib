@@ -71,6 +71,14 @@ const blogApp = new ExpressApp(
   }
 );
 
+// this works too 
+// const blogApp = new ExpressApp(app => {
+//   app.set('views', './templates');
+//   app.set('view engine', 'pug');
+//   app.use(bodyParser.urlencoded({ extended: true }));
+//   initRoutes(keystone, app);
+// });
+
 module.exports = {
   keystone,
   apps: [new GraphQLApp(), new StaticApp({ path: staticPath, src: staticSrc }), adminApp, blogApp],

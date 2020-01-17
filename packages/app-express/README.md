@@ -17,8 +17,11 @@ new ExpressApp({
 }, configureExpress = app => {})
 ```
 
-where `expressOptions` is all those things can be set using `app.set(key, value)`
-where `configureExpress` is function argument which will be called similar to `configureExpress` method.
+**Paremeters**
+* `app`: used for providing custom express instance.  
+* `expressOptions`: all those things can be set using `app.set(key, value)`  
+* `configureExpress`: function argument which will be called similar to `configureExpress` method.
+>`expressOptions` can be skipped altogether and only `configureExpress` may be used
 
 ##### example:
 
@@ -32,6 +35,15 @@ const customApp = new ExpressApp({
     someOtherMethod(keystone, app);
   }
 );
+
+// OR when skipping expressOptions
+
+new ExpressApp(app => {
+  app.set(...);
+  app.use(...);
+  app.get(...);
+  app.post(...);
+})
 ```
 
 
