@@ -1,5 +1,11 @@
 # @keystonejs-contrib/app-express
 
+## 0.2.1
+
+### Patch Changes
+
+- ee3d7c5: infer use of parameter so that empty or null options may be skipped
+
 ## 0.2.0
 
 ### Minor Changes
