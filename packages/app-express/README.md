@@ -14,10 +14,26 @@ This package helps create custom middleware using express config
 new ExpressApp({
   app = express(),
   ...expressOptions
-})
+}, configureExpress = app => {})
 ```
 
 where `expressOptions` is all those things can be set using `app.set(key, value)`
+where `configureExpress` is function argument which will be called similar to `configureExpress` method.
+
+##### example:
+
+```js
+const customApp = new ExpressApp({
+    views: './templates',
+    'view engine': 'pug',
+  },
+  app => {
+    app.use(bodyParser.urlencoded({ extended: true }));
+    someOtherMethod(keystone, app);
+  }
+);
+```
+
 
 #### Methods
 

@@ -60,15 +60,16 @@ const adminApp = new AdminUIApp({
   ],
 });
 
-const blogApp = new ExpressApp({
-  views: './templates',
-  'view engine': 'pug',
-});
-
-blogApp.configureExpress(app => {
-  app.use(bodyParser.urlencoded({ extended: true }));
-  initRoutes(keystone, app);
-});
+const blogApp = new ExpressApp(
+  {
+    views: './templates',
+    'view engine': 'pug',
+  },
+  app => {
+    app.use(bodyParser.urlencoded({ extended: true }));
+    initRoutes(keystone, app);
+  }
+);
 
 module.exports = {
   keystone,

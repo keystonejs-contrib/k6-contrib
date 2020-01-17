@@ -4,8 +4,11 @@ const fallback = require('express-history-api-fallback');
 const pathModule = require('path');
 
 class ExpressApp {
-  constructor({ app = express(), ...expressOptions }) {
+  constructor({ app = express(), ...expressOptions }, configureExpress = app => {}) {
     Object.entries(expressOptions).forEach(([setting, value]) => app.set(setting, value));
+    if (typeof configureExpress === 'function') {
+      configureExpress(app);
+    }
     this.middleWare = app;
   }
 
