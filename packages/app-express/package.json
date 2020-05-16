@@ -1,0 +1,13 @@
+{
+  "name": "@keystonejs-contrib/app-express",
+  "description": "Provides functionality similar to Keystone 4 views.",
+  "version": "0.2.1",
+  "author": "The KeystoneJS-Contrib Community Development Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=8.4.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
