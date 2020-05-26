@@ -30,7 +30,7 @@ exports.User = {
     email: { type: Text, isUnique: true },
     dob: {
       type: CalendarDay,
-      format: 'Do MMMM YYYY',
+      format: 'Do MMMM yyyy',
       yearRangeFrom: 1901,
       yearRangeTo: getYear(new Date()),
     },
@@ -59,7 +59,7 @@ exports.Post = {
       options: [{ label: 'Draft', value: 'draft' }, { label: 'Published', value: 'published' }],
     },
     body: { type: Wysiwyg },
-    posted: { type: DateTime, format: 'DD/MM/YYYY' },
+    posted: { type: DateTime, format: 'dd/MM/yyyy' },
     image: { type: File, adapter: fileAdapter },
   },
   adminConfig: {

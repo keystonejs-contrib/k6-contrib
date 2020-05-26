@@ -1,5 +1,5 @@
 const View = require('@keystonejs-contrib/view');
-const { format } = require('date-fns');
+const { format, parseISO } = require('date-fns');
 const multer = require('multer');
 const { Readable } = require('stream');
 
@@ -17,6 +17,7 @@ module.exports = (keystone, app) => {
   app.use('/new', upload, async (req, res) => {
     const locals = res.locals || {};
     locals.format = format;
+    locals.parseISO = parseISO;
     locals.imagePlaceholder = name => `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width="100" height="100">
     <rect width="100" height="100" fill="hsl(200,20%,50%)" />
     <text text-anchor="middle" x="50" y="67" fill="white" style="font-size: 50px; font-family: 'Rubik', sans-serif;">
