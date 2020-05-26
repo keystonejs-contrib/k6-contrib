@@ -6,7 +6,8 @@
   "author": "The KeystoneJS-Contrib Community Development Team",
   "license": "MIT",
   "engines": {
-    "node": ">=8.4.0"
+    "node": "12.16.x",
+    "yarn": "1.x"
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development NODE_OPTIONS=\"-r dotenv/config\" DISABLE_LOGGING=true keystone dev",

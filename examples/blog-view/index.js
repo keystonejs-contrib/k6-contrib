@@ -7,6 +7,7 @@ const { AdminUIApp } = require('@keystonejs/app-admin-ui');
 const { StaticApp } = require('@keystonejs/app-static');
 const { ExpressApp } = require('@keystonejs-contrib/app-express');
 const bodyParser = require('body-parser');
+const express = require('express');
 
 const initRoutes = require('./routes');
 const { staticSrc, staticPath, distDir } = require('./config');
@@ -24,6 +25,8 @@ const keystone = new Keystone({
       await keystone.createItems(initialData);
     }
   },
+  cookieSecret: process.env.COOKIE_SECRET,
+  cookie: { secure: process.env.INSECURE_COOKIES ? false : undefined },
 });
 
 keystone.createList('User', User);
@@ -66,8 +69,10 @@ const blogApp = new ExpressApp(
     'view engine': 'pug',
   },
   app => {
+    app.use(staticPath, express.static(staticSrc))
     app.use(bodyParser.urlencoded({ extended: true }));
     initRoutes(keystone, app);
+    app.set('trust proxy', true);
   }
 );
 
@@ -76,11 +81,13 @@ const blogApp = new ExpressApp(
 //   app.set('views', './templates');
 //   app.set('view engine', 'pug');
 //   app.use(bodyParser.urlencoded({ extended: true }));
+//   app.use(staticPath, express.static(staticSrc))
 //   initRoutes(keystone, app);
+//   app.set('trust proxy', true);
 // });
 
 module.exports = {
   keystone,
-  apps: [new GraphQLApp(), new StaticApp({ path: staticPath, src: staticSrc }), adminApp, blogApp],
+  apps: [new GraphQLApp(), adminApp, blogApp],
   distDir,
 };
