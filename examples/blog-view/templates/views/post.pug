@@ -12,7 +12,7 @@ block content
         .post-comment
           img.post-comment-avatar(src= comment.author && comment.author.avatar ? comment.author.avatar.publicUrl : imagePlaceholder(comment.author ? comment.author.name : 'anonymous') )
           .post-comment-content
-            p.post-comment-header= `${comment.author ? comment.author.name : 'someone'} on ${format(comment.posted, 'DD MMM YYYY')}`
+            p.post-comment-header= `${comment.author ? comment.author.name : 'someone'} on ${format(parseISO(comment.posted), 'Do MMM yyyy')}`
             p.post-comment-body= comment.body
       else 
         | No comments yet
