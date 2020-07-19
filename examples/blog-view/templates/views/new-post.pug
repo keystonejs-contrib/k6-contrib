@@ -26,6 +26,6 @@ block content
       .new-post-form-group
         label.new-post-form-label(for='admin') Post as:
         select.new-post-form-select(name='admin')
-          each user in allUsers
+          each user in allUsers || []
             option(value=user.id)= `${user.name} <${user.email}>`
       input(type='submit', value='submit')
