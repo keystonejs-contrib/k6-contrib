@@ -7,7 +7,7 @@ mixin post(post)
       p !{post.body}
       .post-footer
         //- - console.log(post.posted)
-        - var posted = format(parseISO(post.posted), 'dd/MM/yyyy')
+        - var posted = post.posted ? format(parseISO(post.posted), 'dd/MM/yyyy') : 'unknown'
         p.post-footer-content= `Posted by ${post.author ? post.author.name : 'someone'} on ${posted}`
 
 mixin post-detail(post)
