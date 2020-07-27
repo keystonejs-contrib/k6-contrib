@@ -1,0 +1,35 @@
+{
+	"name": "@keystonejs-contrib/fields-ckeditor",
+	"description": "KeystoneJS CKEditor field type",
+	"version": "0.1.0",
+	"contributors": [
+		"The KeystoneJS Development Team",
+		"Abdelrahman Abdelrahman <abogical@gmail.com>"
+	],
+	"license": "GPL-2.0-or-later",
+	"engines": {
+		"node": ">=10.0.0"
+	},
+	"dependencies": {
+		"@arch-ui/fields": "^3.0.2",
+		"@arch-ui/input": "^0.1.10",
+		"@arch-ui/theme": "^0.0.10",
+		"@babel/runtime": "^7.8.4",
+		"@ckeditor/ckeditor5-build-classic": "^20.0.0",
+		"@ckeditor/ckeditor5-react": "^2.1.0",
+		"@emotion/core": "^10.0.28",
+		"@keystonejs/build-field-types": "^5.2.9",
+		"@keystonejs/fields": "^13.0.2",
+		"@primer/octicons-react": "^10.0.0",
+		"prop-types": "^15.7.2",
+		"react": "^16.13.1"
+	},
+	"preconstruct": {
+		"entrypoints": [
+			"views/Field"
+		]
+	},
+	"main": "dist/fields-ckeditor.cjs.js",
+	"devDependencies": {},
+	"module": "dist/fields-ckeditor.esm.js"
+}

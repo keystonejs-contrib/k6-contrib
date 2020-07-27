@@ -9,7 +9,9 @@
     "format:file": "prettier --write",
     "format": "prettier --write \"**/*.js{,on}\" \"**/*.md\"",
     "fresh": "yarn clean && yarn",
-    "clean": "manypkg exec rimraf node_modules website/.cache && rimraf node_modules"
+    "clean": "manypkg exec rimraf node_modules website/.cache && rimraf node_modules",
+    "build": "build-field-types build",
+    "prepare": "manypkg check"
   },
   "workspaces": {
     "packages": [
@@ -19,6 +21,7 @@
   },
   "dependencies": {
     "@changesets/cli": "^2.5.1",
+    "@keystonejs/build-field-types": "^5.2.9",
     "@manypkg/cli": "^0.11.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2"
@@ -28,5 +31,10 @@
     "singleQuote": true,
     "trailingComma": "es5",
     "printWidth": 100
+  },
+  "field-types": {
+    "packages": [
+      "packages/fields-ckeditor"
+    ]
   }
 }
