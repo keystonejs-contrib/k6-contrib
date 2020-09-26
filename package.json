@@ -22,7 +22,7 @@
   "dependencies": {
     "@changesets/cli": "^2.10.1",
     "@keystonejs/build-field-types": "^5.2.11",
-    "@manypkg/cli": "^0.15.0",
+    "@manypkg/cli": "^0.16.1",
     "@preconstruct/cli": "1.1.27",
     "prettier": "^2.1.0",
     "rimraf": "^3.0.2"
