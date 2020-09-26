@@ -27,7 +27,7 @@
     "@keystonejs/app-graphql": "^5.1.9",
     "@keystonejs/app-static": "^5.1.2",
     "@keystonejs/auth-password": "^5.1.10",
-    "@keystonejs/fields": "^13.0.2",
+    "@keystonejs/fields": "^17.0.0",
     "@keystonejs/fields-wysiwyg-tinymce": "^5.3.2",
     "@keystonejs/file-adapters": "^7.0.1",
     "@keystonejs/keystone": "^11.2.0",

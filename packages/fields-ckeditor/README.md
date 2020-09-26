@@ -15,5 +15,5 @@ This package isn't included with the keystone fields package and needs to be ins
 Then import it, and use it like any other field:
 
 ```js
-const { CKEditor } = require('@keystonejs/fields-wysiwyg-tinymce');
+const { CKEditor } = require('@keystonejs/fields-ckeditor');
 ```
