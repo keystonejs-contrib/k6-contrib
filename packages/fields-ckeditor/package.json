@@ -1,12 +1,12 @@
 {
 	"name": "@keystonejs-contrib/fields-ckeditor",
 	"description": "KeystoneJS CKEditor field type",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"contributors": [
 		"The KeystoneJS Development Team",
 		"Abdelrahman Abdelrahman <abogical@gmail.com>"
 	],
-	"license": "GPL-2.0-or-later",
+	"license": "MIT",
 	"engines": {
 		"node": ">=10.0.0"
 	},
