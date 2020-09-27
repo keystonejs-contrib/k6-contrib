@@ -3,8 +3,10 @@
   "version": "1.1.0",
   "description": "monorepo for KeystoneJs community projects initiated by Gautam Singh",
   "author": "KeystoneJS-Contrib Community Development Team",
-  "license": "MIT",
   "private": true,
+  "license": "MIT",
+  "repository": "https://github.com/keystone-contrib/keystone-contrib",
+  "homepage": "https://github.com/keystone-contrib/keystone-contrib",
   "scripts": {
     "format:file": "prettier --write",
     "format": "prettier --write \"**/*.js{,on}\" \"**/*.md\"",
