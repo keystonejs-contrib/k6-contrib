@@ -9,5 +9,6 @@
   },
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "repository": "https://github.com/keystone-contrib/keystone-contrib/tree/master/packages/app-express"
 }

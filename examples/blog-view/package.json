@@ -42,5 +42,6 @@
     "pug": "^3.0.0",
     "react": "^16.13.1",
     "terminal-link": "^2.0.0"
-  }
+  },
+  "repository": "https://github.com/keystone-contrib/keystone-contrib/tree/master/examples/blog-view"
 }
