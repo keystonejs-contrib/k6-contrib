@@ -1,0 +1,23 @@
+{
+  "name": "@keystonejs-contrib-next/list-plugins",
+  "description": "List level plugins which can update list config during list initialization including adding additional fields",
+  "main": "dist/list-plugins.cjs.js",
+  "version": "0.0.0-dev1",
+  "author": "The KeystoneJS Contrib Development Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/plugin-transform-modules-commonjs": "^7.12.13",
+    "@babel/runtime": "^7.12.13",
+    "@keystone-next/fields": "^5.0.0",
+    "@keystone-next/types": "^13.0.0",
+    "@keystonejs/fields-authed-relationship": "^1.0.17"
+  },
+  "devDependencies": {
+    "typescript": "^4.1.5"
+  },
+  "repository": "https://github.com/keystone-contrib/keystone-contrib/tree/master/packages-next/list-plugins"
+}
