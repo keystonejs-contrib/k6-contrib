@@ -36,7 +36,7 @@
   },
   "preconstruct": {
     "packages": [
-      "packages/fields-ckeditor"
+      "packages/fields-*"
     ],
     "___experimentalFlags_WILL_CHANGE_IN_PATCH": {
       "newEntrypoints": true
