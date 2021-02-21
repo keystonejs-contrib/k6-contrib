@@ -11,7 +11,9 @@
     "format:file": "prettier --write",
     "format": "prettier --write \"**/*.js{,on}\" \"**/*.md\"",
     "fresh": "yarn clean && yarn",
-    "clean": "manypkg exec rimraf node_modules website/.cache && rimraf node_modules"
+    "clean": "manypkg exec rimraf node_modules website/.cache && rimraf node_modules",
+    "build": "preconstruct build",
+    "prepare": "manypkg check && preconstruct dev"
   },
   "workspaces": {
     "packages": [
@@ -20,9 +22,11 @@
     ]
   },
   "dependencies": {
-    "@changesets/cli": "^2.5.1",
-    "@manypkg/cli": "^0.11.0",
-    "prettier": "^1.19.1",
+    "@changesets/cli": "^2.10.1",
+    "@keystonejs/build-field-types": "^5.2.11",
+    "@manypkg/cli": "^0.16.1",
+    "@preconstruct/cli": "1.1.27",
+    "prettier": "^2.1.0",
     "rimraf": "^3.0.2"
   },
   "prettier": {
@@ -30,5 +34,13 @@
     "singleQuote": true,
     "trailingComma": "es5",
     "printWidth": 100
+  },
+  "preconstruct": {
+    "packages": [
+      "packages/fields-ckeditor"
+    ],
+    "___experimentalFlags_WILL_CHANGE_IN_PATCH": {
+      "newEntrypoints": true
+    }
   }
 }

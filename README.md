@@ -8,6 +8,9 @@ A collection of community projects for KeystoneJs ecosystem
 
 This package is port of KeystoneJS v4 View functionality in v5.
 
+## @keystonejs-contrib/ckeditor
+
+Adds a [CKEditor5](https://github.com/ckeditor/ckeditor5) field
 ## @keystonejs-contrib/list-plugins
 
 This package adds list level plugins for KeystoneJs. Currently only `simpleListConfig` is exported.
