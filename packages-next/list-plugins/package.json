@@ -6,9 +6,9 @@
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.12.16",
+    "@babel/core": "^7.12.17",
     "@babel/plugin-transform-modules-commonjs": "^7.12.13",
-    "@babel/runtime": "^7.12.13",
+    "@babel/runtime": "^7.12.18",
     "@keystone-next/fields": "^5.0.0",
     "@keystone-next/types": "^13.0.0",
     "@keystonejs/fields-authed-relationship": "^1.0.17"
