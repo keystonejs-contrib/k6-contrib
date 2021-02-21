@@ -25,5 +25,6 @@
     ]
   },
   "main": "dist/fields-ckeditor.cjs.js",
-  "module": "dist/fields-ckeditor.esm.js"
+  "module": "dist/fields-ckeditor.esm.js",
+  "repository": "https://github.com/keystone-contrib/keystone-contrib/tree/master/packages/fields-ckeditor"
 }

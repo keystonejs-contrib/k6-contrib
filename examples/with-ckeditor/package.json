@@ -6,7 +6,7 @@
   "author": "The KeystoneJS-Contrib Community Development Team",
   "license": "MIT",
   "engines": {
-    "node": "12.16.x",
+    "node": ">=12.16.x",
     "yarn": "1.x"
   },
   "scripts": {
@@ -40,5 +40,6 @@
     "pug": "^3.0.0",
     "react": "^16.13.1",
     "terminal-link": "^2.1.1"
-  }
+  },
+  "repository": "https://github.com/keystone-contrib/keystone-contrib/tree/master/examples/with-ckeditor"
 }
