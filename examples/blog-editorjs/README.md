@@ -1,6 +1,5 @@
 # Demo Project: Blog
 
-This demo here use `EditorJs` field instead of `TinyMCE` based field.
 This is the Blog, a Demo Project for Keystone. Compared to the todo list, it is more complex and contains more features that really showcase the power of Keystone - one of which is 'relationships'. The Blog contains four lists - Posts, Post Categories, Users and Comments. Users can create Comments that relate to a certain Post, and Admins can create Posts that can relate to one or more Post Categories.
 
 The Blog is a great example and boilerplate for more complex, real-world implementations of Keystone.

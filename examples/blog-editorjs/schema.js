@@ -9,10 +9,10 @@ const {
   Checkbox,
   CalendarDay,
   DateTime,
-  OEmbed,
 } = require('@keystonejs/fields');
+const { OEmbed, IframelyOEmbedAdapter } = require('@keystonejs/fields-oembed');
+const { Wysiwyg } = require('@keystonejs/fields-wysiwyg-tinymce');
 const { AuthedRelationship } = require('@keystonejs/fields-authed-relationship');
-const { EditorJs } = require('@keystonejs/fields-editorjs');
 const { LocalFileAdapter } = require('@keystonejs/file-adapters');
 const { formatISO } = require('date-fns');
 
@@ -22,7 +22,6 @@ const dev = process.env.NODE_ENV !== 'production';
 let iframelyAdapter;
 
 if (process.env.IFRAMELY_API_KEY) {
-  const { IframelyOEmbedAdapter } = require('@keystonejs/oembed-adapters');
   iframelyAdapter = new IframelyOEmbedAdapter({
     apiKey: process.env.IFRAMELY_API_KEY,
   });
@@ -50,8 +49,8 @@ exports.User = {
     },
     ...(process.env.IFRAMELY_API_KEY
       ? {
-        portfolio: { type: OEmbed, adapter: iframelyAdapter },
-      }
+          portfolio: { type: OEmbed, adapter: iframelyAdapter },
+        }
       : {}),
     password: { type: Password },
     isAdmin: { type: Checkbox },
@@ -88,7 +87,7 @@ exports.Post = {
         { label: 'Published', value: 'published' },
       ],
     },
-    body: { type: EditorJs },
+    body: { type: Wysiwyg },
     posted: { type: DateTime, format: 'dd/MM/yyyy' },
     image: {
       type: File,

@@ -22,10 +22,10 @@
     ]
   },
   "dependencies": {
-    "@changesets/cli": "^2.10.1",
-    "@manypkg/cli": "^0.16.1",
-    "@preconstruct/cli": "1.1.27",
-    "prettier": "^2.1.0",
+    "@changesets/cli": "^2.14.1",
+    "@manypkg/cli": "^0.17.0",
+    "@preconstruct/cli": "2.0.4",
+    "prettier": "^2.2.1",
     "rimraf": "^3.0.2"
   },
   "prettier": {
@@ -38,8 +38,6 @@
     "packages": [
       "packages/fields-*"
     ],
-    "___experimentalFlags_WILL_CHANGE_IN_PATCH": {
-      "newEntrypoints": true
-    }
+    "distFilenameStrategy": "unscoped-package-name"
   }
 }
