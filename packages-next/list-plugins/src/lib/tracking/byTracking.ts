@@ -1,4 +1,3 @@
-
 import { AuthedRelationship } from '@keystonejs/fields-authed-relationship';
 
 import { relationship } from '@keystone-next/fields';
@@ -7,8 +6,19 @@ import { ByTrackingOptions, ResolveInputHook } from '../types';
 import { composeHook } from '../utils';
 import { RelationshipFieldConfig } from '@keystone-next/fields/src/types/relationship';
 
-export function withByTracking<Fields extends BaseFields<BaseGeneratedListTypes>>(listConfig: ListConfig<BaseGeneratedListTypes, Fields>, options: ByTrackingOptions = {}): ListConfig<BaseGeneratedListTypes, Fields> {
-  const { created = true, updated = true, ref = 'User', createdByField = 'createdBy', updatedByField = 'updatedBy', ...byFieldOptions } = options;
+export const byTracking = (options: ByTrackingOptions = {}) => <
+  Fields extends BaseFields<BaseGeneratedListTypes>
+>(
+  listConfig: ListConfig<BaseGeneratedListTypes, Fields>
+): ListConfig<BaseGeneratedListTypes, Fields> => {
+  const {
+    created = true,
+    updated = true,
+    ref = 'User',
+    createdByField = 'createdBy',
+    updatedByField = 'updatedBy',
+    ...byFieldOptions
+  } = options;
 
   const fieldOptions: RelationshipFieldConfig<BaseGeneratedListTypes> = {
     ref,
@@ -20,7 +30,7 @@ export function withByTracking<Fields extends BaseFields<BaseGeneratedListTypes>
     ui: {
       itemView: {
         fieldMode: 'read',
-      }
+      },
     },
     ...byFieldOptions,
   };
@@ -29,16 +39,24 @@ export function withByTracking<Fields extends BaseFields<BaseGeneratedListTypes>
   if (updated) {
     fields = {
       ...fields,
-      [updatedByField]: { ...relationship(fieldOptions), type: AuthedRelationship, ...byFieldOptions }
+      [updatedByField]: {
+        ...relationship(fieldOptions),
+        type: AuthedRelationship,
+        ...byFieldOptions,
+      },
     };
-  };
+  }
 
   if (created) {
     fields = {
       ...fields,
-      [createdByField]: { ...relationship(fieldOptions), type: AuthedRelationship, ...byFieldOptions },
+      [createdByField]: {
+        ...relationship(fieldOptions),
+        type: AuthedRelationship,
+        ...byFieldOptions,
+      },
     };
-  };
+  }
 
   const newResolveInput: ResolveInputHook = ({ resolvedData, operation, context }) => {
     // If not logged in, the id is set to `null`
@@ -82,6 +100,9 @@ export function withByTracking<Fields extends BaseFields<BaseGeneratedListTypes>
     hooks: {
       ...listConfig.hooks,
       resolveInput,
-    }
+    },
   };
 };
+
+export const createdBy = (options: Omit<ByTrackingOptions, 'created' | 'updated' | 'updatedByField'>) => byTracking({ created: true, updated: false, ...options });
+export const updatedBy = (options: Omit<ByTrackingOptions, 'created' | 'updated' | 'createdByField'>) => byTracking({ created: false, updated: true, ...options });

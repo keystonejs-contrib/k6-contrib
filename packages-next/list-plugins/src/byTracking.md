@@ -11,14 +11,15 @@ they will be updated automatically when items are created or updated.
 ## Usage
 
 ```js
-const { byTracking } = require('@keystonejs/list-plugins');
+import { byTracking } from '@keystonejs-contrib-next/list-plugins';
 
-keystone.createList('ListWithPlugin', {
+const withByTracking = byTracking({});
+
+const User = list(withByTracking({
+  ui: {...},
   fields: {...},
-  plugins: [
-    byTracking({...}),
-  ],
-});
+  ...
+}))
 ```
 
 ## Config
@@ -47,7 +48,7 @@ By default access control on at tracking fields is read only:
 If you prefer, you can import _either_ `createdBy` or `updatedBy` to apply a single tracking field:
 
 ```javascript
-const { createdBy, updatedBy } = require('@keystonejs/list-plugins');
+import { createdBy, updatedBy } from '@keystonejs-contrib-next/list-plugins';
 ```
 
 > **Note:** The API is the same for each export as `byTracking`.

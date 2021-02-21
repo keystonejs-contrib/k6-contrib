@@ -10,22 +10,17 @@ This plugin provides a mechanism for logging all mutations in a Keystone system.
 ## Usage
 
 ```js
-const { logging } = require('@keystonejs/list-plugins');
+const { logging } = require('@keystonejs-contrib-next/list-plugins');
 
-keystone.createList('ListWithPlugin', {
+const withLogging = logging();
+const withLogging = logging(args => console.log(args));
+
+const User = list(withLogging({
+  ui: {...},
   fields: {...},
-  plugins: [
-    logging(args => console.log(args)),
-  ],
-});
+  ...
+}))
 
-keystone.createAuthStrategy({
-  type: PasswordAuthStrategy,
-  list: 'User',
-  plugins: [
-    logging(args => console.log(args)),
-  ]
-})
 ```
 
 ## Provided hooks

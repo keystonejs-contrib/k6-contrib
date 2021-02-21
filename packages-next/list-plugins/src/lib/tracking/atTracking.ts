@@ -3,7 +3,7 @@ import { ListConfig, FieldConfig, BaseGeneratedListTypes, BaseFields } from '@ke
 import { AtTrackingOptions, ResolveInputHook } from '../types';
 import { composeHook } from '../utils';
 
-export function withAtTracking<Fields extends BaseFields<BaseGeneratedListTypes>>(listConfig: ListConfig<BaseGeneratedListTypes, Fields>, options: AtTrackingOptions = {}): ListConfig<BaseGeneratedListTypes, Fields> {
+export const atTracking = (options: AtTrackingOptions = {}) => <Fields extends BaseFields<BaseGeneratedListTypes>>(listConfig: ListConfig<BaseGeneratedListTypes, Fields>): ListConfig<BaseGeneratedListTypes, Fields> => {
   const { created = true, updated = true, createdAtField = 'createdAt', updatedAtField = 'updatedAt', ...atFieldOptions } = options;
 
   const fieldOptions: FieldConfig<BaseGeneratedListTypes> = {
@@ -73,3 +73,6 @@ export function withAtTracking<Fields extends BaseFields<BaseGeneratedListTypes>
     }
   };
 };
+
+export const createdAt = (options: Omit<AtTrackingOptions, 'created' | 'updated' | 'updatedAtField'>) => atTracking({ created: true, updated: false, ...options });
+export const updatedAt = (options: Omit<AtTrackingOptions, 'created' | 'updated' | 'createdAtField'>) => atTracking({ created: false, updated: true, ...options });
