@@ -13,7 +13,8 @@
     "fresh": "yarn clean && yarn",
     "clean": "manypkg exec rimraf node_modules website/.cache && rimraf node_modules",
     "build": "preconstruct build",
-    "prepare": "manypkg check && preconstruct dev"
+    "prepare": "manypkg check && preconstruct dev",
+    "version-packages": "changeset version"
   },
   "workspaces": {
     "packages": [
