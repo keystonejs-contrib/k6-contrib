@@ -8,6 +8,8 @@ import {
   select,
   virtual,
 } from '@keystone-next/fields';
+import { file } from '@keystonejs-contrib-next/fields-file';
+import { LocalFileAdapter } from '@keystonejs/file-adapters';
 import { document } from '@keystone-next/fields-document';
 import { configureTracking } from '@keystonejs-contrib-next/list-plugins';
 
@@ -15,6 +17,11 @@ import { configureTracking } from '@keystonejs-contrib-next/list-plugins';
 import { KeystoneListsAPI } from '@keystone-next/types';
 import { KeystoneListsTypeInfo } from './.keystone/schema-types';
 import { componentBlocks } from './admin/fieldViews/Content';
+
+const localFileAdapter = new LocalFileAdapter({
+  src: `.keystone/admin/public/images`,
+  path: `/images`,
+});
 
 // TODO: Can we generate this type based on withItemData in the main config?
 type AccessArgs = {
@@ -58,6 +65,7 @@ export const lists = createSchema({
       /** Used to log in. */
       password: password(),
       /** Administrators have more access to various lists and fields. */
+      image: file({adapter: localFileAdapter}),
       isAdmin: checkbox({
         access: {
           create: access.isAdmin,

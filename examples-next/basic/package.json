@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "keystone-next dev",
+    "debug": "cross-env NODE_OPTIONS=--inspect keystone-next dev",
     "start": "keystone-next start",
     "build": "keystone-next build"
   },
@@ -23,6 +24,8 @@
     "@keystone-ui/fields": "^2.0.0",
     "@keystone-ui/icons": "^2.0.0",
     "@keystone-ui/tooltip": "^2.0.0",
+    "@keystonejs-contrib-next/fields-file": "0.0.0",
+    "@keystonejs/file-adapters": "^7.0.8",
     "@preconstruct/next": "^2.0.0",
     "@types/react": "^17.0.2",
     "apollo-server-micro": "^2.21.0",
