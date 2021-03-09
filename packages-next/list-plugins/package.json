@@ -2,7 +2,7 @@
   "name": "@keystonejs-contrib-next/list-plugins",
   "description": "List level plugins which can update list config during list initialization including adding additional fields",
   "main": "dist/list-plugins.cjs.js",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "dependencies": {

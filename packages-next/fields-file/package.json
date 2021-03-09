@@ -1,7 +1,7 @@
 {
   "name": "@keystonejs-contrib-next/fields-file",
   "description": "File field for the new interface KeystoneJs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "main": "dist/fields-file.cjs.js",

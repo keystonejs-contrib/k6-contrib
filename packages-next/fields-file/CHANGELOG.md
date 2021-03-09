@@ -1,5 +1,11 @@
 # @keystonejs-contrib-next/fields-file
 
+## 1.0.1
+
+### Patch Changes
+
+- d908f34: Try fix publish issue
+
 ## 1.0.0
 
 ### Major Changes

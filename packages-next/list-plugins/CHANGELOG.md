@@ -1,5 +1,11 @@
 # @keystonejs-contrib-next/list-plugins
 
+## 1.1.1
+
+### Patch Changes
+
+- d908f34: Try fix publish issue
+
 ## 1.1.0
 
 ### Minor Changes
