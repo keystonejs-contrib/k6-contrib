@@ -99,11 +99,10 @@ const { createdBy, updatedBy } = require('@keystonejs/list-plugins');
 _Note_: The API is the same.
 
 # singleton
+
 ## NOT ported
 
 ~~This plugin makes a list singleton by allowing only one item in the list. Useful for list which must contain only one items.~~
-
-
 
 # logging
 
