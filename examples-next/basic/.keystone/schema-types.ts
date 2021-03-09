@@ -72,6 +72,10 @@ export type UserWhereInput = {
   readonly email_in?: ReadonlyArray<Scalars['String'] | null> | null;
   readonly email_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
   readonly password_is_set?: Scalars['Boolean'] | null;
+  readonly image?: Scalars['String'] | null;
+  readonly image_not?: Scalars['String'] | null;
+  readonly image_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly image_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
   readonly isAdmin?: Scalars['Boolean'] | null;
   readonly isAdmin_not?: Scalars['Boolean'] | null;
   readonly roles?: Scalars['String'] | null;
@@ -210,6 +214,7 @@ export type UserUpdateInput = {
   readonly name?: Scalars['String'] | null;
   readonly email?: Scalars['String'] | null;
   readonly password?: Scalars['String'] | null;
+  readonly image?: any | null;
   readonly isAdmin?: Scalars['Boolean'] | null;
   readonly roles?: Scalars['String'] | null;
   readonly phoneNumbers?: PhoneNumberRelateToManyInput | null;
@@ -231,6 +236,7 @@ export type UserCreateInput = {
   readonly name?: Scalars['String'] | null;
   readonly email?: Scalars['String'] | null;
   readonly password?: Scalars['String'] | null;
+  readonly image?: any | null;
   readonly isAdmin?: Scalars['Boolean'] | null;
   readonly roles?: Scalars['String'] | null;
   readonly phoneNumbers?: PhoneNumberRelateToManyInput | null;
@@ -521,6 +527,7 @@ export type UserListTypeInfo = {
     | 'name'
     | 'email'
     | 'password'
+    | 'image'
     | 'isAdmin'
     | 'roles'
     | 'phoneNumbers'
@@ -541,6 +548,15 @@ export type UserListTypeInfo = {
     readonly name?: string | null;
     readonly email?: string | null;
     readonly password?: string | null;
+    readonly image?: null | {
+      id: string;
+      path: string;
+      filename: string;
+      originalFilename: string;
+      mimetype: string;
+      encoding: string;
+      _meta: Record<string, any>;
+    };
     readonly isAdmin?: boolean | null;
     readonly roles?: string | null;
     readonly phoneNumbers?: string | null;

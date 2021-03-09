@@ -82,3 +82,4 @@ cypress/mock
 package-lock.json
 
 dist/
+public/

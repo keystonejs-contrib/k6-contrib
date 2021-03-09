@@ -8,6 +8,8 @@ import {
   select,
   virtual,
 } from '@keystone-next/fields';
+import { file } from '@keystonejs-contrib-next/fields-file';
+import { LocalFileAdapter, S3Adapter } from '@keystone-next/file-adapters-legacy';
 import { document } from '@keystone-next/fields-document';
 import { configureTracking } from '@keystonejs-contrib-next/list-plugins';
 
@@ -15,6 +17,32 @@ import { configureTracking } from '@keystonejs-contrib-next/list-plugins';
 import { KeystoneListsAPI } from '@keystone-next/types';
 import { KeystoneListsTypeInfo } from './.keystone/schema-types';
 import { componentBlocks } from './admin/fieldViews/Content';
+
+const localFileAdapter = new LocalFileAdapter({
+  src: `.keystone/admin/public/images`,
+  path: `/images`,
+});
+
+const s3Options = {
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  endpoint: process.env.S3_ENDPOINT,
+  region: 'DUMMY',
+};
+
+const s3Adapter = new S3Adapter({
+  bucket: process.env.S3_BUCKET,
+  folder: process.env.S3_PATH,
+  publicUrl: ({ id, filename, _meta }) =>
+    `${process.env.S3_CDN_URL}/${process.env.S3_PATH}/${filename}`,
+  s3Options,
+  uploadParams: ({ filename, id, mimetype, encoding }) => ({
+    ACL: 'public-read',
+    Metadata: {
+      keystone_id: `${id}`,
+    },
+  }),
+});
 
 // TODO: Can we generate this type based on withItemData in the main config?
 type AccessArgs = {
@@ -58,6 +86,7 @@ export const lists = createSchema({
       /** Used to log in. */
       password: password(),
       /** Administrators have more access to various lists and fields. */
+      image: file({ adapter: s3Adapter }),
       isAdmin: checkbox({
         access: {
           create: access.isAdmin,
@@ -66,10 +95,10 @@ export const lists = createSchema({
         },
         ui: {
           createView: {
-            fieldMode: args => (access.isAdmin(args) ? 'edit' : 'hidden'),
+            fieldMode: (args) => (access.isAdmin(args) ? 'edit' : 'hidden'),
           },
           itemView: {
-            fieldMode: args => (access.isAdmin(args) ? 'edit' : 'read'),
+            fieldMode: (args) => (access.isAdmin(args) ? 'edit' : 'read'),
           },
         },
       }),
@@ -95,6 +124,13 @@ export const lists = createSchema({
           return randomNumber();
         },
       }),
+    },
+    hooks: {    
+      afterDelete: ({ existingItem }) => {
+        if (existingItem.image) {
+          s3Adapter.delete(existingItem.image);
+        }
+      },
     },
   })),
   PhoneNumber: list(withTracking({
