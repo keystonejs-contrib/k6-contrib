@@ -10,7 +10,7 @@ they will be updated automatically when items are created or updated.
 
 ## Usage
 
-```js
+```ts
 import { byTracking } from '@keystonejs-contrib-next/list-plugins';
 
 const withByTracking = byTracking({});

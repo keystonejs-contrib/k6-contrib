@@ -13,6 +13,9 @@ export const atTracking = (options: AtTrackingOptions = {}) => <Fields extends B
       update: false,
     },
     ui: {
+      createView: {
+        fieldMode: 'hidden',
+      },
       itemView: {
         fieldMode: 'read',
       }
