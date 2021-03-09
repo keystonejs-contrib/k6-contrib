@@ -6,19 +6,16 @@ Adds `createdAt` and `updatedAt` fields to a list. These fields are read-only by
 
 ## Usage
 
-```js
-const { atTracking } = require('@keystonejs/list-plugins');
+```ts
+import { atTracking } from '@keystonejs-contrib-next/list-plugins';
 
-keystone.createList('ListWithPlugin', {
-  fields: {
-    // ...
-  },
-  plugins: [
-    atTracking({
-      /* ...config */
-    }),
-  ],
-});
+const withAtTracking = atTracking({});
+
+const User = list(withAtTracking({
+  ui: {...},
+  fields: {...},
+  ...
+}))
 ```
 
 ## Config
@@ -58,19 +55,16 @@ Adds `createdBy` and `updatedBy` fields to a list. These fields are read-only by
 
 ## Usage
 
-```js
-const { byTracking } = require('@keystonejs/list-plugins');
+```ts
+import { byTracking } from '@keystonejs-contrib-next/list-plugins';
 
-keystone.createList('ListWithPlugin', {
-  fields: {
-    // ...
-  },
-  plugins: [
-    byTracking({
-      /* ...config */
-    }),
-  ],
-});
+const withByTracking = byTracking({});
+
+const User = list(withByTracking({
+  ui: {...},
+  fields: {...},
+  ...
+}))
 ```
 
 ## Config
@@ -105,21 +99,11 @@ const { createdBy, updatedBy } = require('@keystonejs/list-plugins');
 _Note_: The API is the same.
 
 # singleton
+## NOT ported
 
-This plugin makes a list singleton by allowing only one item in the list. Useful for list which must contain only one items.
+~~This plugin makes a list singleton by allowing only one item in the list. Useful for list which must contain only one items.~~
 
-## Usage
 
-```js
-const { singleton } = require('@keystonejs/list-plugins');
-
-keystone.createList('ListWithPlugin', {
-  fields: {...},
-  plugins: [
-    singleton(),
-  ],
-});
-```
 
 # logging
 
@@ -127,23 +111,18 @@ This plugin provides a mechanism for logging all mutations in a Keystone system.
 
 ## Usage
 
-```js
-const { logging } = require('@keystonejs/list-plugins');
+```ts
+const { logging } = require('@keystonejs-contrib-next/list-plugins');
 
-keystone.createList('ListWithPlugin', {
+const withLogging = logging();
+const withLogging = logging(args => console.log(args));
+
+const User = list(withLogging({
+  ui: {...},
   fields: {...},
-  plugins: [
-    logging(args => console.log(args),
-  ],
-});
+  ...
+}))
 
-keystone.createAuthStrategy({
-  type: PasswordAuthStrategy,
-  list: 'User',
-  plugins: [
-    logging(args => console.log(args),
-  ]
-})
 ```
 
 ## Provided hooks

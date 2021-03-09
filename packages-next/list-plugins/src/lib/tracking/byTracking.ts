@@ -1,4 +1,4 @@
-import { AuthedRelationship } from '@keystonejs/fields-authed-relationship';
+import { AuthedRelationship } from '@keystone-next/fields-authed-relationship-legacy';
 
 import { relationship } from '@keystone-next/fields';
 import { ListConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/types';

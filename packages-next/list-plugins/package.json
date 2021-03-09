@@ -11,7 +11,7 @@
     "@babel/runtime": "^7.12.18",
     "@keystone-next/fields": "^5.0.0",
     "@keystone-next/types": "^13.0.0",
-    "@keystonejs/fields-authed-relationship": "^1.0.17"
+    "@keystone-next/fields-authed-relationship-legacy": "^1.0.18"
   },
   "devDependencies": {
     "typescript": "^4.1.5"
