@@ -9,6 +9,8 @@ import {
   virtual,
 } from '@keystone-next/fields';
 import { document } from '@keystone-next/fields-document';
+import { configureTracking } from '@keystonejs-contrib-next/list-plugins';
+
 // import { cloudinaryImage } from '@keystone-next/cloudinary';
 import { KeystoneListsAPI } from '@keystone-next/types';
 import { KeystoneListsTypeInfo } from './.keystone/schema-types';
@@ -32,8 +34,10 @@ export const access = {
 
 const randomNumber = () => Math.round(Math.random() * 10);
 
+const withTracking = configureTracking({});
+
 export const lists = createSchema({
-  User: list({
+  User: list(withTracking({
     ui: {
       listView: {
         initialColumns: ['name', 'posts'],
@@ -92,8 +96,8 @@ export const lists = createSchema({
         },
       }),
     },
-  }),
-  PhoneNumber: list({
+  })),
+  PhoneNumber: list(withTracking({
     ui: {
       isHidden: true,
       // parentRelationship: 'user',
@@ -125,8 +129,8 @@ export const lists = createSchema({
       }),
       value: text({}),
     },
-  }),
-  Post: list({
+  })),
+  Post: list(withTracking({
     fields: {
       title: text(),
       status: select({
@@ -179,7 +183,7 @@ export const lists = createSchema({
         },
       }),
     },
-  }),
+  })),
 });
 
 export const extendGraphqlSchema = graphQLSchemaExtension({

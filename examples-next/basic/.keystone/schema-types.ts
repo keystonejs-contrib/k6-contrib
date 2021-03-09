@@ -21,6 +21,13 @@ export type PostRelateToManyInput = {
   readonly disconnectAll?: Scalars['Boolean'] | null;
 };
 
+export type UserRelateToOneInput = {
+  readonly create?: UserCreateInput | null;
+  readonly connect?: UserWhereUniqueInput | null;
+  readonly disconnect?: UserWhereUniqueInput | null;
+  readonly disconnectAll?: Scalars['Boolean'] | null;
+};
+
 export type UserWhereInput = {
   readonly AND?: ReadonlyArray<UserWhereInput | null> | null;
   readonly OR?: ReadonlyArray<UserWhereInput | null> | null;
@@ -91,6 +98,26 @@ export type UserWhereInput = {
   readonly posts_every?: PostWhereInput | null;
   readonly posts_some?: PostWhereInput | null;
   readonly posts_none?: PostWhereInput | null;
+  readonly updatedAt?: Scalars['String'] | null;
+  readonly updatedAt_not?: Scalars['String'] | null;
+  readonly updatedAt_lt?: Scalars['String'] | null;
+  readonly updatedAt_lte?: Scalars['String'] | null;
+  readonly updatedAt_gt?: Scalars['String'] | null;
+  readonly updatedAt_gte?: Scalars['String'] | null;
+  readonly updatedAt_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly updatedAt_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly createdAt?: Scalars['String'] | null;
+  readonly createdAt_not?: Scalars['String'] | null;
+  readonly createdAt_lt?: Scalars['String'] | null;
+  readonly createdAt_lte?: Scalars['String'] | null;
+  readonly createdAt_gt?: Scalars['String'] | null;
+  readonly createdAt_gte?: Scalars['String'] | null;
+  readonly createdAt_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly createdAt_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly updatedBy?: UserWhereInput | null;
+  readonly updatedBy_is_null?: Scalars['Boolean'] | null;
+  readonly createdBy?: UserWhereInput | null;
+  readonly createdBy_is_null?: Scalars['Boolean'] | null;
   readonly passwordResetToken_is_set?: Scalars['Boolean'] | null;
   readonly passwordResetIssuedAt?: Scalars['String'] | null;
   readonly passwordResetIssuedAt_not?: Scalars['String'] | null;
@@ -162,6 +189,14 @@ export type SortUsersBy =
   | 'phoneNumbers_DESC'
   | 'posts_ASC'
   | 'posts_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedBy_ASC'
+  | 'updatedBy_DESC'
+  | 'createdBy_ASC'
+  | 'createdBy_DESC'
   | 'passwordResetIssuedAt_ASC'
   | 'passwordResetIssuedAt_DESC'
   | 'passwordResetRedeemedAt_ASC'
@@ -212,13 +247,6 @@ export type UsersCreateInput = {
   readonly data?: UserCreateInput | null;
 };
 
-export type UserRelateToOneInput = {
-  readonly create?: UserCreateInput | null;
-  readonly connect?: UserWhereUniqueInput | null;
-  readonly disconnect?: UserWhereUniqueInput | null;
-  readonly disconnectAll?: Scalars['Boolean'] | null;
-};
-
 export type PhoneNumberWhereInput = {
   readonly AND?: ReadonlyArray<PhoneNumberWhereInput | null> | null;
   readonly OR?: ReadonlyArray<PhoneNumberWhereInput | null> | null;
@@ -264,6 +292,26 @@ export type PhoneNumberWhereInput = {
   readonly value_not_ends_with_i?: Scalars['String'] | null;
   readonly value_in?: ReadonlyArray<Scalars['String'] | null> | null;
   readonly value_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly updatedAt?: Scalars['String'] | null;
+  readonly updatedAt_not?: Scalars['String'] | null;
+  readonly updatedAt_lt?: Scalars['String'] | null;
+  readonly updatedAt_lte?: Scalars['String'] | null;
+  readonly updatedAt_gt?: Scalars['String'] | null;
+  readonly updatedAt_gte?: Scalars['String'] | null;
+  readonly updatedAt_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly updatedAt_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly createdAt?: Scalars['String'] | null;
+  readonly createdAt_not?: Scalars['String'] | null;
+  readonly createdAt_lt?: Scalars['String'] | null;
+  readonly createdAt_lte?: Scalars['String'] | null;
+  readonly createdAt_gt?: Scalars['String'] | null;
+  readonly createdAt_gte?: Scalars['String'] | null;
+  readonly createdAt_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly createdAt_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly updatedBy?: UserWhereInput | null;
+  readonly updatedBy_is_null?: Scalars['Boolean'] | null;
+  readonly createdBy?: UserWhereInput | null;
+  readonly createdBy_is_null?: Scalars['Boolean'] | null;
 };
 
 export type PhoneNumberWhereUniqueInput = {
@@ -278,7 +326,15 @@ export type SortPhoneNumbersBy =
   | 'type_ASC'
   | 'type_DESC'
   | 'value_ASC'
-  | 'value_DESC';
+  | 'value_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedBy_ASC'
+  | 'updatedBy_DESC'
+  | 'createdBy_ASC'
+  | 'createdBy_DESC';
 
 export type PhoneNumberUpdateInput = {
   readonly user?: UserRelateToOneInput | null;
@@ -354,6 +410,26 @@ export type PostWhereInput = {
   readonly publishDate_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
   readonly author?: UserWhereInput | null;
   readonly author_is_null?: Scalars['Boolean'] | null;
+  readonly updatedAt?: Scalars['String'] | null;
+  readonly updatedAt_not?: Scalars['String'] | null;
+  readonly updatedAt_lt?: Scalars['String'] | null;
+  readonly updatedAt_lte?: Scalars['String'] | null;
+  readonly updatedAt_gt?: Scalars['String'] | null;
+  readonly updatedAt_gte?: Scalars['String'] | null;
+  readonly updatedAt_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly updatedAt_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly createdAt?: Scalars['String'] | null;
+  readonly createdAt_not?: Scalars['String'] | null;
+  readonly createdAt_lt?: Scalars['String'] | null;
+  readonly createdAt_lte?: Scalars['String'] | null;
+  readonly createdAt_gt?: Scalars['String'] | null;
+  readonly createdAt_gte?: Scalars['String'] | null;
+  readonly createdAt_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly createdAt_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly updatedBy?: UserWhereInput | null;
+  readonly updatedBy_is_null?: Scalars['Boolean'] | null;
+  readonly createdBy?: UserWhereInput | null;
+  readonly createdBy_is_null?: Scalars['Boolean'] | null;
 };
 
 export type PostWhereUniqueInput = {
@@ -370,7 +446,15 @@ export type SortPostsBy =
   | 'publishDate_ASC'
   | 'publishDate_DESC'
   | 'author_ASC'
-  | 'author_DESC';
+  | 'author_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedBy_ASC'
+  | 'updatedBy_DESC'
+  | 'createdBy_ASC'
+  | 'createdBy_DESC';
 
 export type PostUpdateInput = {
   readonly title?: Scalars['String'] | null;
@@ -442,6 +526,10 @@ export type UserListTypeInfo = {
     | 'phoneNumbers'
     | 'posts'
     | 'randomNumber'
+    | 'updatedAt'
+    | 'createdAt'
+    | 'updatedBy'
+    | 'createdBy'
     | 'passwordResetToken'
     | 'passwordResetIssuedAt'
     | 'passwordResetRedeemedAt'
@@ -457,6 +545,10 @@ export type UserListTypeInfo = {
     readonly roles?: string | null;
     readonly phoneNumbers?: string | null;
     readonly posts?: string | null;
+    readonly updatedAt?: Date | null;
+    readonly createdAt?: Date | null;
+    readonly updatedBy?: string | null;
+    readonly createdBy?: string | null;
     readonly passwordResetToken?: string | null;
     readonly passwordResetIssuedAt?: Date | null;
     readonly passwordResetRedeemedAt?: Date | null;
@@ -491,12 +583,25 @@ export type UserListFn = (
 
 export type PhoneNumberListTypeInfo = {
   key: 'PhoneNumber';
-  fields: 'id' | 'label' | 'user' | 'type' | 'value';
+  fields:
+    | 'id'
+    | 'label'
+    | 'user'
+    | 'type'
+    | 'value'
+    | 'updatedAt'
+    | 'createdAt'
+    | 'updatedBy'
+    | 'createdBy';
   backing: {
     readonly id: string;
     readonly user?: string | null;
     readonly type?: string | null;
     readonly value?: string | null;
+    readonly updatedAt?: Date | null;
+    readonly createdAt?: Date | null;
+    readonly updatedBy?: string | null;
+    readonly createdBy?: string | null;
   };
   inputs: {
     where: PhoneNumberWhereInput;
@@ -525,7 +630,17 @@ export type PhoneNumberListFn = (
 
 export type PostListTypeInfo = {
   key: 'Post';
-  fields: 'id' | 'title' | 'status' | 'content' | 'publishDate' | 'author';
+  fields:
+    | 'id'
+    | 'title'
+    | 'status'
+    | 'content'
+    | 'publishDate'
+    | 'author'
+    | 'updatedAt'
+    | 'createdAt'
+    | 'updatedBy'
+    | 'createdBy';
   backing: {
     readonly id: string;
     readonly title?: string | null;
@@ -533,6 +648,10 @@ export type PostListTypeInfo = {
     readonly content?: Record<string, any>[] | null;
     readonly publishDate?: Date | null;
     readonly author?: string | null;
+    readonly updatedAt?: Date | null;
+    readonly createdAt?: Date | null;
+    readonly updatedBy?: string | null;
+    readonly createdBy?: string | null;
   };
   inputs: {
     where: PostWhereInput;

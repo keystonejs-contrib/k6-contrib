@@ -3,3 +3,4 @@
 ---
 
 Updated dependencies to keystone-next legacy namespace
+Hide tracking fields in create view

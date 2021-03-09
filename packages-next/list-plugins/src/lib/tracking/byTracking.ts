@@ -28,9 +28,12 @@ export const byTracking = (options: ByTrackingOptions = {}) => <
       update: false,
     },
     ui: {
+      createView: {
+        fieldMode: 'hidden',
+      },
       itemView: {
         fieldMode: 'read',
-      },
+      }
     },
     ...byFieldOptions,
   };
