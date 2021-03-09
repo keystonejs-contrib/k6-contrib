@@ -1,6 +1,6 @@
 import path from 'path';
 // @ts-ignore
-import { File } from '@keystonejs/fields';
+import { File } from '@keystone-next/fields-legacy';
 import type { FieldType, FieldConfig, BaseGeneratedListTypes } from '@keystone-next/types';
 
 type FileFieldConfig<
