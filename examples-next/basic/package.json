@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "keystone-next dev",
+    "dev": "cross-env NODE_OPTIONS=\"-r dotenv/config\" keystone-next dev",
     "debug": "cross-env NODE_OPTIONS=--inspect keystone-next dev",
     "start": "keystone-next start",
     "build": "keystone-next build"
@@ -29,6 +29,7 @@
     "@preconstruct/next": "^2.0.0",
     "@types/react": "^17.0.2",
     "apollo-server-micro": "^2.21.0",
+    "dotenv": "^8.2.0",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
     "next": "10.0.7",
