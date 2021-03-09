@@ -9,7 +9,7 @@ import {
   virtual,
 } from '@keystone-next/fields';
 import { file } from '@keystonejs-contrib-next/fields-file';
-import { LocalFileAdapter, S3Adapter } from '@keystonejs/file-adapters';
+import { LocalFileAdapter, S3Adapter } from '@keystone-next/file-adapters-legacy';
 import { document } from '@keystone-next/fields-document';
 import { configureTracking } from '@keystonejs-contrib-next/list-plugins';
 

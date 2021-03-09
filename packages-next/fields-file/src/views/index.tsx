@@ -48,7 +48,6 @@ type ImageData = {
   id: string;
   filename: string;
   publicUrl: string;
-  publicUrl: string;
 };
 
 type CloudinaryImageValue =

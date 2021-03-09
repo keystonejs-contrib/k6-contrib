@@ -23,6 +23,7 @@ This package adds list level plugins for KeystoneJs. Currently only `simpleListC
 this example uses View features and renders original blog dem project using pug view engine.
 
 # Packages-Next
-More packages being added in line with @keystone-next/*
+
+More packages being added in line with @keystone-next/\*
 see respective folder.
 documentation contribution welcome.
