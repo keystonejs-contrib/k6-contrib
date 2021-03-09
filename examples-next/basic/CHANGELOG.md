@@ -1,5 +1,16 @@
 # @keystone-next/app-basic
 
+## 1.1.0
+
+### Minor Changes
+
+- 74f54e5: Add example to use s3 adapter and local file adapter
+
+### Patch Changes
+
+- Updated dependencies [74f54e5]
+  - @keystonejs-contrib-next/fields-file@1.0.0
+
 ## 1.0.0
 
 ### Major Changes

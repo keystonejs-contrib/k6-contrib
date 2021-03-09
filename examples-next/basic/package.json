@@ -1,6 +1,6 @@
 {
   "name": "@keystone-next/app-basic",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -24,7 +24,7 @@
     "@keystone-ui/fields": "^2.0.0",
     "@keystone-ui/icons": "^2.0.0",
     "@keystone-ui/tooltip": "^2.0.0",
-    "@keystonejs-contrib-next/fields-file": "0.0.0",
+    "@keystonejs-contrib-next/fields-file": "1.0.0",
     "@keystonejs/file-adapters": "^7.0.8",
     "@preconstruct/next": "^2.0.0",
     "@types/react": "^17.0.2",
