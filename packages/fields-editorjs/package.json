@@ -1,7 +1,7 @@
 {
   "name": "@keystonejs-contrib/fields-editorjs",
   "description": "KeystoneJS EditorJS Block Editor Field Type, powered by EditorJs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "The KeystoneJS-Contrib Development Team",
   "license": "MIT",
   "engines": {

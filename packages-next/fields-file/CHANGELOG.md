@@ -1,5 +1,11 @@
 # @keystonejs-contrib-next/fields-file
 
+## 1.0.2
+
+### Patch Changes
+
+- 100a6b4: update dependencies
+
 ## 1.0.1
 
 ### Patch Changes

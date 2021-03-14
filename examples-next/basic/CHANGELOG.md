@@ -1,5 +1,14 @@
 # @keystone-next/app-basic
 
+## 1.1.2
+
+### Patch Changes
+
+- 100a6b4: update dependencies
+- Updated dependencies [100a6b4]
+  - @keystonejs-contrib-next/fields-file@1.0.2
+  - @keystonejs-contrib-next/list-plugins@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

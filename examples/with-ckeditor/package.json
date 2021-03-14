@@ -2,7 +2,7 @@
   "name": "@keystonejs-contrib/example-with-ckeditor",
   "description": "An example KeystoneJS project showcasing a Blogging Site using View and express view engine pug.",
   "private": true,
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": "The KeystoneJS-Contrib Community Development Team",
   "license": "MIT",
   "engines": {
@@ -18,7 +18,7 @@
     "@arch-ui/layout": "^0.2.15",
     "@arch-ui/typography": "^0.0.19",
     "@keystonejs-contrib/app-express": "0.2.1",
-    "@keystonejs-contrib/fields-ckeditor": "1.0.0",
+    "@keystonejs-contrib/fields-ckeditor": "1.0.1",
     "@keystonejs-contrib/view": "^2.0.0",
     "@keystonejs/adapter-mongoose": "^11.2.0",
     "@keystonejs/app-admin-ui": "^7.5.0",
