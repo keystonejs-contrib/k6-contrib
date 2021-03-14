@@ -1,6 +1,6 @@
 {
   "name": "@keystone-next/app-basic",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -24,8 +24,8 @@
     "@keystone-ui/fields": "^2.0.1",
     "@keystone-ui/icons": "^2.0.1",
     "@keystone-ui/tooltip": "^2.0.1",
-    "@keystonejs-contrib-next/fields-file": "1.0.1",
-    "@keystonejs-contrib-next/list-plugins": "1.1.1",
+    "@keystonejs-contrib-next/fields-file": "1.0.2",
+    "@keystonejs-contrib-next/list-plugins": "1.1.2",
     "@preconstruct/next": "^2.0.0",
     "@types/react": "^17.0.2",
     "apollo-server-micro": "^2.21.1",

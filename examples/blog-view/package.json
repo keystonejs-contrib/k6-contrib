@@ -2,7 +2,7 @@
   "name": "@keystonejs-contrib/example-blog-with-view",
   "description": "An example KeystoneJS project showcasing a Blogging Site using View and express view engine pug.",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "The KeystoneJS-Contrib Community Development Team",
   "license": "MIT",
   "scripts": {

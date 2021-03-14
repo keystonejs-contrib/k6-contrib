@@ -1,5 +1,11 @@
 # keystone_demo_blog
 
+## 2.0.1
+
+### Patch Changes
+
+- 100a6b4: update dependencies
+
 ## 2.0.0
 
 ### Major Changes
