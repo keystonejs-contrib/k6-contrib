@@ -12,11 +12,11 @@
   },
   "dependencies": {
     "@arch-ui/fields": "^3.0.6",
-    "@babel/runtime": "^7.13.10",
+    "@babel/runtime": "^7.14.6",
     "@ckeditor/ckeditor5-build-classic": "^26.0.0",
     "@ckeditor/ckeditor5-react": "^3.0.2",
     "@keystonejs/fields": "^22.1.1",
-    "react": "^17.0.1"
+    "react": "^17.0.2"
   },
   "preconstruct": {
     "entrypoints": [
