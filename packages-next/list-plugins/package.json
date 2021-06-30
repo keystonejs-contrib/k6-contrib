@@ -8,10 +8,10 @@
   "dependencies": {
     "@babel/core": "^7.13.10",
     "@babel/plugin-transform-modules-commonjs": "^7.13.8",
-    "@babel/runtime": "^7.13.10",
-    "@keystone-next/fields": "^5.2.1",
+    "@babel/runtime": "^7.14.6",
+    "@keystone-next/fields": "^11.0.2",
     "@keystone-next/fields-authed-relationship-legacy": "^1.0.19",
-    "@keystone-next/types": "^14.0.1"
+    "@keystone-next/types": "^21.0.0"
   },
   "devDependencies": {
     "typescript": "^4.2.3"
