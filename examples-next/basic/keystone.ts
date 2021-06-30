@@ -1,5 +1,5 @@
 import { config } from '@keystone-next/keystone/schema';
-import { statelessSessions, withItemData } from '@keystone-next/keystone/session';
+import { statelessSessions } from '@keystone-next/keystone/session';
 import { createAuth } from '@keystone-next/auth';
 
 import { lists, extendGraphqlSchema } from './schema';
@@ -17,6 +17,7 @@ const auth = createAuth({
       isAdmin: true,
     },
   },
+  sessionData: 'name isAdmin',
 });
 
 // TODO -- Create a separate example for access control in the Admin UI
@@ -25,8 +26,8 @@ const auth = createAuth({
 export default auth.withAuth(
   config({
     db: {
-      adapter: 'mongoose',
-      url: 'mongodb://localhost/keystone-examples-next-basic',
+      provider: 'sqlite',
+      url: process.env.DATABASE_URL || 'file:./keystone-example.db',
     },
     // NOTE -- this is not implemented, keystone currently always provides a graphql api at /api/graphql
     // graphql: {
@@ -37,15 +38,11 @@ export default auth.withAuth(
       // path: '/admin',
       // isAccessAllowed,
     },
+    images: { upload: 'local' },
+    files: { upload: 'local' },
     lists,
     extendGraphqlSchema,
-    session: withItemData(
-      statelessSessions({
-        maxAge: sessionMaxAge,
-        secret: sessionSecret,
-      }),
-      { User: 'name isAdmin' }
-    ),
+    session: statelessSessions({ maxAge: sessionMaxAge, secret: sessionSecret }),
     // TODO -- Create a separate example for stored/redis sessions
     // session: storedSessions({
     //   store: new Map(),
