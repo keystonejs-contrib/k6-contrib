@@ -18,7 +18,7 @@
     "@keystone-next/fields": "^11.0.2",
     "@keystone-next/fields-document": "^3.0.1",
     "@keystone-next/file-adapters-legacy": "^7.0.9",
-    "@keystone-next/keystone": "^12.0.0",
+    "@keystone-next/keystone": "^21.0.2",
     "@keystone-next/types": "^21.0.0",
     "@keystone-ui/core": "^3.1.0",
     "@keystone-ui/fields": "^4.1.2",
