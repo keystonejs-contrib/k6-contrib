@@ -2,8 +2,8 @@
   "name": "@keystonejs-contrib-next/fields-bigint",
   "version": "0.1.0",
   "license": "MIT",
-  "main": "dist/bigint.cjs.js",
-  "module": "dist/bigint.esm.js",
+  "main": "dist/fields-bigint.cjs.js",
+  "module": "dist/fields-bigint.esm.js",
   "dependencies": {
     "@babel/runtime": "^7.14.6",
     "@keystone-next/fields": "^11.0.2",
