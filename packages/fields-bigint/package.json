@@ -1,6 +1,6 @@
 {
   "name": "@keystonejs-contrib-next/fields-bigint",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "main": "dist/fields-bigint.cjs.js",
   "module": "dist/fields-bigint.esm.js",
