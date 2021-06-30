@@ -1,3 +1,4 @@
+import path from 'path';
 import {
   BaseGeneratedListTypes,
   FieldDefaultValue,
@@ -8,8 +9,24 @@ import {
   orderDirectionEnum,
   schema,
 } from '@keystone-next/types';
-import { resolveView } from '../../resolve-view';
-import { getIndexType } from '../../get-index-type';
+
+export function getIndexType({
+  isIndexed,
+  isUnique,
+}: {
+  isIndexed?: boolean;
+  isUnique?: boolean;
+}): undefined | 'index' | 'unique' {
+  if (isUnique && isIndexed) {
+    throw new Error('Only one of isUnique and isIndexed can be passed to field types');
+  }
+  return isIndexed ? 'index' : isUnique ? 'unique' : undefined;
+}
+
+const views = path.join(
+  path.dirname(require.resolve('@keystonejs-contrib-next/fields-bigint/package.json')),
+  'views'
+);
 
 export type BigIntFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
   CommonFieldConfig<TGeneratedListTypes> & {
@@ -60,7 +77,7 @@ export const bigInt =
           return value + '';
         },
       }),
-      views: resolveView('bigInt/views'),
+      views,
       __legacy: {
         filters: {
           fields: {
