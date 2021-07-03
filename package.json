@@ -8,12 +8,12 @@
   "repository": "https://github.com/keystone-contrib/keystone-contrib",
   "homepage": "https://github.com/keystone-contrib/keystone-contrib",
   "scripts": {
+    "postinstall": "preconstruct dev && manypkg check",
     "format:file": "prettier --write",
     "format": "prettier --write \"**/*.js{,on}\" \"**/*.md\"",
     "fresh": "yarn clean && yarn",
     "clean": "manypkg exec rimraf node_modules website/.cache && rimraf node_modules",
     "build": "preconstruct build",
-    "prepare": "manypkg check && preconstruct dev",
     "version-packages": "changeset version",
     "publish": "yarn build && yarn changeset publish"
   },
