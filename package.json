@@ -14,7 +14,8 @@
     "clean": "manypkg exec rimraf node_modules website/.cache && rimraf node_modules",
     "build": "preconstruct build",
     "prepare": "manypkg check && preconstruct dev",
-    "version-packages": "changeset version"
+    "version-packages": "changeset version",
+    "publish": "yarn build && yarn changeset publish"
   },
   "workspaces": {
     "packages": [
