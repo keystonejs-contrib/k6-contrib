@@ -1,0 +1,82 @@
+datasource sqlite {
+  url      = env("DATABASE_URL")
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "node_modules/.prisma/client"
+}
+
+model User {
+  id                         String        @id @default(cuid())
+  name                       String?
+  email                      String?       @unique
+  avatar_filesize            Int?
+  avatar_extension           String?
+  avatar_width               Int?
+  avatar_height              Int?
+  avatar_mode                String?
+  avatar_id                  String?
+  attachment_filesize        Int?
+  attachment_mode            String?
+  attachment_filename        String?
+  password                   String?
+  isAdmin                    Boolean?
+  roles                      String?
+  phoneNumbers               PhoneNumber[] @relation("PhoneNumber_user")
+  posts                      Post[]        @relation("Post_author")
+  updatedAt                  DateTime?
+  createdAt                  DateTime?
+  updatedBy                  User?         @relation("User_updatedBy", fields: [updatedById], references: [id])
+  updatedById                String?       @map("updatedBy")
+  createdBy                  User?         @relation("User_createdBy", fields: [createdById], references: [id])
+  createdById                String?       @map("createdBy")
+  from_User_updatedBy        User[]        @relation("User_updatedBy")
+  from_User_createdBy        User[]        @relation("User_createdBy")
+  from_PhoneNumber_updatedBy PhoneNumber[] @relation("PhoneNumber_updatedBy")
+  from_PhoneNumber_createdBy PhoneNumber[] @relation("PhoneNumber_createdBy")
+  from_Post_updatedBy        Post[]        @relation("Post_updatedBy")
+  from_Post_createdBy        Post[]        @relation("Post_createdBy")
+
+  @@index([updatedById])
+  @@index([createdById])
+}
+
+model PhoneNumber {
+  id          String    @id @default(cuid())
+  user        User?     @relation("PhoneNumber_user", fields: [userId], references: [id])
+  userId      String?   @map("user")
+  type        String?
+  value       String?
+  updatedAt   DateTime?
+  createdAt   DateTime?
+  updatedBy   User?     @relation("PhoneNumber_updatedBy", fields: [updatedById], references: [id])
+  updatedById String?   @map("updatedBy")
+  createdBy   User?     @relation("PhoneNumber_createdBy", fields: [createdById], references: [id])
+  createdById String?   @map("createdBy")
+
+  @@index([userId])
+  @@index([updatedById])
+  @@index([createdById])
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  title       String?
+  status      String?
+  content     String?
+  publishDate DateTime?
+  author      User?     @relation("Post_author", fields: [authorId], references: [id])
+  authorId    String?   @map("author")
+  updatedAt   DateTime?
+  createdAt   DateTime?
+  updatedBy   User?     @relation("Post_updatedBy", fields: [updatedById], references: [id])
+  updatedById String?   @map("updatedBy")
+  createdBy   User?     @relation("Post_createdBy", fields: [createdById], references: [id])
+  createdById String?   @map("createdBy")
+
+  @@index([authorId])
+  @@index([updatedById])
+  @@index([createdById])
+}

@@ -1,12 +1,12 @@
 import { timestamp } from '@keystone-next/fields';
-import { ListConfig, FieldConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/types';
+import { ListConfig, CommonFieldConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/types';
 import { AtTrackingOptions, ResolveInputHook } from '../types';
 import { composeHook } from '../utils';
 
 export const atTracking = (options: AtTrackingOptions = {}) => <Fields extends BaseFields<BaseGeneratedListTypes>>(listConfig: ListConfig<BaseGeneratedListTypes, Fields>): ListConfig<BaseGeneratedListTypes, Fields> => {
   const { created = true, updated = true, createdAtField = 'createdAt', updatedAtField = 'updatedAt', ...atFieldOptions } = options;
 
-  const fieldOptions: FieldConfig<BaseGeneratedListTypes> = {
+  const fieldOptions: CommonFieldConfig<BaseGeneratedListTypes> = {
     access: {
       read: true,
       create: false,

@@ -1,3 +1,6 @@
+import escapeHtml from 'escape-html';
+import { Text } from 'slate';
+
 import { createSchema, list, graphQLSchemaExtension, gql } from '@keystone-next/keystone/schema';
 import {
   text,
@@ -7,18 +10,14 @@ import {
   timestamp,
   select,
   virtual,
-  image,
-  file,
 } from '@keystone-next/fields';
 import { document } from '@keystone-next/fields-document';
-import { configureTracking } from '@keystonejs-contrib-next/list-plugins';
-
 // import { cloudinaryImage } from '@keystone-next/cloudinary';
-import { KeystoneListsAPI, schema } from '@keystone-next/types';
+import { KeystoneListsAPI } from '@keystone-next/types';
+import { KeystoneListsTypeInfo } from './.keystone/schema-types';
 import { componentBlocks } from './admin/fieldViews/Content';
-// import { KeystoneListsTypeInfo } from '.keystone/types';
 
-// TODO: Can we generate this type based on sessionData in the main config?
+// TODO: Can we generate this type based on withItemData in the main config?
 type AccessArgs = {
   session?: {
     itemId?: string;
@@ -36,13 +35,11 @@ export const access = {
 
 const randomNumber = () => Math.round(Math.random() * 10);
 
-const withTracking = configureTracking({});
-
 export const lists = createSchema({
-  User: list(withTracking({
+  User: list({
     ui: {
       listView: {
-        initialColumns: ['name', 'posts', 'avatar'],
+        initialColumns: ['name', 'posts'],
       },
     },
     fields: {
@@ -50,9 +47,13 @@ export const lists = createSchema({
       name: text({ isRequired: true }),
       /** Email is used to log into the system. */
       email: text({ isRequired: true, isUnique: true }),
-      /** Avatar upload for the users profile, stored locally */
-      avatar: image(),
-      attachment: file(),
+      // avatar: cloudinaryImage({
+      //   cloudinary: {
+      //     cloudName: '/* TODO */',
+      //     apiKey: '/* TODO */',
+      //     apiSecret: '/* TODO */',
+      //   },
+      // }),
       /** Used to log in. */
       password: password(),
       /** Administrators have more access to various lists and fields. */
@@ -88,28 +89,23 @@ export const lists = createSchema({
       }),
       posts: relationship({ ref: 'Post.author', many: true }),
       randomNumber: virtual({
-        field: schema.field({
-          type: schema.Float,
-          resolve() {
-            return randomNumber();
-          },
-        }),
+        graphQLReturnType: 'Float',
+        resolver() {
+          return randomNumber();
+        },
       }),
     },
-  })),
-  PhoneNumber: list(withTracking({
+  }),
+  PhoneNumber: list({
     ui: {
       isHidden: true,
       // parentRelationship: 'user',
     },
     fields: {
       label: virtual({
-        field: schema.field({
-          type: schema.String,
-          resolve(item) {
-            return `${item.type} - ${item.value}`;
-          },
-        }),
+        resolver(item) {
+          return `${item.type} - ${item.value}`;
+        },
         ui: {
           listView: {
             fieldMode: 'hidden',
@@ -132,13 +128,10 @@ export const lists = createSchema({
       }),
       value: text({}),
     },
-  })),
-  Post: list(withTracking({
+  }),
+  Post: list({
     fields: {
       title: text(),
-      // TODO: expand this out into a proper example project
-      // Enable this line to test custom field views
-      // test: text({ ui: { views: require.resolve('./admin/fieldViews/Test.tsx') } }),
       status: select({
         options: [
           { label: 'Published', value: 'published' },
@@ -189,7 +182,61 @@ export const lists = createSchema({
         },
       }),
     },
-  })),
+    hooks: {
+      afterChange({ existingItem, originalInput, updatedItem }) {
+        const renderers = {
+          inline: {
+            bold: 'strong',
+            code: 'code',
+            keyboard: 'kbd',
+            strikethrough: 's',
+            italic: 'em',
+            link: 'a',
+            subscript: 'sub',
+            superscript: 'sup',
+            underline: 'u',
+            relationship: ({ data }) => {
+              return `<span>${data?.label}</span>`;
+            },
+          },
+        };
+
+        console.log({ existingItem, originalInput, updatedItem });
+        const serialize = _node => {
+          if (typeof _node.text === 'string') {
+            let child = _node.text;
+            (Object.keys(renderers.inline) as (keyof typeof renderers.inline)[]).forEach(
+              markName => {
+                if (markName !== 'link' && markName !== 'relationship' && _node[markName]) {
+                  const Mark = renderers.inline[markName];
+                  child = `<${Mark}>${child}</${Mark}>`;
+                }
+              }
+            );
+            return child;
+          }
+
+          const children = _node.children?.map(n => serialize(n)).join('');
+
+          switch (_node.type) {
+            case 'quote':
+              return `<blockquote><p>${children}</p></blockquote>`;
+            case 'paragraph':
+              return `<p ${
+                _node.textAlign ? `style="text-align: ${_node.textAlign};"` : ''
+              }>${children}</p>`;
+            case 'link':
+              return `<a href="${escapeHtml(_node.url)}">${children}</a>`;
+            default:
+              return children;
+          }
+        };
+        debugger;
+        const data = serialize({ children: updatedItem.content });
+        console.log(data);
+      },
+    },
+  }),
 });
 
 export const extendGraphqlSchema = graphQLSchemaExtension({
@@ -215,10 +262,8 @@ export const extendGraphqlSchema = graphQLSchemaExtension({
       createRandomPosts(root, args, context) {
         // TODO: add a way to verify access control here, e.g
         // await context.verifyAccessControl(userIsAdmin);
+        const lists: KeystoneListsAPI<KeystoneListsTypeInfo> = context.lists;
         const data = Array.from({ length: 238 }).map((x, i) => ({ data: { title: `Post ${i}` } }));
-        // note this usage of the type is important because it tests that the generated
-        // KeystoneListsTypeInfo extends Record<string, BaseGeneratedListTypes>
-        const lists: KeystoneListsAPI<any> = context.lists;
         return lists.Post.createMany({ data });
       },
     },
@@ -230,3 +275,19 @@ export const extendGraphqlSchema = graphQLSchemaExtension({
     },
   },
 });
+
+
+
+    "escape-html":"^1.0.3",
+    "graphql": "^15.5.0",
+    "graphql-tag": "^2.11.0",
+    "next": "10.0.5",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "slate": "npm:slate@^0.60.3"
+  },
+  "devDependencies": {
+    "@types/escape-html": "^1.0.0",
+    "@types/slate": "^0.47.8",
+    "typescript": "^4.1.5"
+  },
