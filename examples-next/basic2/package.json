@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "NODE_OPTIONS=--inspect keystone-next dev",
     "start": "keystone-next start",
-    "build": "keystone-next build",
-    "postinstall": "keystone-next postinstall"
+    "build": "keystone-next build"
   },
   "dependencies": {
     "@keystone-next/auth": "^28.0.1",
