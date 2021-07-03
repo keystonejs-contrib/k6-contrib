@@ -1,0 +1,68 @@
+datasource postgresql {
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "node_modules/.prisma/client"
+}
+
+model User {
+  id                  String    @id @default(cuid())
+  name                String?
+  email               String?   @unique
+  password            String?
+  posts               Post[]    @relation("Post_author")
+  updatedAt           DateTime?
+  createdAt           DateTime?
+  updatedBy           User?     @relation("User_updatedBy", fields: [updatedById], references: [id])
+  updatedById         String?   @map("updatedBy")
+  createdBy           User?     @relation("User_createdBy", fields: [createdById], references: [id])
+  createdById         String?   @map("createdBy")
+  from_User_updatedBy User[]    @relation("User_updatedBy")
+  from_User_createdBy User[]    @relation("User_createdBy")
+  from_Post_updatedBy Post[]    @relation("Post_updatedBy")
+  from_Post_createdBy Post[]    @relation("Post_createdBy")
+  from_Tag_updatedBy  Tag[]     @relation("Tag_updatedBy")
+  from_Tag_createdBy  Tag[]     @relation("Tag_createdBy")
+
+  @@index([updatedById])
+  @@index([createdById])
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  title       String?
+  status      String?
+  content     Json?
+  publishDate DateTime?
+  author      User?     @relation("Post_author", fields: [authorId], references: [id])
+  authorId    String?   @map("author")
+  tags        Tag[]     @relation("Post_tags_Tag_posts")
+  updatedAt   DateTime?
+  createdAt   DateTime?
+  updatedBy   User?     @relation("Post_updatedBy", fields: [updatedById], references: [id])
+  updatedById String?   @map("updatedBy")
+  createdBy   User?     @relation("Post_createdBy", fields: [createdById], references: [id])
+  createdById String?   @map("createdBy")
+
+  @@index([authorId])
+  @@index([updatedById])
+  @@index([createdById])
+}
+
+model Tag {
+  id          String    @id @default(cuid())
+  name        String?
+  posts       Post[]    @relation("Post_tags_Tag_posts")
+  updatedAt   DateTime?
+  createdAt   DateTime?
+  updatedBy   User?     @relation("Tag_updatedBy", fields: [updatedById], references: [id])
+  updatedById String?   @map("updatedBy")
+  createdBy   User?     @relation("Tag_createdBy", fields: [createdById], references: [id])
+  createdById String?   @map("createdBy")
+
+  @@index([updatedById])
+  @@index([createdById])
+}

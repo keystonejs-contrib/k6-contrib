@@ -55,5 +55,11 @@
       "packages-next/*"
     ],
     "distFilenameStrategy": "unscoped-package-name"
+  },
+  "resolutions": {
+    "@prisma/client": "^2.25.0",
+    "@prisma/migrate": "^2.25.0",
+    "@prisma/sdk": "^2.25.0",
+    "prisma": "^2.25.0"
   }
 }

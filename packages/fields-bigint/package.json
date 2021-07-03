@@ -6,7 +6,7 @@
   "module": "dist/fields-bigint.esm.js",
   "dependencies": {
     "@babel/runtime": "^7.14.6",
-    "@keystone-next/fields": "^11.0.2",
+    "@keystone-next/fields": "^11.0.3",
     "@keystone-next/keystone": "^21.0.2",
     "@keystone-next/types": "^21.0.0",
     "@keystone-ui/button": "^5.0.0",

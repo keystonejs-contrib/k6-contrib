@@ -16,7 +16,7 @@ import { configureTracking } from '@keystonejs-contrib-next/list-plugins';
 // import { cloudinaryImage } from '@keystone-next/cloudinary';
 import { KeystoneListsAPI, schema } from '@keystone-next/types';
 import { componentBlocks } from './admin/fieldViews/Content';
-import { KeystoneListsTypeInfo } from '.keystone/types';
+// import { KeystoneListsTypeInfo } from '.keystone/types';
 
 // TODO: Can we generate this type based on sessionData in the main config?
 type AccessArgs = {
@@ -218,7 +218,7 @@ export const extendGraphqlSchema = graphQLSchemaExtension({
         const data = Array.from({ length: 238 }).map((x, i) => ({ data: { title: `Post ${i}` } }));
         // note this usage of the type is important because it tests that the generated
         // KeystoneListsTypeInfo extends Record<string, BaseGeneratedListTypes>
-        const lists: KeystoneListsAPI<KeystoneListsTypeInfo> = context.lists;
+        const lists: KeystoneListsAPI<any> = context.lists;
         return lists.Post.createMany({ data });
       },
     },

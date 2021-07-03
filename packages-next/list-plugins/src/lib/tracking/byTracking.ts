@@ -53,17 +53,17 @@ export const byTracking = (options: ByTrackingOptions = {}) => <
 
   const newResolveInput: ResolveInputHook = ({ resolvedData, operation, context }) => {
     // If not logged in, the id is set to `null`
-    const { session: { itemId = null, listKey = null } = {} } = context;
+    const { session: { itemId: id = null, listKey = null } = {} } = context;
 
     // this avoids connecting item if the auth list is different than the list key
     if (listKey === ref) {
       if (operation === 'create') {
         // create mode
         if (created) {
-          resolvedData[createdByField] = itemId;
+          resolvedData[createdByField] = { connect: { id } };
         }
         if (updated) {
-          resolvedData[updatedByField] = itemId;
+          resolvedData[updatedByField] = { connect: { id } };
         }
       }
       if (operation === 'update') {
@@ -75,7 +75,7 @@ export const byTracking = (options: ByTrackingOptions = {}) => <
         }
         // opted-in to updatedBy tracking
         if (updated) {
-          resolvedData[updatedByField] = itemId;
+          resolvedData[updatedByField] = { connect: { id } };
         }
       }
     }
