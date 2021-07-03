@@ -1,5 +1,12 @@
 # @keystone-next/example-app-basic
 
+## 4.0.3
+
+### Patch Changes
+
+- Updated dependencies [f825012]
+  - @keystonejs-contrib-next/list-plugins@2.0.0
+
 ## 4.0.2
 
 ### Patch Changes

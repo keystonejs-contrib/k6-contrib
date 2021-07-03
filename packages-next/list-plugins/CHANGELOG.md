@@ -1,5 +1,11 @@
 # @keystonejs-contrib-next/list-plugins
 
+## 2.0.0
+
+### Major Changes
+
+- f825012: update to work with latest keystone, tested with @keystone-next/keystone@21.0.0
+
 ## 1.1.2
 
 ### Patch Changes
