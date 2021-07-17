@@ -1,4 +1,0 @@
-{
-  "main": "dist/fields-ckeditor.cjs.js",
-  "module": "dist/fields-ckeditor.esm.js"
-}

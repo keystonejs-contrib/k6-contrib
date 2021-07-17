@@ -1,5 +1,5 @@
 {
-  "name": "@keystonejs-contrib-next/fields-file",
+  "name": "@k6-contrib/fields-file",
   "description": "File field for the new interface KeystoneJs",
   "version": "1.0.2",
   "author": "The KeystoneJS Contrib Development Team",

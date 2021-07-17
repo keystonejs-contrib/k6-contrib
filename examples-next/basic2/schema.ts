@@ -7,7 +7,7 @@ import {
   select,
 } from '@keystone-next/fields';
 import { document } from '@keystone-next/fields-document';
-import { configureTracking } from '@keystonejs-contrib-next/list-plugins';
+import { configureTracking } from '@k6-contrib/list-plugins';
 
 const withTracking = configureTracking({});
 

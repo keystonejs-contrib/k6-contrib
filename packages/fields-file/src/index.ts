@@ -20,7 +20,7 @@ export const file = <TGeneratedListTypes extends BaseGeneratedListTypes>({
     adapter,
   },
   views: path.join(
-    path.dirname(require.resolve('@keystonejs-contrib-next/fields-file/package.json')),
+    path.dirname(require.resolve('@k6-contrib/fields-file/package.json')),
     'views'
   ),
 });

@@ -1,5 +1,5 @@
 {
-  "name": "@keystonejs-contrib-next/fields-bigint",
+  "name": "@k6-contrib/fields-bigint",
   "version": "0.1.2",
   "license": "MIT",
   "main": "dist/fields-bigint.cjs.js",

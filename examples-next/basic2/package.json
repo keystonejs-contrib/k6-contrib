@@ -12,7 +12,7 @@
     "@keystone-next/fields": "^11.0.3",
     "@keystone-next/fields-document": "^7.0.1",
     "@keystone-next/keystone": "^21.0.2",
-    "@keystonejs-contrib-next/list-plugins": "^2.0.0",
+    "@k6-contrib/list-plugins": "^2.0.0",
     "typescript": "^4.3.5"
   },
   "repository": "https://github.com/keystone-contrib/keystone-contrib/tree/master/examples-next/basic2"

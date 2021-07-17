@@ -1,5 +1,5 @@
 {
-  "name": "@keystonejs-contrib-next/list-plugins",
+  "name": "@k6-contrib/list-plugins",
   "description": "List level plugins which can update list config during list initialization including adding additional fields",
   "main": "dist/list-plugins.cjs.js",
   "module": "dist/list-plugins.esm.js",

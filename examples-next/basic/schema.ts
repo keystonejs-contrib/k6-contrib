@@ -11,7 +11,7 @@ import {
   file,
 } from '@keystone-next/fields';
 import { document } from '@keystone-next/fields-document';
-import { configureTracking } from '@keystonejs-contrib-next/list-plugins';
+import { configureTracking } from '@k6-contrib/list-plugins';
 
 // import { cloudinaryImage } from '@keystone-next/cloudinary';
 import { KeystoneListsAPI, schema } from '@keystone-next/types';
