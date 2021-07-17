@@ -5,4 +5,5 @@
 '@k6-contrib/fields-bigint': minor
 ---
 
-rename packages, waiting for major release of Keystone-6 before releasing first major version
+Rename packages. waiting for major release of Keystone-6 before releasing first major version
+Remove legacy and unmaintained packages
