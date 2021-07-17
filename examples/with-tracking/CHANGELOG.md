@@ -1,4 +1,4 @@
-# keystone-app
+# @k6-contrib/example-with-tracking
 
 ## 2.0.9
 ### Patch Changes

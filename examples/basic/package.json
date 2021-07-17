@@ -1,6 +1,6 @@
 {
-  "name": "@keystone-next/examples-app-basic",
-  "version": "4.0.3",
+  "name": "@k6-contrib/example-basic",
+  "version": "0.0.0",
   "private": true,
   "license": "MIT",
   "scripts": {
