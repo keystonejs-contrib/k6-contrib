@@ -11,7 +11,7 @@ they will be updated automatically when items are created or updated.
 ## Usage
 
 ```ts
-import { byTracking } from '@keystonejs-contrib-next/list-plugins';
+import { byTracking } from '@k6-contrib/list-plugins';
 
 const withByTracking = byTracking({});
 
@@ -48,7 +48,7 @@ By default access control on at tracking fields is read only:
 If you prefer, you can import _either_ `createdBy` or `updatedBy` to apply a single tracking field:
 
 ```javascript
-import { createdBy, updatedBy } from '@keystonejs-contrib-next/list-plugins';
+import { createdBy, updatedBy } from '@k6-contrib/list-plugins';
 ```
 
 > **Note:** The API is the same for each export as `byTracking`.

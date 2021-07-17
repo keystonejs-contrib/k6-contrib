@@ -28,5 +28,5 @@
       "views/index.tsx"
     ]
   },
-  "repository": "https://github.com/keystone-contrib/keystone-contrib/tree/master/packages-next/fields-file"
+  "repository": "https://github.com/keystone-contrib/k6-contrib/tree/master/packages/fields-file"
 }

@@ -16,5 +16,5 @@
   "devDependencies": {
     "typescript": "^4.3.5"
   },
-  "repository": "https://github.com/keystone-contrib/keystone-contrib/tree/master/packages-next/list-plugins"
+  "repository": "https://github.com/keystone-contrib/k6-contrib/tree/master/packages/list-plugins"
 }

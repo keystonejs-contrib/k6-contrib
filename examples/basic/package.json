@@ -11,6 +11,8 @@
   "dependencies": {
     "@babel/runtime": "^7.14.6",
     "@graphql-tools/merge": "^6.2.14",
+    "@k6-contrib/fields-file": "1.0.2",
+    "@k6-contrib/list-plugins": "2.0.0",
     "@keystone-next/auth": "^28.0.1",
     "@keystone-next/document-renderer": "^3.0.0",
     "@keystone-next/fields": "^11.0.3",
@@ -21,8 +23,6 @@
     "@keystone-ui/fields": "^4.1.2",
     "@keystone-ui/icons": "^4.0.0",
     "@keystone-ui/tooltip": "^4.0.0",
-    "@k6-contrib/fields-file": "1.0.2",
-    "@k6-contrib/list-plugins": "2.0.0",
     "@preconstruct/next": "^3.0.0",
     "@types/react": "^17.0.13",
     "apollo-server-micro": "^2.25.2",
@@ -39,5 +39,5 @@
   "engines": {
     "node": "^12.20 || >= 14.13"
   },
-  "repository": "https://github.com/keystone-contrib/keystone-contrib/tree/master/examples-next/basic"
+  "repository": "https://github.com/keystone-contrib/k6-contrib/tree/master/examples/basic"
 }

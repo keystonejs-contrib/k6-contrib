@@ -11,7 +11,7 @@ but they will be updated automatically when items are created or updated.
 ## Usage
 
 ```ts
-import { atTracking } from '@keystonejs-contrib-next/list-plugins';
+import { atTracking } from '@k6-contrib/list-plugins';
 
 const withAtTracking = atTracking({});
 
@@ -48,7 +48,7 @@ By default access control on at tracking fields is read only:
 If you prefer, you can import _either_ `createdAt` or `updatedAt` to apply a single tracking field:
 
 ```javascript
-import { createdAt, updatedAt } from '@keystonejs-contrib-next/list-plugins';
+import { createdAt, updatedAt } from '@k6-contrib/list-plugins';
 ```
 
 > **Note:** The API is the same for each export as `atTracking`.

@@ -1,4 +1,4 @@
-# @keystonejs-contrib-next/list-plugins
+# @k6-contrib-next/list-plugins
 
 ## 2.0.0
 

@@ -7,7 +7,7 @@ Adds `createdAt` and `updatedAt` fields to a list. These fields are read-only by
 ## Usage
 
 ```ts
-import { atTracking } from '@keystonejs-contrib-next/list-plugins';
+import { atTracking } from '@k6-contrib/list-plugins';
 
 const withAtTracking = atTracking({});
 
@@ -56,7 +56,7 @@ Adds `createdBy` and `updatedBy` fields to a list. These fields are read-only by
 ## Usage
 
 ```ts
-import { byTracking } from '@keystonejs-contrib-next/list-plugins';
+import { byTracking } from '@k6-contrib/list-plugins';
 
 const withByTracking = byTracking({});
 
@@ -111,7 +111,7 @@ This plugin provides a mechanism for logging all mutations in a Keystone system.
 ## Usage
 
 ```ts
-const { logging } = require('@keystonejs-contrib-next/list-plugins');
+const { logging } = require('@k6-contrib/list-plugins');
 
 const withLogging = logging();
 const withLogging = logging(args => console.log(args));
