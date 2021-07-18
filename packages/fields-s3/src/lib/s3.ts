@@ -26,7 +26,6 @@ const generateSafeFilename = (
 
   const id = cuid();
 
-  // console.log(id, id.length, id.slice(12).length);
   const urlSafeName = filenamify(transformFilename(name), {
     maxLength: 100 - id.length,
     replacement: '-',
@@ -131,7 +130,6 @@ export const getDataFromStream = async (
         ...uploadParams,
       })
       .promise();
-    console.log(result);
     if (type === 'file') {
       const head = await s3
         .headObject({

@@ -18,7 +18,7 @@ const views = path.join(
 );
 
 const ImageExtensionEnum = schema.enum({
-  name: 'ImageExtension',
+  name: 'S3ImageExtension',
   values: schema.enumValues(SUPPORTED_IMAGE_EXTENSIONS),
 });
 
