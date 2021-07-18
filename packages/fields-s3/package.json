@@ -11,7 +11,8 @@
   "preconstruct": {
     "entrypoints": [
       "index.ts",
-      "views/index.tsx"
+      "views/file/index.tsx",
+      "views/image/index.tsx"
     ]
   },
   "dependencies": {
@@ -35,7 +36,8 @@
     "image-size": "^1.0.0",
     "image-type": "^4.1.0",
     "node-fetch": "^2.6.1",
-    "react": "^17.0.2"
+    "react": "^17.0.2",
+    "url-join": "^4.0.1"
   },
   "repository": "https://github.com/keystone-contrib/k6-contrib/tree/master/packages/fields-s3",
   "devDependencies": {

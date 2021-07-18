@@ -1,7 +1,5 @@
 package.json
 packages/icons/icons/*
-packages
-examples
 reports
 coverage
 packages/test-project/public

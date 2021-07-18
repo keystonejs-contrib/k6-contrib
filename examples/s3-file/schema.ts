@@ -1,6 +1,6 @@
 import { createSchema, list } from '@keystone-next/keystone/schema';
 import { select, relationship, text, timestamp } from '@keystone-next/fields';
-import { S3Config, s3Image } from '@k6-contrib/fields-s3';
+import { S3Config, s3File, s3Image } from '@k6-contrib/fields-s3';
 import 'dotenv/config';
 
 const s3Config: S3Config = {
@@ -32,7 +32,7 @@ export const lists = createSchema({
       }),
       content: text(),
       image: s3Image({ s3Config }),
-      // file: s3Image(),
+      file: s3File({ s3Config }),
       publishDate: timestamp(),
       author: relationship({ ref: 'Author.posts', many: false }),
     },

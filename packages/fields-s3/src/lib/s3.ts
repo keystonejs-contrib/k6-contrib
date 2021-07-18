@@ -4,21 +4,48 @@ import AWS from 'aws-sdk';
 import urlJoin from 'url-join';
 import cuid from 'cuid';
 import slugify from '@sindresorhus/slugify';
+import filenamify from 'filenamify';
 import { ImageMetadata } from '@keystone-next/types';
 import fromBuffer from 'image-type';
 import imageSize from 'image-size';
-import { AssetType, FileDataType, GetPublicUrlFunc, S3AdapterOptions, S3Config } from './types';
+import { AssetType, S3DataType, S3Config, FileData, ImageData } from './types';
 import { parseFileRef, parseImageRef } from './utils';
 
-const getFilename = (fileData: FileDataType) =>
+const defaultTransformer = (str: string) => slugify(str);
+
+const generateSafeFilename = (
+  filename: string,
+  transformFilename: (str: string) => string = defaultTransformer
+) => {
+  // Appends a UUID to the filename so that people can't brute-force guess stored filenames
+  //
+  // This regex lazily matches for any characters that aren't a new line
+  // it then optionally matches the last instance of a "." symbol
+  // followed by any alphabetical character before the end of the string
+  const [, name, ext] = filename.match(/^([^:\n].*?)(\.[A-Za-z]+)?$/) as RegExpMatchArray;
+
+  const id = cuid();
+
+  // console.log(id, id.length, id.slice(12).length);
+  const urlSafeName = filenamify(transformFilename(name), {
+    maxLength: 100 - id.length,
+    replacement: '-',
+  });
+  if (ext) {
+    return `${urlSafeName}-${id}${ext}`;
+  }
+  return `${urlSafeName}-${id}`;
+};
+
+const getFilename = (fileData: S3DataType) =>
   fileData.type === 'file' ? fileData.filename : `${fileData.id}.${fileData.extension}`;
 
-const defaultGetSrc = ({ bucket, folder }: S3Config, fileData: FileDataType) => {
+const defaultGetSrc = ({ bucket, folder }: S3Config, fileData: S3DataType) => {
   const filename = getFilename(fileData);
   return urlJoin(`https://${bucket}.s3.amazonaws.com`, folder, filename);
 };
 
-export function getSrc(config: S3Config, fileData: FileDataType) {
+export function getSrc(config: S3Config, fileData: S3DataType) {
   if (config.baseUrl) {
     return urlJoin(config.baseUrl, getFilename(fileData));
   }
@@ -58,23 +85,29 @@ const getImageMetadataFromStream = async (stream: ReadStream): Promise<ImageMeta
   return { width, height, filesize, extension };
 };
 
-export const getDataFromStream = async (config: S3Config, type: AssetType, upload: FileUpload) => {
+export const getDataFromStream = async (
+  config: S3Config,
+  type: AssetType,
+  upload: FileUpload
+): Promise<Omit<ImageData, 'type'> | Omit<FileData, 'type'>> => {
   const { createReadStream, encoding, filename: originalFilename, mimetype } = upload;
+  const filename = generateSafeFilename(originalFilename, config.transformFilename);
   const s3 = new AWS.S3(config.s3Options);
 
   let stream = createReadStream();
-
-  let metadata: ImageMetadata = {};
+  let filesize = 0;
+  let metadata: ImageMetadata = {} as ImageMetadata;
   if (type === 'image') {
     metadata = await getImageMetadataFromStream(stream);
+    // recreate stream so that we can send it to s3
     stream = createReadStream();
   }
 
   const id = cuid();
-  const fileData = {
-    mode: 's3',
+  const fileData: S3DataType = {
     type,
     id,
+    filename,
     ...metadata,
   };
 
@@ -88,18 +121,32 @@ export const getDataFromStream = async (config: S3Config, type: AssetType, uploa
         Key: `${config.folder}/${getFilename(fileData)}`,
         Metadata: {
           'x-amz-meta-original-filename': originalFilename,
-          'x-amz-meta-image-height': `${metadata.height}`,
-          'x-amz-meta-image-width': `${metadata.width}`,
+          ...(type === 'image'
+            ? {
+                'x-amz-meta-image-height': `${metadata.height}`,
+                'x-amz-meta-image-width': `${metadata.width}`,
+              }
+            : {}),
         },
         ...uploadParams,
       })
       .promise();
     console.log(result);
+    if (type === 'file') {
+      const head = await s3
+        .headObject({
+          Bucket: config.bucket,
+          Key: result.Key,
+        })
+        .promise();
+      filesize = head.ContentLength || 0;
+      return { filename, filesize };
+    }
+    return { id, ...metadata };
   } catch (error) {
     stream.destroy();
     throw error;
   }
-  return { mode: 's3', id, ...metadata };
 };
 
 const parseRef = (type: AssetType, ref: string) => {
@@ -107,28 +154,46 @@ const parseRef = (type: AssetType, ref: string) => {
   return parseFileRef(ref);
 };
 
-export const getDataFromRef = async (config: S3Config, type: AssetType, ref: string) => {
-  const imageRef = parseRef(type, ref);
+export const getDataFromRef = async (
+  config: S3Config,
+  type: AssetType,
+  ref: string
+): Promise<Partial<ImageData | FileData>> => {
+  const fileRef = parseRef(type, ref);
 
-  if (!imageRef) {
+  if (!fileRef) {
     throw new Error('Invalid image reference');
   }
+
+  const fileData = {
+    type,
+    ...(fileRef.type === 'file'
+      ? {
+          filename: fileRef.filename,
+        }
+      : {
+          id: fileRef.id,
+          extension: fileRef.extension,
+        }),
+  };
 
   const s3 = new AWS.S3(config.s3Options);
   try {
     const result = await s3
       .headObject({
         Bucket: config.bucket,
-        Key: urlJoin(
-          config.folder,
-          getFilename({ type: 'image', id: imageRef.id, extension: imageRef.extension })
-        ),
+        Key: urlJoin(config.folder, getFilename(fileData as S3DataType)),
       })
       .promise();
+    const { type, ...refData } = fileRef;
     return {
-      ...imageRef,
-      height: Number(result.Metadata?.['x-amz-meta-image-height'] || 0),
-      width: Number(result.Metadata?.['x-amz-meta-image-width'] || 0),
+      ...refData,
+      ...(type === 'image'
+        ? {
+            height: Number(result.Metadata?.['x-amz-meta-image-height'] || 0),
+            width: Number(result.Metadata?.['x-amz-meta-image-width'] || 0),
+          }
+        : {}),
       filesize: result.ContentLength || 0,
     };
   } catch (error) {
