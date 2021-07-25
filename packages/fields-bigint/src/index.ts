@@ -24,7 +24,7 @@ export function getIndexType({
 }
 
 const views = path.join(
-  path.dirname(require.resolve('@keystonejs-contrib-next/fields-bigint/package.json')),
+  path.dirname(require.resolve('@k6-contrib/fields-bigint/package.json')),
   'views'
 );
 

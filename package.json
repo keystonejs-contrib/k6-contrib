@@ -1,18 +1,18 @@
 {
-  "name": "keystonejs-contrib",
-  "version": "1.1.0",
-  "description": "monorepo for KeystoneJs community projects initiated by Gautam Singh",
-  "author": "KeystoneJS-Contrib Community Development Team",
+  "name": "k6-contrib",
+  "version": "0.0.0",
+  "description": "monorepo for Keystone 6 community projects initiated by Gautam Singh",
+  "author": "K6-Contrib Community Development Team",
   "private": true,
   "license": "MIT",
-  "repository": "https://github.com/keystone-contrib/keystone-contrib",
-  "homepage": "https://github.com/keystone-contrib/keystone-contrib",
+  "repository": "https://github.com/keystone-contrib/k6-contrib",
+  "homepage": "https://github.com/keystone-contrib/k6-contrib",
   "scripts": {
     "postinstall": "preconstruct dev && manypkg check",
     "format:file": "prettier --write",
     "format": "prettier --write \"**/*.js{,on}\" \"**/*.md\"",
     "fresh": "yarn clean && yarn",
-    "clean": "manypkg exec rimraf node_modules website/.cache && rimraf node_modules",
+    "clean": "rimraf \"**/cypress/{screenshots,videos,reports}\" \"**/node_modules\" \"**/yarn-error.log\" \"**/out.log\" \"**/.DS_Store\" \"**/dist\"",
     "build": "preconstruct build",
     "version-packages": "changeset version",
     "publish": "yarn build && yarn changeset publish"
@@ -20,9 +20,7 @@
   "workspaces": {
     "packages": [
       "packages/*",
-      "examples/*",
-      "packages-next/*",
-      "examples-next/*"
+      "examples/*"
     ]
   },
   "dependencies": {
@@ -55,11 +53,5 @@
       "packages-next/*"
     ],
     "distFilenameStrategy": "unscoped-package-name"
-  },
-  "resolutions": {
-    "@prisma/client": "^2.25.0",
-    "@prisma/migrate": "^2.25.0",
-    "@prisma/sdk": "^2.25.0",
-    "prisma": "^2.25.0"
   }
 }
