@@ -1,5 +1,13 @@
 # @k6-contrib/example-s3-file
 
+## 0.1.1
+
+### Patch Changes
+
+- 94d090e: update packages to latest
+- Updated dependencies [94d090e]
+  - @k6-contrib/fields-s3@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes

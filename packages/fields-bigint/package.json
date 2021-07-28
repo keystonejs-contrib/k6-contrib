@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/fields-bigint",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "main": "dist/fields-bigint.cjs.js",
   "module": "dist/fields-bigint.esm.js",
@@ -28,5 +28,5 @@
       "views/index.tsx"
     ]
   },
-  "repository": "https://github.com/keystone-contrib/k6-contrib/tree/master/packages/fields-bigint"
+  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-bigint"
 }

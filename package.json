@@ -5,8 +5,8 @@
   "author": "K6-Contrib Community Development Team",
   "private": true,
   "license": "MIT",
-  "repository": "https://github.com/keystone-contrib/k6-contrib",
-  "homepage": "https://github.com/keystone-contrib/k6-contrib",
+  "repository": "https://github.com/keystonejs-contrib/k6-contrib",
+  "homepage": "https://github.com/keystonejs-contrib/k6-contrib",
   "scripts": {
     "postinstall": "preconstruct dev && manypkg check",
     "format:file": "prettier --write",

@@ -3,7 +3,7 @@
   "description": "List level plugins which can update list config during list initialization including adding additional fields",
   "main": "dist/list-plugins.cjs.js",
   "module": "dist/list-plugins.esm.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "dependencies": {
@@ -16,5 +16,5 @@
   "devDependencies": {
     "typescript": "^4.3.5"
   },
-  "repository": "https://github.com/keystone-contrib/k6-contrib/tree/master/packages/list-plugins"
+  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/list-plugins"
 }

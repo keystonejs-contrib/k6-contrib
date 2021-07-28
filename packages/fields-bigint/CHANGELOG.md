@@ -1,5 +1,11 @@
 # fields-bigint
 
+## 0.1.1
+
+### Patch Changes
+
+- 94d090e: update packages to latest
+
 ## 0.1.0
 
 ### Minor Changes

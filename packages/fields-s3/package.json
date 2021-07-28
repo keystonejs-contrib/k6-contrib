@@ -1,7 +1,7 @@
 {
   "name": "@k6-contrib/fields-s3",
   "description": "Keystone6 S3 File and Image Field Type",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/fields-s3.cjs.js",
   "module": "dist/fields-s3.esm.js",
   "files": [
@@ -41,7 +41,7 @@
     "react": "^17.0.2",
     "url-join": "^4.0.1"
   },
-  "repository": "https://github.com/keystone-contrib/k6-contrib/tree/master/packages/fields-s3",
+  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-s3",
   "devDependencies": {
     "@types/bytes": "^3.1.1",
     "graphql": "^15.5.1",
