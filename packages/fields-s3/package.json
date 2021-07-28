@@ -16,9 +16,9 @@
     ]
   },
   "dependencies": {
-    "@babel/runtime": "^7.14.6",
-    "@keystone-next/types": "^22.0.0",
-    "@keystone-next/utils": "^1.0.2",
+    "@babel/runtime": "^7.14.8",
+    "@keystone-next/types": "^23.0.0",
+    "@keystone-next/utils": "^1.0.3",
     "@keystone-ui/button": "^5.0.0",
     "@keystone-ui/core": "^3.1.1",
     "@keystone-ui/fields": "^4.1.2",
@@ -26,8 +26,8 @@
     "@keystone-ui/pill": "^5.0.0",
     "@keystone-ui/toast": "^4.0.1",
     "@sindresorhus/slugify": "^1.1.2",
-    "@types/react": "^17.0.14",
-    "aws-sdk": "^2.948.0",
+    "@types/react": "^17.0.15",
+    "aws-sdk": "^2.955.0",
     "bytes": "^3.1.0",
     "copy-to-clipboard": "^3.3.1",
     "cuid": "^2.1.8",
