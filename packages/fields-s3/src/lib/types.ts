@@ -2,12 +2,7 @@ import { FileUpload } from 'graphql-upload';
 import {
   BaseGeneratedListTypes,
   FieldDefaultValue,
-  fieldType,
-  FieldTypeFunc,
   CommonFieldConfig,
-  ImageExtension,
-  KeystoneContext,
-  schema,
   ImageMetadata,
 } from '@keystone-next/types';
 
