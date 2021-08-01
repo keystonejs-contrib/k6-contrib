@@ -1,4 +1,5 @@
 import path from 'path';
+import { Path } from 'graphql/jsutils/Path';
 
 import {
   BaseGeneratedListTypes,
@@ -16,12 +17,45 @@ const views = path.join(
   'views/file'
 );
 
+const _fieldConfigs: { [key: string]: S3Config } = {};
+
 const S3FileFieldInput = schema.inputObject({
   name: 'S3FileFieldInput',
   fields: {
     upload: schema.arg({ type: schema.Upload }),
     ref: schema.arg({ type: schema.String }),
   },
+});
+
+const fileOutputFields = schema.fields<Omit<FileData, 'type'>>()({
+  filename: schema.field({ type: schema.nonNull(schema.String) }),
+  filesize: schema.field({ type: schema.nonNull(schema.Int) }),
+  ref: schema.field({
+    type: schema.nonNull(schema.String),
+    resolve(data) {
+      return getFileRef(data.filename);
+    },
+  }),
+  src: schema.field({
+    type: schema.nonNull(schema.String),
+    resolve(data, args, context, info) {
+      const { key, typename } = info.path.prev as Path;
+      const config = _fieldConfigs[`${typename}-${key}`];
+      return getSrc(config, { type: 'file', ...data } as S3DataType);
+    },
+  }),
+});
+
+const S3FileFieldOutput = schema.interface<Omit<FileData, 'type'>>()({
+  name: 'S3FileFieldOutput',
+  fields: fileOutputFields,
+  resolveType: () => 'S3FileFieldOutputType',
+});
+
+const S3FileFieldOutputType = schema.object<Omit<FileData, 'type'>>()({
+  name: 'S3FileFieldOutputType',
+  interfaces: [S3FileFieldOutput],
+  fields: fileOutputFields,
 });
 
 function createInputResolver(config: S3Config) {
@@ -43,77 +77,57 @@ function createInputResolver(config: S3Config) {
   };
 }
 
-export const s3File = <TGeneratedListTypes extends BaseGeneratedListTypes>({
-  isRequired,
-  defaultValue,
-  s3Config,
-  ...config
-}: S3FieldConfig<TGeneratedListTypes>): FieldTypeFunc => () => {
-  if ((config as any).isUnique) {
-    throw Error('isUnique is not a supported option for field type file');
-  }
+export const s3File =
+  <TGeneratedListTypes extends BaseGeneratedListTypes>({
+    isRequired,
+    defaultValue,
+    s3Config,
+    ...config
+  }: S3FieldConfig<TGeneratedListTypes>): FieldTypeFunc =>
+  meta => {
+    if ((config as any).isUnique) {
+      throw Error('isUnique is not a supported option for field type file');
+    }
 
-  const fileOutputFields = schema.fields<Omit<FileData, 'type'>>()({
-    filename: schema.field({ type: schema.nonNull(schema.String) }),
-    filesize: schema.field({ type: schema.nonNull(schema.Int) }),
-    ref: schema.field({
-      type: schema.nonNull(schema.String),
-      resolve(data) {
-        return getFileRef(data.filename);
-      },
-    }),
-    src: schema.field({
-      type: schema.nonNull(schema.String),
-      resolve(data, args, context) {
-        return getSrc(s3Config as S3Config, { type: 'file', ...data } as S3DataType);
-      },
-    }),
-  });
+    if (typeof s3Config === 'undefined') {
+      throw new Error(
+        `Must provide s3Config option in S3Image field for List: ${meta.listKey}, field: ${meta.fieldKey}`
+      );
+    }
+    _fieldConfigs[`${meta.listKey}-${meta.fieldKey}`] = s3Config;
 
-  const S3FileFieldOutput = schema.interface<Omit<FileData, 'type'>>()({
-    name: 'S3FileFieldOutput',
-    fields: fileOutputFields,
-    resolveType: () => 'S3FileFieldOutputType',
-  });
-
-  const S3FileFieldOutputType = schema.object<Omit<FileData, 'type'>>()({
-    name: 'S3FileFieldOutputType',
-    interfaces: [S3FileFieldOutput],
-    fields: fileOutputFields,
-  });
-
-  return fieldType({
-    kind: 'multi',
-    fields: {
-      filename: { kind: 'scalar', scalar: 'String', mode: 'optional' },
-      filesize: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
-    },
-  })({
-    ...config,
-    input: {
-      create: {
-        arg: schema.arg({ type: S3FileFieldInput }),
-        resolve: createInputResolver(s3Config as S3Config),
+    return fieldType({
+      kind: 'multi',
+      fields: {
+        filename: { kind: 'scalar', scalar: 'String', mode: 'optional' },
+        filesize: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
       },
-      update: {
-        arg: schema.arg({ type: S3FileFieldInput }),
-        resolve: createInputResolver(s3Config as S3Config),
+    })({
+      ...config,
+      input: {
+        create: {
+          arg: schema.arg({ type: S3FileFieldInput }),
+          resolve: createInputResolver(s3Config as S3Config),
+        },
+        update: {
+          arg: schema.arg({ type: S3FileFieldInput }),
+          resolve: createInputResolver(s3Config as S3Config),
+        },
       },
-    },
-    output: schema.field({
-      type: S3FileFieldOutput,
-      resolve({ value: { filename, filesize } }) {
-        if (filename === null || filesize === null) {
-          return null;
-        }
-        return { filename, filesize };
+      output: schema.field({
+        type: S3FileFieldOutput,
+        resolve({ value: { filename, filesize } }) {
+          if (filename === null || filesize === null) {
+            return null;
+          }
+          return { filename, filesize };
+        },
+      }),
+      unreferencedConcreteInterfaceImplementations: [S3FileFieldOutputType],
+      views,
+      __legacy: {
+        isRequired,
+        defaultValue,
       },
-    }),
-    unreferencedConcreteInterfaceImplementations: [S3FileFieldOutputType],
-    views,
-    __legacy: {
-      isRequired,
-      defaultValue,
-    },
-  });
-};
+    });
+  };

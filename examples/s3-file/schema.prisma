@@ -9,20 +9,27 @@ generator client {
 }
 
 model Post {
-  id              String    @id @default(cuid())
-  title           String?
-  status          String?
-  content         String?
-  image_filesize  Int?
-  image_extension String?
-  image_width     Int?
-  image_height    Int?
-  image_id        String?
-  file_filename   String?
-  file_filesize   Int?
-  publishDate     DateTime?
-  author          Author?   @relation("Post_author", fields: [authorId], references: [id])
-  authorId        String?   @map("author")
+  id               String    @id @default(cuid())
+  title            String?
+  status           String?
+  content          String?
+  image_filesize   Int?
+  image_extension  String?
+  image_width      Int?
+  image_height     Int?
+  image_id         String?
+  image2_filesize  Int?
+  image2_extension String?
+  image2_width     Int?
+  image2_height    Int?
+  image2_id        String?
+  file_filename    String?
+  file_filesize    Int?
+  file2_filename   String?
+  file2_filesize   Int?
+  publishDate      DateTime?
+  author           Author?   @relation("Post_author", fields: [authorId], references: [id])
+  authorId         String?   @map("author")
 
   @@index([authorId])
 }

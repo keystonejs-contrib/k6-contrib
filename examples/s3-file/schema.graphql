@@ -1,13 +1,12 @@
-"""
- A keystone list
-"""
 type Post {
   id: ID!
   title: String
   status: PostStatusType
   content: String
   image: S3ImageFieldOutput
+  image2: S3ImageFieldOutput
   file: S3FileFieldOutput
+  file2: S3FileFieldOutput
   publishDate: String
   author: Author
 }
@@ -22,12 +21,12 @@ interface S3ImageFieldOutput {
   filesize: Int!
   width: Int!
   height: Int!
-  extension: ImageExtension!
+  extension: S3ImageExtension!
   ref: String!
   src: String!
 }
 
-enum ImageExtension {
+enum S3ImageExtension {
   jpg
   png
   webp
@@ -46,7 +45,7 @@ type S3ImageFieldOutputType implements S3ImageFieldOutput {
   filesize: Int!
   width: Int!
   height: Int!
-  extension: ImageExtension!
+  extension: S3ImageExtension!
   ref: String!
   src: String!
 }
@@ -132,7 +131,9 @@ input PostUpdateInput {
   status: PostStatusType
   content: String
   image: S3ImageFieldInput
+  image2: S3ImageFieldInput
   file: S3FileFieldInput
+  file2: S3FileFieldInput
   publishDate: String
   author: AuthorRelateToOneInput
 }
@@ -169,7 +170,9 @@ input PostCreateInput {
   status: PostStatusType
   content: String
   image: S3ImageFieldInput
+  image2: S3ImageFieldInput
   file: S3FileFieldInput
+  file2: S3FileFieldInput
   publishDate: String
   author: AuthorRelateToOneInput
 }
@@ -178,9 +181,6 @@ input PostsCreateInput {
   data: PostCreateInput
 }
 
-"""
- A keystone list
-"""
 type Author {
   id: ID!
   name: String
@@ -236,20 +236,8 @@ input AuthorWhereInput {
   email_not_contains: String
   email_in: [String]
   email_not_in: [String]
-
-  """
-   condition must be true for all nodes
-  """
   posts_every: PostWhereInput
-
-  """
-   condition must be true for at least 1 node
-  """
   posts_some: PostWhereInput
-
-  """
-   condition must be false for all nodes
-  """
   posts_none: PostWhereInput
 }
 
@@ -310,71 +298,21 @@ scalar JSON
   )
 
 type Mutation {
-  """
-   Create a single Post item.
-  """
   createPost(data: PostCreateInput): Post
-
-  """
-   Create multiple Post items.
-  """
   createPosts(data: [PostsCreateInput]): [Post]
-
-  """
-   Update a single Post item by ID.
-  """
   updatePost(id: ID!, data: PostUpdateInput): Post
-
-  """
-   Update multiple Post items by ID.
-  """
   updatePosts(data: [PostsUpdateInput]): [Post]
-
-  """
-   Delete a single Post item by ID.
-  """
   deletePost(id: ID!): Post
-
-  """
-   Delete multiple Post items by ID.
-  """
   deletePosts(ids: [ID!]): [Post]
-
-  """
-   Create a single Author item.
-  """
   createAuthor(data: AuthorCreateInput): Author
-
-  """
-   Create multiple Author items.
-  """
   createAuthors(data: [AuthorsCreateInput]): [Author]
-
-  """
-   Update a single Author item by ID.
-  """
   updateAuthor(id: ID!, data: AuthorUpdateInput): Author
-
-  """
-   Update multiple Author items by ID.
-  """
   updateAuthors(data: [AuthorsUpdateInput]): [Author]
-
-  """
-   Delete a single Author item by ID.
-  """
   deleteAuthor(id: ID!): Author
-
-  """
-   Delete multiple Author items by ID.
-  """
   deleteAuthors(ids: [ID!]): [Author]
 }
 
 type Query {
-  """
-   Search for all Post items which match the where clause.
-  """
   allPosts(
     where: PostWhereInput! = {}
     search: String
@@ -384,15 +322,7 @@ type Query {
     first: Int
     skip: Int! = 0
   ): [Post!]
-
-  """
-   Search for the Post item with the matching ID.
-  """
   Post(where: PostWhereUniqueInput!): Post
-
-  """
-   Perform a meta-query on all Post items which match the where clause.
-  """
   _allPostsMeta(
     where: PostWhereInput! = {}
     search: String
@@ -406,10 +336,6 @@ type Query {
       reason: "This query will be removed in a future version. Please use postsCount instead."
     )
   postsCount(where: PostWhereInput! = {}): Int
-
-  """
-   Search for all Author items which match the where clause.
-  """
   allAuthors(
     where: AuthorWhereInput! = {}
     search: String
@@ -419,15 +345,7 @@ type Query {
     first: Int
     skip: Int! = 0
   ): [Author!]
-
-  """
-   Search for the Author item with the matching ID.
-  """
   Author(where: AuthorWhereUniqueInput!): Author
-
-  """
-   Perform a meta-query on all Author items which match the where clause.
-  """
   _allAuthorsMeta(
     where: AuthorWhereInput! = {}
     search: String
@@ -484,6 +402,7 @@ type KeystoneAdminUIFieldMeta {
   createView: KeystoneAdminUIFieldMetaCreateView!
   listView: KeystoneAdminUIFieldMetaListView!
   itemView(id: ID!): KeystoneAdminUIFieldMetaItemView
+  search: QueryMode
 }
 
 type KeystoneAdminUIFieldMetaCreateView {
@@ -512,6 +431,11 @@ enum KeystoneAdminUIFieldMetaItemViewFieldMode {
   edit
   read
   hidden
+}
+
+enum QueryMode {
+  default
+  insensitive
 }
 
 type KeystoneAdminUISort {

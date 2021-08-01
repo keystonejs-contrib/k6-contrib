@@ -53,5 +53,5 @@ export type S3FieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
   CommonFieldConfig<TGeneratedListTypes> & {
     defaultValue?: FieldDefaultValue<S3FieldInputType, TGeneratedListTypes>;
     isRequired?: boolean;
-    s3Config?: S3Config;
+    s3Config: S3Config;
   };

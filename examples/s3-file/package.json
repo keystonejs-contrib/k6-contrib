@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--inspect keystone-next dev",
+    "devb": "cross-env NODE_OPTIONS=--inspect-brk keystone-next dev",
     "start": "keystone-next start",
     "build": "keystone-next build"
   },
