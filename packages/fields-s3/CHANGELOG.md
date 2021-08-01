@@ -1,5 +1,11 @@
 # @k6-contrib/fields-s3
 
+## 0.2.0
+
+### Minor Changes
+
+- 3cf58b3: Fiex fields to support multiple use, Prevent duplicate GraphQL type generation
+
 ## 0.1.1
 
 ### Patch Changes
