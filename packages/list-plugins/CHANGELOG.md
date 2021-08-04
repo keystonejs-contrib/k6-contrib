@@ -1,5 +1,11 @@
 # @k6-contrib-next/list-plugins
 
+## 0.2.0
+
+### Minor Changes
+
+- Fixed list-plugins build
+
 ## 0.1.1
 
 ### Patch Changes

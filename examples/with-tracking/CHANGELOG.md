@@ -1,5 +1,12 @@
 # @k6-contrib/example-with-tracking
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @k6-contrib/list-plugins@0.2.0
+
 ## 0.1.1
 
 ### Patch Changes

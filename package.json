@@ -49,8 +49,7 @@
   },
   "preconstruct": {
     "packages": [
-      "packages/fields-*",
-      "packages-next/*"
+      "packages/*"
     ],
     "distFilenameStrategy": "unscoped-package-name"
   }
