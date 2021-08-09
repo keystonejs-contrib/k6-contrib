@@ -1,3 +1,3 @@
 export * from './lib/image';
 
-export type { S3Config } from './lib/types';
+export type { S3ImagesConfig } from './lib/types';

@@ -1,1 +1,1 @@
-# @k6-contrib/fields-s3images
+# @k6-contrib/fields-s3-images

@@ -85,3 +85,5 @@ dist/
 public/
 .next
 .keystone
+# database fies
+*.db

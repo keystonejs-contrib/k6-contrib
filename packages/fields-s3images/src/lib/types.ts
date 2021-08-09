@@ -7,21 +7,13 @@ import {
 } from '@keystone-next/types';
 
 export type AssetMode = 's3';
-export type AssetType = 'file' | 'image';
+export type AssetType = 'image';
 
-export type ImageData = {
-  type: 'image';
+export type ImagesData = {
   id: string;
   filesize: number;
+  sizesMeta: Record<keyof S3ImagesConfig['sizes'], ImagesData>;
 } & ImageMetadata;
-
-export type FileData = {
-  type: 'file';
-  filename: string;
-  filesize: number;
-};
-
-export type S3DataType = FileData | ImageData;
 
 export type GetFileNameFunc = {
   id: string;
@@ -33,24 +25,25 @@ export type GetUploadParams = {
   originalFilename: string;
 };
 
-export type S3sConfig = {
+export type S3ImagesConfig = {
   bucket: string;
   folder?: string;
   baseUrl?: string;
+  /** default to os.tmpdir() */
+  tmpdir?: string;
+  /** define width, set value 0 to not generate that image, it will be same as next bigger size */
   sizes?: {
-    /** 320x320? */
-    xs?: boolean;
-    /** 720x720? */
-    small?: boolean;
-    /** 1080x1920? */
-    medium?: boolean;
-    large?: boolean;
-    l?: boolean;
-  }
+    /** = 360? */
+    sm?: number;
+    /** = 720? */
+    md?: number;
+    /** = 1080? */
+    lg?: number;
+  };
   transformFilename?: (str: string) => string;
   getFilename?: (args: GetFileNameFunc) => string;
-  getSrc?: (config: S3sConfig, fileData: S3DataType) => string;
-  uploadParams?: (args: S3DataType) => Partial<AWS.S3.Types.PutObjectRequest>;
+  getSrc?: (config: S3ImagesConfig, fileData: ImagesData, width: string) => string;
+  uploadParams?: (args: ImagesData) => Partial<AWS.S3.Types.PutObjectRequest>;
   s3Options: AWS.S3.ClientConfiguration;
 };
 
@@ -63,5 +56,5 @@ export type S3FieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
   CommonFieldConfig<TGeneratedListTypes> & {
     defaultValue?: FieldDefaultValue<S3FieldInputType, TGeneratedListTypes>;
     isRequired?: boolean;
-    s3Config: S3sConfig;
+    s3Config: S3ImagesConfig;
   };

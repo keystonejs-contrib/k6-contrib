@@ -1,0 +1,4 @@
+{
+  "main": "dist/fields-s3-images.cjs.js",
+  "module": "dist/fields-s3-images.esm.js"
+}

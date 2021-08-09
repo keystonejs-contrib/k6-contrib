@@ -8,7 +8,7 @@ import filenamify from 'filenamify';
 import { ImageMetadata } from '@keystone-next/types';
 import fromBuffer from 'image-type';
 import imageSize from 'image-size';
-import { AssetType, S3DataType, S3Config, FileData, ImageData } from './types';
+import { AssetType, S3DataType, S3ImagesConfig, FileData, ImagesData } from './types';
 import { parseFileRef, parseImageRef } from './utils';
 
 const defaultTransformer = (str: string) => slugify(str);
@@ -36,19 +36,19 @@ const generateSafeFilename = (
   return `${urlSafeName}-${id}`;
 };
 
-const getFilename = (fileData: S3DataType) =>
-  fileData.type === 'file' ? fileData.filename : `${fileData.id}.${fileData.extension}`;
+const getFilename = (fileData: S3DataType, width: string) =>
+  fileData.type === `${fileData.id}_${width}.${fileData.extension}`;
 
-const defaultGetSrc = ({ bucket, folder }: S3Config, fileData: S3DataType) => {
-  const filename = getFilename(fileData);
+const defaultGetSrc = ({ bucket, folder }: S3ImagesConfig, fileData: S3DataType, width: string) => {
+  const filename = getFilename(fileData, width);
   return urlJoin(`https://${bucket}.s3.amazonaws.com`, folder, filename);
 };
 
-export function getSrc(config: S3Config, fileData: S3DataType) {
+export function getSrc(config: S3ImagesConfig, fileData: ImagesData, width: string) {
   if (config.baseUrl) {
-    return urlJoin(config.baseUrl, getFilename(fileData));
+    return urlJoin(config.baseUrl, getFilename(fileData, width));
   }
-  return config.getSrc?.(config, fileData) || defaultGetSrc(config, fileData);
+  return config.getSrc?.(config, fileData, width) || defaultGetSrc(config, fileData, width);
 }
 
 const getImageMetadataFromStream = async (stream: ReadStream): Promise<ImageMetadata> => {
@@ -85,10 +85,10 @@ const getImageMetadataFromStream = async (stream: ReadStream): Promise<ImageMeta
 };
 
 export const getDataFromStream = async (
-  config: S3Config,
+  config: S3ImagesConfig,
   type: AssetType,
   upload: FileUpload
-): Promise<Omit<ImageData, 'type'> | Omit<FileData, 'type'>> => {
+): Promise<Omit<ImagesData, 'type'> | Omit<FileData, 'type'>> => {
   const { createReadStream, encoding, filename: originalFilename, mimetype } = upload;
   const filename = generateSafeFilename(originalFilename, config.transformFilename);
   const s3 = new AWS.S3(config.s3Options);
@@ -153,10 +153,10 @@ const parseRef = (type: AssetType, ref: string) => {
 };
 
 export const getDataFromRef = async (
-  config: S3Config,
+  config: S3ImagesConfig,
   type: AssetType,
   ref: string
-): Promise<Partial<ImageData | FileData>> => {
+): Promise<Partial<ImagesData | FileData>> => {
   const fileRef = parseRef(type, ref);
 
   if (!fileRef) {
