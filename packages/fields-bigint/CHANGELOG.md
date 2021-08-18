@@ -1,5 +1,11 @@
 # fields-bigint
 
+## 0.2.0
+
+### Minor Changes
+
+- 1ec1ec9: Updated keystone dependencies to match @keystone-next/keystone@24.0.0
+
 ## 0.1.1
 
 ### Patch Changes

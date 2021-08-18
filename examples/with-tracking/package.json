@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/example-with-tracking",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "NODE_OPTIONS=\"--inspect -r dotenv/config\" keystone-next dev",
@@ -8,7 +8,7 @@
     "build": "keystone-next build"
   },
   "dependencies": {
-    "@k6-contrib/list-plugins": "^0.2.0",
+    "@k6-contrib/list-plugins": "^0.3.0",
     "@keystone-next/auth": "^31.0.0",
     "@keystone-next/fields": "^14.0.0",
     "@keystone-next/fields-document": "^8.0.0",

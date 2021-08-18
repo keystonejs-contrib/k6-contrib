@@ -1,5 +1,16 @@
 # @k6-contrib/example-basic
 
+## 0.2.0
+
+### Minor Changes
+
+- 1ec1ec9: Updated keystone dependencies to match @keystone-next/keystone@24.0.0
+
+### Patch Changes
+
+- Updated dependencies [1ec1ec9]
+  - @k6-contrib/list-plugins@0.3.0
+
 ## 0.1.2
 
 ### Patch Changes
