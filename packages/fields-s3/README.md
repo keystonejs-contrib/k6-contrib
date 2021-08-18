@@ -1,6 +1,5 @@
 # S3 Filed
 
-
 ```ts
 import { S3Config, s3File, s3Image } from '@k6-contrib/fields-s3';
 import 'dotenv/config';
@@ -22,11 +21,11 @@ const s3Config: S3Config = {
 };
 
 const Post = list({
-    fields: {
-      title: text({ isRequired: true }),
-      content: text(),
-      image: s3Image({ s3Config }),
-      file: s3File({ s3Config }),
-    },
-  }),
+  fields: {
+    title: text({ isRequired: true }),
+    content: text(),
+    image: s3Image({ s3Config }),
+    file: s3File({ s3Config }),
+  },
+});
 ```
