@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@k6-contrib/fields-s3": "^0.2.0",
-    "@keystone-next/fields": "^13.0.0",
-    "@keystone-next/keystone": "^23.0.1"
+    "@keystone-next/fields": "^14.0.0",
+    "@keystone-next/keystone": "^24.0.1"
   },
   "devDependencies": {
     "typescript": "^4.3.5"
