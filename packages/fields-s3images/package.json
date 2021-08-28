@@ -1,0 +1,52 @@
+{
+  "name": "@k6-contrib/fields-s3images",
+  "description": "Keystone6 S3 Sharp Optimized Image Field Type",
+  "version": "0.0.0",
+  "main": "dist/fields-s3images.cjs.js",
+  "module": "dist/fields-s3images.esm.js",
+  "files": [
+    "dist",
+    "views"
+  ],
+  "preconstruct": {
+    "entrypoints": [
+      "index.ts",
+      "views/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.14.8",
+    "@keystone-next/types": "^23.0.0",
+    "@keystone-next/utils": "^1.0.3",
+    "@keystone-ui/button": "^5.0.0",
+    "@keystone-ui/core": "^3.1.1",
+    "@keystone-ui/fields": "^4.1.2",
+    "@keystone-ui/icons": "^4.0.0",
+    "@keystone-ui/pill": "^5.0.0",
+    "@keystone-ui/toast": "^4.0.1",
+    "@sindresorhus/slugify": "^1.1.2",
+    "@types/react": "^17.0.15",
+    "aws-sdk": "^2.955.0",
+    "bytes": "^3.1.0",
+    "copy-to-clipboard": "^3.3.1",
+    "cuid": "^2.1.8",
+    "filenamify": "^4.3.0",
+    "form-data": "4.0.0",
+    "fs-extra": "^10.0.0",
+    "graphql-upload": "^12.0.0",
+    "image-size": "^1.0.0",
+    "image-type": "^4.1.0",
+    "node-fetch": "^2.6.1",
+    "react": "^17.0.2",
+    "url-join": "^4.0.1"
+  },
+  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-s3",
+  "devDependencies": {
+    "@types/bytes": "^3.1.1",
+    "graphql": "^15.5.1",
+    "mime": "^2.5.2"
+  },
+  "engines": {
+    "node": "^12.20 || >= 14.13"
+  }
+}
