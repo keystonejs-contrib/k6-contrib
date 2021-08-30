@@ -1,0 +1,4 @@
+{
+  "main": "dist/fields-azure.cjs.js",
+  "module": "dist/fields-azure.esm.js"
+}
