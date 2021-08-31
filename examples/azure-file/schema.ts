@@ -1,6 +1,6 @@
 import { createSchema, list } from '@keystone-next/keystone/schema';
 import { select, relationship, text, timestamp } from '@keystone-next/fields';
-import { azureStorageImage, AzureStorageFile, AzureStorageConfig } from '@k6-contrib/fields-azure';
+import { azureStorageImage, azureStorageFile, AzureStorageConfig } from '@k6-contrib/fields-azure';
 import 'dotenv/config';
 
 const config: AzureStorageConfig = {
@@ -27,8 +27,8 @@ export const lists = createSchema({
       image2: azureStorageImage({
         azureStorageConfig: config,
       }),
-      file: AzureStorageFile({ azureStorageConfig: config }),
-      file2: AzureStorageFile({ azureStorageConfig: config }),
+      file: azureStorageFile({ azureStorageConfig: config }),
+      file2: azureStorageFile({ azureStorageConfig: config }),
       publishDate: timestamp(),
       author: relationship({ ref: 'Author.posts', many: false }),
     },
