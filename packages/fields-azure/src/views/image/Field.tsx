@@ -224,7 +224,7 @@ function ImgView({
               <Stack across align="center" gap="small">
                 <Text size="small">
                   <a href={value.data.src} target="_blank">
-                    {`${value.data.id}.${value.data.extension}`}
+                    {value.data.id}
                   </a>
                 </Text>
                 <Button size="small" tone="passive" onClick={copyRef}>

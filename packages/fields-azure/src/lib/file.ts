@@ -77,7 +77,7 @@ function createInputResolver(config: AzureStorageConfig) {
   };
 }
 
-export const AzureStorageFile =
+export const azureStorageFile =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
     isRequired,
     defaultValue,

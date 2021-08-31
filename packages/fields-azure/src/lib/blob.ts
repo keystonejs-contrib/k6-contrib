@@ -39,7 +39,7 @@ const generateSafeFilename = (
 };
 
 const getFilename = (fileData: AzureStorageDataType) =>
-  fileData.type === 'file' ? fileData.filename : `${fileData.id}.${fileData.extension}`;
+  fileData.type === 'file' ? fileData.filename : `${fileData.id}`;
 
 const defaultGetSrc = (
   { azureStorageOptions }: AzureStorageConfig,
