@@ -47,7 +47,7 @@ export function Field({
       <Fragment>
         {field.displayMode === 'select' ? (
           <Fragment>
-            <FieldLabel htmlFor={field.path}>Unit</FieldLabel>
+            {/* <FieldLabel htmlFor={field.path}>Unit</FieldLabel> */}
             <Select
               id={field.path}
               isClearable
@@ -64,8 +64,9 @@ export function Field({
           </Fragment>
         ) : (
           <Fragment>
-            <FieldLabel as="legend">{field.label}</FieldLabel>
+            {/* <FieldLabel as="legend">{field.label}</FieldLabel> */}
             <SegmentedControl
+              width="full"
               segments={field.units.map(x => x.label)}
               selectedIndex={
                 value
@@ -83,9 +84,9 @@ export function Field({
           across
           css={{
             width: '100%',
-            justifyContent: 'space-between',
-            'div:first-of-type': {
-              flex: '2',
+            justifyContent: 'stretch',
+            '&>div': {
+              flex: '1',
             },
           }}
         >

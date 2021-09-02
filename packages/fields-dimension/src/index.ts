@@ -68,7 +68,7 @@ export const dimension =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
     isRequired,
     units = [],
-    displayMode = 'select',
+    ui: { displayMode = 'select', ...ui } = {},
     defaultUnit = null,
     ...config
   }: DimensionFieldConfig<TGeneratedListTypes> = {}): FieldTypeFunc =>

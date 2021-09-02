@@ -17,6 +17,7 @@ export const lists = createSchema({
       }),
       description: text(),
       dimension: dimension(),
+      packageDimension: dimension({ ui: { displayMode: 'segmented-control' } }),
       weight: weight(),
       publishDate: timestamp(),
       author: relationship({ ref: 'Author.products', many: false }),

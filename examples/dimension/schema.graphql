@@ -4,6 +4,7 @@ type Product {
   status: ProductStatusType
   description: String
   dimension: DimensionFieldOutput
+  packageDimension: DimensionFieldOutput
   weight: WeightFieldOutput
   publishDate: String
   author: Author
@@ -145,6 +146,7 @@ input ProductUpdateInput {
   status: ProductStatusType
   description: String
   dimension: DimensionFieldInput
+  packageDimension: DimensionFieldInput
   weight: WeightFieldInput
   publishDate: String
   author: AuthorRelateToOneForUpdateInput
@@ -178,6 +180,7 @@ input ProductCreateInput {
   status: ProductStatusType
   description: String
   dimension: DimensionFieldInput
+  packageDimension: DimensionFieldInput
   weight: WeightFieldInput
   publishDate: String
   author: AuthorRelateToOneForCreateInput

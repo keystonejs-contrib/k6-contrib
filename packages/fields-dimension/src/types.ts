@@ -14,7 +14,6 @@ export type DimensionFieldInputType =
 
 export type DimensionFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
   CommonFieldConfig<TGeneratedListTypes> & {
-    displayMode?: 'select' | 'segmented-control';
     defaultUnit?: string | null;
     units?: { label: string; value: string }[];
     ui?: {

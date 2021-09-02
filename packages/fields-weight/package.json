@@ -23,6 +23,7 @@
     "@keystone-ui/fields": "^4.1.2",
     "@keystone-ui/icons": "^4.0.0",
     "@keystone-ui/pill": "^5.0.0",
+    "@keystone-ui/segmented-control": "^4.0.2",
     "@keystone-ui/toast": "^4.0.2",
     "@sindresorhus/slugify": "^1.1.2",
     "@types/react": "^17.0.18",
