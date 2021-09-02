@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import { Fragment} from 'react';
+import { Fragment } from 'react';
 
 import { jsx, Stack } from '@keystone-ui/core';
 import { TextInput } from '@keystone-ui/fields';
@@ -25,13 +25,20 @@ export function Field({
   const error = forceValidation && errorMessage ? errorMessage : undefined;
 
   const handleChange = (path: string, data: string | undefined) => {
-    console.log(data);
-    onChange?.({
+    let updatedValue = {
       ...value,
       [path]: data,
-    } as WeightValue);
+    } as WeightValue;
+    //return null if all values are cleared
+    if (
+      !updatedValue?.unit &&
+      isNaN(parseFloat(updatedValue?.value as string))
+    ) {
+      updatedValue = null;
+    }
+    onChange?.(updatedValue);
   };
-console.log(field.units.find(u => u.value === field.defaultUnit));
+  console.log(field.units.find(u => u.value === field.defaultUnit));
   return (
     <FieldContainer as="fieldset">
       <FieldLabel as="legend">{field.label}</FieldLabel>

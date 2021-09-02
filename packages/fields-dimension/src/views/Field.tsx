@@ -24,12 +24,21 @@ export function Field({
   const errorMessage = createErrorMessage(value);
   const error = forceValidation && errorMessage ? errorMessage : undefined;
 
-  const handleChange = (field: string, data: string | undefined) => {
-    console.log(data);
-    onChange?.({
+  const handleChange = (path: string, data: string | undefined) => {
+    let updatedValue = {
       ...value,
-      [field]: data,
-    } as DimensionValue);
+      [path]: data,
+    } as DimensionValue;
+    //return null if all values are cleared
+    if (
+      !updatedValue?.unit &&
+      isNaN(parseFloat(updatedValue?.length as string)) &&
+      isNaN(parseFloat(updatedValue?.width as string)) &&
+      isNaN(parseFloat(updatedValue?.height as string))
+    ) {
+      updatedValue = null;
+    }
+    onChange?.(updatedValue);
   };
 
   return (
