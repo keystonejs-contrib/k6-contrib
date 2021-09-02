@@ -1,6 +1,7 @@
 import { createSchema, list } from '@keystone-next/keystone/schema';
 import { select, relationship, text, timestamp } from '@keystone-next/fields';
 import { dimension } from '@k6-contrib/fields-dimension';
+import { weight } from '@k6-contrib/fields-dimension';
 import 'dotenv/config';
 
 export const lists = createSchema({
@@ -16,6 +17,7 @@ export const lists = createSchema({
       }),
       description: text(),
       dimension: dimension(),
+      weight: weight(),
       publishDate: timestamp(),
       author: relationship({ ref: 'Author.products', many: false }),
     },

@@ -1,0 +1,4 @@
+{
+  "main": "dist/fields-weight.cjs.js",
+  "module": "dist/fields-weight.esm.js"
+}
