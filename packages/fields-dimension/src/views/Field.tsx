@@ -1,17 +1,14 @@
 /** @jsx jsx */
 
-import copy from 'copy-to-clipboard';
-import bytes from 'bytes';
-import { Fragment, ReactNode, RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment } from 'react';
 
-import { jsx, Stack, useTheme, Text, VisuallyHidden } from '@keystone-ui/core';
+import { jsx, Stack } from '@keystone-ui/core';
 import { TextInput } from '@keystone-ui/fields';
 
 import { FieldContainer, FieldLabel, Select } from '@keystone-ui/fields';
 import { SegmentedControl } from '@keystone-ui/segmented-control';
 
 import { Pill } from '@keystone-ui/pill';
-import { Button } from '@keystone-ui/button';
 import { FieldProps } from '@keystone-next/types';
 import { DimensionValue } from './index';
 
@@ -26,6 +23,7 @@ export function Field({
 
   const errorMessage = createErrorMessage(value);
   const error = forceValidation && errorMessage ? errorMessage : undefined;
+
   const handleChange = (field: string, data: string | undefined) => {
     console.log(data);
     onChange?.({
@@ -134,6 +132,13 @@ function createErrorMessage(value: DimensionValue) {
 export function validateDimension(data: DimensionValue): string | undefined {
   if (data) {
     const { unit, length, width, height } = data;
-    if (!unit || length < 0 || width < 0 || height < 0) return 'Must provide details';
+    if (
+      (!unit && isNaN(parseFloat(length))) ||
+      isNaN(parseFloat(width)) ||
+      isNaN(parseFloat(height))
+    )
+      return undefined;
+    if (!unit || parseFloat(length) < 0 || parseFloat(width) < 0 || parseFloat(height) < 0)
+      return 'Must provide details';
   }
 }

@@ -8,7 +8,6 @@ import {
   FieldControllerConfig,
 } from '@keystone-next/types';
 import { FieldContainer, FieldLabel } from '@keystone-ui/fields';
-import { validateDimension } from './Field';
 
 export { Field } from './Field';
 
@@ -45,12 +44,12 @@ export const CardValue: CardValueComponent = ({ item, field }) => {
 
 type DimensionData = {
   unit: string;
-  length: number;
-  width: number;
-  height: number;
+  length: string;
+  width: string;
+  height: string;
 };
 
-export type DimensionValue = null | DimensionData;
+export type DimensionValue = DimensionData | null;
 
 type DimensionController = FieldController<DimensionValue> & {
   units: { label: string; value: string }[];
@@ -84,26 +83,50 @@ export const controller = (config: Config): DimensionController => {
     defaultUnit: config.fieldMeta.defaultUnit,
     deserialize(item) {
       const value = item[config.path];
-      if (!value) return null;
-      return {
-        unit: value.unit,
-        length: value.length,
-        width: value.width,
-        height: value.height,
-      };
+      if (value) {
+        return {
+          unit: value.unit,
+          length: typeof value.length === 'number' ? value.length + '' : '',
+          width: typeof value.width === 'number' ? value.width + '' : '',
+          height: typeof value.height === 'number' ? value.height + '' : '',
+        };
+      }
+      return { unit: null, length: '', width: '', height: '' };
     },
-    validate(value): boolean {
-      return value === undefined;
+    validate(data): boolean {
+      if (!data) return true;
+      const { unit, length, width, height } = data;
+      if (
+        typeof unit !== 'string' &&
+        isNaN(parseFloat(length)) &&
+        isNaN(parseFloat(width)) &&
+        isNaN(parseFloat(height))
+      )
+        return true;
+
+      return (
+        typeof unit === 'string' &&
+        !isNaN(parseFloat(length)) &&
+        !isNaN(parseFloat(width)) &&
+        !isNaN(parseFloat(height))
+      );
     },
     serialize(value) {
       if (!value) return { [config.path]: null };
       const { unit, length, width, height } = value;
+      if (
+        !unit &&
+        isNaN(parseFloat(length)) &&
+        isNaN(parseFloat(width)) &&
+        isNaN(parseFloat(height))
+      )
+        return null;
       return {
         [config.path]: {
           unit,
-          length: Number(length),
-          width: Number(width),
-          height: Number(height),
+          length: parseFloat(length),
+          width: parseFloat(width),
+          height: parseFloat(height),
         },
       };
     },

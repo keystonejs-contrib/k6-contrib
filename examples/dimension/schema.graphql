@@ -4,6 +4,7 @@ type Product {
   status: ProductStatusType
   description: String
   dimension: DimensionFieldOutput
+  weight: WeightFieldOutput
   publishDate: String
   author: Author
 }
@@ -28,11 +29,29 @@ enum DimensionEnumType {
   m
 }
 
+interface WeightFieldOutput {
+  value: Float!
+  unit: WeightEnumType
+}
+
+enum WeightEnumType {
+  mg
+  g
+  kg
+  lb
+  oz
+}
+
 type DimensionFieldOutputType implements DimensionFieldOutput {
   length: Float!
   width: Float!
   height: Float!
   unit: DimensionEnumType
+}
+
+type WeightFieldOutputType implements WeightFieldOutput {
+  value: Float!
+  unit: WeightEnumType
 }
 
 input ProductWhereInput {
@@ -126,15 +145,21 @@ input ProductUpdateInput {
   status: ProductStatusType
   description: String
   dimension: DimensionFieldInput
+  weight: WeightFieldInput
   publishDate: String
   author: AuthorRelateToOneForUpdateInput
 }
 
 input DimensionFieldInput {
-  unit: String
-  length: Float
-  width: Float
-  height: Float
+  unit: String!
+  length: Float!
+  width: Float!
+  height: Float!
+}
+
+input WeightFieldInput {
+  unit: String!
+  value: Float!
 }
 
 input AuthorRelateToOneForUpdateInput {
@@ -153,6 +178,7 @@ input ProductCreateInput {
   status: ProductStatusType
   description: String
   dimension: DimensionFieldInput
+  weight: WeightFieldInput
   publishDate: String
   author: AuthorRelateToOneForCreateInput
 }

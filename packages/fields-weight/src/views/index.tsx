@@ -8,7 +8,6 @@ import {
   FieldControllerConfig,
 } from '@keystone-next/types';
 import { FieldContainer, FieldLabel } from '@keystone-ui/fields';
-import { validateWeight } from './Field';
 
 export { Field } from './Field';
 
@@ -48,7 +47,7 @@ type WeightData = {
   value: string;
 };
 
-export type WeightValue = WeightData;
+export type WeightValue = null | WeightData;
 
 type WeightController = FieldController<WeightValue> & {
   units: { label: string; value: string }[];
@@ -88,13 +87,16 @@ export const controller = (config: Config): WeightController => {
       }
       return { unit: null, value: '' };
     },
-    validate({ unit, value }): boolean {
-      // if (!unit || typeof value !== 'number') return false;
+    validate(data): boolean {
+      if (!data) return true;
+      const { unit, value } = data;
+      if (typeof unit !== 'string' && isNaN(parseFloat(value))) return true;
       return typeof unit === 'string' && !isNaN(parseFloat(value));
     },
     serialize(weight) {
       if (!weight) return { [config.path]: null };
       const { unit, value } = weight;
+      if (!unit && isNaN(parseFloat(value))) return null;
       return {
         [config.path]: {
           unit,

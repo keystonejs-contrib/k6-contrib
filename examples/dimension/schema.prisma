@@ -17,6 +17,8 @@ model Product {
   dimension_length Float?
   dimension_width  Float?
   dimension_height Float?
+  weight_unit      String?
+  weight_value     Float?
   publishDate      DateTime?
   author           Author?   @relation("Product_author", fields: [authorId], references: [id])
   authorId         String?   @map("author")

@@ -1,7 +1,7 @@
 import { createSchema, list } from '@keystone-next/keystone/schema';
 import { select, relationship, text, timestamp } from '@keystone-next/fields';
 import { dimension } from '@k6-contrib/fields-dimension';
-import { weight } from '@k6-contrib/fields-dimension';
+import { weight } from '@k6-contrib/fields-weight';
 import 'dotenv/config';
 
 export const lists = createSchema({

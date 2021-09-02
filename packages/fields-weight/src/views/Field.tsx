@@ -1,17 +1,14 @@
 /** @jsx jsx */
 
-import copy from 'copy-to-clipboard';
-import bytes from 'bytes';
-import { Fragment, ReactNode, RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment} from 'react';
 
-import { jsx, Stack, useTheme, Text, VisuallyHidden } from '@keystone-ui/core';
+import { jsx, Stack } from '@keystone-ui/core';
 import { TextInput } from '@keystone-ui/fields';
 
 import { FieldContainer, FieldLabel, Select } from '@keystone-ui/fields';
 import { SegmentedControl } from '@keystone-ui/segmented-control';
 
 import { Pill } from '@keystone-ui/pill';
-import { Button } from '@keystone-ui/button';
 import { FieldProps } from '@keystone-next/types';
 import { WeightValue } from './index';
 
@@ -34,7 +31,7 @@ export function Field({
       [path]: data,
     } as WeightValue);
   };
-
+console.log(field.units.find(u => u.value === field.defaultUnit));
   return (
     <FieldContainer as="fieldset">
       <FieldLabel as="legend">{field.label}</FieldLabel>
@@ -45,7 +42,7 @@ export function Field({
           css={{
             width: '100%',
             justifyContent: 'space-between',
-            '&>div:last-of-type': {
+            '&>div:nth-of-type(2)': {
               flex: '1',
             },
           }}
@@ -110,6 +107,7 @@ function createErrorMessage(value: WeightValue) {
 export function validateWeight(data: WeightValue): string | undefined {
   if (data) {
     const { unit, value } = data;
+    if (!unit && isNaN(parseFloat(value))) return undefined;
     if (!unit || parseFloat(value) < 0) return 'Invalid weight or unit';
   }
 }
