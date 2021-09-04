@@ -1,7 +1,7 @@
 {
   "name": "@k6-contrib/fields-weight",
   "description": "Keystone 6 Weight Field Type",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "dist/fields-weight.cjs.js",
   "module": "dist/fields-weight.esm.js",
   "files": [
