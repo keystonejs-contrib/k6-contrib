@@ -6,7 +6,6 @@ import {
   fieldType,
   FieldTypeFunc,
   ImageExtension,
-  JSONValue,
   KeystoneContext,
   schema,
 } from '@keystone-next/types';
@@ -20,12 +19,12 @@ const views = path.join(
 );
 
 const ImageExtensionEnum = schema.enum({
-  name: 'S3ImageExtension',
+  name: 'S3ImagesExtension',
   values: schema.enumValues(SUPPORTED_IMAGE_EXTENSIONS),
 });
 
 const S3FieldInput = schema.inputObject({
-  name: 'S3ImageFieldInput',
+  name: 'S3ImagesFieldInput',
   fields: {
     upload: schema.arg({ type: schema.Upload }),
     ref: schema.arg({ type: schema.String }),
