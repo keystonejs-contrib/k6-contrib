@@ -19,8 +19,6 @@ export function Field({
   forceValidation,
   onChange,
 }: FieldProps<typeof import('.').controller>) {
-  console.log(value);
-
   const errorMessage = createErrorMessage(value);
   const error = forceValidation && errorMessage ? errorMessage : undefined;
 
@@ -38,7 +36,6 @@ export function Field({
     }
     onChange?.(updatedValue);
   };
-  console.log(field.units.find(u => u.value === field.defaultUnit));
   return (
     <FieldContainer as="fieldset">
       <FieldLabel as="legend">{field.label}</FieldLabel>

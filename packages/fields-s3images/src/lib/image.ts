@@ -94,7 +94,6 @@ const imagesOutputFields = schema.fields<Omit<ImagesData, 'size'>>()({
       }),
     },
     resolve(data, args, context, info) {
-      console.log(args.size);
       const { key, typename } = info.path.prev as Path;
       const config = _fieldConfigs[`${typename}-${key}`];
       return getSrc(config, { ...data, size: args.size });

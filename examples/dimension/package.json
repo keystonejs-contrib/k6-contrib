@@ -10,8 +10,8 @@
     "build": "keystone-next build"
   },
   "dependencies": {
-    "@k6-contrib/fields-dimension": "^0.0.0",
-    "@k6-contrib/fields-weight": "^0.0.0",
+    "@k6-contrib/fields-dimension": "^0.0.1",
+    "@k6-contrib/fields-weight": "^0.0.1",
     "@keystone-next/fields": "^14.0.0",
     "@keystone-next/keystone": "^24.0.1"
   },

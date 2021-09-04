@@ -13,8 +13,6 @@ export { Field } from './Field';
 
 export const Cell: CellComponent = ({ item, field }) => {
   const data: WeightData = item[field.path];
-  console.log(data);
-  console.log(item);
   if (!data) return null;
   const { unit, value } = data;
   return (

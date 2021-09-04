@@ -19,8 +19,6 @@ export function Field({
   forceValidation,
   onChange,
 }: FieldProps<typeof import('.').controller>) {
-  console.log(value);
-
   const errorMessage = createErrorMessage(value);
   const error = forceValidation && errorMessage ? errorMessage : undefined;
 

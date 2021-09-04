@@ -10,7 +10,7 @@
     "build": "keystone-next build"
   },
   "dependencies": {
-    "@k6-contrib/fields-s3-images": "^0.0.0",
+    "@k6-contrib/fields-s3-images": "^0.0.3",
     "@keystone-next/fields": "^14.0.0",
     "@keystone-next/keystone": "^24.0.1"
   },
