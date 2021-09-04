@@ -14,6 +14,11 @@ const s3sConfig: S3sConfig = {
     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
     endpoint: process.env.S3_ENDPOINT, // use region for aws, endpoint for s3 compatible storage
   },
+  sizes: {
+    sm: 360,
+    md: 720,
+    lg: 1280,
+  },
   uploadParams() {
     return {
       ACL: 'public-read', // needed to make it public
