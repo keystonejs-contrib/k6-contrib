@@ -4,20 +4,24 @@ import {
   FieldDefaultValue,
   CommonFieldConfig,
   ImageMetadata,
+  KeystoneContext,
 } from '@keystone-next/types';
 
 export type AssetMode = 's3';
 export type AssetType = 'image';
 
+export type ImageSize = 'sm' | 'md' | 'lg' | 'full';
+
 export type ImagesData = {
   id: string;
-  filesize: number;
-  sizesMeta: Record<keyof S3ImagesConfig['sizes'], ImagesData>;
+  size: ImageSize,
+  sizesMeta?:  Partial<Record<ImageSize, ImagesData>>;
 } & ImageMetadata;
 
-export type GetFileNameFunc = {
+export type GetFileNameArg = {
   id: string;
   originalFilename: string;
+  context: KeystoneContext;
 };
 
 export type GetUploadParams = {
@@ -41,8 +45,8 @@ export type S3ImagesConfig = {
     lg?: number;
   };
   transformFilename?: (str: string) => string;
-  getFilename?: (args: GetFileNameFunc) => string;
-  getSrc?: (config: S3ImagesConfig, fileData: ImagesData, width: string) => string;
+  getFilename?: (args: GetFileNameArg) => string;
+  getSrc?: (config: S3ImagesConfig, fileData: ImagesData) => string;
   uploadParams?: (args: ImagesData) => Partial<AWS.S3.Types.PutObjectRequest>;
   s3Options: AWS.S3.ClientConfiguration;
 };
