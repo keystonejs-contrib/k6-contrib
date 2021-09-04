@@ -33,7 +33,7 @@ export const lists = createSchema({
       }),
       content: text(),
       image: s3Images({ s3Config }),
-      image2: s3Images({ s3Config: {...s3Config, folder: `${process.env.S3_PATH}2`} }),
+      image2: s3Images({ s3Config: { ...s3Config, folder: `${process.env.S3_PATH}2`, sizes: { sm: 480, md: 1024, lg: 1920 } } }),
       publishDate: timestamp(),
       author: relationship({ ref: 'Author.posts', many: false }),
     },

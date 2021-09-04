@@ -67,7 +67,7 @@ export const getDataFromStream = async (
     .promise();
 
   // upload sm image
-  const smFile = await imagePipeline.clone().resize(360).toBuffer({ resolveWithObject: true });
+  const smFile = await imagePipeline.clone().resize(config.sizes?.sm || 360).toBuffer({ resolveWithObject: true });
   const smFileData: ImagesData = {
     id,
     height: smFile.info.height,
@@ -94,7 +94,7 @@ export const getDataFromStream = async (
     .promise();
   // upload md image
 
-  const mdFile = await imagePipeline.clone().resize(720).toBuffer({ resolveWithObject: true });
+  const mdFile = await imagePipeline.clone().resize(config.sizes?.md || 720).toBuffer({ resolveWithObject: true });
   const mdFileData: ImagesData = {
     id,
     height: mdFile.info.height,
@@ -120,7 +120,7 @@ export const getDataFromStream = async (
     })
     .promise();
   // upload lg image
-  const lgFile = await imagePipeline.clone().resize(1080).toBuffer({ resolveWithObject: true });
+  const lgFile = await imagePipeline.clone().resize(config.sizes?.lg || 1280).toBuffer({ resolveWithObject: true });
   const lgFileData: ImagesData = {
     id,
     height: lgFile.info.height,
