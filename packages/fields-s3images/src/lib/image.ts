@@ -103,15 +103,15 @@ const imagesOutputFields = schema.fields<Omit<ImagesData, 'size'>>()({
   }),
 });
 
-const S3ImageFieldOutput = schema.interface<Omit<ImagesData, 'size'>>()({
-  name: 'S3ImageFieldOutput',
+const S3ImagesFieldOutput = schema.interface<Omit<ImagesData, 'size'>>()({
+  name: 'S3ImagesFieldOutput',
   fields: imagesOutputFields,
-  resolveType: () => 'S3ImageSFieldOutputType',
+  resolveType: () => 'S3ImagesFieldOutputType',
 });
 
-const S3ImageSFieldOutputType = schema.object<Omit<ImagesData, 'size'>>()({
-  name: 'S3ImageSFieldOutputType',
-  interfaces: [S3ImageFieldOutput],
+const S3ImagesFieldOutputType = schema.object<Omit<ImagesData, 'size'>>()({
+  name: 'S3ImagesFieldOutputType',
+  interfaces: [S3ImagesFieldOutput],
   fields: imagesOutputFields,
 });
 
@@ -155,7 +155,7 @@ export const s3Images =
           },
         },
         output: schema.field({
-          type: S3ImageFieldOutput,
+          type: S3ImagesFieldOutput,
           resolve({ value: { extension, filesize, height, width, id, sizesMeta } }) {
             if (
               extension === null ||
@@ -170,7 +170,7 @@ export const s3Images =
             return { extension, filesize, height, width, id, sizesMeta: sizesMeta as Partial<Record<ImageSize, ImagesData>> };
           },
         }),
-        unreferencedConcreteInterfaceImplementations: [S3ImageSFieldOutputType],
+        unreferencedConcreteInterfaceImplementations: [S3ImagesFieldOutputType],
         views,
         __legacy: {
           isRequired,
