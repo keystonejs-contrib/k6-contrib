@@ -42,7 +42,7 @@ function createInputResolver(config: S3ImagesConfig) {
       if (data.upload) {
         throw new Error('Only one of ref and upload can be passed to ImageFieldInput');
       }
-      return getDataFromRef(config, 'image', data.ref) as any;
+      return getDataFromRef(config, data.ref) as any;
     }
     if (!data.upload) {
       throw new Error('Either ref or upload must be passed to ImageFieldInput');
@@ -57,6 +57,10 @@ function isValidImageExtension(extension: string): extension is ImageExtension {
 }
 
 const _fieldConfigs: { [key: string]: S3ImagesConfig } = {};
+const imageSizeEnum = schema.enum({
+  name: 'S3ImagesSizeEnum',
+  values: schema.enumValues(['sm', 'md', 'lg', 'full']),
+});
 
 const imagesOutputFields = schema.fields<Omit<ImagesData, 'size'>>()({
   id: schema.field({ type: schema.nonNull(schema.ID) }),
@@ -74,12 +78,7 @@ const imagesOutputFields = schema.fields<Omit<ImagesData, 'size'>>()({
     type: schema.nonNull(schema.String),
     args: {
       size: schema.arg({
-        type: schema.nonNull(
-          schema.enum({
-            name: 'S3ImagesSizeEnum',
-            values: schema.enumValues(['sm', 'md', 'lg', 'full']),
-          })
-        ),
+        type: schema.nonNull(imageSizeEnum),
         defaultValue: 'md',
       }),
     },
@@ -91,12 +90,7 @@ const imagesOutputFields = schema.fields<Omit<ImagesData, 'size'>>()({
     type: schema.nonNull(schema.String),
     args: {
       size: schema.arg({
-        type: schema.nonNull(
-          schema.enum({
-            name: 'S3ImagesSizeEnum',
-            values: schema.enumValues(['sm', 'md', 'lg', 'full']),
-          })
-        ),
+        type: schema.nonNull(imageSizeEnum),
         defaultValue: 'md',
       }),
     },

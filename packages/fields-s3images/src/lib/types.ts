@@ -41,7 +41,7 @@ export type S3ImagesConfig = {
     sm?: number;
     /** = 720? */
     md?: number;
-    /** = 1080? */
+    /** = 1280? */
     lg?: number;
   };
   transformFilename?: (str: string) => string;

@@ -1,6 +1,6 @@
-datasource sqlite {
+datasource postgresql {
   url      = env("DATABASE_URL")
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 generator client {
@@ -9,9 +9,9 @@ generator client {
 }
 
 model Post {
-  id               String    @id @default(cuid())
+  id               String          @id @default(cuid())
   title            String?
-  status           String?
+  status           PostStatusType?
   content          String?
   image_filesize   Int?
   image_extension  String?
@@ -26,8 +26,8 @@ model Post {
   image2_id        String?
   image2_sizesMeta Json?
   publishDate      DateTime?
-  author           Author?   @relation("Post_author", fields: [authorId], references: [id])
-  authorId         String?   @map("author")
+  author           Author?         @relation("Post_author", fields: [authorId], references: [id])
+  authorId         String?         @map("author")
 
   @@index([authorId])
 }
@@ -37,4 +37,9 @@ model Author {
   name  String?
   email String? @unique
   posts Post[]  @relation("Post_author")
+}
+
+enum PostStatusType {
+  draft
+  published
 }

@@ -3,37 +3,10 @@ import { FileUpload } from 'graphql-upload';
 import AWS from 'aws-sdk';
 import urlJoin from 'url-join';
 import cuid from 'cuid';
-import slugify from '@sindresorhus/slugify';
-import filenamify from 'filenamify';
 import sharp from 'sharp';
 import { ImageExtension, KeystoneContext } from '@keystone-next/types';
 import { AssetType, S3ImagesConfig, ImagesData } from './types';
 import { parseImageRef } from './utils';
-
-const defaultTransformer = (str: string) => slugify(str);
-
-const generateSafeFilename = (
-  filename: string,
-  transformFilename: (str: string) => string = defaultTransformer
-) => {
-  // Appends a UUID to the filename so that people can't brute-force guess stored filenames
-  //
-  // This regex lazily matches for any characters that aren't a new line
-  // it then optionally matches the last instance of a "." symbol
-  // followed by any alphabetical character before the end of the string
-  const [, name, ext] = filename.match(/^([^:\n].*?)(\.[A-Za-z]+)?$/) as RegExpMatchArray;
-
-  const id = cuid();
-
-  const urlSafeName = filenamify(transformFilename(name), {
-    maxLength: 100 - id.length,
-    replacement: '-',
-  });
-  if (ext) {
-    return `${urlSafeName}-${id}${ext}`;
-  }
-  return `${urlSafeName}-${id}`;
-};
 
 const getFilename = ({ id, size, extension }: ImagesData) => `${id}_${size}.${extension}`;
 
@@ -53,11 +26,10 @@ export const getDataFromStream = async (
   config: S3ImagesConfig,
   upload: FileUpload,
   context: KeystoneContext,
-): Promise<ImagesData> => {
-  const { createReadStream, encoding, filename: originalFilename, mimetype } = upload;
-  const filename = generateSafeFilename(originalFilename, config.transformFilename);
+): Promise<Omit<ImagesData, 'size'>> => {
+  const { createReadStream, filename: originalFilename, mimetype } = upload;
 
-  const extension = extname(originalFilename) as ImageExtension;
+  const extension = extname(originalFilename).replace(/^\./,'') as ImageExtension;
   const s3 = new AWS.S3(config.s3Options);
 
   const imagePipeline = sharp();
@@ -129,7 +101,7 @@ export const getDataFromStream = async (
     width: mdFile.info.width,
     filesize: mdFile.info.size,
     extension,
-    size: 'sm',
+    size: 'md',
   }
   fileData.sizesMeta.md = mdFileData;
 
@@ -155,7 +127,7 @@ export const getDataFromStream = async (
     width: lgFile.info.width,
     filesize: lgFile.info.size,
     extension,
-    size: 'sm',
+    size: 'lg',
   }
   fileData.sizesMeta.lg = lgFileData;
 
@@ -175,12 +147,12 @@ export const getDataFromStream = async (
     .promise();
   fileData.sizesMeta.lg = lgFileData;
 
-  return fileData;
+  const {size, ...result} = fileData;
+  return result;
 };
 
 export const getDataFromRef = async (
   config: S3ImagesConfig,
-  type: AssetType,
   ref: string
 ): Promise<ImagesData> => {
   const fileRef = parseImageRef(ref);
