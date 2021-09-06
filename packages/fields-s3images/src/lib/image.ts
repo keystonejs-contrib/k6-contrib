@@ -7,8 +7,8 @@ import {
   FieldTypeFunc,
   ImageExtension,
   KeystoneContext,
-  schema,
-} from '@keystone-next/types';
+  graphql,
+} from '@keystone-next/keystone/types';
 import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 import { ImagesData, ImageSize, S3FieldConfig, S3FieldInputType, S3ImagesConfig } from './types';
 import { getDataFromRef, getDataFromStream, getSrc } from './s3';
@@ -18,16 +18,16 @@ const views = path.join(
   'views/image'
 );
 
-const ImageExtensionEnum = schema.enum({
+const ImageExtensionEnum = graphql.enum({
   name: 'S3ImagesExtension',
-  values: schema.enumValues(SUPPORTED_IMAGE_EXTENSIONS),
+  values: graphql.enumValues(SUPPORTED_IMAGE_EXTENSIONS),
 });
 
-const S3FieldInput = schema.inputObject({
+const S3FieldInput = graphql.inputObject({
   name: 'S3ImagesFieldInput',
   fields: {
-    upload: schema.arg({ type: schema.Upload }),
-    ref: schema.arg({ type: schema.String }),
+    upload: graphql.arg({ type: graphql.Upload }),
+    ref: graphql.arg({ type: graphql.String }),
   },
 });
 
@@ -56,28 +56,28 @@ function isValidImageExtension(extension: string): extension is ImageExtension {
 }
 
 const _fieldConfigs: { [key: string]: S3ImagesConfig } = {};
-const imageSizeEnum = schema.enum({
+const imageSizeEnum = graphql.enum({
   name: 'S3ImagesSizeEnum',
-  values: schema.enumValues(['sm', 'md', 'lg', 'full']),
+  values: graphql.enumValues(['sm', 'md', 'lg', 'full']),
 });
 
-const imagesOutputFields = schema.fields<Omit<ImagesData, 'size'>>()({
-  id: schema.field({ type: schema.nonNull(schema.ID) }),
-  filesize: schema.field({ type: schema.nonNull(schema.Int) }),
-  width: schema.field({ type: schema.nonNull(schema.Int) }),
-  height: schema.field({ type: schema.nonNull(schema.Int) }),
-  sizesMeta: schema.field({
-    type: schema.JSON,
+const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
+  id: graphql.field({ type: graphql.nonNull(graphql.ID) }),
+  filesize: graphql.field({ type: graphql.nonNull(graphql.Int) }),
+  width: graphql.field({ type: graphql.nonNull(graphql.Int) }),
+  height: graphql.field({ type: graphql.nonNull(graphql.Int) }),
+  sizesMeta: graphql.field({
+    type: graphql.JSON,
     resolve(data) {
       return data.sizesMeta; // TODO type
     },
   }),
-  extension: schema.field({ type: schema.nonNull(ImageExtensionEnum) }),
-  ref: schema.field({
-    type: schema.nonNull(schema.String),
+  extension: graphql.field({ type: graphql.nonNull(ImageExtensionEnum) }),
+  ref: graphql.field({
+    type: graphql.nonNull(graphql.String),
     args: {
-      size: schema.arg({
-        type: schema.nonNull(imageSizeEnum),
+      size: graphql.arg({
+        type: graphql.nonNull(imageSizeEnum),
         defaultValue: 'md',
       }),
     },
@@ -85,11 +85,11 @@ const imagesOutputFields = schema.fields<Omit<ImagesData, 'size'>>()({
       return getImageRef(data.id, args.size, data.extension);
     },
   }),
-  src: schema.field({
-    type: schema.nonNull(schema.String),
+  src: graphql.field({
+    type: graphql.nonNull(graphql.String),
     args: {
-      size: schema.arg({
-        type: schema.nonNull(imageSizeEnum),
+      size: graphql.arg({
+        type: graphql.nonNull(imageSizeEnum),
         defaultValue: 'md',
       }),
     },
@@ -101,13 +101,13 @@ const imagesOutputFields = schema.fields<Omit<ImagesData, 'size'>>()({
   }),
 });
 
-const S3ImagesFieldOutput = schema.interface<Omit<ImagesData, 'size'>>()({
+const S3ImagesFieldOutput = graphql.interface<Omit<ImagesData, 'size'>>()({
   name: 'S3ImagesFieldOutput',
   fields: imagesOutputFields,
   resolveType: () => 'S3ImagesFieldOutputType',
 });
 
-const S3ImagesFieldOutputType = schema.object<Omit<ImagesData, 'size'>>()({
+const S3ImagesFieldOutputType = graphql.object<Omit<ImagesData, 'size'>>()({
   name: 'S3ImagesFieldOutputType',
   interfaces: [S3ImagesFieldOutput],
   fields: imagesOutputFields,
@@ -144,15 +144,15 @@ export const s3Images =
         ...config,
         input: {
           create: {
-            arg: schema.arg({ type: S3FieldInput }),
+            arg: graphql.arg({ type: S3FieldInput }),
             resolve: createInputResolver(s3Config as S3ImagesConfig),
           },
           update: {
-            arg: schema.arg({ type: S3FieldInput }),
+            arg: graphql.arg({ type: S3FieldInput }),
             resolve: createInputResolver(s3Config as S3ImagesConfig),
           },
         },
-        output: schema.field({
+        output: graphql.field({
           type: S3ImagesFieldOutput,
           resolve({ value: { extension, filesize, height, width, id, sizesMeta } }) {
             if (

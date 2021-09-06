@@ -1,5 +1,5 @@
-import { timestamp } from '@keystone-next/fields';
-import { ListConfig, CommonFieldConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/types';
+import { timestamp } from '@keystone-next/keystone/fields';
+import { ListConfig, CommonFieldConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/keystone/types';
 import { AtTrackingOptions, ResolveInputHook } from '../types';
 import { composeHook } from '../utils';
 

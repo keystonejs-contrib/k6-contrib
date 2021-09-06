@@ -7,8 +7,8 @@ import {
   FieldTypeFunc,
   ImageExtension,
   KeystoneContext,
-  schema,
-} from '@keystone-next/types';
+  graphql,
+} from '@keystone-next/keystone/types';
 import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 import { ImageData, S3FieldConfig, S3FieldInputType, S3Config, S3DataType } from './types';
 import { getDataFromRef, getDataFromStream, getSrc } from './s3';
@@ -18,16 +18,16 @@ const views = path.join(
   'views/image'
 );
 
-const ImageExtensionEnum = schema.enum({
+const ImageExtensionEnum = graphql.enum({
   name: 'S3ImageExtension',
-  values: schema.enumValues(SUPPORTED_IMAGE_EXTENSIONS),
+  values: graphql.enumValues(SUPPORTED_IMAGE_EXTENSIONS),
 });
 
-const S3FieldInput = schema.inputObject({
+const S3FieldInput = graphql.inputObject({
   name: 'S3ImageFieldInput',
   fields: {
-    upload: schema.arg({ type: schema.Upload }),
-    ref: schema.arg({ type: schema.String }),
+    upload: graphql.arg({ type: graphql.Upload }),
+    ref: graphql.arg({ type: graphql.String }),
   },
 });
 
@@ -57,20 +57,20 @@ function isValidImageExtension(extension: string): extension is ImageExtension {
 
 const _fieldConfigs: { [key: string]: S3Config } = {};
 
-const imageOutputFields = schema.fields<Omit<ImageData, 'type'>>()({
-  id: schema.field({ type: schema.nonNull(schema.ID) }),
-  filesize: schema.field({ type: schema.nonNull(schema.Int) }),
-  width: schema.field({ type: schema.nonNull(schema.Int) }),
-  height: schema.field({ type: schema.nonNull(schema.Int) }),
-  extension: schema.field({ type: schema.nonNull(ImageExtensionEnum) }),
-  ref: schema.field({
-    type: schema.nonNull(schema.String),
+const imageOutputFields = graphql.fields<Omit<ImageData, 'type'>>()({
+  id: graphql.field({ type: graphql.nonNull(graphql.ID) }),
+  filesize: graphql.field({ type: graphql.nonNull(graphql.Int) }),
+  width: graphql.field({ type: graphql.nonNull(graphql.Int) }),
+  height: graphql.field({ type: graphql.nonNull(graphql.Int) }),
+  extension: graphql.field({ type: graphql.nonNull(ImageExtensionEnum) }),
+  ref: graphql.field({
+    type: graphql.nonNull(graphql.String),
     resolve(data) {
       return getImageRef(data.id, data.extension);
     },
   }),
-  src: schema.field({
-    type: schema.nonNull(schema.String),
+  src: graphql.field({
+    type: graphql.nonNull(graphql.String),
     resolve(data, args, context, info) {
       const { key, typename } = info.path.prev as Path;
       const config = _fieldConfigs[`${typename}-${key}`];
@@ -79,13 +79,13 @@ const imageOutputFields = schema.fields<Omit<ImageData, 'type'>>()({
   }),
 });
 
-const S3ImageFieldOutput = schema.interface<Omit<ImageData, 'type'>>()({
+const S3ImageFieldOutput = graphql.interface<Omit<ImageData, 'type'>>()({
   name: 'S3ImageFieldOutput',
   fields: imageOutputFields,
   resolveType: () => 'S3ImageFieldOutputType',
 });
 
-const S3ImageFieldOutputType = schema.object<Omit<ImageData, 'type'>>()({
+const S3ImageFieldOutputType = graphql.object<Omit<ImageData, 'type'>>()({
   name: 'S3ImageFieldOutputType',
   interfaces: [S3ImageFieldOutput],
   fields: imageOutputFields,
@@ -121,15 +121,15 @@ export const s3Image =
       ...config,
       input: {
         create: {
-          arg: schema.arg({ type: S3FieldInput }),
+          arg: graphql.arg({ type: S3FieldInput }),
           resolve: createInputResolver(s3Config as S3Config),
         },
         update: {
-          arg: schema.arg({ type: S3FieldInput }),
+          arg: graphql.arg({ type: S3FieldInput }),
           resolve: createInputResolver(s3Config as S3Config),
         },
       },
-      output: schema.field({
+      output: graphql.field({
         type: S3ImageFieldOutput,
         resolve({ value: { extension, filesize, height, width, id } }) {
           if (

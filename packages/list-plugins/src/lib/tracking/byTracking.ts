@@ -1,8 +1,8 @@
-import { relationship } from '@keystone-next/fields';
-import { ListConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/types';
+import { relationship } from '@keystone-next/keystone/fields';
+import { ListConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/keystone/types';
 import { ByTrackingOptions, ResolveInputHook } from '../types';
 import { composeHook } from '../utils';
-import { RelationshipFieldConfig } from '@keystone-next/fields/src/types/relationship';
+import { RelationshipFieldConfig } from '@keystone-next/keystone/fields/types/relationship/views';
 
 export const byTracking = (options: ByTrackingOptions = {}) => <
   Fields extends BaseFields<BaseGeneratedListTypes>

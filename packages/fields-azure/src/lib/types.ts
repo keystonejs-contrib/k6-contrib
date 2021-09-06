@@ -4,7 +4,7 @@ import {
   FieldDefaultValue,
   CommonFieldConfig,
   ImageMetadata,
-} from '@keystone-next/types';
+} from '@keystone-next/keystone/types';
 
 export type AssetMode = 'azure';
 export type AssetType = 'file' | 'image';

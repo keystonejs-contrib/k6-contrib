@@ -1,5 +1,5 @@
-import { createSchema, list } from '@keystone-next/keystone/schema';
-import { select, relationship, text, timestamp } from '@keystone-next/fields';
+import { createSchema, list } from '@keystone-next/keystone';
+import { select, relationship, text, timestamp } from '@keystone-next/keystone/fields';
 import { S3ImagesConfig, s3Images } from '@k6-contrib/fields-s3-images';
 import 'dotenv/config';
 
@@ -41,7 +41,7 @@ export const lists = createSchema({
   Author: list({
     fields: {
       name: text({ isRequired: true }),
-      email: text({ isRequired: true, isUnique: true }),
+      email: text({ isRequired: true, isIndexed: 'unique' }),
       posts: relationship({ ref: 'Post.author', many: true }),
     },
   }),

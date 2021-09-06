@@ -6,8 +6,8 @@ import {
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
-  schema,
-} from '@keystone-next/types';
+  graphql,
+} from '@keystone-next/keystone/types';
 import { getFileRef } from './utils';
 import { S3FieldConfig, S3FieldInputType, S3Config, S3DataType, FileData } from './types';
 import { getDataFromRef, getDataFromStream, getSrc } from './s3';
@@ -19,25 +19,25 @@ const views = path.join(
 
 const _fieldConfigs: { [key: string]: S3Config } = {};
 
-const S3FileFieldInput = schema.inputObject({
+const S3FileFieldInput = graphql.inputObject({
   name: 'S3FileFieldInput',
   fields: {
-    upload: schema.arg({ type: schema.Upload }),
-    ref: schema.arg({ type: schema.String }),
+    upload: graphql.arg({ type: graphql.Upload }),
+    ref: graphql.arg({ type: graphql.String }),
   },
 });
 
-const fileOutputFields = schema.fields<Omit<FileData, 'type'>>()({
-  filename: schema.field({ type: schema.nonNull(schema.String) }),
-  filesize: schema.field({ type: schema.nonNull(schema.Int) }),
-  ref: schema.field({
-    type: schema.nonNull(schema.String),
+const fileOutputFields = graphql.fields<Omit<FileData, 'type'>>()({
+  filename: graphql.field({ type: graphql.nonNull(graphql.String) }),
+  filesize: graphql.field({ type: graphql.nonNull(graphql.Int) }),
+  ref: graphql.field({
+    type: graphql.nonNull(graphql.String),
     resolve(data) {
       return getFileRef(data.filename);
     },
   }),
-  src: schema.field({
-    type: schema.nonNull(schema.String),
+  src: graphql.field({
+    type: graphql.nonNull(graphql.String),
     resolve(data, args, context, info) {
       const { key, typename } = info.path.prev as Path;
       const config = _fieldConfigs[`${typename}-${key}`];
@@ -46,13 +46,13 @@ const fileOutputFields = schema.fields<Omit<FileData, 'type'>>()({
   }),
 });
 
-const S3FileFieldOutput = schema.interface<Omit<FileData, 'type'>>()({
+const S3FileFieldOutput = graphql.interface<Omit<FileData, 'type'>>()({
   name: 'S3FileFieldOutput',
   fields: fileOutputFields,
   resolveType: () => 'S3FileFieldOutputType',
 });
 
-const S3FileFieldOutputType = schema.object<Omit<FileData, 'type'>>()({
+const S3FileFieldOutputType = graphql.object<Omit<FileData, 'type'>>()({
   name: 'S3FileFieldOutputType',
   interfaces: [S3FileFieldOutput],
   fields: fileOutputFields,
@@ -106,15 +106,15 @@ export const s3File =
       ...config,
       input: {
         create: {
-          arg: schema.arg({ type: S3FileFieldInput }),
+          arg: graphql.arg({ type: S3FileFieldInput }),
           resolve: createInputResolver(s3Config as S3Config),
         },
         update: {
-          arg: schema.arg({ type: S3FileFieldInput }),
+          arg: graphql.arg({ type: S3FileFieldInput }),
           resolve: createInputResolver(s3Config as S3Config),
         },
       },
-      output: schema.field({
+      output: graphql.field({
         type: S3FileFieldOutput,
         resolve({ value: { filename, filesize } }) {
           if (filename === null || filesize === null) {

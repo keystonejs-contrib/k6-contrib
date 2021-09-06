@@ -1,4 +1,4 @@
-import { ImageExtension } from '@keystone-next/types';
+import { ImageExtension } from '@keystone-next/keystone/types';
 import { ImageSize } from './types';
 
 const IMAGEREGEX = /^s3:image:([^\\\/:\n]+)\.(gif|jpg|png|webp):(sm|md|lg|full)$/;

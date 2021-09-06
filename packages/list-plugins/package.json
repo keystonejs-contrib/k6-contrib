@@ -10,11 +10,10 @@
     "@babel/core": "^7.15.0",
     "@babel/plugin-transform-modules-commonjs": "^7.15.0",
     "@babel/runtime": "^7.15.3",
-    "@keystone-next/fields": "^14.0.0",
-    "@keystone-next/types": "^24.0.0"
+    "@keystone-next/keystone": "^25.0.1"
   },
   "devDependencies": {
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.2"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/list-plugins"
 }
