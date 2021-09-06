@@ -14,6 +14,7 @@
     "fresh": "yarn clean && yarn",
     "clean": "rimraf \"**/cypress/{screenshots,videos,reports}\" \"**/node_modules\" \"**/yarn-error.log\" \"**/out.log\" \"**/.DS_Store\" \"**/dist\"",
     "build": "preconstruct build",
+    "changeset": "changeset",
     "version-packages": "changeset version",
     "publish": "yarn build && yarn changeset publish"
   },
