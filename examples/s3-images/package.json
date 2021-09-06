@@ -1,0 +1,24 @@
+{
+  "name": "@k6-contrib/example-s3-images",
+  "version": "0.1.2",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env NODE_OPTIONS=--inspect keystone-next dev",
+    "devb": "cross-env NODE_OPTIONS=--inspect-brk keystone-next dev",
+    "start": "keystone-next start",
+    "build": "keystone-next build"
+  },
+  "dependencies": {
+    "@k6-contrib/fields-s3-images": "^0.0.0",
+    "@keystone-next/fields": "^14.0.0",
+    "@keystone-next/keystone": "^24.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  },
+  "engines": {
+    "node": "^12.20 || >= 14.13"
+  },
+  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/examples/s3-images"
+}

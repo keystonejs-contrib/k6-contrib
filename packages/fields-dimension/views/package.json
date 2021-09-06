@@ -1,0 +1,4 @@
+{
+  "main": "dist/fields-dimension.cjs.js",
+  "module": "dist/fields-dimension.esm.js"
+}
