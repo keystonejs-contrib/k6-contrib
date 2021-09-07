@@ -34,6 +34,7 @@ export const getTestFields = () => ({ name: text(), avatar: image() });
 
 export const afterAll = async () => {
   // This matches the storagePath in the keystone config in the various test files.
+  // @ts-ignore
   fs.rmdirSync('tmp_test_images', { recursive: true });
 };
 
