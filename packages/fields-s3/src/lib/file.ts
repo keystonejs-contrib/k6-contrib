@@ -12,10 +12,7 @@ import { getFileRef } from './utils';
 import { S3FieldConfig, S3FieldInputType, S3Config, S3DataType, FileData } from './types';
 import { getDataFromRef, getDataFromStream, getSrc } from './s3';
 
-const views = path.join(
-  path.dirname(require.resolve('@k6-contrib/fields-s3/package.json')),
-  'views/file'
-);
+const views = path.join(path.dirname(__dirname), 'views/file');
 
 const _fieldConfigs: { [key: string]: S3Config } = {};
 

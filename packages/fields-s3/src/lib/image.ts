@@ -13,10 +13,7 @@ import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 import { ImageData, S3FieldConfig, S3FieldInputType, S3Config, S3DataType } from './types';
 import { getDataFromRef, getDataFromStream, getSrc } from './s3';
 
-const views = path.join(
-  path.dirname(require.resolve('@k6-contrib/fields-s3/package.json')),
-  'views/image'
-);
+const views = path.join(path.dirname(__dirname), 'views/image');
 
 const ImageExtensionEnum = graphql.enum({
   name: 'S3ImageExtension',

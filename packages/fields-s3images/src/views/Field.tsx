@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
 
 import copy from 'copy-to-clipboard';
@@ -12,7 +13,7 @@ import { FieldContainer, FieldLabel } from '@keystone-ui/fields';
 import { Pill } from '@keystone-ui/pill';
 import { Button } from '@keystone-ui/button';
 import { FieldProps } from '@keystone-next/keystone/types';
-import { parseImageRef } from '../lib/utils';
+import { parseImageRef, parseImagesMetaRef } from '../lib/utils';
 import { ImageValue } from './index';
 
 function useObjectURL(fileData: File | undefined) {
@@ -352,9 +353,9 @@ function ImgView({
 }
 
 export function validateRef({ ref }: { ref: string }) {
-  if (!parseImageRef(ref)) {
-    return 'Invalid ref';
-  }
+  if (!parseImagesMetaRef(ref)) return;
+  if (!parseImageRef(ref)) return;
+  return 'Invalid ref';
 }
 
 function createErrorMessage(value: ImageValue, forceValidation?: boolean) {

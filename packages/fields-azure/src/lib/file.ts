@@ -12,10 +12,7 @@ import { getFileRef } from './utils';
 import { AzureStorageFieldConfig, AzureStorageFieldInputType, AzureStorageConfig, AzureStorageDataType, FileData } from './types';
 import { getDataFromRef, getDataFromStream, getSrc } from './blob';
 
-const views = path.join(
-  path.dirname(require.resolve('@k6-contrib/fields-azure/package.json')),
-  'views/file'
-);
+const views = path.join(path.dirname(__dirname), 'views/file');
 
 const _fieldConfigs: { [key: string]: AzureStorageConfig } = {};
 

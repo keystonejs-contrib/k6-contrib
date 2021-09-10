@@ -9,10 +9,7 @@ import {
 } from '@keystone-next/keystone/types';
 import { DimensionData, DimensionFieldConfig, DimensionFieldInputType } from './types';
 
-const views = path.join(
-  path.dirname(require.resolve('@k6-contrib/fields-dimension/package.json')),
-  'views'
-);
+const views = path.join(path.dirname(__dirname), 'views');
 
 const DimensionFieldInput = graphql.inputObject({
   name: 'DimensionFieldInput',
