@@ -69,7 +69,7 @@
   ```typescript
   import { config, createSchema, list } from '@keystone-next/keystone/schema';
   import { statelessSessions, withAuthData } from '@keystone-next/keystone/session';
-  import { text, password, checkbox } from '@keystone-next/fields';
+  import { text, password, checkbox } from '@keystone-next/keystone/fields';
   import { createAuth } from '@keystone-next/auth';
 
   const { withAuth } = createAuth({
@@ -85,7 +85,7 @@
       lists: createSchema({
 
           fields: {
-            email: text({ isUnique: true }),
+            email: text({ isIndexed: 'unique' }),
             password: password(),
             isAdmin: checkbox(),
           },
@@ -101,7 +101,7 @@
   ```typescript
   import { config, createSchema, list } from '@keystone-next/keystone/schema';
   import { statelessSessions } from '@keystone-next/keystone/session';
-  import { text, password, checkbox } from '@keystone-next/fields';
+  import { text, password, checkbox } from '@keystone-next/keystone/fields';
   import { createAuth } from '@keystone-next/auth';
 
   const { withAuth } = createAuth({
@@ -118,7 +118,7 @@
       lists: createSchema({
 
           fields: {
-            email: text({ isUnique: true }),
+            email: text({ isIndexed: 'unique' }),
             password: password(),
             isAdmin: checkbox(),
           },

@@ -1,10 +1,10 @@
-import { createSchema, list } from '@keystone-next/keystone/schema';
-import { select, relationship, text, timestamp } from '@keystone-next/fields';
+import { createSchema, list } from '@keystone-next/keystone';
+import { select, relationship, text, timestamp } from '@keystone-next/keystone/fields';
 import { S3Config, s3File, s3Image } from '@k6-contrib/fields-s3';
 import 'dotenv/config';
 
 const s3Config: S3Config = {
-  bucket: process.env.S3_BUCKET,
+  bucket: process.env.S3_BUCKET as string,
   folder: process.env.S3_PATH,
   baseUrl: process.env.S3_BASE_URL,
   s3Options: {
@@ -42,7 +42,7 @@ export const lists = createSchema({
   Author: list({
     fields: {
       name: text({ isRequired: true }),
-      email: text({ isRequired: true, isUnique: true }),
+      email: text({ isRequired: true, isIndexed: 'unique' }),
       posts: relationship({ ref: 'Post.author', many: true }),
     },
   }),

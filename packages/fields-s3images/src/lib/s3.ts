@@ -4,8 +4,8 @@ import AWS from 'aws-sdk';
 import urlJoin from 'url-join';
 import cuid from 'cuid';
 import sharp from 'sharp';
-import { ImageExtension, KeystoneContext } from '@keystone-next/types';
-import { AssetType, S3ImagesConfig, ImagesData } from './types';
+import { ImageExtension, KeystoneContext } from '@keystone-next/keystone/types';
+import { S3ImagesConfig, ImagesData } from './types';
 import { parseImageRef } from './utils';
 
 const getFilename = ({ id, size, extension }: ImagesData) => `${id}_${size}.${extension}`;

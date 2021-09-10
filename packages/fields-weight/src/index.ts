@@ -5,8 +5,8 @@ import {
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
-  schema,
-} from '@keystone-next/types';
+  graphql,
+} from '@keystone-next/keystone/types';
 import { WeightData, WeightFieldConfig, WeightFieldInputType } from './types';
 
 const views = path.join(
@@ -14,11 +14,11 @@ const views = path.join(
   'views'
 );
 
-const WeightFieldInput = schema.inputObject({
+const WeightFieldInput = graphql.inputObject({
   name: 'WeightFieldInput',
   fields: {
-    unit: schema.arg({ type: schema.nonNull(schema.String) }),
-    value: schema.arg({ type: schema.nonNull(schema.Float) }),
+    unit: graphql.arg({ type: graphql.nonNull(graphql.String) }),
+    value: graphql.arg({ type: graphql.nonNull(graphql.Float) }),
   },
 });
 
@@ -38,23 +38,23 @@ const weightUnits = [
   { label: 'Ounces', value: 'oz' },
 ];
 
-const WeightOutputFields = schema.fields<WeightData>()({
-  value: schema.field({ type: schema.nonNull(schema.Float) }),
-  unit: schema.field({
-    type: schema.enum({
+const WeightOutputFields = graphql.fields<WeightData>()({
+  value: graphql.field({ type: graphql.nonNull(graphql.Float) }),
+  unit: graphql.field({
+    type: graphql.enum({
       name: 'WeightEnumType',
-      values: schema.enumValues(weightUnits.map(u => u.value)),
+      values: graphql.enumValues(weightUnits.map(u => u.value)),
     }),
   }),
 });
 
-const WeightFieldOutput = schema.interface<WeightData>()({
+const WeightFieldOutput = graphql.interface<WeightData>()({
   name: 'WeightFieldOutput',
   fields: WeightOutputFields,
   resolveType: () => 'WeightFieldOutputType',
 });
 
-const WeightFieldOutputType = schema.object<WeightData>()({
+const WeightFieldOutputType = graphql.object<WeightData>()({
   name: 'WeightFieldOutputType',
   interfaces: [WeightFieldOutput],
   fields: WeightOutputFields,
@@ -88,15 +88,15 @@ export const weight =
       }),
       input: {
         create: {
-          arg: schema.arg({ type: WeightFieldInput }),
+          arg: graphql.arg({ type: WeightFieldInput }),
           resolve: inputResolver,
         },
         update: {
-          arg: schema.arg({ type: WeightFieldInput }),
+          arg: graphql.arg({ type: WeightFieldInput }),
           resolve: inputResolver,
         },
       },
-      output: schema.field({
+      output: graphql.field({
         type: WeightFieldOutput,
         resolve({ value: { unit, value } }) {
           if (unit === null || value === null) {

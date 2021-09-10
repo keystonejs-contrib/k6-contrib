@@ -5,7 +5,7 @@ import urlJoin from 'url-join';
 import cuid from 'cuid';
 import slugify from '@sindresorhus/slugify';
 import filenamify from 'filenamify';
-import { ImageMetadata } from '@keystone-next/types';
+import { ImageMetadata } from '@keystone-next/keystone/types';
 import fromBuffer from 'image-type';
 import imageSize from 'image-size';
 import { AssetType, S3DataType, S3Config, FileData, ImageData } from './types';
@@ -41,7 +41,7 @@ const getFilename = (fileData: S3DataType) =>
 
 const defaultGetSrc = ({ bucket, folder }: S3Config, fileData: S3DataType) => {
   const filename = getFilename(fileData);
-  return urlJoin(`https://${bucket}.s3.amazonaws.com`, folder, filename);
+  return urlJoin(`https://${bucket}.s3.amazonaws.com`, folder || '', filename);
 };
 
 export function getSrc(config: S3Config, fileData: S3DataType) {
@@ -89,7 +89,7 @@ export const getDataFromStream = async (
   type: AssetType,
   upload: FileUpload
 ): Promise<Omit<ImageData, 'type'> | Omit<FileData, 'type'>> => {
-  const { createReadStream, encoding, filename: originalFilename, mimetype } = upload;
+  const { createReadStream, filename: originalFilename, mimetype } = upload;
   const filename = generateSafeFilename(originalFilename, config.transformFilename);
   const s3 = new AWS.S3(config.s3Options);
 
@@ -180,7 +180,7 @@ export const getDataFromRef = async (
     const result = await s3
       .headObject({
         Bucket: config.bucket,
-        Key: urlJoin(config.folder, getFilename(fileData as S3DataType)),
+        Key: urlJoin(config.folder || '', getFilename(fileData as S3DataType)),
       })
       .promise();
     const { type, ...refData } = fileRef;

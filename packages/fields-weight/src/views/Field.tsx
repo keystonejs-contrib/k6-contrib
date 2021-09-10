@@ -9,7 +9,7 @@ import { FieldContainer, FieldLabel, Select } from '@keystone-ui/fields';
 import { SegmentedControl } from '@keystone-ui/segmented-control';
 
 import { Pill } from '@keystone-ui/pill';
-import { FieldProps } from '@keystone-next/types';
+import { FieldProps } from '@keystone-next/keystone/types';
 import { WeightValue } from './index';
 
 export function Field({

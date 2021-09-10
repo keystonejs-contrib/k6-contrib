@@ -6,8 +6,8 @@ import {
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
-  schema,
-} from '@keystone-next/types';
+  graphql,
+} from '@keystone-next/keystone/types';
 import { getFileRef } from './utils';
 import { AzureStorageFieldConfig, AzureStorageFieldInputType, AzureStorageConfig, AzureStorageDataType, FileData } from './types';
 import { getDataFromRef, getDataFromStream, getSrc } from './blob';
@@ -19,25 +19,25 @@ const views = path.join(
 
 const _fieldConfigs: { [key: string]: AzureStorageConfig } = {};
 
-const AzureStorageFileFieldInput = schema.inputObject({
+const AzureStorageFileFieldInput = graphql.inputObject({
   name: 'AzureStorageFileFieldInput',
   fields: {
-    upload: schema.arg({ type: schema.Upload }),
-    ref: schema.arg({ type: schema.String }),
+    upload: graphql.arg({ type: graphql.Upload }),
+    ref: graphql.arg({ type: graphql.String }),
   },
 });
 
-const fileOutputFields = schema.fields<Omit<FileData, 'type'>>()({
-  filename: schema.field({ type: schema.nonNull(schema.String) }),
-  filesize: schema.field({ type: schema.nonNull(schema.Int) }),
-  ref: schema.field({
-    type: schema.nonNull(schema.String),
+const fileOutputFields = graphql.fields<Omit<FileData, 'type'>>()({
+  filename: graphql.field({ type: graphql.nonNull(graphql.String) }),
+  filesize: graphql.field({ type: graphql.nonNull(graphql.Int) }),
+  ref: graphql.field({
+    type: graphql.nonNull(graphql.String),
     resolve(data) {
       return getFileRef(data.filename);
     },
   }),
-  src: schema.field({
-    type: schema.nonNull(schema.String),
+  src: graphql.field({
+    type: graphql.nonNull(graphql.String),
     resolve(data, args, context, info) {
       const { key, typename } = info.path.prev as Path;
       const config = _fieldConfigs[`${typename}-${key}`];
@@ -46,13 +46,13 @@ const fileOutputFields = schema.fields<Omit<FileData, 'type'>>()({
   }),
 });
 
-const AzureStorageFileFieldOutput = schema.interface<Omit<FileData, 'type'>>()({
+const AzureStorageFileFieldOutput = graphql.interface<Omit<FileData, 'type'>>()({
   name: 'AzureStorageFileFieldOutput',
   fields: fileOutputFields,
   resolveType: () => 'AzureStorageFileFieldOutputType',
 });
 
-const AzureStorageFileFieldOutputType = schema.object<Omit<FileData, 'type'>>()({
+const AzureStorageFileFieldOutputType = graphql.object<Omit<FileData, 'type'>>()({
   name: 'AzureStorageFileFieldOutputType',
   interfaces: [AzureStorageFileFieldOutput],
   fields: fileOutputFields,
@@ -106,15 +106,15 @@ export const azureStorageFile =
       ...config,
       input: {
         create: {
-          arg: schema.arg({ type: AzureStorageFileFieldInput }),
+          arg: graphql.arg({ type: AzureStorageFileFieldInput }),
           resolve: createInputResolver(azureStorageConfig as AzureStorageConfig),
         },
         update: {
-          arg: schema.arg({ type: AzureStorageFileFieldInput }),
+          arg: graphql.arg({ type: AzureStorageFileFieldInput }),
           resolve: createInputResolver(azureStorageConfig as AzureStorageConfig),
         },
       },
-      output: schema.field({
+      output: graphql.field({
         type: AzureStorageFileFieldOutput,
         resolve({ value: { filename, filesize } }) {
           if (filename === null || filesize === null) {

@@ -5,8 +5,8 @@ import {
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
-  schema,
-} from '@keystone-next/types';
+  graphql,
+} from '@keystone-next/keystone/types';
 import { DimensionData, DimensionFieldConfig, DimensionFieldInputType } from './types';
 
 const views = path.join(
@@ -14,13 +14,13 @@ const views = path.join(
   'views'
 );
 
-const DimensionFieldInput = schema.inputObject({
+const DimensionFieldInput = graphql.inputObject({
   name: 'DimensionFieldInput',
   fields: {
-    unit: schema.arg({ type: schema.nonNull(schema.String) }),
-    length: schema.arg({ type: schema.nonNull(schema.Float) }),
-    width: schema.arg({ type: schema.nonNull(schema.Float) }),
-    height: schema.arg({ type: schema.nonNull(schema.Float) }),
+    unit: graphql.arg({ type: graphql.nonNull(graphql.String) }),
+    length: graphql.arg({ type: graphql.nonNull(graphql.Float) }),
+    width: graphql.arg({ type: graphql.nonNull(graphql.Float) }),
+    height: graphql.arg({ type: graphql.nonNull(graphql.Float) }),
   },
 });
 
@@ -40,25 +40,25 @@ const dimensionUnits = [
   { label: 'Meter', value: 'm' },
 ];
 
-const DimensionOutputFields = schema.fields<DimensionData>()({
-  length: schema.field({ type: schema.nonNull(schema.Float) }),
-  width: schema.field({ type: schema.nonNull(schema.Float) }),
-  height: schema.field({ type: schema.nonNull(schema.Float) }),
-  unit: schema.field({
-    type: schema.enum({
+const DimensionOutputFields = graphql.fields<DimensionData>()({
+  length: graphql.field({ type: graphql.nonNull(graphql.Float) }),
+  width: graphql.field({ type: graphql.nonNull(graphql.Float) }),
+  height: graphql.field({ type: graphql.nonNull(graphql.Float) }),
+  unit: graphql.field({
+    type: graphql.enum({
       name: 'DimensionEnumType',
-      values: schema.enumValues(dimensionUnits.map(u => u.value)),
+      values: graphql.enumValues(dimensionUnits.map(u => u.value)),
     }),
   }),
 });
 
-const DimensionFieldOutput = schema.interface<DimensionData>()({
+const DimensionFieldOutput = graphql.interface<DimensionData>()({
   name: 'DimensionFieldOutput',
   fields: DimensionOutputFields,
   resolveType: () => 'DimensionFieldOutputType',
 });
 
-const DimensionFieldOutputType = schema.object<DimensionData>()({
+const DimensionFieldOutputType = graphql.object<DimensionData>()({
   name: 'DimensionFieldOutputType',
   interfaces: [DimensionFieldOutput],
   fields: DimensionOutputFields,
@@ -94,15 +94,15 @@ export const dimension =
       }),
       input: {
         create: {
-          arg: schema.arg({ type: DimensionFieldInput }),
+          arg: graphql.arg({ type: DimensionFieldInput }),
           resolve: inputResolver,
         },
         update: {
-          arg: schema.arg({ type: DimensionFieldInput }),
+          arg: graphql.arg({ type: DimensionFieldInput }),
           resolve: inputResolver,
         },
       },
-      output: schema.field({
+      output: graphql.field({
         type: DimensionFieldOutput,
         resolve({ value: { unit, length, width, height } }) {
           if (unit === null || length === null || width === null || height === null) {

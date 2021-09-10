@@ -7,8 +7,8 @@ import {
   FieldTypeFunc,
   ImageExtension,
   KeystoneContext,
-  schema,
-} from '@keystone-next/types';
+  graphql,
+} from '@keystone-next/keystone/types';
 import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 import {
   ImageData,
@@ -24,16 +24,16 @@ const views = path.join(
   'views/image'
 );
 
-const ImageExtensionEnum = schema.enum({
+const ImageExtensionEnum = graphql.enum({
   name: 'AzureStorageImageExtension',
-  values: schema.enumValues(SUPPORTED_IMAGE_EXTENSIONS),
+  values: graphql.enumValues(SUPPORTED_IMAGE_EXTENSIONS),
 });
 
-const AzureStorageFieldInput = schema.inputObject({
+const AzureStorageFieldInput = graphql.inputObject({
   name: 'AzureStorageImageFieldInput',
   fields: {
-    upload: schema.arg({ type: schema.Upload }),
-    ref: schema.arg({ type: schema.String }),
+    upload: graphql.arg({ type: graphql.Upload }),
+    ref: graphql.arg({ type: graphql.String }),
   },
 });
 
@@ -63,20 +63,20 @@ function isValidImageExtension(extension: string): extension is ImageExtension {
 
 const _fieldConfigs: { [key: string]: AzureStorageConfig } = {};
 
-const imageOutputFields = schema.fields<Omit<ImageData, 'type'>>()({
-  id: schema.field({ type: schema.nonNull(schema.ID) }),
-  filesize: schema.field({ type: schema.nonNull(schema.Int) }),
-  width: schema.field({ type: schema.nonNull(schema.Int) }),
-  height: schema.field({ type: schema.nonNull(schema.Int) }),
-  extension: schema.field({ type: schema.nonNull(ImageExtensionEnum) }),
-  ref: schema.field({
-    type: schema.nonNull(schema.String),
+const imageOutputFields = graphql.fields<Omit<ImageData, 'type'>>()({
+  id: graphql.field({ type: graphql.nonNull(graphql.ID) }),
+  filesize: graphql.field({ type: graphql.nonNull(graphql.Int) }),
+  width: graphql.field({ type: graphql.nonNull(graphql.Int) }),
+  height: graphql.field({ type: graphql.nonNull(graphql.Int) }),
+  extension: graphql.field({ type: graphql.nonNull(ImageExtensionEnum) }),
+  ref: graphql.field({
+    type: graphql.nonNull(graphql.String),
     resolve(data) {
       return getImageRef(data.id, data.extension);
     },
   }),
-  src: schema.field({
-    type: schema.nonNull(schema.String),
+  src: graphql.field({
+    type: graphql.nonNull(graphql.String),
     resolve(data, args, context, info) {
       const { key, typename } = info.path.prev as Path;
       const config = _fieldConfigs[`${typename}-${key}`];
@@ -85,13 +85,13 @@ const imageOutputFields = schema.fields<Omit<ImageData, 'type'>>()({
   }),
 });
 
-const AzureStorageImageFieldOutput = schema.interface<Omit<ImageData, 'type'>>()({
+const AzureStorageImageFieldOutput = graphql.interface<Omit<ImageData, 'type'>>()({
   name: 'AzureStorageImageFieldOutput',
   fields: imageOutputFields,
   resolveType: () => 'AzureStorageImageFieldOutputType',
 });
 
-const AzureStorageImageFieldOutputType = schema.object<Omit<ImageData, 'type'>>()({
+const AzureStorageImageFieldOutputType = graphql.object<Omit<ImageData, 'type'>>()({
   name: 'AzureStorageImageFieldOutputType',
   interfaces: [AzureStorageImageFieldOutput],
   fields: imageOutputFields,
@@ -127,15 +127,15 @@ export const azureStorageImage =
       ...config,
       input: {
         create: {
-          arg: schema.arg({ type: AzureStorageFieldInput }),
+          arg: graphql.arg({ type: AzureStorageFieldInput }),
           resolve: createInputResolver(azureStorageConfig as AzureStorageConfig),
         },
         update: {
-          arg: schema.arg({ type: AzureStorageFieldInput }),
+          arg: graphql.arg({ type: AzureStorageFieldInput }),
           resolve: createInputResolver(azureStorageConfig as AzureStorageConfig),
         },
       },
-      output: schema.field({
+      output: graphql.field({
         type: AzureStorageImageFieldOutput,
         resolve({ value: { extension, filesize, height, width, id } }) {
           if (

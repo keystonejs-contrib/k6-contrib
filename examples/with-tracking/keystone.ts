@@ -1,4 +1,4 @@
-import { config } from '@keystone-next/keystone/schema';
+import { config } from '@keystone-next/keystone';
 import { statelessSessions } from '@keystone-next/keystone/session';
 import { createAuth } from '@keystone-next/auth';
 
@@ -37,7 +37,7 @@ export default withAuth(
   config({
     db: {
       provider: 'postgresql',
-      url: process.env.DATABASE_URL || 'postgres://gs@localhost/my-keystone-project',
+      url: process.env.DATABASE_URL as string,
     },
     ui: {
       isAccessAllowed: (context) => !!context.session?.data,

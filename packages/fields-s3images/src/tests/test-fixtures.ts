@@ -2,9 +2,8 @@ import path from 'path';
 import fs from 'fs-extra';
 import { Upload } from 'graphql-upload';
 import mime from 'mime';
-import { KeystoneContext } from '@keystone-next/types';
-import { text } from '../../text';
-import { image } from '..';
+import { KeystoneContext } from '@keystone-next/keystone/types';
+import { text, image } from '@keystone-next/keystone/fields';
 
 const prepareFile = (_filePath: string) => {
   const filePath = path.resolve(`packages/fields/src/types/image/test-files/${_filePath}`);
@@ -35,6 +34,7 @@ export const getTestFields = () => ({ name: text(), avatar: image() });
 
 export const afterAll = async () => {
   // This matches the storagePath in the keystone config in the various test files.
+  // @ts-ignore
   fs.rmdirSync('tmp_test_images', { recursive: true });
 };
 
