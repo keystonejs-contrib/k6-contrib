@@ -1,6 +1,5 @@
 # S3 Sharp Image Optimized Field
 
-
 ```ts
 import { S3ImagesConfig, s3Images } from '@k6-contrib/fields-s3-images';
 import 'dotenv/config';
@@ -27,11 +26,11 @@ const s3sConfig: S3sConfig = {
 };
 
 const Post = list({
-    fields: {
-      title: text({ isRequired: true }),
-      content: text(),
-      image: s3Image({ s3Config }),
-      file: s3File({ s3Config }),
-    },
-  }),
+  fields: {
+    title: text({ isRequired: true }),
+    content: text(),
+    image: s3Image({ s3Config }),
+    file: s3File({ s3Config }),
+  },
+});
 ```
