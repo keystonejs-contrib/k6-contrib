@@ -33,6 +33,7 @@ export const byTracking =
           fieldMode: 'read',
         },
       },
+      graphql: { omit: ['update', 'create'] },
       ...byFieldOptions,
     };
 

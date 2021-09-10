@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS=\"--inspect -r dotenv/config\" keystone-next dev",
+    "dev": "cross-env NODE_OPTIONS=\"--inspect -r dotenv/config\" keystone-next dev",
     "start": "keystone-next start",
     "build": "keystone-next build"
   },
@@ -11,7 +11,7 @@
     "@k6-contrib/list-plugins": "^0.3.0",
     "@keystone-next/auth": "^32.0.0",
     "@keystone-next/fields-document": "^9.0.0",
-    "@keystone-next/keystone": "^25.0.1",
+    "@keystone-next/keystone": "^25.0.3",
     "typescript": "^4.4.2"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/examples/with-tracking"

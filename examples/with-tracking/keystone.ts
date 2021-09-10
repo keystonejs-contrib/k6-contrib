@@ -37,7 +37,7 @@ export default withAuth(
   config({
     db: {
       provider: 'postgresql',
-      url: process.env.DATABASE_URL || 'postgres://gs@localhost/my-keystone-project',
+      url: process.env.DATABASE_URL as string,
     },
     ui: {
       isAccessAllowed: (context) => !!context.session?.data,

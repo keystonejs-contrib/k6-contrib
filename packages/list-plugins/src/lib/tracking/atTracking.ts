@@ -1,7 +1,7 @@
+import { TimestampFieldConfig } from '@keystone-next/keystone/dist/declarations/src/fields/types/timestamp';
 import { timestamp } from '@keystone-next/keystone/fields';
 import {
   ListConfig,
-  CommonFieldConfig,
   BaseGeneratedListTypes,
   BaseFields,
 } from '@keystone-next/keystone/types';
@@ -21,7 +21,7 @@ export const atTracking =
       ...atFieldOptions
     } = options;
 
-    const fieldOptions: CommonFieldConfig<BaseGeneratedListTypes> = {
+    const fieldOptions: TimestampFieldConfig<BaseGeneratedListTypes> = {
       access: {
         read: () => true,
         create: () => false,
@@ -35,6 +35,7 @@ export const atTracking =
           fieldMode: 'read',
         },
       },
+      graphql: { omit: ['update', 'create'] },
       ...atFieldOptions,
     };
 

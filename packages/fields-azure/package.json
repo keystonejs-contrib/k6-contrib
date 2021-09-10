@@ -1,7 +1,7 @@
 {
   "name": "@k6-contrib/fields-azure",
   "description": "Keystone6 Azure Storage File and Image Field Type",
-  "version": "0.1.1-dev0",
+  "version": "0.1.0",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "main": "dist/fields-azure.cjs.js",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@azure/storage-blob": "^12.7.0",
     "@babel/runtime": "^7.15.3",
-    "@keystone-next/keystone": "^25.0.1",
+    "@keystone-next/keystone": "^25.0.3",
     "@keystone-ui/button": "^5.0.1",
     "@keystone-ui/core": "^3.2.0",
     "@keystone-ui/fields": "^4.1.3",
@@ -28,7 +28,6 @@
     "@keystone-ui/pill": "^5.0.1",
     "@keystone-ui/toast": "^4.0.3",
     "@sindresorhus/slugify": "^1.1.2",
-    "@types/react": "^17.0.18",
     "bytes": "^3.1.0",
     "copy-to-clipboard": "^3.3.1",
     "cuid": "^2.1.8",
@@ -45,6 +44,7 @@
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-azure",
   "devDependencies": {
     "@types/bytes": "^3.1.1",
+    "@types/react": "^17.0.20",
     "graphql": "^15.5.2",
     "mime": "^2.5.2"
   },

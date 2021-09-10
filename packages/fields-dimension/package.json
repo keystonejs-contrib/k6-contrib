@@ -1,7 +1,7 @@
 {
   "name": "@k6-contrib/fields-dimension",
   "description": "Keystone 6 Dimension Field Type",
-  "version": "0.1.1-dev0",
+  "version": "0.1.0",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "main": "dist/fields-dimension.cjs.js",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.15.3",
-    "@keystone-next/keystone": "^25.0.1",
+    "@keystone-next/keystone": "^25.0.3",
     "@keystone-ui/button": "^5.0.1",
     "@keystone-ui/core": "^3.2.0",
     "@keystone-ui/fields": "^4.1.3",
@@ -27,7 +27,7 @@
     "@keystone-ui/segmented-control": "^4.0.3",
     "@keystone-ui/toast": "^4.0.3",
     "@sindresorhus/slugify": "^1.1.2",
-    "@types/react": "^17.0.18",
+    "@types/react": "^17.0.20",
     "copy-to-clipboard": "^3.3.1",
     "cuid": "^2.1.8",
     "react": "^17.0.2"

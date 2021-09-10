@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@k6-contrib/fields-s3-images": "^0.1.0",
-    "@keystone-next/keystone": "^25.0.1"
+    "@keystone-next/keystone": "^25.0.3"
   },
   "devDependencies": {
     "typescript": "^4.4.2"
