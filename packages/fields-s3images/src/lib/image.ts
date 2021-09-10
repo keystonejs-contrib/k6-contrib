@@ -9,14 +9,11 @@ import {
   KeystoneContext,
   graphql,
 } from '@keystone-next/keystone/types';
-import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
+import { getImageMetaRef, getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 import { ImagesData, ImageSize, S3FieldConfig, S3FieldInputType, S3ImagesConfig } from './types';
 import { getDataFromRef, getDataFromStream, getSrc } from './s3';
 
-const views = path.join(
-  path.dirname(require.resolve('@k6-contrib/fields-s3/package.json')),
-  'views/image'
-);
+const views = path.join(path.dirname(__dirname), 'views');
 
 const ImageExtensionEnum = graphql.enum({
   name: 'S3ImagesExtension',
@@ -80,9 +77,15 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
         type: graphql.nonNull(imageSizeEnum),
         defaultValue: 'md',
       }),
+      meta: graphql.arg({
+        type: graphql.nonNull(graphql.Boolean),
+        defaultValue: false,
+      }),
     },
     resolve(data, args) {
-      return getImageRef(data.id, args.size, data.extension);
+      return args.meta
+        ? getImageMetaRef(data.id, data.sizesMeta)
+        : getImageRef(data.id, args.size, data.extension);
     },
   }),
   src: graphql.field({
@@ -120,59 +123,66 @@ export const s3Images =
     s3Config,
     ...config
   }: S3FieldConfig<TGeneratedListTypes>): FieldTypeFunc =>
-    meta => {
-      if ((config as any).isUnique) {
-        throw Error('isUnique is not a supported option for field type image');
-      }
-      if (typeof s3Config === 'undefined') {
-        throw new Error(
-          `Must provide s3Config option in S3Image field for List: ${meta.listKey}, field: ${meta.fieldKey}`
-        );
-      }
-      _fieldConfigs[`${meta.listKey}-${meta.fieldKey}`] = s3Config;
-      return fieldType({
-        kind: 'multi',
-        fields: {
-          filesize: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
-          extension: { kind: 'scalar', scalar: 'String', mode: 'optional' },
-          width: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
-          height: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
-          id: { kind: 'scalar', scalar: 'String', mode: 'optional' },
-          sizesMeta: { kind: 'scalar', scalar: 'Json', mode: 'optional' },
+  meta => {
+    if ((config as any).isUnique) {
+      throw Error('isUnique is not a supported option for field type image');
+    }
+    if (typeof s3Config === 'undefined') {
+      throw new Error(
+        `Must provide s3Config option in S3Image field for List: ${meta.listKey}, field: ${meta.fieldKey}`
+      );
+    }
+    _fieldConfigs[`${meta.listKey}-${meta.fieldKey}`] = s3Config;
+    return fieldType({
+      kind: 'multi',
+      fields: {
+        filesize: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
+        extension: { kind: 'scalar', scalar: 'String', mode: 'optional' },
+        width: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
+        height: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
+        id: { kind: 'scalar', scalar: 'String', mode: 'optional' },
+        sizesMeta: { kind: 'scalar', scalar: 'Json', mode: 'optional' },
+      },
+    })({
+      ...config,
+      input: {
+        create: {
+          arg: graphql.arg({ type: S3FieldInput }),
+          resolve: createInputResolver(s3Config as S3ImagesConfig),
         },
-      })({
-        ...config,
-        input: {
-          create: {
-            arg: graphql.arg({ type: S3FieldInput }),
-            resolve: createInputResolver(s3Config as S3ImagesConfig),
-          },
-          update: {
-            arg: graphql.arg({ type: S3FieldInput }),
-            resolve: createInputResolver(s3Config as S3ImagesConfig),
-          },
+        update: {
+          arg: graphql.arg({ type: S3FieldInput }),
+          resolve: createInputResolver(s3Config as S3ImagesConfig),
         },
-        output: graphql.field({
-          type: S3ImagesFieldOutput,
-          resolve({ value: { extension, filesize, height, width, id, sizesMeta } }) {
-            if (
-              extension === null ||
-              !isValidImageExtension(extension) ||
-              filesize === null ||
-              height === null ||
-              width === null ||
-              id === null
-            ) {
-              return null;
-            }
-            return { extension, filesize, height, width, id, sizesMeta: sizesMeta as Partial<Record<ImageSize, ImagesData>> };
-          },
-        }),
-        unreferencedConcreteInterfaceImplementations: [S3ImagesFieldOutputType],
-        views,
-        __legacy: {
-          isRequired,
-          defaultValue,
+      },
+      output: graphql.field({
+        type: S3ImagesFieldOutput,
+        resolve({ value: { extension, filesize, height, width, id, sizesMeta } }) {
+          if (
+            extension === null ||
+            !isValidImageExtension(extension) ||
+            filesize === null ||
+            height === null ||
+            width === null ||
+            id === null
+          ) {
+            return null;
+          }
+          return {
+            extension,
+            filesize,
+            height,
+            width,
+            id,
+            sizesMeta: sizesMeta as Partial<Record<ImageSize, ImagesData>>,
+          };
         },
-      });
-    };
+      }),
+      unreferencedConcreteInterfaceImplementations: [S3ImagesFieldOutputType],
+      views,
+      __legacy: {
+        isRequired,
+        defaultValue,
+      },
+    });
+  };

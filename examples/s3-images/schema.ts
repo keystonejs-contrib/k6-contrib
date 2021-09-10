@@ -6,11 +6,11 @@ import 'dotenv/config';
 const s3Config: S3ImagesConfig = {
   bucket: process.env.S3_BUCKET as string,
   folder: process.env.S3_PATH,
-  // baseUrl: process.env.S3_BASE_URL,
+  baseUrl: process.env.S3_BASE_URL,
   s3Options: {
     accessKeyId: process.env.S3_ACCESS_KEY_ID,
     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-    // endpoint: process.env.S3_ENDPOINT,
+    endpoint: process.env.S3_ENDPOINT,
     region: process.env.S3_REGION,
   },
   uploadParams() {

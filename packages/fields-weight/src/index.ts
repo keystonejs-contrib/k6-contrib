@@ -9,10 +9,7 @@ import {
 } from '@keystone-next/keystone/types';
 import { WeightData, WeightFieldConfig, WeightFieldInputType } from './types';
 
-const views = path.join(
-  path.dirname(require.resolve('@k6-contrib/fields-weight/package.json')),
-  'views'
-);
+const views = path.join(path.dirname(__dirname), 'views');
 
 const WeightFieldInput = graphql.inputObject({
   name: 'WeightFieldInput',

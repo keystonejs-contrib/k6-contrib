@@ -171,6 +171,7 @@ The logging function for each hook recieves specific arguments related to the mu
 | `deletedItem`   | `Object` | The database record of the deleted item.  |
 
 ### Deprecated - Not available in keystone 6 yet
+
 ### afterAuth
 
 | Option          | Type      | Description                                             |

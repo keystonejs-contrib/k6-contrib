@@ -4,7 +4,6 @@
 import { weight } from '@k6-contrib/fields-weight';
 import 'dotenv/config';
 
-
 const Product = list({
   fields: {
     title: text({ isRequired: true }),

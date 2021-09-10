@@ -22,10 +22,7 @@ export function getIndexType({
   return isIndexed ? 'index' : isUnique ? 'unique' : undefined;
 }
 
-const views = path.join(
-  path.dirname(require.resolve('@k6-contrib/fields-bigint/package.json')),
-  'views'
-);
+const views = path.join(path.dirname(__dirname), 'views');
 
 export type BigIntFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
   CommonFieldConfig<TGeneratedListTypes> & {
