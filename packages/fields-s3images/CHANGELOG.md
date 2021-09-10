@@ -1,5 +1,11 @@
 # @k6-contrib/fields-s3-images
 
+## 0.3.1
+
+### Patch Changes
+
+- Fixed issue with ref
+
 ## 0.3.0
 
 ### Minor Changes

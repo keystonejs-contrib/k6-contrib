@@ -1,7 +1,7 @@
 {
   "name": "@k6-contrib/fields-s3-images",
   "description": "Keystone6 S3 Sharp Optimized Image Field Type",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "main": "dist/fields-s3-images.cjs.js",

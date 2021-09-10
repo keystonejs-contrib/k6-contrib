@@ -159,7 +159,7 @@ export const getDataFromStream = async (
   return result;
 };
 
-export const getDataFromRef = async (config: S3ImagesConfig, ref: string): Promise<ImagesData> => {
+export const getDataFromRef = async (config: S3ImagesConfig, ref: string): Promise<Omit<ImagesData, 'size'>> => {
   const metaRef = parseImagesMetaRef(ref);
 
   if (metaRef) {
@@ -182,8 +182,9 @@ export const getDataFromRef = async (config: S3ImagesConfig, ref: string): Promi
     sizesMeta[size] = await getS3ImageMeta(s3, config, { ...fileRef, size } as ImagesData);
   }
 
+  const {size, ...imageData} = sizesMeta.full;
   return {
-    ...sizesMeta.full,
+    ...imageData,
     sizesMeta,
   };
 };
