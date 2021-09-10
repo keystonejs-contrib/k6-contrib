@@ -1,5 +1,11 @@
 # @k6-contrib/example-with-tracking
 
+## 0.4.0
+
+### Minor Changes
+
+- 3f8129d: Fixed issues with jsx and view path in all packages
+
 ## 0.3.0
 
 ### Minor Changes

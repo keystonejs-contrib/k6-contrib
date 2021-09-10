@@ -1,5 +1,16 @@
 # @k6-contrib/example-azure-file
 
+## 0.3.0
+
+### Minor Changes
+
+- 3f8129d: Fixed issues with jsx and view path in all packages
+
+### Patch Changes
+
+- Updated dependencies [3f8129d]
+  - @k6-contrib/fields-azure@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

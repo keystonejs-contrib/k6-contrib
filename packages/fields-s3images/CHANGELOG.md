@@ -1,5 +1,11 @@
 # @k6-contrib/fields-s3-images
 
+## 0.3.0
+
+### Minor Changes
+
+- 3f8129d: Fixed issues with jsx and view path in all packages
+
 ## 0.2.0
 
 ### Minor Changes
