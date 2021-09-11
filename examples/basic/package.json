@@ -4,12 +4,13 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_OPTIONS=--inspect keystone-next dev",
+    "dev": "cross-env NODE_OPTIONS=--inspect keystone-next dev",
     "start": "keystone-next start",
     "build": "keystone-next build"
   },
   "dependencies": {
     "@babel/runtime": "^7.15.3",
+    "@k6-contrib/fields-encrypted": "^0.0.0",
     "@k6-contrib/list-plugins": "^0.4.0",
     "@keystone-next/auth": "^32.0.0",
     "@keystone-next/document-renderer": "^4.0.0",
