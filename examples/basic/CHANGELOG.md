@@ -1,5 +1,16 @@
 # @k6-contrib/example-basic
 
+## 0.5.0
+
+### Minor Changes
+
+- 14fef03: Added encrypted field which allows securely storing secret values, it optionally allows decrypting before returning value over graphql
+
+### Patch Changes
+
+- Updated dependencies [14fef03]
+  - @k6-contrib/fields-encrypted@0.1.0
+
 ## 0.4.0
 
 ### Minor Changes
