@@ -7,6 +7,7 @@ export type AtTrackingOptions = {
   updated?: boolean;
   createdAtField?: string;
   updatedAtField?: string;
+  isIndexed?: boolean | 'unique';
 } & TimestampFieldConfig<BaseGeneratedListTypes>;
 
 export type ByTrackingOptions = {

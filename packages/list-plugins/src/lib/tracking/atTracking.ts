@@ -14,6 +14,7 @@ export const atTracking =
       updated = true,
       createdAtField = 'createdAt',
       updatedAtField = 'updatedAt',
+      isIndexed = false,
       ...atFieldOptions
     } = options;
 
@@ -32,6 +33,7 @@ export const atTracking =
         },
       },
       graphql: { omit: ['update', 'create'] },
+      isIndexed,
       ...atFieldOptions,
     };
 

@@ -1,5 +1,11 @@
 # @k6-contrib-next/list-plugins
 
+## 0.4.2
+
+### Patch Changes
+
+- add isIndexed Option to tracking
+
 ## 0.4.1
 
 ### Patch Changes
