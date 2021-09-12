@@ -1,5 +1,11 @@
 # @k6-contrib-next/list-plugins
 
+## 0.4.1
+
+### Patch Changes
+
+- Improve typing of tracking plugins
+
 ## 0.4.0
 
 ### Minor Changes

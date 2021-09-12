@@ -1,10 +1,6 @@
 import { TimestampFieldConfig } from '@keystone-next/keystone/dist/declarations/src/fields/types/timestamp';
 import { timestamp } from '@keystone-next/keystone/fields';
-import {
-  ListConfig,
-  BaseGeneratedListTypes,
-  BaseFields,
-} from '@keystone-next/keystone/types';
+import { ListConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/keystone/types';
 import { AtTrackingOptions, ResolveInputHook } from '../types';
 import { composeHook } from '../utils';
 
@@ -43,14 +39,14 @@ export const atTracking =
     if (updated) {
       fields = {
         ...fields,
-        [updatedAtField]: timestamp(fieldOptions),
+        [updatedAtField]: timestamp({ ...fieldOptions }),
       };
     }
 
     if (created) {
       fields = {
         ...fields,
-        [createdAtField]: timestamp(fieldOptions),
+        [createdAtField]: timestamp({ ...fieldOptions }),
       };
     }
 
