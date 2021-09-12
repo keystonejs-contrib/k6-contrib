@@ -1,5 +1,11 @@
 # @k6-contrib-next/list-plugins
 
+## 0.4.3
+
+### Patch Changes
+
+- Revert typing config to minimize configuration options, experiment with isIndexed
+
 ## 0.4.2
 
 ### Patch Changes

@@ -7,8 +7,8 @@ import { AtTrackingOptions, ByTrackingOptions } from './lib/types';
 
 export const configureTracking =
   ({
-    atTrackingOptions,
-    byTrackingOptions,
+    atTrackingOptions = {},
+    byTrackingOptions = { ref: 'User' },
   }: {
     atTrackingOptions?: AtTrackingOptions;
     byTrackingOptions?: ByTrackingOptions;

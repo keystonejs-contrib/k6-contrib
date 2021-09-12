@@ -1,5 +1,13 @@
 # @k6-contrib/example-with-tracking
 
+## 0.4.1
+
+### Patch Changes
+
+- Revert typing config to minimize configuration options, experiment with isIndexed
+- Updated dependencies [undefined]
+  - @k6-contrib/list-plugins@0.4.3
+
 ## 0.4.0
 
 ### Minor Changes

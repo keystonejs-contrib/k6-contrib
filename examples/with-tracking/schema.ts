@@ -3,7 +3,7 @@ import { text, relationship, password, timestamp, select } from '@keystone-next/
 import { document } from '@keystone-next/fields-document';
 import { configureTracking } from '@k6-contrib/list-plugins';
 
-const withTracking = configureTracking({});
+const withTracking = configureTracking({ atTrackingOptions: { isIndexed: true } });
 
 export const lists = createSchema({
   User: list(

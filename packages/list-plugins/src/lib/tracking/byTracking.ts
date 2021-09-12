@@ -5,7 +5,7 @@ import { composeHook } from '../utils';
 import type { RelationshipFieldConfig } from '@keystone-next/keystone/dist/declarations/src/fields/types/relationship';
 
 export const byTracking =
-  (options: ByTrackingOptions = {}) =>
+  (options: ByTrackingOptions = { ref: 'User' }) =>
   <Fields extends BaseFields<BaseGeneratedListTypes>>(
     listConfig: ListConfig<BaseGeneratedListTypes, Fields>
   ): ListConfig<BaseGeneratedListTypes, Fields> => {

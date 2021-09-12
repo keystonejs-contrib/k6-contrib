@@ -30,6 +30,8 @@ model User {
   from_Tag_updatedBy  Tag[]     @relation("Tag_updatedBy")
   from_Tag_createdBy  Tag[]     @relation("Tag_createdBy")
 
+  @@index([updatedAt])
+  @@index([createdAt])
   @@index([updatedById])
   @@index([createdById])
 }
@@ -51,6 +53,8 @@ model Post {
   createdById String?   @map("createdBy")
 
   @@index([authorId])
+  @@index([updatedAt])
+  @@index([createdAt])
   @@index([updatedById])
   @@index([createdById])
 }
@@ -66,6 +70,8 @@ model Tag {
   createdBy   User?     @relation("Tag_createdBy", fields: [createdById], references: [id])
   createdById String?   @map("createdBy")
 
+  @@index([updatedAt])
+  @@index([createdAt])
   @@index([updatedById])
   @@index([createdById])
 }
