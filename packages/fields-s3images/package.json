@@ -45,7 +45,7 @@
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-s3images",
   "devDependencies": {
     "@types/bytes": "^3.1.1",
-    "@types/sharp": "^0.28.6",
+    "@types/sharp": "^0.29.2",
     "@types/url-join": "^4.0.1",
     "graphql": "^15.5.2",
     "mime": "^2.5.2"
