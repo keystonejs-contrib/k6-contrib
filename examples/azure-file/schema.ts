@@ -8,6 +8,7 @@ const config: AzureStorageConfig = {
     account: process.env.AZURE_STORAGE_ACCOUNT_NAME || '',
     accessKey: process.env.AZURE_STORAGE_ACCESS_KEY || '',
     container: process.env.AZURE_STORAGE_CONTAINER || '',
+    url: `${process.env.AZURE_STORAGE_ACCOUNT_HOST}${process.env.AZURE_STORAGE_ACCOUNT_NAME}`,
   },
 };
 

@@ -41,6 +41,7 @@ export type AzureStorageConfig = {
     account: string;
     accessKey: string;
     container: string;
+    url?: string;
   };
 };
 
