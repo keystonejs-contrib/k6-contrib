@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@k6-contrib/fields-s3-images": "^0.3.0",
-    "@keystone-next/keystone": "^25.0.3"
+    "@keystone-next/keystone": "^26.0.1"
   },
   "devDependencies": {
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.3"
   },
   "engines": {
     "node": "^12.20 || >= 14.13"

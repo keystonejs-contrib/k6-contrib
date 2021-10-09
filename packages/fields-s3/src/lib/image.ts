@@ -7,8 +7,8 @@ import {
   FieldTypeFunc,
   ImageExtension,
   KeystoneContext,
-  graphql,
 } from '@keystone-next/keystone/types';
+import { graphql } from '@keystone-next/keystone';
 import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 import { ImageData, S3FieldConfig, S3FieldInputType, S3Config, S3DataType } from './types';
 import { getDataFromRef, getDataFromStream, getSrc } from './s3';
@@ -90,7 +90,6 @@ const S3ImageFieldOutputType = graphql.object<Omit<ImageData, 'type'>>()({
 
 export const s3Image =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
-    isRequired,
     defaultValue,
     s3Config,
     ...config
@@ -144,9 +143,5 @@ export const s3Image =
       }),
       unreferencedConcreteInterfaceImplementations: [S3ImageFieldOutputType],
       views,
-      __legacy: {
-        isRequired,
-        defaultValue,
-      },
     });
   };

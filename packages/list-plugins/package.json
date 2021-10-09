@@ -9,10 +9,10 @@
   "dependencies": {
     "@babel/core": "^7.15.5",
     "@babel/runtime": "^7.15.3",
-    "@keystone-next/keystone": "^25.0.3"
+    "@keystone-next/keystone": "^26.0.1"
   },
   "devDependencies": {
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.3"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/list-plugins"
 }

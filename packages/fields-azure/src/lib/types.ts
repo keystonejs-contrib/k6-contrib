@@ -1,7 +1,6 @@
 import { FileUpload } from 'graphql-upload';
 import {
   BaseGeneratedListTypes,
-  FieldDefaultValue,
   CommonFieldConfig,
   ImageMetadata,
 } from '@keystone-next/keystone/types';
@@ -51,7 +50,5 @@ export type AzureStorageFieldInputType =
 
 export type AzureStorageFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
   CommonFieldConfig<TGeneratedListTypes> & {
-    defaultValue?: FieldDefaultValue<AzureStorageFieldInputType, TGeneratedListTypes>;
-    isRequired?: boolean;
     azureStorageConfig: AzureStorageConfig;
   };

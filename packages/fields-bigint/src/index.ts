@@ -1,13 +1,12 @@
 import path from 'path';
 import {
   BaseGeneratedListTypes,
-  FieldDefaultValue,
   fieldType,
   FieldTypeFunc,
   CommonFieldConfig,
   orderDirectionEnum,
-  graphql,
 } from '@keystone-next/keystone/types';
+import { graphql } from '@keystone-next/keystone';
 
 export function getIndexType({
   isIndexed,
@@ -26,18 +25,20 @@ const views = path.join(path.dirname(__dirname), 'views');
 
 export type BigIntFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
   CommonFieldConfig<TGeneratedListTypes> & {
-    defaultValue?: FieldDefaultValue<number, TGeneratedListTypes>;
-    isRequired?: boolean;
-    isUnique?: boolean;
-    isIndexed?: boolean;
+    isIndexed?: boolean | 'unique';
+    defaultValue?: number;
+    validation?: {
+      isRequired?: boolean;
+      min?: number;
+      max?: number;
+    };
   };
 
 export const bigInt =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
     isIndexed,
-    isUnique,
-    isRequired,
-    defaultValue,
+    defaultValue: _defaultValue,
+    validation,
     ...config
   }: BigIntFieldConfig<TGeneratedListTypes> = {}): FieldTypeFunc =>
   meta =>
@@ -74,5 +75,4 @@ export const bigInt =
         },
       }),
       views,
-      __legacy: { isRequired, defaultValue },
     });

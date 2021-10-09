@@ -1,7 +1,6 @@
 import { FileUpload } from 'graphql-upload';
 import {
   BaseGeneratedListTypes,
-  FieldDefaultValue,
   CommonFieldConfig,
   ImageMetadata,
 } from '@keystone-next/keystone/types';
@@ -51,7 +50,5 @@ export type S3FieldInputType =
 
 export type S3FieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
   CommonFieldConfig<TGeneratedListTypes> & {
-    defaultValue?: FieldDefaultValue<S3FieldInputType, TGeneratedListTypes>;
-    isRequired?: boolean;
     s3Config: S3Config;
   };

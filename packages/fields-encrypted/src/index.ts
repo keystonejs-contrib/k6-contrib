@@ -3,18 +3,17 @@ import Cryptr from 'cryptr';
 
 import {
   BaseGeneratedListTypes,
-  FieldDefaultValue,
   CommonFieldConfig,
   fieldType,
-  graphql,
   FieldTypeFunc,
 } from '@keystone-next/keystone/types';
+import { graphql } from '@keystone-next/keystone';
 
 const views = path.join(path.dirname(__dirname), 'views');
 
 export type EncryptedFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
   CommonFieldConfig<TGeneratedListTypes> & {
-    defaultValue?: FieldDefaultValue<string, TGeneratedListTypes>;
+    defaultValue?: string;
     isIndexed?: boolean;
     isRequired?: boolean;
     secret: string;
@@ -79,6 +78,5 @@ export const encrypted =
           reverse,
         };
       },
-      __legacy: { defaultValue, isRequired },
     });
   };

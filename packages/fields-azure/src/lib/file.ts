@@ -6,8 +6,8 @@ import {
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
-  graphql,
 } from '@keystone-next/keystone/types';
+import { graphql } from '@keystone-next/keystone';
 import { getFileRef } from './utils';
 import { AzureStorageFieldConfig, AzureStorageFieldInputType, AzureStorageConfig, AzureStorageDataType, FileData } from './types';
 import { getDataFromRef, getDataFromStream, getSrc } from './blob';
@@ -76,7 +76,6 @@ function createInputResolver(config: AzureStorageConfig) {
 
 export const azureStorageFile =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
-    isRequired,
     defaultValue,
     azureStorageConfig,
     ...config
@@ -122,9 +121,5 @@ export const azureStorageFile =
       }),
       unreferencedConcreteInterfaceImplementations: [AzureStorageFileFieldOutputType],
       views,
-      __legacy: {
-        isRequired,
-        defaultValue,
-      },
     });
   };

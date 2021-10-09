@@ -6,7 +6,7 @@ import 'dotenv/config';
 
 const Product = list({
   fields: {
-    title: text({ isRequired: true }),
+    title: text({ validation: { isRequired: true } }),
     content: text(),
     encrypted: encrypted({reverse: true, secret: "some secret to encrypt with}), // reverse option lets you see the value in admin ui or in graphql
     encrypted2: encrypted({secret: "some secret to encrypt with}),

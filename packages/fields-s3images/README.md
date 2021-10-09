@@ -27,7 +27,7 @@ const s3sConfig: S3sConfig = {
 
 const Post = list({
   fields: {
-    title: text({ isRequired: true }),
+    title: text({ validation: { isRequired: true } }),
     content: text(),
     image: s3Image({ s3Config }),
     file: s3File({ s3Config }),

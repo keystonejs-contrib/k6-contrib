@@ -5,8 +5,8 @@ import {
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
-  graphql,
 } from '@keystone-next/keystone/types';
+import { graphql } from '@keystone-next/keystone';
 import { WeightData, WeightFieldConfig, WeightFieldInputType } from './types';
 
 const views = path.join(path.dirname(__dirname), 'views');
@@ -104,9 +104,5 @@ export const weight =
       }),
       unreferencedConcreteInterfaceImplementations: [WeightFieldOutputType],
       views,
-      __legacy: {
-        isRequired,
-        defaultValue: null,
-      },
     });
   };
