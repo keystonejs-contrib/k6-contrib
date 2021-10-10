@@ -18,5 +18,7 @@ export type WeightFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes
     ui?: {
       displayMode?: 'select' | 'segmented-control';
     };
-    isRequired?: boolean;
+    validation?: {
+      isRequired?: boolean;
+    };
   };

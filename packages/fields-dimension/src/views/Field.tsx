@@ -148,6 +148,6 @@ export function validateDimension(data: DimensionValue): string | undefined {
     )
       return undefined;
     if (!unit || parseFloat(length) < 0 || parseFloat(width) < 0 || parseFloat(height) < 0)
-      return 'Must provide details';
+      return 'invalid dimension values';
   }
 }
