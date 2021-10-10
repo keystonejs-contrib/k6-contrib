@@ -1,5 +1,26 @@
 # @k6-contrib/example-basic
 
+## 0.6.0
+
+### Minor Changes
+
+- a8a9f61: Upgraded to keystone@26
+  ** Breaking Changes **
+  There are some breaking changes in line with the Keystone breaking changes
+
+  ### notable changes
+
+  - No longer have `isRequired` field on file and image type (azure, s3).
+  - `defaultValue` is now static value for each field type, need to use resolveInput and other hooks to generate default value.
+  - `isRequired` is moved to `validation.isRequired` in line with keystone.
+  - `atTracking` now internally uses the default value `{kind: 'now'}` and `db.updatedAt` option on `timestamp` field instead of hooks.
+
+### Patch Changes
+
+- Updated dependencies [a8a9f61]
+  - @k6-contrib/fields-encrypted@0.2.0
+  - @k6-contrib/list-plugins@0.5.0
+
 ## 0.5.0
 
 ### Minor Changes
