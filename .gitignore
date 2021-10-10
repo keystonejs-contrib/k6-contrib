@@ -87,3 +87,6 @@ public/
 .keystone
 # database fies
 *.db
+
+__blobstorage__
+__azurite*

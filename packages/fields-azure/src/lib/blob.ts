@@ -41,12 +41,9 @@ const generateSafeFilename = (
 const getFilename = (fileData: AzureStorageDataType) =>
   fileData.type === 'file' ? fileData.filename : `${fileData.id}`;
 
-const defaultGetSrc = (
-  { azureStorageOptions }: AzureStorageConfig,
-  fileData: AzureStorageDataType
-) => {
+const defaultGetSrc = (config: AzureStorageConfig, fileData: AzureStorageDataType) => {
   const filename = getFilename(fileData);
-  return `https://${azureStorageOptions.account}.blob.core.windows.net/${azureStorageOptions.container}/${filename}`;
+  return `${getBlobHost(config)}/${config.azureStorageOptions.container}/${filename}`;
 };
 
 export function getSrc(config: AzureStorageConfig, fileData: AzureStorageDataType) {
@@ -86,6 +83,10 @@ const getImageMetadataFromStream = async (stream: ReadStream): Promise<ImageMeta
   return { width, height, filesize, extension };
 };
 
+const getBlobHost = (config: AzureStorageConfig) =>
+  config.azureStorageOptions.url ||
+  `https://${config.azureStorageOptions.account}.blob.core.windows.net`;
+
 export const getDataFromStream = async (
   config: AzureStorageConfig,
   type: AssetType,
@@ -97,10 +98,7 @@ export const getDataFromStream = async (
     config.azureStorageOptions.account,
     config.azureStorageOptions.accessKey
   );
-  const blobServiceClient = new BlobServiceClient(
-    `https://${config.azureStorageOptions.account}.blob.core.windows.net`,
-    creds
-  );
+  const blobServiceClient = new BlobServiceClient(getBlobHost(config), creds);
   const containerClient = blobServiceClient.getContainerClient(
     config.azureStorageOptions.container
   );
@@ -177,10 +175,7 @@ export const getDataFromRef = async (
     config.azureStorageOptions.account,
     config.azureStorageOptions.accessKey
   );
-  const blobServiceClient = new BlobServiceClient(
-    `https://${config.azureStorageOptions.account}.blob.core.windows.net`,
-    creds
-  );
+  const blobServiceClient = new BlobServiceClient(getBlobHost(config), creds);
 
   const containerClient = blobServiceClient.getContainerClient(
     config.azureStorageOptions.container
