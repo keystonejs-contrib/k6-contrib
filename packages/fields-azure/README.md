@@ -14,7 +14,7 @@ const config: AzureStorageConfig = {
 
 const Post = list({
   fields: {
-    title: text({ isRequired: true }),
+    title: text({ validation: { isRequired: true } }),
     content: text(),
     image: azureStorageImage({ config }),
     file: azureStorageFile({ config }),

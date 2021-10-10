@@ -1,11 +1,11 @@
-import { createSchema, list } from '@keystone-next/keystone';
+import { list } from '@keystone-next/keystone';
 import { text, relationship, password, timestamp, select } from '@keystone-next/keystone/fields';
 import { document } from '@keystone-next/fields-document';
 import { configureTracking } from '@k6-contrib/list-plugins';
 
 const withTracking = configureTracking({ atTrackingOptions: { isIndexed: true } });
 
-export const lists = createSchema({
+export const lists = {
   User: list(
     withTracking({
       ui: {
@@ -14,9 +14,9 @@ export const lists = createSchema({
         },
       },
       fields: {
-        name: text({ isRequired: true }),
-        email: text({ isRequired: true, isIndexed: 'unique', isFilterable: true }),
-        password: password({ isRequired: true }),
+        name: text({ validation: { isRequired: true } }),
+        email: text({ validation: { isRequired: true }, isIndexed: 'unique', isFilterable: true }),
+        password: password({ validation: { isRequired: true } }),
         posts: relationship({ ref: 'Post.author', many: true }),
       },
     })
@@ -87,4 +87,4 @@ export const lists = createSchema({
       },
     })
   ),
-});
+};

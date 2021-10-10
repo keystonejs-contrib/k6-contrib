@@ -7,8 +7,8 @@ import {
   FieldTypeFunc,
   ImageExtension,
   KeystoneContext,
-  graphql,
 } from '@keystone-next/keystone/types';
+import { graphql } from '@keystone-next/keystone';
 import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 import {
   ImageData,
@@ -96,7 +96,6 @@ const AzureStorageImageFieldOutputType = graphql.object<Omit<ImageData, 'type'>>
 
 export const azureStorageImage =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
-    isRequired,
     defaultValue,
     azureStorageConfig,
     ...config
@@ -150,9 +149,5 @@ export const azureStorageImage =
       }),
       unreferencedConcreteInterfaceImplementations: [AzureStorageImageFieldOutputType],
       views,
-      __legacy: {
-        isRequired,
-        defaultValue,
-      },
     });
   };

@@ -113,6 +113,6 @@ export function validateWeight(data: WeightValue): string | undefined {
   if (data) {
     const { unit, value } = data;
     if (!unit && isNaN(parseFloat(value))) return undefined;
-    if (!unit || parseFloat(value) < 0) return 'Invalid weight or unit';
+    if (!unit || !value || parseFloat(value) < 0) return 'Invalid weight or unit';
   }
 }

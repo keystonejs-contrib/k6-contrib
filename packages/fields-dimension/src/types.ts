@@ -10,14 +10,16 @@ export type DimensionData = {
 export type DimensionFieldInputType =
   | undefined
   | null
-  | { unit: string; length: number; width: number; height: number };
+  | { unit: string; length: number; width: number; height: number; };
 
 export type DimensionFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
   CommonFieldConfig<TGeneratedListTypes> & {
     defaultUnit?: string | null;
-    units?: { label: string; value: string }[];
+    units?: { label: string; value: string; }[];
     ui?: {
       displayMode?: 'select' | 'segmented-control';
     };
-    isRequired?: boolean;
+    validation?: {
+      isRequired?: boolean;
+    };
   };

@@ -1,13 +1,14 @@
 import path from 'path';
 import {
   BaseGeneratedListTypes,
-  FieldDefaultValue,
   fieldType,
   FieldTypeFunc,
   CommonFieldConfig,
   orderDirectionEnum,
-  graphql,
+  filters,
 } from '@keystone-next/keystone/types';
+import { } from '@keystone-next/keystone';
+import { graphql } from '@keystone-next/keystone';
 
 export function getIndexType({
   isIndexed,
@@ -26,53 +27,65 @@ const views = path.join(path.dirname(__dirname), 'views');
 
 export type BigIntFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
   CommonFieldConfig<TGeneratedListTypes> & {
-    defaultValue?: FieldDefaultValue<number, TGeneratedListTypes>;
-    isRequired?: boolean;
-    isUnique?: boolean;
-    isIndexed?: boolean;
+    isIndexed?: boolean | 'unique';
+    defaultValue?: number;
+    validation?: {
+      isRequired?: boolean;
+      min?: number;
+      max?: number;
+    };
+    db?: {
+      isNullable?: boolean;
+    };
   };
 
 export const bigInt =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
     isIndexed,
-    isUnique,
-    isRequired,
-    defaultValue,
+    defaultValue: _defaultValue,
+    validation,
     ...config
   }: BigIntFieldConfig<TGeneratedListTypes> = {}): FieldTypeFunc =>
-  meta =>
-    fieldType({
-      kind: 'scalar',
-      mode: 'optional',
-      scalar: 'BigInt',
-      index: getIndexType({ isIndexed, isUnique }),
-    })({
-      ...config,
-      input: {
-        uniqueWhere: isUnique ? { arg: graphql.arg({ type: graphql.String }) } : undefined,
-        create: {
-          arg: graphql.arg({ type: graphql.String }),
-          resolve(val) {
-            if (val == null) return val;
-            return BigInt(val);
+    meta => {
+      const isNullable = config.db?.isNullable;
+      const mode = isNullable === false ? 'required' : 'optional';
+
+      return fieldType({
+        kind: 'scalar',
+        mode: 'optional',
+        scalar: 'BigInt',
+        index: isIndexed === true ? 'index' : isIndexed || undefined,
+      })({
+        ...config,
+        input: {
+          uniqueWhere: isIndexed === 'unique' ? { arg: graphql.arg({ type: graphql.String }) } : undefined,
+          where: {
+            arg: graphql.arg({ type: filters[meta.provider].String[mode] }),
+            resolve: mode === 'optional' ? filters.resolveCommon : undefined,
           },
-        },
-        update: {
-          arg: graphql.arg({ type: graphql.String }),
-          resolve(val) {
-            if (val == null) return val;
-            return BigInt(val);
+          create: {
+            arg: graphql.arg({ type: graphql.String }),
+            resolve(val) {
+              if (val == null) return val;
+              return BigInt(val);
+            },
           },
+          update: {
+            arg: graphql.arg({ type: graphql.String }),
+            resolve(val) {
+              if (val == null) return val;
+              return BigInt(val);
+            },
+          },
+          orderBy: { arg: graphql.arg({ type: orderDirectionEnum }) },
         },
-        orderBy: { arg: graphql.arg({ type: orderDirectionEnum }) },
-      },
-      output: graphql.field({
-        type: graphql.String,
-        resolve({ value }) {
-          if (value === null) return null;
-          return value + '';
-        },
-      }),
-      views,
-      __legacy: { isRequired, defaultValue },
-    });
+        output: graphql.field({
+          type: graphql.String,
+          resolve({ value }) {
+            if (value === null) return null;
+            return value + '';
+          },
+        }),
+        views,
+      });
+    };

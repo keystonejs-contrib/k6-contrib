@@ -6,7 +6,7 @@ import 'dotenv/config';
 
 const Product = list({
   fields: {
-    title: text({ isRequired: true }),
+    title: text({ validation: { isRequired: true } }),
     content: text(),
     dimension: dimension({}),
     packageDimension: dimension({}),

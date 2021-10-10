@@ -6,8 +6,8 @@ import {
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
-  graphql,
 } from '@keystone-next/keystone/types';
+import { graphql } from '@keystone-next/keystone';
 import { getFileRef } from './utils';
 import { S3FieldConfig, S3FieldInputType, S3Config, S3DataType, FileData } from './types';
 import { getDataFromRef, getDataFromStream, getSrc } from './s3';
@@ -76,7 +76,6 @@ function createInputResolver(config: S3Config) {
 
 export const s3File =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
-    isRequired,
     defaultValue,
     s3Config,
     ...config
@@ -122,9 +121,5 @@ export const s3File =
       }),
       unreferencedConcreteInterfaceImplementations: [S3FileFieldOutputType],
       views,
-      __legacy: {
-        isRequired,
-        defaultValue,
-      },
     });
   };

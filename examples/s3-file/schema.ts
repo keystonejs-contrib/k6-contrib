@@ -1,4 +1,4 @@
-import { createSchema, list } from '@keystone-next/keystone';
+import { list } from '@keystone-next/keystone';
 import { select, relationship, text, timestamp } from '@keystone-next/keystone/fields';
 import { S3Config, s3File, s3Image } from '@k6-contrib/fields-s3';
 import 'dotenv/config';
@@ -19,12 +19,12 @@ const s3Config: S3Config = {
   },
 };
 
-export const lists = createSchema({
+export const lists = {
   Post: list({
     fields: {
-      title: text({ isRequired: true }),
+      title: text({ validation: { isRequired: true } }),
       status: select({
-        dataType: 'enum',
+        type: 'enum',
         options: [
           { label: 'Draft', value: 'draft' },
           { label: 'Published', value: 'published' },
@@ -32,7 +32,7 @@ export const lists = createSchema({
       }),
       content: text(),
       image: s3Image({ s3Config }),
-      image2: s3Image({ s3Config: {...s3Config, folder: `${process.env.S3_PATH}2`} }),
+      image2: s3Image({ s3Config: { ...s3Config, folder: `${process.env.S3_PATH}2` } }),
       file: s3File({ s3Config }),
       file2: s3File({ s3Config }),
       publishDate: timestamp(),
@@ -41,9 +41,9 @@ export const lists = createSchema({
   }),
   Author: list({
     fields: {
-      name: text({ isRequired: true }),
-      email: text({ isRequired: true, isIndexed: 'unique' }),
+      name: text({ validation: { isRequired: true } }),
+      email: text({ validation: { isRequired: true }, isIndexed: 'unique' }),
       posts: relationship({ ref: 'Post.author', many: true }),
     },
   }),
-});
+};

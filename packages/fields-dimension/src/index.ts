@@ -5,8 +5,8 @@ import {
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
-  graphql,
 } from '@keystone-next/keystone/types';
+import { graphql } from '@keystone-next/keystone';
 import { DimensionData, DimensionFieldConfig, DimensionFieldInputType } from './types';
 
 const views = path.join(path.dirname(__dirname), 'views');
@@ -63,56 +63,65 @@ const DimensionFieldOutputType = graphql.object<DimensionData>()({
 
 export const dimension =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
-    isRequired,
+    validation,
     units = [],
     ui: { displayMode = 'select', ...ui } = {},
     defaultUnit = null,
     ...config
   }: DimensionFieldConfig<TGeneratedListTypes> = {}): FieldTypeFunc =>
-  meta => {
-    if ((config as any).isUnique) {
-      throw Error('isUnique is not a supported option for field type dimension');
-    }
+    meta => {
+      if ((config as any).isUnique) {
+        throw Error('isUnique is not a supported option for field type dimension');
+      }
 
-    return fieldType({
-      kind: 'multi',
-      fields: {
-        unit: { kind: 'scalar', scalar: 'String', mode: 'optional' },
-        length: { kind: 'scalar', scalar: 'Float', mode: 'optional' },
-        width: { kind: 'scalar', scalar: 'Float', mode: 'optional' },
-        height: { kind: 'scalar', scalar: 'Float', mode: 'optional' },
-      },
-    })({
-      ...config,
-      getAdminMeta: () => ({
-        units: dimensionUnits,
-        displayMode,
-        defaultUnit,
-      }),
-      input: {
-        create: {
-          arg: graphql.arg({ type: DimensionFieldInput }),
-          resolve: inputResolver,
+      const fieldLabel = config.label ?? meta.fieldKey;
+      return fieldType({
+        kind: 'multi',
+        fields: {
+          unit: { kind: 'scalar', scalar: 'String', mode: 'optional' },
+          length: { kind: 'scalar', scalar: 'Float', mode: 'optional' },
+          width: { kind: 'scalar', scalar: 'Float', mode: 'optional' },
+          height: { kind: 'scalar', scalar: 'Float', mode: 'optional' },
         },
-        update: {
-          arg: graphql.arg({ type: DimensionFieldInput }),
-          resolve: inputResolver,
+      })({
+        ...config,
+        hooks: {
+          ...config.hooks,
+          async validateInput(args) {
+            const value = args.resolvedData[meta.fieldKey];
+            if ((validation?.isRequired) && (!value || !value.unit || [value.length, value.width, value.height].some(item => typeof item === 'undefined' || item === null))) {
+              args.addValidationError(`${fieldLabel} is required`);
+            }
+
+            await config.hooks?.validateInput?.(args);
+          },
         },
-      },
-      output: graphql.field({
-        type: DimensionFieldOutput,
-        resolve({ value: { unit, length, width, height } }) {
-          if (unit === null || length === null || width === null || height === null) {
-            return null;
-          }
-          return { unit, length, width, height };
+        getAdminMeta: () => ({
+          units: dimensionUnits,
+          displayMode,
+          defaultUnit,
+          isRequired: validation?.isRequired ?? false,
+        }),
+        input: {
+          create: {
+            arg: graphql.arg({ type: DimensionFieldInput }),
+            resolve: inputResolver,
+          },
+          update: {
+            arg: graphql.arg({ type: DimensionFieldInput }),
+            resolve: inputResolver,
+          },
         },
-      }),
-      unreferencedConcreteInterfaceImplementations: [DimensionFieldOutputType],
-      views,
-      __legacy: {
-        isRequired,
-        defaultValue: null,
-      },
-    });
-  };
+        output: graphql.field({
+          type: DimensionFieldOutput,
+          resolve({ value: { unit, length, width, height } }) {
+            if (unit === null || length === null || width === null || height === null) {
+              return null;
+            }
+            return { unit, length, width, height };
+          },
+        }),
+        unreferencedConcreteInterfaceImplementations: [DimensionFieldOutputType],
+        views,
+      });
+    };

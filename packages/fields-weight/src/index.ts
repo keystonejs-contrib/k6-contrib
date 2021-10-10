@@ -5,8 +5,8 @@ import {
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
-  graphql,
 } from '@keystone-next/keystone/types';
+import { graphql } from '@keystone-next/keystone';
 import { WeightData, WeightFieldConfig, WeightFieldInputType } from './types';
 
 const views = path.join(path.dirname(__dirname), 'views');
@@ -59,54 +59,63 @@ const WeightFieldOutputType = graphql.object<WeightData>()({
 
 export const weight =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
-    isRequired,
+    validation,
     units = [],
     displayMode = 'select',
     defaultUnit = 'g',
     ...config
   }: WeightFieldConfig<TGeneratedListTypes> = {}): FieldTypeFunc =>
-  meta => {
-    if ((config as any).isUnique) {
-      throw Error('isUnique is not a supported option for field type weight');
-    }
+    meta => {
+      if ((config as any).isUnique) {
+        throw Error('isUnique is not a supported option for field type weight');
+      }
 
-    return fieldType({
-      kind: 'multi',
-      fields: {
-        unit: { kind: 'scalar', scalar: 'String', mode: 'optional' },
-        value: { kind: 'scalar', scalar: 'Float', mode: 'optional' },
-      },
-    })({
-      ...config,
-      getAdminMeta: () => ({
-        units: weightUnits,
-        displayMode,
-        defaultUnit,
-      }),
-      input: {
-        create: {
-          arg: graphql.arg({ type: WeightFieldInput }),
-          resolve: inputResolver,
+      const fieldLabel = config.label ?? meta.fieldKey;
+      return fieldType({
+        kind: 'multi',
+        fields: {
+          unit: { kind: 'scalar', scalar: 'String', mode: 'optional' },
+          value: { kind: 'scalar', scalar: 'Float', mode: 'optional' },
         },
-        update: {
-          arg: graphql.arg({ type: WeightFieldInput }),
-          resolve: inputResolver,
+      })({
+        ...config,
+        hooks: {
+          ...config.hooks,
+          async validateInput(args) {
+            const value = args.resolvedData[meta.fieldKey];
+            if ((validation?.isRequired) && (!value || !value.unit || !value.value)) {
+              args.addValidationError(`${fieldLabel} is required`);
+            }
+
+            await config.hooks?.validateInput?.(args);
+          },
         },
-      },
-      output: graphql.field({
-        type: WeightFieldOutput,
-        resolve({ value: { unit, value } }) {
-          if (unit === null || value === null) {
-            return null;
-          }
-          return { unit, value };
+        getAdminMeta: () => ({
+          units: weightUnits,
+          displayMode,
+          defaultUnit,
+          isRequired: validation?.isRequired ?? false,
+        }),
+        input: {
+          create: {
+            arg: graphql.arg({ type: WeightFieldInput }),
+            resolve: inputResolver,
+          },
+          update: {
+            arg: graphql.arg({ type: WeightFieldInput }),
+            resolve: inputResolver,
+          },
         },
-      }),
-      unreferencedConcreteInterfaceImplementations: [WeightFieldOutputType],
-      views,
-      __legacy: {
-        isRequired,
-        defaultValue: null,
-      },
-    });
-  };
+        output: graphql.field({
+          type: WeightFieldOutput,
+          resolve({ value: { unit, value } }) {
+            if (unit === null || value === null) {
+              return null;
+            }
+            return { unit, value };
+          },
+        }),
+        unreferencedConcreteInterfaceImplementations: [WeightFieldOutputType],
+        views,
+      });
+    };

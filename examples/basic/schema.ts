@@ -1,4 +1,4 @@
-import { createSchema, list, graphQLSchemaExtension, gql } from '@keystone-next/keystone';
+import { list, graphQLSchemaExtension, gql, graphql,  } from '@keystone-next/keystone';
 import {
   text,
   relationship,
@@ -15,7 +15,7 @@ import { encrypted } from '@k6-contrib/fields-encrypted';
 import { configureTracking } from '@k6-contrib/list-plugins';
 
 // import { cloudinaryImage } from '@keystone-next/cloudinary';
-import { KeystoneListsAPI, graphql } from '@keystone-next/keystone/types';
+import { KeystoneListsAPI } from '@keystone-next/keystone/types';
 import { componentBlocks } from './admin/fieldViews/Content';
 // import { KeystoneListsTypeInfo } from '.keystone/types';
 
@@ -39,9 +39,9 @@ const randomNumber = () => Math.round(Math.random() * 10);
 
 const withTracking = configureTracking({});
 
-export const lists = createSchema({
+export const lists = {
   User: list(
-    withTracking({
+    {db: {},
       ui: {
         listView: {
           initialColumns: ['name', 'posts', 'avatar'],
@@ -49,10 +49,10 @@ export const lists = createSchema({
       },
       fields: {
         /** The user's first and last name. */
-        name: text({ isRequired: true }),
+        name: text({ validation: { isRequired: true } }),
         /** Email is used to log into the system. */
         email: text({
-          isRequired: true,
+          validation: { isRequired: true },
           isIndexed: 'unique',
           isFilterable: true,
           isOrderable: true,
@@ -119,7 +119,7 @@ export const lists = createSchema({
           }),
         }),
       },
-    })
+    }
   ),
   PhoneNumber: list(
     withTracking({
@@ -218,7 +218,7 @@ export const lists = createSchema({
       },
     })
   ),
-});
+};
 
 export const extendGraphqlSchema = graphQLSchemaExtension({
   typeDefs: gql`
@@ -246,7 +246,7 @@ export const extendGraphqlSchema = graphQLSchemaExtension({
         const data = Array.from({ length: 238 }).map((x, i) => ({ data: { title: `Post ${i}` } }));
         // note this usage of the type is important because it tests that the generated
         // KeystoneListsTypeInfo extends Record<string, BaseGeneratedListTypes>
-        const lists: KeystoneListsAPI<any> = context.lists;
+        const lists: KeystoneListsAPI<any> = context.query;
         return lists.Post.createMany({ data });
       },
     },
