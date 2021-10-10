@@ -7,15 +7,16 @@ datasource sqlite {
 }
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "node_modules/.prisma/client"
+  provider   = "prisma-client-js"
+  output     = "node_modules/.prisma/client"
+  engineType = "binary"
 }
 
 model Post {
   id               String    @id @default(cuid())
-  title            String?
+  title            String    @default("")
   status           String?
-  content          String?
+  content          String    @default("")
   image_filesize   Int?
   image_extension  String?
   image_width      Int?
@@ -38,8 +39,8 @@ model Post {
 }
 
 model Author {
-  id    String  @id @default(cuid())
-  name  String?
-  email String? @unique
-  posts Post[]  @relation("Post_author")
+  id    String @id @default(cuid())
+  name  String @default("")
+  email String @unique @default("")
+  posts Post[] @relation("Post_author")
 }
