@@ -1,5 +1,11 @@
 # @k6-contrib-next/list-plugins
 
+## 0.5.1
+
+### Patch Changes
+
+- a23e0ed: upgrade to latest release keystone@26.1.0
+
 ## 0.5.0
 
 ### Minor Changes

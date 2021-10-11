@@ -1,5 +1,14 @@
 # @k6-contrib/example-dimension
 
+## 0.4.1
+
+### Patch Changes
+
+- a23e0ed: upgrade to latest release keystone@26.1.0
+- Updated dependencies [a23e0ed]
+  - @k6-contrib/fields-dimension@0.4.1
+  - @k6-contrib/fields-weight@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes

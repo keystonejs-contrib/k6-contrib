@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/fields-bigint",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "main": "dist/fields-bigint.cjs.js",

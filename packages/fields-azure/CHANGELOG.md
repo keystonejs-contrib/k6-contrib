@@ -1,5 +1,11 @@
 # @k6-contrib/fields-azure
 
+## 0.4.1
+
+### Patch Changes
+
+- a23e0ed: upgrade to latest release keystone@26.1.0
+
 ## 0.4.0
 
 ### Minor Changes

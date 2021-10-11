@@ -1,7 +1,7 @@
 {
   "name": "@k6-contrib/fields-encrypted",
   "description": "Keystone 6 Reversible encryption field",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "main": "dist/fields-encrypted.cjs.js",
