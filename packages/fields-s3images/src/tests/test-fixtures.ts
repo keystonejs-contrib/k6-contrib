@@ -67,7 +67,7 @@ export const crudTests = (keystoneTestWrapper: any) => {
       keystoneTestWrapper(async ({ context }: { context: KeystoneContext }) => {
         const filenames = ['keystone.jpeg', 'keystone.jpg', 'keystone'];
         for (const filename of filenames) {
-          const data = await context.lists.Test.createOne({
+          const data = await context.query.Test.createOne({
             data: { avatar: prepareFile(filename) },
             query: `
               avatar {
@@ -78,14 +78,14 @@ export const crudTests = (keystoneTestWrapper: any) => {
                 height
                 extension
                 ref
-                src
+                url
               }
           `,
           });
           expect(data).not.toBe(null);
           expect(data.avatar).toEqual({
             ref: `local:image:${data.avatar.id}.jpg`,
-            src: `/images/${data.avatar.id}.jpg`,
+            url: `/images/${data.avatar.id}.jpg`,
             id: data.avatar.id,
             __typename: 'LocalImageFieldOutput',
             filesize: 3250,
@@ -122,7 +122,7 @@ export const crudTests = (keystoneTestWrapper: any) => {
       'From existing item succeeds',
       keystoneTestWrapper(async ({ context }: { context: KeystoneContext }) => {
         // Create an initial item
-        const initialItem = await context.lists.Test.createOne({
+        const initialItem = await context.query.Test.createOne({
           data: { avatar: prepareFile('keystone.jpg') },
           query: `
             avatar {
@@ -133,7 +133,7 @@ export const crudTests = (keystoneTestWrapper: any) => {
               height
               extension
               ref
-              src
+              url
             }
         `,
         });
@@ -141,7 +141,7 @@ export const crudTests = (keystoneTestWrapper: any) => {
 
         // Create a new item base on the first items ref
         const ref = initialItem.avatar.ref;
-        const newItem = await context.lists.Test.createOne({
+        const newItem = await context.query.Test.createOne({
           data: { avatar: { ref } },
           query: `
             avatar {
@@ -152,7 +152,7 @@ export const crudTests = (keystoneTestWrapper: any) => {
               height
               extension
               ref
-              src
+              url
             }
         `,
         });
@@ -207,7 +207,7 @@ export const crudTests = (keystoneTestWrapper: any) => {
     test(
       'Both upload and ref fails - valid ref',
       keystoneTestWrapper(async ({ context }: { context: KeystoneContext }) => {
-        const initialItem = await context.lists.Test.createOne({
+        const initialItem = await context.query.Test.createOne({
           data: { avatar: prepareFile('keystone.jpg') },
           query: `avatar { ref }`,
         });

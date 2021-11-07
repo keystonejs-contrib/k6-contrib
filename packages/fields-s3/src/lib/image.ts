@@ -5,13 +5,12 @@ import {
   BaseGeneratedListTypes,
   fieldType,
   FieldTypeFunc,
-  ImageExtension,
   KeystoneContext,
 } from '@keystone-next/keystone/types';
 import { graphql } from '@keystone-next/keystone';
-import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
+import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS, isValidImageExtension } from './utils';
 import { ImageData, S3FieldConfig, S3FieldInputType, S3Config, S3DataType } from './types';
-import { getDataFromRef, getDataFromStream, getSrc } from './s3';
+import { getDataFromRef, getDataFromStream, getUrl } from './s3';
 
 const views = path.join(path.dirname(__dirname), 'views/image');
 
@@ -46,11 +45,6 @@ function createInputResolver(config: S3Config) {
     return getDataFromStream(config, 'image', await data.upload);
   };
 }
-const extensionsSet = new Set(SUPPORTED_IMAGE_EXTENSIONS);
-
-function isValidImageExtension(extension: string): extension is ImageExtension {
-  return extensionsSet.has(extension);
-}
 
 const _fieldConfigs: { [key: string]: S3Config } = {};
 
@@ -66,12 +60,12 @@ const imageOutputFields = graphql.fields<Omit<ImageData, 'type'>>()({
       return getImageRef(data.id, data.extension);
     },
   }),
-  src: graphql.field({
+  url: graphql.field({
     type: graphql.nonNull(graphql.String),
     resolve(data, args, context, info) {
       const { key, typename } = info.path.prev as Path;
       const config = _fieldConfigs[`${typename}-${key}`];
-      return getSrc(config, { type: 'image', ...data } as S3DataType);
+      return getUrl(config, { type: 'image', ...data } as S3DataType);
     },
   }),
 });
@@ -90,7 +84,6 @@ const S3ImageFieldOutputType = graphql.object<Omit<ImageData, 'type'>>()({
 
 export const s3Image =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
-    defaultValue,
     s3Config,
     ...config
   }: S3FieldConfig<TGeneratedListTypes>): FieldTypeFunc =>

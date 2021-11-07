@@ -41,13 +41,13 @@ const generateSafeFilename = (
 const getFilename = (fileData: AzureStorageDataType) =>
   fileData.type === 'file' ? fileData.filename : `${fileData.id}`;
 
-const defaultGetSrc = (config: AzureStorageConfig, fileData: AzureStorageDataType) => {
+const defaultGetUrl = (config: AzureStorageConfig, fileData: AzureStorageDataType) => {
   const filename = getFilename(fileData);
   return `${getBlobHost(config)}/${config.azureStorageOptions.container}/${filename}`;
 };
 
-export function getSrc(config: AzureStorageConfig, fileData: AzureStorageDataType) {
-  return config.getSrc?.(config, fileData) || defaultGetSrc(config, fileData);
+export function getUrl(config: AzureStorageConfig, fileData: AzureStorageDataType) {
+  return config.getUrl?.(config, fileData) || defaultGetUrl(config, fileData);
 }
 
 const getImageMetadataFromStream = async (stream: ReadStream): Promise<ImageMetadata> => {

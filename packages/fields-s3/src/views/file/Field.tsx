@@ -191,7 +191,7 @@ function FileView({
             <Stack padding="xxsmall" gap="xxsmall">
               <Stack across align="center" gap="small">
                 <Text size="medium">
-                  <a href={value.data.src} target="_blank">
+                  <a href={value.data.url} target="_blank">
                     {`${value.data.filename}`}
                   </a>
                 </Text>

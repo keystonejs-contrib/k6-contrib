@@ -43,7 +43,7 @@ export const CardValue: CardValueComponent = ({ item, field }) => {
 };
 
 type FileData = {
-  src: string;
+  url: string;
   ref: string;
   filesize: number;
   filename: string;
@@ -79,7 +79,7 @@ export const controller = (config: FieldControllerConfig): FileController => {
     path: config.path,
     label: config.label,
     graphqlSelection: `${config.path} {
-        src
+        url
         filename
         ref
         filesize
@@ -91,7 +91,7 @@ export const controller = (config: FieldControllerConfig): FileController => {
       return {
         kind: 'from-server',
         data: {
-          src: value.src,
+          url: value.url,
           filename: value.filename,
           ref: value.ref,
           filesize: value.filesize,

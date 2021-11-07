@@ -45,7 +45,7 @@ export type S3ImagesConfig = {
   };
   transformFilename?: (str: string) => string;
   getFilename?: (args: GetFileNameArg) => string;
-  getSrc?: (config: S3ImagesConfig, fileData: ImagesData) => string;
+  getUrl?: (config: S3ImagesConfig, fileData: ImagesData) => string;
   uploadParams?: (args: ImagesData) => Partial<AWS.S3.Types.PutObjectRequest>;
   s3Options: AWS.S3.ClientConfiguration;
 };

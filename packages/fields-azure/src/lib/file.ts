@@ -10,7 +10,7 @@ import {
 import { graphql } from '@keystone-next/keystone';
 import { getFileRef } from './utils';
 import { AzureStorageFieldConfig, AzureStorageFieldInputType, AzureStorageConfig, AzureStorageDataType, FileData } from './types';
-import { getDataFromRef, getDataFromStream, getSrc } from './blob';
+import { getDataFromRef, getDataFromStream, getUrl } from './blob';
 
 const views = path.join(path.dirname(__dirname), 'views/file');
 
@@ -33,12 +33,12 @@ const fileOutputFields = graphql.fields<Omit<FileData, 'type'>>()({
       return getFileRef(data.filename);
     },
   }),
-  src: graphql.field({
+  url: graphql.field({
     type: graphql.nonNull(graphql.String),
     resolve(data, args, context, info) {
       const { key, typename } = info.path.prev as Path;
       const config = _fieldConfigs[`${typename}-${key}`];
-      return getSrc(config, { type: 'file', ...data } as AzureStorageDataType);
+      return getUrl(config, { type: 'file', ...data } as AzureStorageDataType);
     },
   }),
 });
@@ -76,7 +76,6 @@ function createInputResolver(config: AzureStorageConfig) {
 
 export const azureStorageFile =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
-    defaultValue,
     azureStorageConfig,
     ...config
   }: AzureStorageFieldConfig<TGeneratedListTypes>): FieldTypeFunc =>
