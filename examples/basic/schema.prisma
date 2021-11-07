@@ -7,14 +7,15 @@ datasource sqlite {
 }
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "node_modules/.prisma/client"
+  provider   = "prisma-client-js"
+  output     = "node_modules/.prisma/client"
+  engineType = "binary"
 }
 
 model User {
   id                         String        @id @default(cuid())
-  name                       String?
-  email                      String?       @unique
+  name                       String        @default("")
+  email                      String        @unique @default("")
   secret                     String?
   superSecret                String?
   secret2                    String?
@@ -29,25 +30,14 @@ model User {
   attachment_mode            String?
   attachment_filename        String?
   password                   String?
-  isAdmin                    Boolean?
-  roles                      String?
+  isAdmin                    Boolean       @default(false)
+  roles                      String        @default("")
   phoneNumbers               PhoneNumber[] @relation("PhoneNumber_user")
   posts                      Post[]        @relation("Post_author")
-  updatedAt                  DateTime?
-  createdAt                  DateTime?
-  updatedBy                  User?         @relation("User_updatedBy", fields: [updatedById], references: [id])
-  updatedById                String?       @map("updatedBy")
-  createdBy                  User?         @relation("User_createdBy", fields: [createdById], references: [id])
-  createdById                String?       @map("createdBy")
-  from_User_updatedBy        User[]        @relation("User_updatedBy")
-  from_User_createdBy        User[]        @relation("User_createdBy")
   from_PhoneNumber_updatedBy PhoneNumber[] @relation("PhoneNumber_updatedBy")
   from_PhoneNumber_createdBy PhoneNumber[] @relation("PhoneNumber_createdBy")
   from_Post_updatedBy        Post[]        @relation("Post_updatedBy")
   from_Post_createdBy        Post[]        @relation("Post_createdBy")
-
-  @@index([updatedById])
-  @@index([createdById])
 }
 
 model PhoneNumber {
@@ -55,9 +45,9 @@ model PhoneNumber {
   user        User?     @relation("PhoneNumber_user", fields: [userId], references: [id])
   userId      String?   @map("user")
   type        String?
-  value       String?
-  updatedAt   DateTime?
-  createdAt   DateTime?
+  value       String    @default("")
+  updatedAt   DateTime? @updatedAt
+  createdAt   DateTime? @default(now())
   updatedBy   User?     @relation("PhoneNumber_updatedBy", fields: [updatedById], references: [id])
   updatedById String?   @map("updatedBy")
   createdBy   User?     @relation("PhoneNumber_createdBy", fields: [createdById], references: [id])
@@ -70,14 +60,14 @@ model PhoneNumber {
 
 model Post {
   id          String    @id @default(cuid())
-  title       String?
+  title       String    @default("")
   status      String?
-  content     String?
+  content     String    @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   publishDate DateTime?
   author      User?     @relation("Post_author", fields: [authorId], references: [id])
   authorId    String?   @map("author")
-  updatedAt   DateTime?
-  createdAt   DateTime?
+  updatedAt   DateTime? @updatedAt
+  createdAt   DateTime? @default(now())
   updatedBy   User?     @relation("Post_updatedBy", fields: [updatedById], references: [id])
   updatedById String?   @map("updatedBy")
   createdBy   User?     @relation("Post_createdBy", fields: [createdById], references: [id])

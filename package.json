@@ -13,6 +13,7 @@
     "format": "prettier --write \"**/*.js{,on}\" \"**/*.md\"",
     "fresh": "yarn clean && yarn",
     "clean": "rimraf \"**/cypress/{screenshots,videos,reports}\" \"**/node_modules\" \"**/yarn-error.log\" \"**/out.log\" \"**/.DS_Store\" \"**/dist\"",
+    "postinstall-examples": "for d in `find examples -type d -maxdepth 1 -mindepth 1`; do echo $d; cd $d; yarn keystone-next postinstall --fix; cd ../..; done",
     "build": "preconstruct build",
     "changeset": "changeset",
     "version-packages": "changeset version",

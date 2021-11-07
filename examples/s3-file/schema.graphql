@@ -26,7 +26,7 @@ interface S3ImageFieldOutput {
   height: Int!
   extension: S3ImageExtension!
   ref: String!
-  src: String!
+  url: String!
 }
 
 enum S3ImageExtension {
@@ -40,7 +40,7 @@ interface S3FileFieldOutput {
   filename: String!
   filesize: Int!
   ref: String!
-  src: String!
+  url: String!
 }
 
 scalar DateTime
@@ -57,14 +57,14 @@ type S3ImageFieldOutputType implements S3ImageFieldOutput {
   height: Int!
   extension: S3ImageExtension!
   ref: String!
-  src: String!
+  url: String!
 }
 
 type S3FileFieldOutputType implements S3FileFieldOutput {
   filename: String!
   filesize: Int!
   ref: String!
-  src: String!
+  url: String!
 }
 
 input PostWhereInput {
