@@ -17,7 +17,7 @@
     "build": "preconstruct build",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "publish": "yarn build && yarn changeset publish"
+    "publish-changed": "yarn build && yarn changeset publish"
   },
   "workspaces": {
     "packages": [

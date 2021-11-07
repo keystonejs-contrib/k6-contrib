@@ -1,5 +1,22 @@
 # @k6-contrib/example-dimension
 
+## 0.5.0
+
+### Minor Changes
+
+- d48da70: Upgraded to keystone 27 and all related dependencies.
+  Cleaned up most of the duplicate/unused dependencies from most packages, this now should not affect upgrades and graphql issues going forward. thanks @andreialecu to point out the peer dependency
+
+  **Breaking Changes**
+
+  Keystone 27 has renamed `src` to `url` output for file and image field, similarly the image and file field support for azure and s3 are also renamed.
+
+### Patch Changes
+
+- Updated dependencies [d48da70]
+  - @k6-contrib/fields-dimension@0.5.0
+  - @k6-contrib/fields-weight@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes
