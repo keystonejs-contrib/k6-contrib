@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.15.3",
-    "@keystone-next/keystone": "^26.1.0",
+    "@keystone-next/keystone": "^27.0.1",
     "@keystone-ui/button": "^5.0.2",
     "@keystone-ui/core": "^3.2.1",
     "@keystone-ui/fields": "^5.0.1",
@@ -26,8 +26,8 @@
     "@keystone-ui/pill": "^5.0.2",
     "@keystone-ui/toast": "^4.0.4",
     "@sindresorhus/slugify": "^1.1.2",
-    "@types/react": "^17.0.27",
-    "aws-sdk": "^2.955.0",
+    "@types/react": "^17.0.34",
+    "aws-sdk": "^2.1023.0",
     "bytes": "^3.1.0",
     "copy-to-clipboard": "^3.3.1",
     "cuid": "^2.1.8",
@@ -39,13 +39,13 @@
     "image-type": "^4.1.0",
     "node-fetch": "^2.6.1",
     "react": "^17.0.2",
-    "sharp": "^0.29.0",
+    "sharp": "^0.29.2",
     "url-join": "^4.0.1"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-s3images",
   "devDependencies": {
     "@types/bytes": "^3.1.1",
-    "@types/sharp": "^0.29.2",
+    "@types/sharp": "^0.29.3",
     "@types/url-join": "^4.0.1",
     "graphql": "^15.6.1",
     "mime": "^2.5.2"

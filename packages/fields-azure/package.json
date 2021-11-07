@@ -20,7 +20,7 @@
   "dependencies": {
     "@azure/storage-blob": "^12.7.0",
     "@babel/runtime": "^7.15.3",
-    "@keystone-next/keystone": "^26.1.0",
+    "@keystone-next/keystone": "^27.0.1",
     "@keystone-ui/button": "^5.0.2",
     "@keystone-ui/core": "^3.2.1",
     "@keystone-ui/fields": "^5.0.1",
@@ -44,7 +44,7 @@
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-azure",
   "devDependencies": {
     "@types/bytes": "^3.1.1",
-    "@types/react": "^17.0.27",
+    "@types/react": "^17.0.34",
     "graphql": "^15.6.1",
     "mime": "^2.5.2"
   },
