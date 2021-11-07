@@ -4,9 +4,9 @@ import AWS from 'aws-sdk';
 import urlJoin from 'url-join';
 import cuid from 'cuid';
 import sharp from 'sharp';
-import { ImageExtension, KeystoneContext } from '@keystone-next/keystone/types';
+import { KeystoneContext } from '@keystone-next/keystone/types';
 import { S3ImagesConfig, ImagesData } from './types';
-import { parseImageRef, parseImagesMetaRef } from './utils';
+import { normalizeImageExtension, parseImageRef, parseImagesMetaRef } from './utils';
 
 const getFilename = ({ id, size, extension }: ImagesData) => `${id}_${size}.${extension}`;
 
@@ -29,7 +29,9 @@ export const getDataFromStream = async (
 ): Promise<Omit<ImagesData, 'size'>> => {
   const { createReadStream, filename: originalFilename, mimetype } = upload;
 
-  const extension = extname(originalFilename).replace(/^\./, '') as ImageExtension;
+  const extension = normalizeImageExtension(extname(originalFilename)
+    .replace(/^\./, '')
+    .toLowerCase());
   const s3 = new AWS.S3(config.s3Options);
 
   const imagePipeline = sharp();

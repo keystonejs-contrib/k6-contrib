@@ -5,11 +5,10 @@ import {
   BaseGeneratedListTypes,
   fieldType,
   FieldTypeFunc,
-  ImageExtension,
   KeystoneContext,
 } from '@keystone-next/keystone/types';
 import { graphql } from '@keystone-next/keystone';
-import { getImageMetaRef, getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
+import { getImageMetaRef, getImageRef, isValidImageExtension, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 import { ImagesData, ImageSize, S3FieldConfig, S3FieldInputType, S3ImagesConfig } from './types';
 import { getDataFromRef, getDataFromStream, getSrc } from './s3';
 
@@ -46,11 +45,7 @@ function createInputResolver(config: S3ImagesConfig) {
     return getDataFromStream(config, await data.upload, context);
   };
 }
-const extensionsSet = new Set(SUPPORTED_IMAGE_EXTENSIONS);
 
-function isValidImageExtension(extension: string): extension is ImageExtension {
-  return extensionsSet.has(extension);
-}
 
 const _fieldConfigs: { [key: string]: S3ImagesConfig } = {};
 const imageSizeEnum = graphql.enum({
