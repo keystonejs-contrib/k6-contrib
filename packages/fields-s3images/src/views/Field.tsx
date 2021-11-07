@@ -203,7 +203,7 @@ function ImgView({
       {errorMessage === undefined ? (
         value.kind === 'from-server' ? (
           <ImageWrapper>
-            <img css={{ width: '100%' }} src={value.data.src} alt={field.path} />
+            <img css={{ width: '100%' }} src={value.data.url} alt={field.path} />
           </ImageWrapper>
         ) : (
           <ImageWrapper>
@@ -224,7 +224,7 @@ function ImgView({
             <Stack padding="xxsmall" gap="xxsmall">
               <Stack across align="center" gap="small">
                 <Text size="small">
-                  <a href={value.data.src} target="_blank">
+                  <a href={value.data.url} target="_blank">
                     {`${value.data.id}.${value.data.extension}`}
                   </a>
                 </Text>

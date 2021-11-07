@@ -35,7 +35,7 @@ export type GetUploadParams = {
 export type AzureStorageConfig = {
   transformFilename?: (str: string) => string;
   getFilename?: (args: GetFileNameFunc) => string;
-  getSrc?: (config: AzureStorageConfig, fileData: AzureStorageDataType) => string;
+  getUrl?: (config: AzureStorageConfig, fileData: AzureStorageDataType) => string;
   azureStorageOptions: {
     account: string;
     accessKey: string;

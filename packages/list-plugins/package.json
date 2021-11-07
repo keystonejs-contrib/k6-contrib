@@ -8,11 +8,14 @@
   "module": "dist/list-plugins.esm.js",
   "dependencies": {
     "@babel/core": "^7.15.5",
-    "@babel/runtime": "^7.15.3",
-    "@keystone-next/keystone": "^26.1.0"
+    "@babel/runtime": "^7.15.3"
+  },
+  "peerDependencies": {
+    "@keystone-next/keystone": ">=^27.0.1"
   },
   "devDependencies": {
-    "typescript": "^4.4.3"
+    "@keystone-next/keystone": "^27.0.1",
+    "typescript": "^4.4.4"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/list-plugins"
 }

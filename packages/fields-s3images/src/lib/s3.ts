@@ -10,16 +10,16 @@ import { normalizeImageExtension, parseImageRef, parseImagesMetaRef } from './ut
 
 const getFilename = ({ id, size, extension }: ImagesData) => `${id}_${size}.${extension}`;
 
-const defaultGetSrc = ({ bucket, folder }: S3ImagesConfig, fileData: ImagesData) => {
+const defaultGetUrl = ({ bucket, folder }: S3ImagesConfig, fileData: ImagesData) => {
   const filename = getFilename(fileData);
   return urlJoin(`https://${bucket}.s3.amazonaws.com`, folder as string, filename);
 };
 
-export function getSrc(config: S3ImagesConfig, fileData: ImagesData) {
+export function getUrl(config: S3ImagesConfig, fileData: ImagesData) {
   if (config.baseUrl) {
     return urlJoin(config.baseUrl, getFilename(fileData));
   }
-  return config.getSrc?.(config, fileData) || defaultGetSrc(config, fileData);
+  return config.getUrl?.(config, fileData) || defaultGetUrl(config, fileData);
 }
 
 export const getDataFromStream = async (

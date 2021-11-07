@@ -10,7 +10,7 @@ import {
 import { graphql } from '@keystone-next/keystone';
 import { getImageMetaRef, getImageRef, isValidImageExtension, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 import { ImagesData, ImageSize, S3FieldConfig, S3FieldInputType, S3ImagesConfig } from './types';
-import { getDataFromRef, getDataFromStream, getSrc } from './s3';
+import { getDataFromRef, getDataFromStream, getUrl } from './s3';
 
 const views = path.join(path.dirname(__dirname), 'views');
 
@@ -83,7 +83,7 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
         : getImageRef(data.id, args.size, data.extension);
     },
   }),
-  src: graphql.field({
+  url: graphql.field({
     type: graphql.nonNull(graphql.String),
     args: {
       size: graphql.arg({
@@ -94,7 +94,7 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
     resolve(data, args, context, info) {
       const { key, typename } = info.path.prev as Path;
       const config = _fieldConfigs[`${typename}-${key}`];
-      return getSrc(config, { ...data, size: args.size });
+      return getUrl(config, { ...data, size: args.size });
     },
   }),
 });

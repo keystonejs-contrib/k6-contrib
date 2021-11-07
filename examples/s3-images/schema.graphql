@@ -25,7 +25,7 @@ interface S3ImagesFieldOutput {
   sizesMeta: JSON
   extension: S3ImagesExtension!
   ref(size: S3ImagesSizeEnum! = md, meta: Boolean! = false): String!
-  src(size: S3ImagesSizeEnum! = md): String!
+  url(size: S3ImagesSizeEnum! = md): String!
 }
 
 enum S3ImagesExtension {
@@ -57,7 +57,7 @@ type S3ImagesFieldOutputType implements S3ImagesFieldOutput {
   sizesMeta: JSON
   extension: S3ImagesExtension!
   ref(size: S3ImagesSizeEnum! = md, meta: Boolean! = false): String!
-  src(size: S3ImagesSizeEnum! = md): String!
+  url(size: S3ImagesSizeEnum! = md): String!
 }
 
 input PostWhereInput {

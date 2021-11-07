@@ -23,7 +23,9 @@ export const parseFileRef = (ref: string): { type: 'file', filename: string; } |
   return undefined;
 };
 
-export const SUPPORTED_IMAGE_EXTENSIONS = ['jpg', 'png', 'webp', 'gif'];
+export const SUPPORTED_IMAGE_EXTENSIONS = ['jpg', 'png', 'webp', 'gif'] as const;
+
+export const ALIAS_IMAGE_EXTENSIONS_MAP: Record<string, typeof SUPPORTED_IMAGE_EXTENSIONS[number]> = {'jpeg': 'jpg'};
 
 export const getImageRef = (id: string, extension: ImageExtension) =>
   `s3:image:${id}.${extension}`;
@@ -42,3 +44,15 @@ export const parseImageRef = (
   }
   return undefined;
 };
+
+const extensionsSet = new Set(SUPPORTED_IMAGE_EXTENSIONS);
+export const isValidImageExtension = (extension: string): extension is ImageExtension => {
+  return extensionsSet.has(extension as ImageExtension);
+}
+
+export const normalizeImageExtension = (extension: string): ImageExtension => {
+  if (isValidImageExtension(extension)) {
+    return extension;
+  }
+  return ALIAS_IMAGE_EXTENSIONS_MAP[extension] || undefined;
+}

@@ -17,7 +17,7 @@ import {
   AzureStorageConfig,
   AzureStorageDataType,
 } from './types';
-import { getDataFromRef, getDataFromStream, getSrc } from './blob';
+import { getDataFromRef, getDataFromStream, getUrl } from './blob';
 
 const views = path.join(path.dirname(__dirname), 'views/image');
 
@@ -72,12 +72,12 @@ const imageOutputFields = graphql.fields<Omit<ImageData, 'type'>>()({
       return getImageRef(data.id, data.extension);
     },
   }),
-  src: graphql.field({
+  url: graphql.field({
     type: graphql.nonNull(graphql.String),
     resolve(data, args, context, info) {
       const { key, typename } = info.path.prev as Path;
       const config = _fieldConfigs[`${typename}-${key}`];
-      return getSrc(config, { type: 'image', ...data } as AzureStorageDataType);
+      return getUrl(config, { type: 'image', ...data } as AzureStorageDataType);
     },
   }),
 });
@@ -96,7 +96,6 @@ const AzureStorageImageFieldOutputType = graphql.object<Omit<ImageData, 'type'>>
 
 export const azureStorageImage =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
-    defaultValue,
     azureStorageConfig,
     ...config
   }: AzureStorageFieldConfig<TGeneratedListTypes>): FieldTypeFunc =>

@@ -10,7 +10,7 @@ import {
 import { graphql } from '@keystone-next/keystone';
 import { getFileRef } from './utils';
 import { S3FieldConfig, S3FieldInputType, S3Config, S3DataType, FileData } from './types';
-import { getDataFromRef, getDataFromStream, getSrc } from './s3';
+import { getDataFromRef, getDataFromStream, getUrl } from './s3';
 
 const views = path.join(path.dirname(__dirname), 'views/file');
 
@@ -33,12 +33,12 @@ const fileOutputFields = graphql.fields<Omit<FileData, 'type'>>()({
       return getFileRef(data.filename);
     },
   }),
-  src: graphql.field({
+  url: graphql.field({
     type: graphql.nonNull(graphql.String),
     resolve(data, args, context, info) {
       const { key, typename } = info.path.prev as Path;
       const config = _fieldConfigs[`${typename}-${key}`];
-      return getSrc(config, { type: 'file', ...data } as S3DataType);
+      return getUrl(config, { type: 'file', ...data } as S3DataType);
     },
   }),
 });
@@ -76,7 +76,6 @@ function createInputResolver(config: S3Config) {
 
 export const s3File =
   <TGeneratedListTypes extends BaseGeneratedListTypes>({
-    defaultValue,
     s3Config,
     ...config
   }: S3FieldConfig<TGeneratedListTypes>): FieldTypeFunc =>

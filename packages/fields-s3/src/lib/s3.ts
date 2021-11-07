@@ -39,16 +39,16 @@ const generateSafeFilename = (
 const getFilename = (fileData: S3DataType) =>
   fileData.type === 'file' ? fileData.filename : `${fileData.id}.${fileData.extension}`;
 
-const defaultGetSrc = ({ bucket, folder }: S3Config, fileData: S3DataType) => {
+const defaultGetUrl = ({ bucket, folder }: S3Config, fileData: S3DataType) => {
   const filename = getFilename(fileData);
   return urlJoin(`https://${bucket}.s3.amazonaws.com`, folder || '', filename);
 };
 
-export function getSrc(config: S3Config, fileData: S3DataType) {
+export function getUrl(config: S3Config, fileData: S3DataType) {
   if (config.baseUrl) {
     return urlJoin(config.baseUrl, getFilename(fileData));
   }
-  return config.getSrc?.(config, fileData) || defaultGetSrc(config, fileData);
+  return config.getUrl?.(config, fileData) || defaultGetUrl(config, fileData);
 }
 
 const getImageMetadataFromStream = async (stream: ReadStream): Promise<ImageMetadata> => {
