@@ -1,11 +1,11 @@
 {
-  "name": "@k6-contrib/list-plugins",
+  "name": "@k6-contrib/history",
   "description": "List level plugins which can update list config during list initialization including adding additional fields",
   "version": "0.6.0",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
-  "main": "dist/list-plugins.cjs.js",
-  "module": "dist/list-plugins.esm.js",
+  "main": "dist/history.cjs.js",
+  "module": "dist/history.esm.js",
   "dependencies": {
     "@babel/core": "^7.15.5",
     "@babel/runtime": "^7.15.3"

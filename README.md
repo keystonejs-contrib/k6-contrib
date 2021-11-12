@@ -4,9 +4,9 @@ A collection of community projects for KeystoneJs ecosystem
 
 # Packages
 
-## @k6-contrib/list-plugins
+## @k6-contrib/with-history
 
-Useful list plugins for Keystone 6
+Useful history plugin for Keystone 6
 
 # Examples
 

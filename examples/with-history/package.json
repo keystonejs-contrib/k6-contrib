@@ -1,5 +1,5 @@
 {
-  "name": "@k6-contrib/example-with-tracking",
+  "name": "@k6-contrib/example-with-history",
   "version": "0.6.0",
   "private": true,
   "scripts": {

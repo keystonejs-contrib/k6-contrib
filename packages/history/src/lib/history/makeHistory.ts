@@ -1,35 +1,39 @@
 import { ListConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/keystone/types';
-import { HistoryOptions } from '../types';
+// import { historyOptions } from '../types';
 
 export const makeHistory =
-  (options: HistoryOptions = {}) =>
+  () =>
     <Fields extends BaseFields<BaseGeneratedListTypes>>(
       listConfig: ListConfig<BaseGeneratedListTypes, Fields>
     ): ListConfig<BaseGeneratedListTypes, Fields> => {
 
       let hooks = { ...listConfig.hooks };
       let beforeData:any
-      let historyData:any={}
+      let newData:any={}
+      let oldData:any={}
         hooks = {
           ...hooks,
           beforeOperation: async({item}) => {
             beforeData = item 
           },
           afterOperation: async({ item, operation, context }) => {
+            if(beforeData){
               Object.keys(beforeData).forEach(key => {
                  if(beforeData[key] !== item[key]){
-                    historyData[key]=item[key]
+                    newData[key]=item[key]
+                    oldData[key]=beforeData[key]
                  }
               });              
-            if (operation === 'create' || operation === 'update') {
+            if (operation === 'update') {
               await context.query.History.createOne({
                 data: {
-                  operation:operation,history:JSON.stringify(historyData),orignal:item.id
+                  operation:operation,newValue:JSON.stringify(newData),oldValue:JSON.stringify(oldData),orignal:item.id
                 },
                 query: 'id ',
               });
             }
           }
+        }
         }
       return {
         ...listConfig,

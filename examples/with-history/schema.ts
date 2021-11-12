@@ -3,7 +3,7 @@ import { text, relationship, password, timestamp, select } from '@keystone-next/
 import { document } from '@keystone-next/fields-document';
 import { configureHistory } from '../../packages/history/src';
 
-const withHistory = configureHistory({ HistoryOptions: { isIndexed: true } });
+const withHistory = configureHistory();
 
 export const lists = {
   User: list(
@@ -112,7 +112,8 @@ export const lists = {
             },
           },
         }),
-        history: text(),
+        oldValue: text(),
+        newValue: text(),
         createdAt: timestamp({ defaultValue: { kind: 'now' },
           ui: {
             createView: {
