@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/history",
-  "description": "List level plugins which can update list config during list initialization including adding additional fields",
+  "description": "History plugin can create history of lists during list update operation",
   "version": "0.6.0",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",

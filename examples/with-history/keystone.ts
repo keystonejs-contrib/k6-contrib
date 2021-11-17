@@ -1,6 +1,7 @@
 import { config } from '@keystone-next/keystone';
 import { statelessSessions } from '@keystone-next/keystone/session';
 import { createAuth } from '@keystone-next/auth';
+import { createHistory } from '../../packages/history/src';
 
 import { lists } from './schema';
 
@@ -27,22 +28,34 @@ const { withAuth } = createAuth({
     fields: ['name', 'email', 'password'],
   },
 });
+const { withHistory } = createHistory({
+  listKey: 'History',
+});
 
 const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret,
 });
 
-export default withAuth(
+// withAuth(
+//     config({
+//       db: {
+//         provider: 'sqlite',
+//         url: 'file:./keystone.db',
+//       },
+//       ui: {
+//         isAccessAllowed: (context) => !!context.session?.data,
+//       },
+//       lists,
+//       session,
+//     })
+// );
+export default withHistory(
   config({
     db: {
       provider: 'sqlite',
       url: 'file:./keystone.db',
     },
-    ui: {
-      isAccessAllowed: (context) => !!context.session?.data,
-    },
-    lists,
-    session,
+    lists
   })
 );

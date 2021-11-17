@@ -1,13 +1,9 @@
 import { list } from '@keystone-next/keystone';
 import { text, relationship, password, timestamp, select } from '@keystone-next/keystone/fields';
 import { document } from '@keystone-next/fields-document';
-import { configureHistory } from '../../packages/history/src';
-
-const withHistory = configureHistory();
-
+import { configureHistory } from '../../packages/history/src/configuration';
 export const lists = {
-  User: list(
-    withHistory({
+  User: list({
       ui: {
         listView: {
           initialColumns: ['name', 'posts'],
@@ -19,10 +15,12 @@ export const lists = {
         password: password({ validation: { isRequired: true } }),
         posts: relationship({ ref: 'Post.author', many: true }),
       },
-    })
-  ),
-  Post: list(
-    withHistory({
+    }),
+  Post: list({
+      history:{
+        history:true, 
+        separate:true       
+      },
       fields: {
         title: text(),
         status: select({
@@ -70,10 +68,8 @@ export const lists = {
           many: true,
         }),
       },
-    })
-  ),
-  Tag: list(
-    withHistory({
+    }),
+  Tag: list({
       ui: {
         isHidden: true,
       },
@@ -85,8 +81,7 @@ export const lists = {
           graphql: { omit: ['create', 'update'] },
         }),
       },
-    })
-  ),
+    }),
   History: list({
       // ui: {
       //   isHidden:true
