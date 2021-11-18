@@ -15,7 +15,7 @@ import {
   export function createHistory() {
     
     /**
-     * withHistory
+     * withHistory6
      *
      * Automatically extends config with the correct History functionality. This is the easiest way to
      * configure History for keystone; you should probably use it unless you want to extend or replace
@@ -24,15 +24,60 @@ import {
      * It validates the History config against the provided keystone config, and preserves existing
      * config by composing existing extendGraphqlSchema functions and ui config.
      */
+
     const withHistory = (keystoneConfig: KeystoneConfig): KeystoneConfig => {
+
+    // History List
+    keystoneConfig.lists  = {...keystoneConfig.lists,
+      ['History']:list({
+            ui: {
+              isHidden:true
+            },
+            fields: {
+              orignal: text({ 
+                ui: {
+                  createView: {
+                    fieldMode: 'hidden',
+                  },
+                  itemView: {
+                    fieldMode: 'read',
+                  },
+                },
+              }),
+              operation: text({
+                ui: {
+                  createView: {
+                    fieldMode: 'hidden',
+                  },
+                  itemView: {
+                    fieldMode: 'read',
+                  },
+                },
+              }),
+              oldValue: text(),
+              newValue: text(),
+              createdAt: timestamp({ defaultValue: { kind: 'now' },
+                ui: {
+                  createView: {
+                    fieldMode: 'hidden',
+                  },
+                  itemView: {
+                    fieldMode: 'read',
+                  },
+                },
+              })
+            },
+        }),
+      }
+
       Object.keys(keystoneConfig.lists).forEach(key => {
         if(keystoneConfig.lists[key]?.history){
           if(keystoneConfig.lists[key]?.history?.separate){
             keystoneConfig.lists  = {...keystoneConfig.lists,
             [key+'History']:list({
-              // ui: {
-              //   isHidden:true
-              // },
+              ui: {
+                isHidden:true
+              },
               fields: {
                 orignal: text({ 
                   ui: {

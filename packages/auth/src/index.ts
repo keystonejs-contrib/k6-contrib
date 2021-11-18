@@ -13,7 +13,6 @@ import { AuthConfig, AuthGqlNames } from './types';
 import { getSchemaExtension } from './schema';
 import { signinTemplate } from './templates/signin';
 import { initTemplate } from './templates/init';
-import { list } from '@graphql-ts/schema/api-without-context';
 
 /**
  * createAuth function
@@ -29,7 +28,6 @@ export function createAuth<GeneratedListTypes extends BaseGeneratedListTypes>({
   passwordResetLink,
   sessionData,
 }: AuthConfig<GeneratedListTypes>) {
-  console.log(listKey)
   const gqlNames: AuthGqlNames = {
     // Core
     authenticateItemWithPassword: `authenticate${listKey}WithPassword`,

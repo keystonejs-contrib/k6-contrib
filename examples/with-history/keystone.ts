@@ -28,29 +28,14 @@ const { withAuth } = createAuth({
     fields: ['name', 'email', 'password'],
   },
 });
-const { withHistory } = createHistory({
-  listKey: 'History',
-});
+const { withHistory } = createHistory();
 
 const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret,
 });
 
-// withAuth(
-//     config({
-//       db: {
-//         provider: 'sqlite',
-//         url: 'file:./keystone.db',
-//       },
-//       ui: {
-//         isAccessAllowed: (context) => !!context.session?.data,
-//       },
-//       lists,
-//       session,
-//     })
-// );
-export default withHistory(
+const history = withHistory(
   config({
     db: {
       provider: 'sqlite',
@@ -58,4 +43,17 @@ export default withHistory(
     },
     lists
   })
+);
+export default withAuth(
+    config({
+      db: {
+        provider: 'sqlite',
+        url: 'file:./keystone.db',
+      },
+      ui: {
+        isAccessAllowed: (context) => !!context.session?.data,
+      },
+      lists:history.lists,
+      session,
+    })
 );

@@ -1,8 +1,7 @@
 import { ListConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/keystone/types';
 // import { historyOptions } from '../types';
 
-export const makeHistory =
-  () =>
+export const makeHistory = () =>
     <Fields extends BaseFields<BaseGeneratedListTypes>>(
       listConfig: ListConfig<BaseGeneratedListTypes, Fields>
     ): ListConfig<BaseGeneratedListTypes, Fields> => {

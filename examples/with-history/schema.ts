@@ -1,9 +1,12 @@
 import { list } from '@keystone-next/keystone';
 import { text, relationship, password, timestamp, select } from '@keystone-next/keystone/fields';
 import { document } from '@keystone-next/fields-document';
-import { configureHistory } from '../../packages/history/src/configuration';
+
 export const lists = {
   User: list({
+      history:{
+        history:true
+      },
       ui: {
         listView: {
           initialColumns: ['name', 'posts'],
@@ -82,43 +85,4 @@ export const lists = {
         }),
       },
     }),
-  History: list({
-      // ui: {
-      //   isHidden:true
-      // },
-      fields: {
-        orignal: text({ 
-          ui: {
-            createView: {
-              fieldMode: 'hidden',
-            },
-            itemView: {
-              fieldMode: 'read',
-            },
-          },
-        }),
-        operation: text({
-          ui: {
-            createView: {
-              fieldMode: 'hidden',
-            },
-            itemView: {
-              fieldMode: 'read',
-            },
-          },
-        }),
-        oldValue: text(),
-        newValue: text(),
-        createdAt: timestamp({ defaultValue: { kind: 'now' },
-          ui: {
-            createView: {
-              fieldMode: 'hidden',
-            },
-            itemView: {
-              fieldMode: 'read',
-            },
-          },
-        })
-      },
-  }),
 };
