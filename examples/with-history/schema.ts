@@ -5,7 +5,7 @@ import { document } from '@keystone-next/fields-document';
 export const lists = {
   User: list({
       history:{
-        history:true
+        history:true,
       },
       ui: {
         listView: {
@@ -22,7 +22,8 @@ export const lists = {
   Post: list({
       history:{
         history:true, 
-        separate:true       
+        separate:true,
+        exclude:['publishDate']
       },
       fields: {
         title: text(),

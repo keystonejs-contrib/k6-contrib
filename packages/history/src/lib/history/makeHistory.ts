@@ -1,4 +1,5 @@
 import { ListConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/keystone/types';
+import { SessionContext } from '@keystone-next/keystone/types';
 // import { historyOptions } from '../types';
 
 export const makeHistory = () =>
@@ -9,34 +10,48 @@ export const makeHistory = () =>
       let history = { ...listConfig.history };
 
       let beforeData:any
-      let newData:any={}
-      let oldData:any={}
         hooks = {
           ...hooks,
           beforeOperation: async({item}) => {
             beforeData = item 
           },
-          afterOperation: async({ item, operation, context, listKey }) => {            
+          afterOperation: async({ item, operation, context, listKey }) => {      
+            let newData:any=[]
+            let oldData:any=[]
+            let fields:any=[]      
             if(beforeData){
               Object.keys(beforeData).forEach(key => {
-                 if(beforeData[key] !== item[key]){
-                    newData[key]=item[key]
-                    oldData[key]=beforeData[key]
-                 }
+                  let exclude:boolean=false
+                  if(history.exclude)
+                  history.exclude.map((el:any)=>{
+                    if(el == key) return exclude=true
+                  })
+                  if(!exclude && beforeData[key] !== item[key]){
+                    fields.push(key)
+                    newData.push(item[key])
+                    oldData.push(beforeData[key])
+                  }
               });              
             if (operation === 'update') {
-              let query
+              let query:any
               if(history.separate){
                 query = context.query[listKey+'History']
               }else{
                 query = context.query.History
               }
-                await query.createOne({
+              fields.map((el:any,index:number)=>{
+                query.createOne({
                   data: {
-                    operation:operation,newValue:JSON.stringify(newData),oldValue:JSON.stringify(oldData),orignal:item.id
+                    list:listKey,
+                    newValue:newData[index],
+                    oldValue:oldData[index],
+                    itemId:item.id,
+                    field:el,
+                    modifiedBy:{connect:{id:context.session.data.id}}
                   },
                   query: 'id ',
                 });
+              })
             }
           }
         }

@@ -2,7 +2,7 @@ import {
     KeystoneConfig,
   } from '@keystone-next/keystone/types';
   import { configureHistory } from './configuration';
-  import { text, timestamp } from '@keystone-next/keystone/fields';
+  import { relationship, text, timestamp } from '@keystone-next/keystone/fields';
   
   // import { HistoryConfig} from './lib/types';
   import { list } from '@keystone-next/keystone';
@@ -34,7 +34,8 @@ import {
               isHidden:true
             },
             fields: {
-              orignal: text({ 
+              list: text(),
+              itemId: text({ 
                 ui: {
                   createView: {
                     fieldMode: 'hidden',
@@ -44,19 +45,11 @@ import {
                   },
                 },
               }),
-              operation: text({
-                ui: {
-                  createView: {
-                    fieldMode: 'hidden',
-                  },
-                  itemView: {
-                    fieldMode: 'read',
-                  },
-                },
-              }),
+              field: text(),
               oldValue: text(),
               newValue: text(),
-              createdAt: timestamp({ defaultValue: { kind: 'now' },
+              modifiedBy: relationship({ ref:'User' }),
+              modifiedAt: timestamp({ defaultValue: { kind: 'now' },
                 ui: {
                   createView: {
                     fieldMode: 'hidden',
@@ -79,7 +72,8 @@ import {
                 isHidden:true
               },
               fields: {
-                orignal: text({ 
+                list: text(),
+                itemId: text({ 
                   ui: {
                     createView: {
                       fieldMode: 'hidden',
@@ -89,19 +83,11 @@ import {
                     },
                   },
                 }),
-                operation: text({
-                  ui: {
-                    createView: {
-                      fieldMode: 'hidden',
-                    },
-                    itemView: {
-                      fieldMode: 'read',
-                    },
-                  },
-                }),
+                field: text(),
                 oldValue: text(),
                 newValue: text(),
-                createdAt: timestamp({ defaultValue: { kind: 'now' },
+                modifiedBy: relationship({ref:'User'}),
+                modifiedAt: timestamp({ defaultValue: { kind: 'now' },
                   ui: {
                     createView: {
                       fieldMode: 'hidden',
