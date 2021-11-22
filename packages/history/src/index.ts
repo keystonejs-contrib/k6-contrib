@@ -2,18 +2,18 @@ import {
     KeystoneConfig,
   } from '@keystone-next/keystone/types';
   import { configureHistory } from './configuration';
+  import {argsType} from './types';
   import { relationship, text, timestamp } from '@keystone-next/keystone/fields';
   
   // import { HistoryConfig} from './lib/types';
   import { list } from '@keystone-next/keystone';
-  const makeHistory = configureHistory();
   /**
    * createHistory function
    *
    * Generates config for Keystone to implement standard History features.
    */
-  export function createHistory() {
-    
+  export function createHistory({listName}:argsType) {
+    const makeHistory = configureHistory({listName});
     /**
      * withHistory6
      *
@@ -29,10 +29,10 @@ import {
 
     // History List
     keystoneConfig.lists  = {...keystoneConfig.lists,
-      ['History']:list({
-            ui: {
-              isHidden:true
-            },
+      [listName?listName:'History']:list({
+            // ui: {
+            //   isHidden:true
+            // },
             fields: {
               list: text(),
               itemId: text({ 
@@ -64,13 +64,16 @@ import {
       }
 
       Object.keys(keystoneConfig.lists).forEach(key => {
+        let name = key+'History';
+        if(keystoneConfig.lists[key]?.history?.suffix)
+            name = key+keystoneConfig.lists[key]?.history?.suffix
         if(keystoneConfig.lists[key]?.history){
-          if(keystoneConfig.lists[key]?.history?.separate){
+          if(keystoneConfig.lists[key]?.history?.distinct){
             keystoneConfig.lists  = {...keystoneConfig.lists,
-            [key+'History']:list({
-              ui: {
-                isHidden:true
-              },
+            [name]:list({
+              // ui: {
+              //   isHidden:true
+              // },
               fields: {
                 list: text(),
                 itemId: text({ 

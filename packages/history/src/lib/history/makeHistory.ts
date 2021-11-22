@@ -1,14 +1,12 @@
 import { ListConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/keystone/types';
-import { SessionContext } from '@keystone-next/keystone/types';
-// import { historyOptions } from '../types';
+import { historyOptions } from '../types';
 
-export const makeHistory = () =>
+export const makeHistory = ({listName}:historyOptions) =>
     <Fields extends BaseFields<BaseGeneratedListTypes>>(
       listConfig: ListConfig<BaseGeneratedListTypes, Fields>
     ): ListConfig<BaseGeneratedListTypes, Fields> => {
       let hooks = { ...listConfig.hooks };
       let history = { ...listConfig.history };
-
       let beforeData:any
         hooks = {
           ...hooks,
@@ -34,8 +32,11 @@ export const makeHistory = () =>
               });              
             if (operation === 'update') {
               let query:any
-              if(history.separate){
-                query = context.query[listKey+'History']
+              let name = listKey+'History'
+              if(history.suffix)
+                name = listKey+history.suffix
+              if(history.distinct){
+                query = context.query[name]
               }else{
                 query = context.query.History
               }

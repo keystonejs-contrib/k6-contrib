@@ -1,7 +1,7 @@
 import { BaseGeneratedListTypes, CommonFieldConfig, ListHooks } from '@keystone-next/keystone/types';
 
 export type historyOptions = {
-
+  listName:string
 } & CommonFieldConfig<BaseGeneratedListTypes>;
 
 export type HistoryConfig<GeneratedListTypes extends BaseGeneratedListTypes> = {

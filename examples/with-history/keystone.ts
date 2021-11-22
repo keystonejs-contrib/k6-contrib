@@ -28,23 +28,17 @@ const { withAuth } = createAuth({
     fields: ['name', 'email', 'password'],
   },
 });
-const { withHistory } = createHistory();
+const { withHistory } = createHistory({
+  listName:'Log'
+});
 
 const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret,
 });
 
-const history = withHistory(
-  config({
-    db: {
-      provider: 'sqlite',
-      url: 'file:./keystone.db',
-    },
-    lists
-  })
-);
 export default withAuth(
+    withHistory(
     config({
       db: {
         provider: 'sqlite',
@@ -53,7 +47,8 @@ export default withAuth(
       ui: {
         isAccessAllowed: (context) => !!context.session?.data,
       },
-      lists:history.lists,
+      lists,
       session,
     })
+    )
 );
