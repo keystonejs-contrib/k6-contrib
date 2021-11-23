@@ -38,7 +38,9 @@ export const makeHistory = ({listName}:historyOptions) =>
               if(history.distinct){
                 query = context.query[name]
               }else{
-                query = context.query.History
+                if(listName)
+                query = context.query[listName]
+                else query = context.query.History
               }
               fields.map((el:any,index:number)=>{
                 query.createOne({
