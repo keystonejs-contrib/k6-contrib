@@ -21,15 +21,13 @@ import {
      * configure History for keystone; you should probably use it unless you want to extend or replace
      * the way History is set up with custom functionality.
      *
-     * It validates the History config against the provided keystone config, and preserves existing
-     * config by composing existing extendGraphqlSchema functions and ui config.
      */
 
     const withHistory = (keystoneConfig: KeystoneConfig): KeystoneConfig => {
 
     // History List
     keystoneConfig.lists  = {...keystoneConfig.lists,
-      [listName?listName:'History']:list({
+      [listName?listName:listName]:list({
             // ui: {
             //   isHidden:true
             // },
@@ -64,11 +62,11 @@ import {
       }
 
       Object.keys(keystoneConfig.lists).forEach(key => {
-        let name = key+'History';
+        let name = key+listName;
         if(keystoneConfig.lists[key]?.history?.suffix)
             name = key+keystoneConfig.lists[key]?.history?.suffix
         if(keystoneConfig.lists[key]?.history){
-          if(keystoneConfig.lists[key]?.history?.distinct){
+          if(keystoneConfig.lists[key]?.history?.exclusive){
             keystoneConfig.lists  = {...keystoneConfig.lists,
             [name]:list({
               // ui: {
@@ -109,7 +107,6 @@ import {
           }
         }
       });   
-      // if (!keystoneConfig.session) throw new TypeError('Missing .session configuration');
       
       return {
         ...keystoneConfig, 
@@ -125,10 +122,6 @@ import {
       // In the future we may want to return the following so that developers can
       // roll their own. This is pending a review of the use cases this might be
       // appropriate for, along with documentation and testing.
-      // ui: { enableSessionItem: true, pageMiddleware, getAdditionalFiles, publicPages },
-      // fields,
-      // extendGraphqlSchema,
-      // validateConfig,
     }
   }
   

@@ -1,36 +1,57 @@
-<!--[meta]
-section: history
-title: history
-[meta]-->
+# History Plugin
 
-# history Plugin
-
-Add `History` list in your schema.
-
-Add `oldValue`, `newValue`, `orignal`, `operation`and `createdAt` fields to History list. These fields are read-only
-but they will be updated automatically when items are created or updated.
+It will generate a list automaticaly with the name you passed in listName in createHistory. You can also generate exclusive history list for each list by using exclusive true in history options.
 
 ## Usage
 
 ```ts
-import { history } from '@k6-contrib/history';
+import { createHistory } from '@k6-contrib/history';
 
-const withHistory = history();
+    const { withHistory } = createHistory({
+      listName:'Log'
+    });
 
-const User = list(withHistory({
-  ui: {...},
-  fields: {...},
-  ...
-}))
+    withAuth(
+      withHistory(
+        config({
+          db: {
+            provider: 'sqlite',
+            url: 'file:./keystone.db',
+          },
+          ui: {
+            isAccessAllowed: (context) => !!context.session?.data,
+          },
+          lists,
+          session,
+        })
+      )
+    );
+  
+    User: list({
+      history:{
+        history:true, 
+        exclusive:true,
+        suffix:'Log',
+        exclude:['publishDate']
+      },
+    }),
 ```
-### `access`
 
-By default access control in Histroy list is read only:
+## Config
 
-```javascript allowCopy=false showLanguage=false
-{
-  read: true,
-  create: false,
-  update: false
+| Option           | Type     | Default             | Description                               |
+| ---------------- | -------- | ------------------- | ----------------------------------------- |
+| `history`        | `Boolean`| `false`             | Allow for create history.                 |
+| `exclusive`      | `Boolean`| `false`             | To generate exclusive list for history.   |
+| `suffix`         | `String` | listName            | Add suffix in exclusive list.             |
+| `exclude`        | `Array`  | `undefined`         | To exclude particular fields in list.     |
+
+### `ui`
+
+By default ui of list is hidden:
+
+```
+ui:{
+  isHidden:true
 }
 ```

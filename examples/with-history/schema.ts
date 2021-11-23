@@ -22,7 +22,7 @@ export const lists = {
   Post: list({
       history:{
         history:true, 
-        distinct:true,
+        exclusive:true,
         suffix:'Log',
         exclude:['publishDate']
       },

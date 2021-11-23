@@ -32,15 +32,15 @@ export const makeHistory = ({listName}:historyOptions) =>
               });              
             if (operation === 'update') {
               let query:any
-              let name = listKey+'History'
+              let name = listKey+listName
               if(history.suffix)
                 name = listKey+history.suffix
-              if(history.distinct){
+              if(history.exclusive){
                 query = context.query[name]
               }else{
                 if(listName)
                 query = context.query[listName]
-                else query = context.query.History
+                else query = context.query[listName]
               }
               fields.map((el:any,index:number)=>{
                 query.createOne({
