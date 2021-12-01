@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/example-azure",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -11,7 +11,7 @@
     "build": "keystone build"
   },
   "dependencies": {
-    "@k6-contrib/fields-azure": "^0.5.0",
+    "@k6-contrib/fields-azure": "^1.0.0",
     "@keystone-6/core": "^1.0.0",
     "cross-env": "^7.0.3"
   },

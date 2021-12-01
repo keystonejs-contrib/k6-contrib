@@ -1,5 +1,16 @@
 # @k6-contrib/example-s3-file
 
+## 0.7.0
+
+### Minor Changes
+
+- d1a0af8: Upgrade to Keystone 6 GA
+
+### Patch Changes
+
+- Updated dependencies [d1a0af8]
+  - @k6-contrib/fields-s3@1.0.0
+
 ## 0.6.0
 
 ### Minor Changes
