@@ -1,4 +1,4 @@
-import { list, graphQLSchemaExtension, gql, graphql,  } from '@keystone-6/core';
+import { list, graphQLSchemaExtension, gql, graphql } from '@keystone-6/core';
 import {
   text,
   relationship,
@@ -41,7 +41,8 @@ const withTracking = configureTracking({});
 
 export const lists = {
   User: list(
-    {db: {},
+    {
+      db: {},
       ui: {
         listView: {
           initialColumns: ['name', 'posts', 'avatar'],
@@ -66,11 +67,11 @@ export const lists = {
         }),
         secret2: encrypted({
           reverse: true,
-          ui: {displayMode: 'textarea'},
+          ui: { displayMode: 'textarea' },
           secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
         }),
         superSecret2: encrypted({
-          ui: {displayMode: 'textarea'},
+          ui: { displayMode: 'textarea' },
           secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
         }),
         /** Avatar upload for the users profile, stored locally */
@@ -131,7 +132,7 @@ export const lists = {
         label: virtual({
           field: graphql.field({
             type: graphql.String,
-            resolve(item) {
+            resolve(item: any) {
               return `${item.type} - ${item.value}`;
             },
           }),
@@ -235,7 +236,7 @@ export const extendGraphqlSchema = graphQLSchemaExtension({
   `,
   resolvers: {
     RandomNumber: {
-      number(rootVal: { number: number }) {
+      number(rootVal: { number: number; }) {
         return rootVal.number * 1000;
       },
     },

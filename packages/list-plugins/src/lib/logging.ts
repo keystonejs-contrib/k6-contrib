@@ -1,40 +1,36 @@
-import { ListConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-6/core/types';
+import { ListConfig, BaseListTypeInfo, BaseFields, BaseItem } from '@keystone-6/core/types';
 
-export const logging =  (loggingFn = (s: Object) => console.log(JSON.stringify(s))) => <Field extends BaseFields<BaseGeneratedListTypes>>({ hooks = {}, ...rest }: ListConfig<BaseGeneratedListTypes, Field>): ListConfig<BaseGeneratedListTypes, Field> => ({
+export const logging = (loggingFn = (s: Object) => console.log(JSON.stringify(s))) => <Field extends BaseFields<BaseListTypeInfo>>({ hooks = {}, ...rest }: ListConfig<BaseListTypeInfo, Field>): ListConfig<BaseListTypeInfo, Field> => ({
   hooks: {
     ...hooks,
-    afterChange: async args => {
-      if (hooks.afterChange) {
-        await hooks.afterChange(args);
+    afterOperation: async args => {
+      if (hooks.afterOperation) {
+        await hooks.afterOperation(args);
       }
-      const { operation, existingItem, originalInput, updatedItem, context, listKey } = args;
-      const { session: { itemId: authedItem = null, listKey: authedListKey = null} = {} } = context;
+      const { operation, originalItem, inputData, item, context, listKey } = args;
+      const { session: { itemId: authedItem = null, listKey: authedListKey = null } = {} } = context;
       if (operation === 'create') {
         loggingFn({
           operation,
           authedItem,
           authedListKey,
-          originalInput,
+          inputData,
           listKey,
-          createdItem: updatedItem,
+          createdItem: item,
         });
       } else if (operation === 'update') {
-        const changedItem = Object.entries(updatedItem)
-          .filter(([key, value]) => key === 'id' || value !== existingItem[key])
+        const changedItem = Object.entries(item as BaseItem)
+          .filter(([key, value]) => key === 'id' || value !== originalItem?.[key])
           .reduce((acc, [k, v]) => {
             acc[k] = v;
             return acc;
           }, {} as Record<string, unknown>);
-        loggingFn({ operation, authedItem, authedListKey, originalInput, listKey, changedItem });
+        loggingFn({ operation, authedItem, authedListKey, inputData, listKey, changedItem });
+      } else if (operation === 'delete') {
+        const { operation, originalItem, context, listKey } = args;
+        const { session: { itemId: authedItem = null, listKey: authedListKey = null } = {} } = context;
+        loggingFn({ operation, authedItem, authedListKey, listKey, deletedItem: originalItem });
       }
-    },
-    afterDelete: async args => {
-      if (hooks.afterDelete) {
-        await hooks.afterDelete(args);
-      }
-      const { operation, existingItem, context, listKey } = args;
-      const { session: { itemId: authedItem = null, listKey: authedListKey = null} = {} } = context;
-      loggingFn({ operation, authedItem, authedListKey, listKey, deletedItem: existingItem });
     },
     // TODO Disabled until this is supported again
     //@ts-ignore

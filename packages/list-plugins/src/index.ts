@@ -1,4 +1,4 @@
-import { ListConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-6/core/types';
+import { ListConfig, BaseListTypeInfo, BaseFields } from '@keystone-6/core/types';
 
 import { atTracking } from './lib/tracking/atTracking';
 import { byTracking } from './lib/tracking/byTracking';
@@ -13,14 +13,14 @@ export const configureTracking =
     atTrackingOptions?: AtTrackingOptions;
     byTrackingOptions?: ByTrackingOptions;
   }) =>
-  <Fields extends BaseFields<BaseGeneratedListTypes>>(
-    listConfig: ListConfig<BaseGeneratedListTypes, Fields>
-  ): ListConfig<BaseGeneratedListTypes, Fields> => {
-    return byTracking(byTrackingOptions)(atTracking(atTrackingOptions)(listConfig));
-  };
+    <Fields extends BaseFields<BaseListTypeInfo>>(
+      listConfig: ListConfig<BaseListTypeInfo, Fields>
+    ): ListConfig<BaseListTypeInfo, Fields> => {
+      return byTracking(byTrackingOptions)(atTracking(atTrackingOptions)(listConfig));
+    };
 
-export * from './lib/types';
-export * from './lib/tracking/atTracking';
-export * from './lib/tracking/byTracking';
+export type { AtTrackingOptions, ByTrackingOptions } from './lib/types';
+export { atTracking, createdAt, updatedAt } from './lib/tracking/atTracking';
+export { byTracking, createdBy, updatedBy } from './lib/tracking/byTracking';
 
 export { logging } from './lib/logging';
