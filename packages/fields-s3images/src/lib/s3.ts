@@ -4,7 +4,7 @@ import AWS from 'aws-sdk';
 import urlJoin from 'url-join';
 import cuid from 'cuid';
 import sharp from 'sharp';
-import { KeystoneContext } from '@keystone-next/keystone/types';
+import { KeystoneContext } from '@keystone-6/core/types';
 import { S3ImagesConfig, ImagesData } from './types';
 import { normalizeImageExtension, parseImageRef, parseImagesMetaRef } from './utils';
 

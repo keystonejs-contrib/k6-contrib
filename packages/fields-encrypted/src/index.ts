@@ -6,8 +6,8 @@ import {
   CommonFieldConfig,
   fieldType,
   FieldTypeFunc,
-} from '@keystone-next/keystone/types';
-import { graphql } from '@keystone-next/keystone';
+} from '@keystone-6/core/types';
+import { graphql } from '@keystone-6/core';
 
 const views = path.join(path.dirname(__dirname), 'views');
 

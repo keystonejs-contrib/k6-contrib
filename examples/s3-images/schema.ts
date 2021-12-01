@@ -1,5 +1,5 @@
-import { list } from '@keystone-next/keystone';
-import { select, relationship, text, timestamp } from '@keystone-next/keystone/fields';
+import { list } from '@keystone-6/core';
+import { select, relationship, text, timestamp } from '@keystone-6/core/fields';
 import { S3ImagesConfig, s3Images } from '@k6-contrib/fields-s3-images';
 import 'dotenv/config';
 

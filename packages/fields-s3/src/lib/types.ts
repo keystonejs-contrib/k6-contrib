@@ -3,7 +3,7 @@ import {
   BaseGeneratedListTypes,
   CommonFieldConfig,
   ImageMetadata,
-} from '@keystone-next/keystone/types';
+} from '@keystone-6/core/types';
 
 export type AssetMode = 's3';
 export type AssetType = 'file' | 'image';

@@ -19,12 +19,12 @@
   },
   "dependencies": {
     "@azure/storage-blob": "^12.7.0",
-    "@babel/runtime": "^7.15.3",
-    "@keystone-ui/button": "^5.0.2",
-    "@keystone-ui/core": "^3.2.1",
-    "@keystone-ui/fields": "^5.0.1",
-    "@keystone-ui/pill": "^5.0.2",
-    "@keystone-ui/toast": "^4.0.4",
+    "@babel/runtime": "^7.16.3",
+    "@keystone-ui/button": "^6.0.0",
+    "@keystone-ui/core": "^4.0.0",
+    "@keystone-ui/fields": "^6.0.0",
+    "@keystone-ui/pill": "^6.0.0",
+    "@keystone-ui/toast": "^5.0.0",
     "@sindresorhus/slugify": "^1.1.2",
     "bytes": "^3.1.0",
     "copy-to-clipboard": "^3.3.1",
@@ -36,15 +36,15 @@
     "image-type": "^4.1.0"
   },
   "peerDependencies": {
-    "@keystone-next/keystone": ">=^27.0.1",
+    "@keystone-6/core": ">=^1.0.0",
     "react": "^17.0.2"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-azure",
   "devDependencies": {
-    "@keystone-next/keystone": "^27.0.1",
+    "@keystone-6/core": "^1.0.0",
     "@types/bytes": "^3.1.1",
-    "@types/react": "^17.0.34",
-    "graphql": "^15.6.1",
+    "@types/react": "^17.0.35",
+    "graphql": "^15.7.2",
     "mime": "^2.5.2",
     "react": "^17.0.2"
   },

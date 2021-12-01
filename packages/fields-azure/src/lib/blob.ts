@@ -3,7 +3,7 @@ import { FileUpload } from 'graphql-upload';
 import cuid from 'cuid';
 import slugify from '@sindresorhus/slugify';
 import filenamify from 'filenamify';
-import { ImageMetadata } from '@keystone-next/keystone/types';
+import { ImageMetadata } from '@keystone-6/core/types';
 import fromBuffer from 'image-type';
 import imageSize from 'image-size';
 import { AssetType, AzureStorageDataType, AzureStorageConfig, FileData, ImageData } from './types';

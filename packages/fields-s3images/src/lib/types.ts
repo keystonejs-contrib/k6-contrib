@@ -4,7 +4,7 @@ import {
   CommonFieldConfig,
   ImageMetadata,
   KeystoneContext,
-} from '@keystone-next/keystone/types';
+} from '@keystone-6/core/types';
 
 export type AssetMode = 's3';
 export type AssetType = 'image';

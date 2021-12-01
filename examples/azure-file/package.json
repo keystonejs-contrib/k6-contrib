@@ -4,15 +4,15 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS=--inspect keystone-next dev",
-    "devnb": "keystone-next dev",
-    "devb": "cross-env NODE_OPTIONS=--inspect-brk keystone-next dev",
-    "start": "keystone-next start",
-    "build": "keystone-next build"
+    "dev": "cross-env NODE_OPTIONS=--inspect keystone dev",
+    "devnb": "keystone dev",
+    "devb": "cross-env NODE_OPTIONS=--inspect-brk keystone dev",
+    "start": "keystone start",
+    "build": "keystone build"
   },
   "dependencies": {
     "@k6-contrib/fields-azure": "^0.5.0",
-    "@keystone-next/keystone": "^27.0.1",
+    "@keystone-6/core": "^1.0.0",
     "cross-env": "^7.0.3"
   },
   "devDependencies": {

@@ -1,13 +1,13 @@
-import { TimestampFieldConfig } from '@keystone-next/keystone/dist/declarations/src/fields/types/timestamp';
-import { timestamp } from '@keystone-next/keystone/fields';
-import { ListConfig, BaseGeneratedListTypes, BaseFields } from '@keystone-next/keystone/types';
-import { AtTrackingOptions } from '../types';
+import type { TimestampFieldConfig } from '@keystone-6/core/fields';
+import { timestamp } from '@keystone-6/core/fields';
+import type { ListConfig, BaseListTypeInfo, BaseFields } from '@keystone-6/core/types';
+import type { AtTrackingOptions } from '../types';
 
 export const atTracking =
   (options: AtTrackingOptions = {}) =>
-    <Fields extends BaseFields<BaseGeneratedListTypes>>(
-      listConfig: ListConfig<BaseGeneratedListTypes, Fields>
-    ): ListConfig<BaseGeneratedListTypes, Fields> => {
+    <Fields extends BaseFields<BaseListTypeInfo>>(
+      listConfig: ListConfig<BaseListTypeInfo, Fields>
+    ): ListConfig<BaseListTypeInfo, Fields> => {
       const {
         created = true,
         updated = true,
@@ -16,7 +16,7 @@ export const atTracking =
         ...atFieldOptions
       } = options;
 
-      const fieldOptions: TimestampFieldConfig<BaseGeneratedListTypes> = {
+      const fieldOptions: TimestampFieldConfig<BaseListTypeInfo> = {
         access: {
           read: () => true,
           create: () => false,

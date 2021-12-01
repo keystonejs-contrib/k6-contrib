@@ -3,7 +3,7 @@
 
 import { jsx } from '@keystone-ui/core';
 import { FieldContainer, FieldLabel, TextInput } from '@keystone-ui/fields';
-import { CellLink, CellContainer } from '@keystone-next/keystone/admin-ui/components';
+import { CellLink, CellContainer } from '@keystone-6/core/admin-ui/components';
 
 import {
   CardValueComponent,
@@ -11,7 +11,7 @@ import {
   FieldController,
   FieldControllerConfig,
   FieldProps,
-} from '@keystone-next/keystone/types';
+} from '@keystone-6/core/types';
 
 export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof controller>) => (
   <FieldContainer>
