@@ -6,8 +6,8 @@ import {
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
-} from '@keystone-next/keystone/types';
-import { graphql } from '@keystone-next/keystone';
+} from '@keystone-6/core/types';
+import { graphql } from '@keystone-6/core';
 import { getFileRef } from './utils';
 import { AzureStorageFieldConfig, AzureStorageFieldInputType, AzureStorageConfig, AzureStorageDataType, FileData } from './types';
 import { getDataFromRef, getDataFromStream, getUrl } from './blob';

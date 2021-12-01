@@ -6,8 +6,8 @@ import {
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
-} from '@keystone-next/keystone/types';
-import { graphql } from '@keystone-next/keystone';
+} from '@keystone-6/core/types';
+import { graphql } from '@keystone-6/core';
 import { getImageMetaRef, getImageRef, isValidImageExtension, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 import { ImagesData, ImageSize, S3FieldConfig, S3FieldInputType, S3ImagesConfig } from './types';
 import { getDataFromRef, getDataFromStream, getUrl } from './s3';

@@ -1,5 +1,5 @@
-import { list } from '@keystone-next/keystone';
-import { select, relationship, text, timestamp } from '@keystone-next/keystone/fields';
+import { list } from '@keystone-6/core';
+import { select, relationship, text, timestamp } from '@keystone-6/core/fields';
 import { dimension } from '@k6-contrib/fields-dimension';
 import { weight } from '@k6-contrib/fields-weight';
 import 'dotenv/config';

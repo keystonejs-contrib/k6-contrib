@@ -1,4 +1,4 @@
-import { BaseGeneratedListTypes, CommonFieldConfig, ListHooks } from '@keystone-next/keystone/types';
+import { BaseGeneratedListTypes, CommonFieldConfig, ListHooks } from '@keystone-6/core/types';
 
 export type AtTrackingOptions = {
   created?: boolean;

@@ -6,9 +6,9 @@ import {
   CommonFieldConfig,
   orderDirectionEnum,
   filters,
-} from '@keystone-next/keystone/types';
-import { } from '@keystone-next/keystone';
-import { graphql } from '@keystone-next/keystone';
+} from '@keystone-6/core/types';
+import { } from '@keystone-6/core';
+import { graphql } from '@keystone-6/core';
 
 export function getIndexType({
   isIndexed,

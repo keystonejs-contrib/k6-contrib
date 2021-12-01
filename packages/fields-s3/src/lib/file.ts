@@ -6,8 +6,8 @@ import {
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
-} from '@keystone-next/keystone/types';
-import { graphql } from '@keystone-next/keystone';
+} from '@keystone-6/core/types';
+import { graphql } from '@keystone-6/core';
 import { getFileRef } from './utils';
 import { S3FieldConfig, S3FieldInputType, S3Config, S3DataType, FileData } from './types';
 import { getDataFromRef, getDataFromStream, getUrl } from './s3';

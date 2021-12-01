@@ -11,7 +11,7 @@ import { FieldContainer, FieldLabel } from '@keystone-ui/fields';
 import { TextInput } from '@keystone-ui/fields';
 import { Pill } from '@keystone-ui/pill';
 import { Button } from '@keystone-ui/button';
-import { FieldProps } from '@keystone-next/keystone/types';
+import { FieldProps } from '@keystone-6/core/types';
 
 import { FileValue } from './index';
 import { parseFileRef } from '../../lib/utils';
