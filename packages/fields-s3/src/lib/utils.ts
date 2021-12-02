@@ -1,4 +1,4 @@
-import { ImageExtension } from '@keystone-next/keystone/types';
+import { ImageExtension } from '@keystone-6/core/types';
 import { AssetType } from './types';
 
 const IMAGEREGEX = /^s3:image:([^\\\/:\n]+)\.(gif|jpg|png|webp)$/;

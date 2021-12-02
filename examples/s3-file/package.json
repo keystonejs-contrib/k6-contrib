@@ -1,17 +1,17 @@
 {
   "name": "@k6-contrib/example-s3",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS=--inspect keystone-next dev",
-    "devb": "cross-env NODE_OPTIONS=--inspect-brk keystone-next dev",
-    "start": "keystone-next start",
-    "build": "keystone-next build"
+    "dev": "cross-env NODE_OPTIONS=--inspect keystone dev",
+    "devb": "cross-env NODE_OPTIONS=--inspect-brk keystone dev",
+    "start": "keystone start",
+    "build": "keystone build"
   },
   "dependencies": {
-    "@k6-contrib/fields-s3": "^0.7.0",
-    "@keystone-next/keystone": "^27.0.1"
+    "@k6-contrib/fields-s3": "^1.0.0",
+    "@keystone-6/core": "^1.0.0"
   },
   "devDependencies": {
     "typescript": "^4.4.4"

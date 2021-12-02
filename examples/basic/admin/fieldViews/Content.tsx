@@ -8,12 +8,12 @@ import { AlertOctagonIcon } from '@keystone-ui/icons/icons/AlertOctagonIcon';
 import { CheckCircleIcon } from '@keystone-ui/icons/icons/CheckCircleIcon';
 import { Trash2Icon } from '@keystone-ui/icons/icons/Trash2Icon';
 import { Tooltip } from '@keystone-ui/tooltip';
-import { component, fields, NotEditable } from '@keystone-next/fields-document/component-blocks';
+import { component, fields, NotEditable } from '@keystone-6/fields-document/component-blocks';
 import {
   ToolbarButton,
   ToolbarGroup,
   ToolbarSeparator,
-} from '@keystone-next/fields-document/primitives';
+} from '@keystone-6/fields-document/primitives';
 
 const noticeIconMap = {
   info: InfoIcon,
@@ -264,12 +264,22 @@ export const componentBlocks = {
       return (
         <div
           css={{
-            borderLeft: '3px solid #CBD5E0',
             paddingLeft: 16,
+            backgroundColor: '#f3f5f6',
+            padding: '4px 12px 16px 48px',
+            position: 'relative',
+            borderRadius: 6,
+            ':after': {
+              content: '"\\201C"',
+              position: 'absolute',
+              top: 0,
+              left: 16,
+              fontSize: '4rem',
+            },
           }}
         >
           <div css={{ fontStyle: 'italic', color: '#4A5568' }}>{content}</div>
-          <div css={{ fontWeight: 'bold', color: '#718096' }}>
+          <div css={{ fontWeight: 'bold', color: '#47546b' }}>
             <NotEditable>— </NotEditable>
             {attribution}
           </div>

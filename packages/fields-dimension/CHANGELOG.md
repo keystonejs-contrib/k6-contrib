@@ -1,5 +1,11 @@
 # @k6-contrib/fields-dimension
 
+## 1.0.0
+
+### Major Changes
+
+- d1a0af8: Upgrade to Keystone 6 GA
+
 ## 0.5.0
 
 ### Minor Changes

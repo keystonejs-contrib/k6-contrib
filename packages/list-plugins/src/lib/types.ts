@@ -1,4 +1,4 @@
-import { BaseGeneratedListTypes, CommonFieldConfig, ListHooks } from '@keystone-next/keystone/types';
+import { BaseListTypeInfo, CommonFieldConfig, ListHooks } from '@keystone-6/core/types';
 
 export type AtTrackingOptions = {
   created?: boolean;
@@ -6,7 +6,7 @@ export type AtTrackingOptions = {
   createdAtField?: string;
   updatedAtField?: string;
   isIndexed?: boolean | 'unique';
-} & CommonFieldConfig<BaseGeneratedListTypes>;
+} & CommonFieldConfig<BaseListTypeInfo>;
 
 export type ByTrackingOptions = {
   created?: boolean;
@@ -14,6 +14,6 @@ export type ByTrackingOptions = {
   createdByField?: string;
   updatedByField?: string;
   ref: string;
-} & CommonFieldConfig<BaseGeneratedListTypes>;
+} & CommonFieldConfig<BaseListTypeInfo>;
 
-export type ResolveInputHook = ListHooks<BaseGeneratedListTypes>['resolveInput'];
+export type ResolveInputHook = ListHooks<BaseListTypeInfo>['resolveInput'];
