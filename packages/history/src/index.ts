@@ -1,12 +1,12 @@
 import {
     KeystoneConfig,
-  } from '@keystone-next/keystone/types';
+  } from '@keystone-6/core/types';
   import { configureHistory } from './configuration';
   import {argsType} from './types';
-  import { relationship, text, timestamp } from '@keystone-next/keystone/fields';
+  import { relationship, text, timestamp } from '@keystone-6/core/fields';
   
   // import { HistoryConfig} from './lib/types';
-  import { list } from '@keystone-next/keystone';
+  import { list } from '@keystone-6/core';
   /**
    * createHistory function
    *
