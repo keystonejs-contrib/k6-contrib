@@ -8,7 +8,12 @@ import {
   KeystoneContext,
 } from '@keystone-6/core/types';
 import { graphql } from '@keystone-6/core';
-import { getImageMetaRef, getImageRef, isValidImageExtension, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
+import {
+  getImageMetaRef,
+  getImageRef,
+  isValidImageExtension,
+  SUPPORTED_IMAGE_EXTENSIONS,
+} from './utils';
 import { ImagesData, ImageSize, S3FieldConfig, S3FieldInputType, S3ImagesConfig } from './types';
 import { getDataFromRef, getDataFromStream, getUrl } from './s3';
 
@@ -46,11 +51,10 @@ function createInputResolver(config: S3ImagesConfig) {
   };
 }
 
-
 const _fieldConfigs: { [key: string]: S3ImagesConfig } = {};
 const imageSizeEnum = graphql.enum({
   name: 'S3ImagesSizeEnum',
-  values: graphql.enumValues(['sm', 'md', 'lg', 'full']),
+  values: graphql.enumValues(['base64', 'sm', 'md', 'lg', 'full']),
 });
 
 const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
@@ -84,7 +88,7 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
     },
   }),
   url: graphql.field({
-    type: graphql.nonNull(graphql.String),
+    type: graphql.String,
     args: {
       size: graphql.arg({
         type: graphql.nonNull(imageSizeEnum),
@@ -95,6 +99,24 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
       const { key, typename } = info.path.prev as Path;
       const config = _fieldConfigs[`${typename}-${key}`];
       return getUrl(config, { ...data, size: args.size });
+    },
+  }),
+  srcSet: graphql.field({
+    type: graphql.String,
+    args: {
+      sizes: graphql.arg({
+        type: graphql.nonNull(graphql.list(graphql.nonNull(imageSizeEnum))),
+        defaultValue: ['sm', 'md', 'lg', 'full'],
+      }),
+    },
+    resolve(data, args, context, info) {
+      const { key, typename } = info.path.prev as Path;
+      const config = _fieldConfigs[`${typename}-${key}`];
+      const { sizesMeta } = data;
+      if (!sizesMeta) return null;
+      return args.sizes
+        .map(size => `${getUrl(config, { ...data, size })} ${sizesMeta[size]?.width}w`)
+        .join(', ');
     },
   }),
 });
