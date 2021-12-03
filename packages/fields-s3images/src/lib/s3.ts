@@ -164,7 +164,7 @@ export const getDataFromStream = async (
   if (config.sizes?.base64) {
     const base64 = await imagePipeline
       .clone()
-      .resize(config.sizes?.base64 || 10)
+      .resize(config.sizes.base64)
       .toBuffer({ resolveWithObject: true });
 
     const base64Data: ImagesData = {
