@@ -169,7 +169,7 @@ export const getDataFromStream = async (
 
     const base64Data: ImagesData = {
       id,
-      height: lgFile.info.height,
+      height: base64.info.height,
       width: lgFile.info.width,
       filesize: lgFile.info.size,
       extension,
