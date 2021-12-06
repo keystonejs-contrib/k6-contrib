@@ -172,7 +172,7 @@ export const getDataFromStream = async (
       height: base64.info.height,
       width: base64.info.width,
       filesize: base64.info.size,
-      extension,
+      extension: 'png',
       size: 'base64',
       base64Data: `data:image/png;base64,${base64.data.toString('base64')}`,
     };
