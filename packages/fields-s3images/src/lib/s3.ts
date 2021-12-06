@@ -170,8 +170,8 @@ export const getDataFromStream = async (
     const base64Data: ImagesData = {
       id,
       height: base64.info.height,
-      width: lgFile.info.width,
-      filesize: lgFile.info.size,
+      width: base64.info.width,
+      filesize: base64.info.size,
       extension,
       size: 'lg',
       base64Data: `data:image/png;base64,${base64.data.toString('base64')}`,
