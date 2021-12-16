@@ -2,7 +2,7 @@ import path from 'path';
 import { Path } from 'graphql/jsutils/Path';
 
 import {
-  BaseGeneratedListTypes,
+  BaseListTypeInfo,
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
@@ -134,10 +134,10 @@ const S3ImagesFieldOutputType = graphql.object<Omit<ImagesData, 'size'>>()({
 });
 
 export const s3Images =
-  <TGeneratedListTypes extends BaseGeneratedListTypes>({
+  <TGeneratedListTypes extends BaseListTypeInfo>({
     s3Config,
     ...config
-  }: S3FieldConfig<TGeneratedListTypes>): FieldTypeFunc =>
+  }: S3FieldConfig<TGeneratedListTypes>): FieldTypeFunc<BaseListTypeInfo> =>
   meta => {
     if ((config as any).isUnique) {
       throw Error('isUnique is not a supported option for field type image');
