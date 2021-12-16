@@ -1,5 +1,11 @@
 # @k6-contrib/fields-s3-images
 
+## 1.1.0
+
+### Minor Changes
+
+- 7cd0045: Added base64 option to url and srcSet to use with nextjs images
+
 ## 1.0.0
 
 ### Major Changes
