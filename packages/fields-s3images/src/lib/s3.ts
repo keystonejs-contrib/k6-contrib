@@ -16,6 +16,10 @@ const defaultGetUrl = ({ bucket, folder }: S3ImagesConfig, fileData: ImagesData)
 };
 
 export function getUrl(config: S3ImagesConfig, fileData: ImagesData) {
+  if (fileData.size === 'base64') {
+    return fileData.sizesMeta?.base64?.base64Data;
+  }
+
   if (config.baseUrl) {
     return urlJoin(config.baseUrl, getFilename(fileData));
   }
@@ -29,9 +33,9 @@ export const getDataFromStream = async (
 ): Promise<Omit<ImagesData, 'size'>> => {
   const { createReadStream, filename: originalFilename, mimetype } = upload;
 
-  const extension = normalizeImageExtension(extname(originalFilename)
-    .replace(/^\./, '')
-    .toLowerCase());
+  const extension = normalizeImageExtension(
+    extname(originalFilename).replace(/^\./, '').toLowerCase()
+  );
   const s3 = new AWS.S3(config.s3Options);
 
   const imagePipeline = sharp();
@@ -157,11 +161,33 @@ export const getDataFromStream = async (
     .promise();
   fileData.sizesMeta.lg = lgFileData;
 
+  if (config.sizes?.base64) {
+    const base64 = await imagePipeline
+      .clone()
+      .resize(config.sizes.base64)
+      .toBuffer({ resolveWithObject: true });
+
+    const base64Data: ImagesData = {
+      id,
+      height: base64.info.height,
+      width: base64.info.width,
+      filesize: base64.info.size,
+      extension: 'png',
+      size: 'base64',
+      base64Data: `data:image/png;base64,${base64.data.toString('base64')}`,
+    };
+
+    fileData.sizesMeta.base64 = base64Data;
+  }
+
   const { size, ...result } = fileData;
   return result;
 };
 
-export const getDataFromRef = async (config: S3ImagesConfig, ref: string): Promise<Omit<ImagesData, 'size'>> => {
+export const getDataFromRef = async (
+  config: S3ImagesConfig,
+  ref: string
+): Promise<Omit<ImagesData, 'size'>> => {
   const metaRef = parseImagesMetaRef(ref);
 
   if (metaRef) {
@@ -184,7 +210,7 @@ export const getDataFromRef = async (config: S3ImagesConfig, ref: string): Promi
     sizesMeta[size] = await getS3ImageMeta(s3, config, { ...fileRef, size } as ImagesData);
   }
 
-  const {size, ...imageData} = sizesMeta.full;
+  const { size, ...imageData } = sizesMeta.full;
   return {
     ...imageData,
     sizesMeta,
