@@ -1,0 +1,4 @@
+{
+  "main": "dist/kilt-auth.cjs.js",
+  "module": "dist/kilt-auth.esm.js"
+}

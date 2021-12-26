@@ -1,0 +1,37 @@
+{
+  "name": "@k6-contrib/kilt-auth",
+  "version": "1.0.0",
+  "description": "Keystone6 Kilt Protocol Auth",
+  "author": "The KeystoneJS Contrib Development Team",
+  "license": "MIT",
+  "main": "dist/kilt-auth.cjs.js",
+  "module": "dist/kilt-auth.esm.js",
+  "files": [
+    "dist",
+    "pages"
+  ],
+  "preconstruct": {
+    "entrypoints": [
+      "index.ts",
+      "pages/*.tsx"
+    ]
+  },
+  "devDependencies": {
+    "@keystone-6/core": "^1.0.1",
+    "react": "^17.0.2"
+  },
+  "peerDependencies": {
+    "@keystone-6/core": "^1.0.1",
+    "next": "^12.0.7",
+    "react": "^17.0.2"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.16.5",
+    "@kiltprotocol/sdk-js": "^0.24.2",
+    "@polkadot/util-crypto": "^8.2.2",
+    "axios": "^0.24.0",
+    "body-parser": "^1.19.1",
+    "envy": "^2.0.0"
+  },
+  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/kilt-auth"
+}
