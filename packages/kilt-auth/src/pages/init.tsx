@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import getProvider from "../lib/getProvider";
 
 export const getInitPage = () => () => <Init />;
