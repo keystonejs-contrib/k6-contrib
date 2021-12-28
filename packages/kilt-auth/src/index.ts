@@ -1,17 +1,27 @@
-import { AdminFileToWrite, BaseListTypeInfo, KeystoneConfig } from "@keystone-6/core/types";
-import { randomAsHex } from "@polkadot/util-crypto";
-import bodyParser from "body-parser";
-import validateSignature from "./lib/verifySignature";
-import { initTemplate } from "./templates/init";
-import { signinTemplate } from "./templates/signin";
-import { AuthConfig } from "./types";
+import { AdminFileToWrite, BaseListTypeInfo, KeystoneConfig } from '@keystone-6/core/types';
+import { randomAsHex } from '@polkadot/util-crypto';
+import bodyParser from 'body-parser';
+import validateSignature from './lib/verifySignature';
+import { getSchemaExtension } from './schema';
+import { initTemplate } from './templates/init';
+import { signinTemplate } from './templates/signin';
+import { AuthConfig, AuthGqlNames } from './types';
 
 export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
-  listKey = "User",
-  initFirstItem = { fields: ["DID"], itemData: { isAdmin: true } },
-  identityField = "DID",
-  sessionData = "DID isAdmin",
+  listKey = 'User',
+  initFirstItem = { fields: ['DID'], itemData: { isAdmin: true } },
+  identityField = 'DID',
+  sessionData = 'id DID isAdmin',
 }: AuthConfig<ListTypeInfo>) {
+  const gqlNames: AuthGqlNames = {
+    authenticateItemWithKilt: `authenticate${listKey}WithKilt`,
+    ItemAuthenticationWithKiltResult: `${listKey}AuthenticationWithKiltResult`,
+    ItemAuthenticationWithKiltSuccess: `${listKey}AuthenticationWithKiltSuccess`,
+    ItemAuthenticationWithKiltFailure: `${listKey}AuthenticationWithKiltFailure`,
+  };
+
+  const graphqlExtension = getSchemaExtension({ listKey, identityField, gqlNames });
+
   const validateConfig = (keystoneConfig: KeystoneConfig) => {
     const listConfig = keystoneConfig.lists[listKey];
     if (listConfig === undefined) {
@@ -47,55 +57,58 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
     }
   };
 
-  const publicPages = ["/signin"];
+  const publicPages = ['/signin'];
   if (initFirstItem) {
-    publicPages.push("/init");
+    publicPages.push('/init');
   }
 
   const getAdditionalFiles = () => {
     let filesToWrite: AdminFileToWrite[] = [
       {
-        mode: "write",
+        mode: 'write',
         src: signinTemplate(),
-        outputPath: "pages/signin.js",
+        outputPath: 'pages/signin.js',
       },
     ];
     if (initFirstItem) {
       filesToWrite.push({
-        mode: "write",
+        mode: 'write',
         src: initTemplate(),
-        outputPath: "pages/init.js",
+        outputPath: 'pages/init.js',
       });
     }
     return filesToWrite;
   };
 
   const extendExpressApp = (app, createContext) => {
-    app.get("/challenge", async (req, res) => {
+    app.get('/challenge', async (req, res) => {
       const context = await createContext(req, res);
       const challenge = randomAsHex(16);
       await context.startSession(challenge);
       res.json(challenge);
     });
-    app.post("/verify", bodyParser.json(), async (req, res) => {
+    app.post('/verify', bodyParser.json(), async (req, res) => {
       const context = await createContext(req, res);
       const challenge = await context.session;
       const { did, signature } = req.body;
       await context.endSession();
       if (validateSignature(challenge, did, signature)) {
-        const user = await context.query.User.findOne({ where: { DID: did }, query: "DID isAdmin" });
+        const user = await context.query.User.findOne({ where: { DID: did }, query: sessionData });
         await context.startSession(user);
         res.json(user);
       }
     });
-    app.post("/init/verify", bodyParser.json(), async (req, res) => {
+    app.post('/init/verify', bodyParser.json(), async (req, res) => {
       const context = await createContext(req, res);
       const challenge = await context.session;
       const { did, signature } = req.body;
       await context.endSession();
-      if (validateSignature(challenge, did, signature) && (await context.query.User.count()) === 0) {
-        const user = { DID: did, isAdmin: true };
-        await context.query.User.createOne({ data: user, query: "id DID" });
+      if (
+        validateSignature(challenge, did, signature) &&
+        (await context.query.User.count()) === 0
+      ) {
+        let user = { DID: did, isAdmin: true };
+        user = await context.query.User.createOne({ data: user, query: sessionData });
         await context.startSession(user);
         res.json(user);
       }
@@ -107,8 +120,8 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
     const pathname = req!.url!;
 
     if (isValidSession && session.did) {
-      if (pathname === "/signin" || pathname === "/init") {
-        return { kind: "redirect", to: "/" };
+      if (pathname === '/signin' || pathname === '/init') {
+        return { kind: 'redirect', to: '/' };
       }
       return;
     }
@@ -116,15 +129,15 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
     if (!session && initFirstItem) {
       const count = await context.query.User.count();
       if (count === 0) {
-        if (pathname !== "/init") {
-          return { kind: "redirect", to: "/init" };
+        if (pathname !== '/init') {
+          return { kind: 'redirect', to: '/init' };
         }
         return;
       }
     }
 
-    if (!session && pathname !== "/signin") {
-      return { kind: "redirect", to: `/signin` };
+    if (!session && pathname !== '/signin') {
+      return { kind: 'redirect', to: `/signin` };
     }
   };
 
@@ -136,13 +149,16 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
         ...keystoneConfig.ui,
         getAdditionalFiles: [...(keystoneConfig.ui?.getAdditionalFiles || []), getAdditionalFiles],
         publicPages: [...(keystoneConfig.ui?.publicPages || []), ...publicPages],
-        pageMiddleware: async (args) =>
+        pageMiddleware: async args =>
           (await pageMiddleware(args)) ?? keystoneConfig?.ui?.pageMiddleware?.(args),
       };
     }
     let server = keystoneConfig.server;
     server = { ...keystoneConfig.server, extendExpressApp: extendExpressApp };
-    return { ...keystoneConfig, ui, server };
+    let extendGraphqlSchema = keystoneConfig.extendGraphqlSchema
+      ? keystoneConfig.extendGraphqlSchema
+      : graphqlExtension;
+    return { ...keystoneConfig, ui, server, extendGraphqlSchema };
   };
   return { withAuth };
 }

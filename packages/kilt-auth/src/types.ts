@@ -1,10 +1,17 @@
-import { BaseListTypeInfo, KeystoneContext } from "@keystone-6/core/types";
+import { BaseListTypeInfo, KeystoneContext } from '@keystone-6/core/types';
+
+export type AuthGqlNames = {
+  authenticateItemWithKilt: string;
+  ItemAuthenticationWithKiltResult: string;
+  ItemAuthenticationWithKiltSuccess: string;
+  ItemAuthenticationWithKiltFailure: string;
+};
 
 export type AuthConfig<ListTypeInfo extends BaseListTypeInfo> = {
   /** The key of the list to authenticate users with */
-  listKey: ListTypeInfo["key"];
+  listKey: ListTypeInfo['key'];
   /** The path of the field the identity is stored in; must be text-ish */
-  identityField: ListTypeInfo["fields"];
+  identityField: ListTypeInfo['fields'];
   /** The path of the field the secret is stored in; must be password-ish */
   // secretField: ListTypeInfo["fields"];
   /** The initial user/db seeding functionality */
@@ -19,11 +26,11 @@ export type AuthConfig<ListTypeInfo extends BaseListTypeInfo> = {
 
 export type InitFirstItemConfig<ListTypeInfo extends BaseListTypeInfo> = {
   /** Array of fields to collect, e.g ['name', 'email', 'password'] */
-  fields: readonly ListTypeInfo["fields"][];
+  fields: readonly ListTypeInfo['fields'][];
   /** Suppresses the second screen where we ask people to subscribe and follow Keystone */
   skipKeystoneWelcome?: boolean;
   /** Extra input to add for the create mutation */
-  itemData?: Partial<ListTypeInfo["inputs"]["create"]>;
+  itemData?: Partial<ListTypeInfo['inputs']['create']>;
 };
 
 export type AuthTokenTypeConfig = {
