@@ -1,7 +1,10 @@
 import { config } from '@keystone-6/core';
 import { statelessSessions } from '@keystone-6/core/session';
+import dotenv from 'dotenv';
 import { createAuth } from '../../packages/kilt-auth';
 import { lists } from './schema';
+
+dotenv.config();
 
 const { withAuth } = createAuth({
   listKey: 'User',
@@ -17,7 +20,7 @@ export default withAuth(
       url: process.env.DATABASE_URL || 'file:./keystone-example.db',
     },
     session: statelessSessions({
-      secret: process.env.SERVER_SECRET || 'THIS_IS_A_VERY_BAD_SECRET',
+      secret: process.env.SERVER_SECRET || 'THIS___IS___A___VERY___BAD___SECRET',
     }),
     lists,
   })
