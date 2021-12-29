@@ -1,4 +1,4 @@
-## Example Project - Kilt Auth
+# Example Project - Kilt Auth
 
 This project implements a basic Keystone app, with `Users`.
 
