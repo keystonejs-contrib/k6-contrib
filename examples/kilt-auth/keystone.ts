@@ -16,7 +16,9 @@ export default withAuth(
       provider: 'sqlite',
       url: process.env.DATABASE_URL || 'file:./keystone-example.db',
     },
-    session: statelessSessions({ secret: process.env.SERVER_SECRET }),
+    session: statelessSessions({
+      secret: process.env.SERVER_SECRET || 'THIS_IS_A_VERY_BAD_SECRET',
+    }),
     lists,
   })
 );
