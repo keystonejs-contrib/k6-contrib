@@ -1,16 +1,21 @@
-import { AdminFileToWrite, BaseListTypeInfo, KeystoneConfig } from '@keystone-6/core/types';
+import {
+  AdminFileToWrite,
+  BaseListTypeInfo,
+  KeystoneConfig,
+  SessionContext,
+} from '@keystone-6/core/types';
 import { randomAsHex } from '@polkadot/util-crypto';
 import bodyParser from 'body-parser';
-import validateSignature from './lib/verifySignature';
+import validateSignature from './lib/validateSignature';
 import { getSchemaExtension } from './schema';
 import { initTemplate } from './templates/init';
 import { signinTemplate } from './templates/signin';
-import { AuthConfig, AuthGqlNames } from './types';
+import { AuthConfig, AuthGqlNames, SessionData } from './types';
 
 export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
-  listKey = 'User',
-  initFirstItem = { fields: ['DID'], itemData: { isAdmin: true } },
-  identityField = 'DID',
+  listKey,
+  initFirstItem,
+  identityField,
   sessionData = 'id DID isAdmin',
 }: AuthConfig<ListTypeInfo>) {
   const gqlNames: AuthGqlNames = {
@@ -93,10 +98,13 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
       const { did, signature } = req.body;
       await context.endSession();
       if (await validateSignature(challenge, did, signature)) {
-        let user = await context.query.User.findOne({ where: { DID: did }, query: sessionData });
+        let user = await context.query.User.findOne({
+          where: { [identityField]: did },
+          query: sessionData,
+        });
         if (user === null) {
           user = await context.sudo().query.User.createOne({
-            data: { DID: did },
+            data: { [identityField]: did },
             query: sessionData,
           });
         }
@@ -114,7 +122,7 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
         (await context.query.User.count()) === 0
       ) {
         const user = await context.query.User.createOne({
-          data: { DID: did, isAdmin: true },
+          data: { [identityField]: did, ...initFirstItem.itemData },
           query: sessionData,
         });
         await context.startSession(user);
@@ -123,7 +131,13 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
     });
   };
 
-  const pageMiddleware = async ({ context, isValidSession }) => {
+  const pageMiddleware = async ({
+    context,
+    isValidSession,
+  }: {
+    context: SessionContext<SessionData>;
+    isValidSession: boolean;
+  }) => {
     const { req, session } = context;
     const pathname = req!.url!;
 

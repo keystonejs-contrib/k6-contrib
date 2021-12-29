@@ -4,7 +4,7 @@ import envy from 'envy';
 
 const env = envy();
 
-export default async function validateSignature(input, did, signature) {
+export default async function validateSignature(input: string, did: string, signature: string) {
   Kilt.config({ address: env.kiltAddress });
   await Kilt.connect();
 

@@ -6,6 +6,7 @@ import { lists } from './schema';
 const { withAuth } = createAuth({
   listKey: 'User',
   identityField: 'DID',
+  initFirstItem: { itemData: { isAdmin: true } },
 });
 
 export default withAuth(

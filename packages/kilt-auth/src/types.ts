@@ -26,7 +26,7 @@ export type AuthConfig<ListTypeInfo extends BaseListTypeInfo> = {
 
 export type InitFirstItemConfig<ListTypeInfo extends BaseListTypeInfo> = {
   /** Array of fields to collect, e.g ['name', 'email', 'password'] */
-  fields: readonly ListTypeInfo['fields'][];
+  fields?: readonly ListTypeInfo['fields'][];
   /** Suppresses the second screen where we ask people to subscribe and follow Keystone */
   skipKeystoneWelcome?: boolean;
   /** Extra input to add for the create mutation */
@@ -46,3 +46,10 @@ export type SendTokenFn = (args: {
   token: string;
   context: KeystoneContext;
 }) => Promise<void> | void;
+
+export type SessionData = {
+  challenge?: string;
+  DID?: string;
+  id?: string;
+  isAdmin?: string;
+};

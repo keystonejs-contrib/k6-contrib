@@ -1,7 +1,18 @@
 import { graphql } from '@keystone-6/core';
 import { BaseItem } from '@keystone-6/core/types';
+import { AuthGqlNames } from '../types';
 
-export function getBaseAuthSchema({ listKey, identityField, gqlNames, base }) {
+export function getBaseAuthSchema({
+  listKey,
+  identityField,
+  gqlNames,
+  base,
+}: {
+  listKey: string;
+  identityField: string;
+  gqlNames: AuthGqlNames;
+  base: graphql.BaseSchemaMeta;
+}) {
   const ItemAuthenticationWithKiltSuccess = graphql.object<{
     sessionToken: string;
     item: BaseItem;
