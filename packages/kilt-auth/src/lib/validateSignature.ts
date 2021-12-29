@@ -1,11 +1,8 @@
 import * as Kilt from '@kiltprotocol/sdk-js';
 import { signatureVerify } from '@polkadot/util-crypto';
-import envy from 'envy';
-
-const env = envy();
 
 export default async function validateSignature(input: string, did: string, signature: string) {
-  Kilt.config({ address: env.kiltAddress });
+  Kilt.config({ address: process.env.KILT_ADDRESS });
   await Kilt.connect();
 
   const didDocument = await Kilt.Did.DefaultResolver.resolveDoc(did);
