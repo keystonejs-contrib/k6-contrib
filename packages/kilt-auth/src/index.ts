@@ -89,10 +89,10 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
     });
     app.post('/verify', bodyParser.json(), async (req, res) => {
       const context = await createContext(req, res);
-      const challenge = await context.session;
+      const challenge = context.session;
       const { did, signature } = req.body;
       await context.endSession();
-      if (validateSignature(challenge, did, signature)) {
+      if (await validateSignature(challenge, did, signature)) {
         let user = await context.query.User.findOne({ where: { DID: did }, query: sessionData });
         if (user === null) {
           user = await context.sudo().query.User.createOne({
@@ -106,11 +106,11 @@ export function createAuth<ListTypeInfo extends BaseListTypeInfo>({
     });
     app.post('/init/verify', bodyParser.json(), async (req, res) => {
       const context = await createContext(req, res);
-      const challenge = await context.session;
+      const challenge = context.session;
       const { did, signature } = req.body;
       await context.endSession();
       if (
-        validateSignature(challenge, did, signature) &&
+        (await validateSignature(challenge, did, signature)) &&
         (await context.query.User.count()) === 0
       ) {
         const user = await context.query.User.createOne({
