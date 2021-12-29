@@ -17,5 +17,5 @@
   "engines": {
     "node": "^14.15 || ^16.13"
   },
-  "repository": "https://github.com/keystonejs/keystone/tree/main/examples/task-manager"
+  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/examples/kilt-auth"
 }
