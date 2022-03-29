@@ -1,4 +1,4 @@
-import { BaseGeneratedListTypes, CommonFieldConfig } from '@keystone-6/core/types';
+import { BaseListTypeInfo, CommonFieldConfig } from '@keystone-6/core/types';
 
 export type WeightData = {
   unit: string;
@@ -10,8 +10,8 @@ export type WeightFieldInputType =
   | null
   | { unit: string; value: number };
 
-export type WeightFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
-  CommonFieldConfig<TGeneratedListTypes> & {
+export type WeightFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
+  CommonFieldConfig<ListTypeInfo> & {
     displayMode?: 'select' | 'segmented-control';
     defaultUnit?: string | null;
     units?: { label: string; value: string }[];

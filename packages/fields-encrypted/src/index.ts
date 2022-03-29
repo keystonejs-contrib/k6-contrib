@@ -2,7 +2,7 @@ import path from 'path';
 import Cryptr from 'cryptr';
 
 import {
-  BaseGeneratedListTypes,
+  BaseListTypeInfo,
   CommonFieldConfig,
   fieldType,
   FieldTypeFunc,
@@ -11,8 +11,8 @@ import { graphql } from '@keystone-6/core';
 
 const views = path.join(path.dirname(__dirname), 'views');
 
-export type EncryptedFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
-  CommonFieldConfig<TGeneratedListTypes> & {
+export type EncryptedFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
+  CommonFieldConfig<ListTypeInfo> & {
     isIndexed?: boolean;
     secret: string;
     reverse?: boolean;
@@ -25,13 +25,13 @@ export type EncryptedFieldConfig<TGeneratedListTypes extends BaseGeneratedListTy
   };
 
 export const encrypted =
-  <TGeneratedListTypes extends BaseGeneratedListTypes>({
+  <ListTypeInfo extends BaseListTypeInfo>({
     isIndexed,
     validation,
     secret,
     reverse = false,
     ...config
-  }: EncryptedFieldConfig<TGeneratedListTypes>): FieldTypeFunc =>
+  }: EncryptedFieldConfig<ListTypeInfo>): FieldTypeFunc<ListTypeInfo> =>
     meta => {
       const inputResolver = async (data: string | undefined | null) => {
         if (data === null || data === undefined) {

@@ -6,7 +6,7 @@ const IMAGES_META_REGEX = /^s3:images:([^\\\/:\n]+):([^\\\/:\n]+)$/;
 
 export const SUPPORTED_IMAGE_EXTENSIONS = ['jpg', 'png', 'webp', 'gif'] as const;
 
-export const ALIAS_IMAGE_EXTENSIONS_MAP: Record<string, typeof SUPPORTED_IMAGE_EXTENSIONS[number]> = {'jpeg': 'jpg'};
+export const ALIAS_IMAGE_EXTENSIONS_MAP: Record<string, typeof SUPPORTED_IMAGE_EXTENSIONS[number]> = { 'jpeg': 'jpg' };
 
 export const getImageMetaRef = (id: string, sizesMeta: any) => {
   const meta = Buffer.from(JSON.stringify(sizesMeta)).toString('base64');
@@ -19,7 +19,7 @@ export const parseImagesMetaRef = (ref: string): ImagesData | undefined => {
     const [, id, meta] = match;
     try {
       const sizesMeta = JSON.parse(Buffer.from(meta, 'base64').toString());
-      const { size,...data } = sizesMeta.full
+      const { size,...data } = sizesMeta.full;
       return {
         id,
         ...data,
@@ -54,11 +54,11 @@ export const parseImageRef = (
 const extensionsSet = new Set(SUPPORTED_IMAGE_EXTENSIONS);
 export const isValidImageExtension = (extension: string): extension is ImageExtension => {
   return extensionsSet.has(extension as ImageExtension);
-}
+};
 
 export const normalizeImageExtension = (extension: string): ImageExtension => {
   if (isValidImageExtension(extension)) {
     return extension;
   }
   return ALIAS_IMAGE_EXTENSIONS_MAP[extension] || undefined;
-}
+};

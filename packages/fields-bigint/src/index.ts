@@ -1,6 +1,6 @@
 import path from 'path';
 import {
-  BaseGeneratedListTypes,
+  BaseListTypeInfo,
   fieldType,
   FieldTypeFunc,
   CommonFieldConfig,
@@ -25,8 +25,8 @@ export function getIndexType({
 
 const views = path.join(path.dirname(__dirname), 'views');
 
-export type BigIntFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
-  CommonFieldConfig<TGeneratedListTypes> & {
+export type BigIntFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
+  CommonFieldConfig<ListTypeInfo> & {
     isIndexed?: boolean | 'unique';
     defaultValue?: number;
     validation?: {
@@ -40,12 +40,12 @@ export type BigIntFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes
   };
 
 export const bigInt =
-  <TGeneratedListTypes extends BaseGeneratedListTypes>({
+  <ListTypeInfo extends BaseListTypeInfo>({
     isIndexed,
     defaultValue: _defaultValue,
     validation,
     ...config
-  }: BigIntFieldConfig<TGeneratedListTypes> = {}): FieldTypeFunc =>
+  }: BigIntFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
     meta => {
       const isNullable = config.db?.isNullable;
       const mode = isNullable === false ? 'required' : 'optional';

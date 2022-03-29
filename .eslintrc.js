@@ -1,13 +1,17 @@
 module.exports = {
-  parser: 'babel-eslint',
+  parser: '@typescript-eslint/parser',
   env: {
     browser: true,
     es6: true,
     node: true,
     jest: true,
-    'cypress/globals': true,
   },
-  plugins: ['react', 'react-hooks', 'jest', 'cypress', 'import', 'emotion'],
+  plugins: ['react', 'react-hooks', 'jest', 'import', '@typescript-eslint'],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   rules: {
     curly: ['error', 'multi-line'],
     'jsx-quotes': 'error',
@@ -15,7 +19,7 @@ module.exports = {
     'no-undef': 'error',
     'no-unused-expressions': 'error',
     'react-hooks/rules-of-hooks': 'error',
-    'no-unused-vars': [
+    '@typescript-eslint/no-unused-vars': [
       'error',
       {
         args: 'after-used',
@@ -32,11 +36,20 @@ module.exports = {
           '**/tests/**/*.js',
           '**/examples/**/*.js',
           '**/build/**/*.js',
-          `packages/fields/src/**/filterTests.js`,
+          'packages/fields/src/**/filterTests.js',
+          '**/test-fixtures.ts',
         ],
       },
     ],
     'import/no-unresolved': 'error',
+    'jest/valid-describe': 'off',
+    'jest/valid-expect': 'off',
+    'jest/no-conditional-expect': 'off',
+    'jest/no-standalone-expect': 'off',
+    'jest/expect-expect': 'off',
+    'jest/no-export': 'off',
+    'jest/valid-title': 'off',
+    'jest/no-try-expect': 'off',
     'object-curly-spacing': ['error', 'always'],
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
     'react/jsx-boolean-value': 'warn',
@@ -52,10 +65,6 @@ module.exports = {
     'react/sort-prop-types': 'warn',
     semi: 'error',
     strict: 'off',
-    'emotion/jsx-import': 'error',
-    'emotion/no-vanilla': 'error',
-    'emotion/import-from-emotion': 'error',
-    'emotion/styled-import': 'error',
   },
   extends: ['plugin:jest/recommended'],
 
@@ -78,6 +87,14 @@ module.exports = {
       files: ['packages/build-field-types/__fixtures__/**/*.js'],
       rules: {
         'import/no-unresolved': 'off',
+      },
+    },
+    {
+      files: ['**/*.{ts,tsx}'],
+      rules: {
+        // TypeScript already checks for the following things and they conflict with TypeScript
+        'import/no-unresolved': 'off',
+        'no-undef': 'off',
       },
     },
   ],

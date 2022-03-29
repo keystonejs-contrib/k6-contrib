@@ -1,11 +1,9 @@
 import path from 'path';
-import { Path } from 'graphql/jsutils/Path';
 
 import {
-  BaseGeneratedListTypes,
+  BaseListTypeInfo,
   fieldType,
   FieldTypeFunc,
-  KeystoneContext,
 } from '@keystone-6/core/types';
 import { graphql } from '@keystone-6/core';
 import { getFileRef } from './utils';
@@ -36,7 +34,7 @@ const fileOutputFields = graphql.fields<Omit<FileData, 'type'>>()({
   url: graphql.field({
     type: graphql.nonNull(graphql.String),
     resolve(data, args, context, info) {
-      const { key, typename } = info.path.prev as Path;
+      const { key, typename } = info.path.prev!;
       const config = _fieldConfigs[`${typename}-${key}`];
       return getUrl(config, { type: 'file', ...data } as S3DataType);
     },
@@ -56,7 +54,7 @@ const S3FileFieldOutputType = graphql.object<Omit<FileData, 'type'>>()({
 });
 
 function createInputResolver(config: S3Config) {
-  return async function inputResolver(data: S3FieldInputType, context: KeystoneContext) {
+  return async function inputResolver(data: S3FieldInputType) {
     if (data === null || data === undefined) {
       return { filename: data, filesize: data };
     }
@@ -75,10 +73,10 @@ function createInputResolver(config: S3Config) {
 }
 
 export const s3File =
-  <TGeneratedListTypes extends BaseGeneratedListTypes>({
+  <ListTypeInfo extends BaseListTypeInfo>({
     s3Config,
     ...config
-  }: S3FieldConfig<TGeneratedListTypes>): FieldTypeFunc =>
+  }: S3FieldConfig<ListTypeInfo>): FieldTypeFunc<ListTypeInfo> =>
   meta => {
     if ((config as any).isUnique) {
       throw Error('isUnique is not a supported option for field type file');

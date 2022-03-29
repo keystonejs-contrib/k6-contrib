@@ -1,12 +1,10 @@
 import path from 'path';
-import { Path } from 'graphql/jsutils/Path';
 
 import {
-  BaseGeneratedListTypes,
+  BaseListTypeInfo,
   fieldType,
   FieldTypeFunc,
   ImageExtension,
-  KeystoneContext,
 } from '@keystone-6/core/types';
 import { graphql } from '@keystone-6/core';
 import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
@@ -35,7 +33,7 @@ const AzureStorageFieldInput = graphql.inputObject({
 });
 
 function createInputResolver(config: AzureStorageConfig) {
-  return async function inputResolver(data: AzureStorageFieldInputType, context: KeystoneContext) {
+  return async function inputResolver(data: AzureStorageFieldInputType) {
     if (data === null || data === undefined) {
       return { extension: data, filesize: data, height: data, id: data, width: data };
     }
@@ -75,7 +73,7 @@ const imageOutputFields = graphql.fields<Omit<ImageData, 'type'>>()({
   url: graphql.field({
     type: graphql.nonNull(graphql.String),
     resolve(data, args, context, info) {
-      const { key, typename } = info.path.prev as Path;
+      const { key, typename } = info.path.prev!;
       const config = _fieldConfigs[`${typename}-${key}`];
       return getUrl(config, { type: 'image', ...data } as AzureStorageDataType);
     },
@@ -95,10 +93,10 @@ const AzureStorageImageFieldOutputType = graphql.object<Omit<ImageData, 'type'>>
 });
 
 export const azureStorageImage =
-  <TGeneratedListTypes extends BaseGeneratedListTypes>({
+  <ListTypeInfo extends BaseListTypeInfo>({
     azureStorageConfig,
     ...config
-  }: AzureStorageFieldConfig<TGeneratedListTypes>): FieldTypeFunc =>
+  }: AzureStorageFieldConfig<ListTypeInfo>): FieldTypeFunc<ListTypeInfo> =>
   meta => {
     if ((config as any).isUnique) {
       throw Error('isUnique is not a supported option for field type image');

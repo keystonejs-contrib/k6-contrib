@@ -35,7 +35,7 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
         >
           <Box> {field.label}</Box>
           <Tooltip content="Copy ID">
-            {props => (
+            {() => (
               <Box css={{ cursor: 'pointer' }} onClick={() => setExpand(!expand)}>
                 {expand ? <MinusIcon size="small" /> : <PlusIcon size="small" />}
               </Box>

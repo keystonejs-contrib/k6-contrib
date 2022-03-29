@@ -145,9 +145,11 @@ export function validateDimension(data: DimensionValue): string | undefined {
       (!unit && isNaN(parseFloat(length))) ||
       isNaN(parseFloat(width)) ||
       isNaN(parseFloat(height))
-    )
+    ) {
       return undefined;
-    if (!unit || parseFloat(length) < 0 || parseFloat(width) < 0 || parseFloat(height) < 0)
+    }
+    if (!unit || parseFloat(length) < 0 || parseFloat(width) < 0 || parseFloat(height) < 0) {
       return 'invalid dimension values';
+    }
   }
 }

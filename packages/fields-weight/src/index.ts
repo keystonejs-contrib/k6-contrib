@@ -1,10 +1,9 @@
 import path from 'path';
 
 import {
-  BaseGeneratedListTypes,
+  BaseListTypeInfo,
   fieldType,
   FieldTypeFunc,
-  KeystoneContext,
 } from '@keystone-6/core/types';
 import { graphql } from '@keystone-6/core';
 import { WeightData, WeightFieldConfig, WeightFieldInputType } from './types';
@@ -19,7 +18,7 @@ const WeightFieldInput = graphql.inputObject({
   },
 });
 
-async function inputResolver(data: WeightFieldInputType, context: KeystoneContext) {
+async function inputResolver(data: WeightFieldInputType) {
   if (data === null || data === undefined) {
     return { unit: data, value: data, };
   }
@@ -58,13 +57,12 @@ const WeightFieldOutputType = graphql.object<WeightData>()({
 });
 
 export const weight =
-  <TGeneratedListTypes extends BaseGeneratedListTypes>({
+  <ListTypeInfo extends BaseListTypeInfo>({
     validation,
-    units = [],
     displayMode = 'select',
     defaultUnit = 'g',
     ...config
-  }: WeightFieldConfig<TGeneratedListTypes> = {}): FieldTypeFunc =>
+  }: WeightFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
     meta => {
       if ((config as any).isUnique) {
         throw Error('isUnique is not a supported option for field type weight');

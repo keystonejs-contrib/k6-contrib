@@ -100,8 +100,9 @@ export const controller = (config: Config): DimensionController => {
         isNaN(parseFloat(length)) &&
         isNaN(parseFloat(width)) &&
         isNaN(parseFloat(height))
-      )
+      ) {
         return true;
+      }
 
       return (
         typeof unit === 'string' &&
@@ -118,8 +119,9 @@ export const controller = (config: Config): DimensionController => {
         isNaN(parseFloat(length)) &&
         isNaN(parseFloat(width)) &&
         isNaN(parseFloat(height))
-      )
+      ) {
         return null;
+      }
       return {
         [config.path]: {
           unit,

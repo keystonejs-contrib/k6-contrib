@@ -33,7 +33,7 @@
     "url-join": "^4.0.1"
   },
   "peerDependencies": {
-    "@keystone-6/core": ">=^1.0.0",
+    "@keystone-6/core": "^1.0.0",
     "react": "^17.0.2"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-s3images",

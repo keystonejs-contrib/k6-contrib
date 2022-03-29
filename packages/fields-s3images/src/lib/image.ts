@@ -1,5 +1,4 @@
 import path from 'path';
-import { Path } from 'graphql/jsutils/Path';
 
 import {
   BaseListTypeInfo,
@@ -96,7 +95,7 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
       }),
     },
     resolve(data, args, context, info) {
-      const { key, typename } = info.path.prev as Path;
+      const { key, typename } = info.path.prev!;
       const config = _fieldConfigs[`${typename}-${key}`];
       return getUrl(config, { ...data, size: args.size });
     },
@@ -110,7 +109,7 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
       }),
     },
     resolve(data, args, context, info) {
-      const { key, typename } = info.path.prev as Path;
+      const { key, typename } = info.path.prev!;
       const config = _fieldConfigs[`${typename}-${key}`];
       const { sizesMeta } = data;
       if (!sizesMeta) return null;
