@@ -58,7 +58,7 @@ export type S3FieldInputType =
   | null
   | { upload?: Promise<FileUpload> | null; ref?: string | null };
 
-export type S3FieldConfig<TGeneratedListTypes extends BaseListTypeInfo> =
-  CommonFieldConfig<TGeneratedListTypes> & {
+export type S3FieldConfig<ListTypeInfo extends BaseListTypeInfo> =
+  CommonFieldConfig<ListTypeInfo> & {
     s3Config: S3ImagesConfig;
   };

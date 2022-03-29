@@ -133,10 +133,10 @@ const S3ImagesFieldOutputType = graphql.object<Omit<ImagesData, 'size'>>()({
 });
 
 export const s3Images =
-  <TGeneratedListTypes extends BaseListTypeInfo>({
+  <ListTypeInfo extends BaseListTypeInfo>({
     s3Config,
     ...config
-  }: S3FieldConfig<TGeneratedListTypes>): FieldTypeFunc<BaseListTypeInfo> =>
+  }: S3FieldConfig<ListTypeInfo>): FieldTypeFunc<BaseListTypeInfo> =>
   meta => {
     if ((config as any).isUnique) {
       throw Error('isUnique is not a supported option for field type image');
