@@ -31,13 +31,13 @@
     "cuid": "^2.1.8",
     "filenamify": "^4.3.0",
     "fs-extra": "^10.0.0",
-    "graphql-upload": "^12.0.0",
     "image-size": "^1.0.0",
     "image-type": "^4.1.0",
     "url-join": "^4.0.1"
   },
   "peerDependencies": {
     "@keystone-6/core": "^1.0.0",
+    "graphql-upload": "^13.0.0",
     "react": "^17.0.2"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-s3",
@@ -46,6 +46,7 @@
     "@types/bytes": "^3.1.1",
     "@types/react": "^17.0.35",
     "graphql": "^15.7.2",
+    "graphql-upload": "^13.0.0",
     "mime": "^2.5.2",
     "react": "^17.0.2"
   },

@@ -12,7 +12,9 @@
   "dependencies": {
     "@k6-contrib/fields-s3-images": "^1.0.0",
     "@keystone-6/core": "^1.0.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "graphql-upload": "^13.0.0",
+    "react": "^17.0.2"
   },
   "devDependencies": {
     "typescript": "^4.4.4"
