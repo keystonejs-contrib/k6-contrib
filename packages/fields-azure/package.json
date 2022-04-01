@@ -44,7 +44,7 @@
     "@keystone-6/core": "^1.0.0",
     "@types/bytes": "^3.1.1",
     "@types/react": "^17.0.35",
-    "graphql": "^15.7.2",
+    "graphql": "^15.8.0",
     "graphql-upload": "^13.0.0",
     "mime": "^2.5.2",
     "react": "^17.0.2",

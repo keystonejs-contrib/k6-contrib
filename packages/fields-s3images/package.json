@@ -43,7 +43,7 @@
     "@types/react": "^17.0.35",
     "@types/sharp": "^0.29.3",
     "@types/url-join": "^4.0.1",
-    "graphql": "^15.7.2",
+    "graphql": "^15.8.0",
     "graphql-upload": "^13.0.0",
     "mime": "^2.5.2",
     "react": "^17.0.2",
