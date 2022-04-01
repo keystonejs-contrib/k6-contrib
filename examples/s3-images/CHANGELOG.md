@@ -1,5 +1,13 @@
 # @k6-contrib/example-s3-file
 
+## 0.6.1
+
+### Patch Changes
+
+- 262afbf: An issue with an invalid peer dependency specifier on `@keystone-6/core`, in the package.json files for each package, has been fixed. This addresses an npm install failure when installing the packages. In addition, `graphql-upload` has been added as a peer dependency on a number of field packages to indicate it needs to be installed with the packages.
+- Updated dependencies [262afbf]
+  - @k6-contrib/fields-s3-images@1.1.1
+
 ## 0.6.0
 
 ### Minor Changes
