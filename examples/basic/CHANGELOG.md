@@ -1,5 +1,17 @@
 # @k6-contrib/example-basic
 
+## 0.8.2
+
+### Patch Changes
+
+- d8c6ce0: Add support for API key based authentication, by default it looks for apiKey field in User list.
+
+  this is base don stateless session from keystone, additional options
+
+  - listKey: default to `User`
+  - apiKeyField: defaults to `apiKey`
+  - apiKeyHeader: defaults to `x-api-key`
+
 ## 0.8.1
 
 ### Patch Changes
