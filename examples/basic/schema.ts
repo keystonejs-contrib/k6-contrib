@@ -13,6 +13,7 @@ import {
 import { document } from '@keystone-6/fields-document';
 import { encrypted } from '@k6-contrib/fields-encrypted';
 import { configureTracking } from '@k6-contrib/list-plugins';
+import { fields } from '@keystone-6/fields-document/component-blocks';
 
 // import { cloudinaryImage } from '@keystone-6/cloudinary';
 import { KeystoneListsAPI } from '@keystone-6/core/types';
@@ -119,6 +120,7 @@ export const lists = {
             },
           }),
         }),
+        apiKey: text({}),
       },
     }
   ),
@@ -180,17 +182,8 @@ export const lists = {
           ui: { views: require.resolve('./admin/fieldViews/Content.tsx') },
           relationships: {
             mention: {
-              kind: 'inline',
               label: 'Mention',
               listKey: 'User',
-            },
-            featuredAuthors: {
-              kind: 'prop',
-              listKey: 'User',
-              many: true,
-              selection: `posts(first: 10) {
-            title
-          }`,
             },
           },
           formatting: true,

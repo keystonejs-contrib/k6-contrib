@@ -1,5 +1,5 @@
 import { config } from '@keystone-6/core';
-import { statelessSessions } from '@keystone-6/core/session';
+import { statelessApiKeySessions } from '@k6-contrib/session';
 import { createAuth } from '@keystone-6/auth';
 
 import { lists, extendGraphqlSchema } from './schema';
@@ -42,7 +42,7 @@ export default auth.withAuth(
     files: { upload: 'local' },
     lists,
     extendGraphqlSchema,
-    session: statelessSessions({ maxAge: sessionMaxAge, secret: sessionSecret }),
+    session: statelessApiKeySessions({ maxAge: sessionMaxAge, secret: sessionSecret }),
     // TODO -- Create a separate example for stored/redis sessions
     // session: storedSessions({
     //   store: new Map(),
