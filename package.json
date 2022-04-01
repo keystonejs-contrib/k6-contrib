@@ -40,7 +40,7 @@
     "@preconstruct/cli": "^2.1.5",
     "@types/jest": "^27.0.2",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.0.0",
+    "dotenv": "^10.0.0",
     "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.4.4"
@@ -57,6 +57,5 @@
       "packages/*"
     ],
     "distFilenameStrategy": "unscoped-package-name"
-  },
-  "packageManager": "yarn@3.2.0"
+  }
 }
