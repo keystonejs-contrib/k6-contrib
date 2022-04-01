@@ -28,12 +28,12 @@
     "copy-to-clipboard": "^3.3.1",
     "cuid": "^2.1.8",
     "fs-extra": "^10.0.0",
-    "graphql-upload": "^12.0.0",
     "sharp": "^0.29.2",
     "url-join": "^4.0.1"
   },
   "peerDependencies": {
-    "@keystone-6/core": ">=^1.0.0",
+    "@keystone-6/core": "^1.0.0",
+    "graphql-upload": "^12.0.0",
     "react": "^17.0.2"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-s3images",
@@ -43,9 +43,11 @@
     "@types/react": "^17.0.35",
     "@types/sharp": "^0.29.3",
     "@types/url-join": "^4.0.1",
-    "graphql": "^15.7.2",
+    "graphql": "^15.8.0",
+    "graphql-upload": "^12.0.0",
     "mime": "^2.5.2",
-    "react": "^17.0.2"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "engines": {
     "node": "^12.20 || >= 14.13"

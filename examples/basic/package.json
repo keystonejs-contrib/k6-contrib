@@ -24,8 +24,9 @@
     "@types/react": "^17.0.35",
     "apollo-server-micro": "^3.5.0",
     "dotenv": "^10.0.0",
-    "graphql": "^15.7.2",
+    "graphql": "^15.8.0",
     "graphql-tag": "^2.12.5",
+    "micro": "^9.3.4",
     "next": "^12.0.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
