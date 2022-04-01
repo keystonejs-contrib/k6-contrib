@@ -33,6 +33,7 @@ model User {
   roles                      String        @default("")
   phoneNumbers               PhoneNumber[] @relation("PhoneNumber_user")
   posts                      Post[]        @relation("Post_author")
+  apiKey                     String        @default("")
   from_PhoneNumber_updatedBy PhoneNumber[] @relation("PhoneNumber_updatedBy")
   from_PhoneNumber_createdBy PhoneNumber[] @relation("PhoneNumber_createdBy")
   from_Post_updatedBy        Post[]        @relation("Post_updatedBy")

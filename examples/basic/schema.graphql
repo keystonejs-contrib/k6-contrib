@@ -97,6 +97,7 @@ type User {
   ): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
   randomNumber: Float
+  apiKey: String
 }
 
 interface ImageFieldOutput {
@@ -178,6 +179,7 @@ input UserWhereInput {
   roles: StringFilter
   phoneNumbers: PhoneNumberManyRelationFilter
   posts: PostManyRelationFilter
+  apiKey: StringFilter
 }
 
 input IDFilter {
@@ -246,6 +248,7 @@ input UserOrderByInput {
   email: OrderDirection
   isAdmin: OrderDirection
   roles: OrderDirection
+  apiKey: OrderDirection
 }
 
 enum OrderDirection {
@@ -267,6 +270,7 @@ input UserUpdateInput {
   roles: String
   phoneNumbers: PhoneNumberRelateToManyForUpdateInput
   posts: PostRelateToManyForUpdateInput
+  apiKey: String
 }
 
 input ImageFieldInput {
@@ -317,6 +321,7 @@ input UserCreateInput {
   roles: String
   phoneNumbers: PhoneNumberRelateToManyForCreateInput
   posts: PostRelateToManyForCreateInput
+  apiKey: String
 }
 
 input PhoneNumberRelateToManyForCreateInput {
