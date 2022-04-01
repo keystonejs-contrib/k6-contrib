@@ -1,5 +1,11 @@
 # @k6-contrib-next/list-plugins
 
+## 1.1.0
+
+### Minor Changes
+
+- 58b5989: Update keystone version to ^1.1.0. Update packages to match keystone repo
+
 ## 1.0.1
 
 ### Patch Changes
