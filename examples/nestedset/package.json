@@ -1,0 +1,27 @@
+{
+  "name": "@k6-contrib/example-nestedset",
+  "version": "0.7.1",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env NODE_OPTIONS=--inspect keystone dev",
+    "devb": "cross-env NODE_OPTIONS=--inspect-brk keystone dev",
+    "start": "keystone start",
+    "build": "keystone build"
+  },
+  "dependencies": {
+    "@k6-contrib/fields-s3": "^1.0.1",
+    "@keystone-6/core": "^1.1.0",
+    "dotenv": "^16.0.0",
+    "graphql": "^15.8.0",
+    "graphql-upload": "^13.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.4"
+  },
+  "engines": {
+    "node": "^12.20 || >= 14.13"
+  }
+}
