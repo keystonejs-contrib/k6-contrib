@@ -84,6 +84,9 @@ export const controller = (
     deserialize: data => {
       return data[config.path];
     },
+    validate(value) {
+      return !!value;
+    },
     serialize: value => {
       if (value && !value.value || !value?.initialValue) {
         return {
