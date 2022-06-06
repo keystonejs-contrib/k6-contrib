@@ -362,6 +362,7 @@ export async function moveNode(
   fieldKey: string,
   current: { [key: string]: any }
 ) {
+  if (!inputData[fieldKey]) return {};
   if (!Object.keys(current).length) return null;
   const { parentId, prevSiblingOf, nextSiblingOf } = inputData[fieldKey];
   if (parentId) {
@@ -422,7 +423,7 @@ async function moveAsPrevSiblingOf(
   const newDepth = prevSiblingNode[`${fieldKey}_depth`];
   await updateNode(
     prevSiblingNode[`${fieldKey}_left`],
-    newDepth - current[`${fieldKey}_depth`],
+    newDepth,
     { context, fieldKey, listKey },
     current
   );
@@ -748,6 +749,7 @@ export async function updateEntityIsNullFields(
       entityType = key;
     }
   }
+  console.log(entityId, entityType);
   const entity = await context.prisma[bdTable].findUnique({
     where: { id: entityId },
     select: {
@@ -759,7 +761,7 @@ export async function updateEntityIsNullFields(
   });
   // parentId, prevSiblingOf, nextSiblingOf
   const isEntityWithField = entity[`${fieldKey}_right`] && entity[`${fieldKey}_left`];
-  if (!root) {
+  if (!root || root.id === entityId) {
     await context.prisma[bdTable].update({
       where: {
         id: entityId,
@@ -772,12 +774,7 @@ export async function updateEntityIsNullFields(
     });
   }
   if (!isEntityWithField && root && root.id !== entityId) {
-    const { left, right, depth } = await insertLastChildOf(
-      root.id,
-      context,
-      listKey,
-      fieldKey
-    );
+    const { left, right, depth } = await insertLastChildOf(root.id, context, listKey, fieldKey);
     context.prisma[bdTable].update({
       where: {
         id: entityId,

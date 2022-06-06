@@ -40,7 +40,14 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
     <FieldContainer>
       <FieldLabel htmlFor={field.path}>{field.label}</FieldLabel>
       {/* {field.refListKey} */}
-      <NestedSetInput list={foreignList} onChange={onChange} state={value} autoFocus={autoFocus} graphqlSelection={field.graphqlSelection} path={field.path} />
+      <NestedSetInput
+        list={foreignList}
+        onChange={onChange}
+        state={value}
+        autoFocus={autoFocus}
+        graphqlSelection={field.graphqlSelection}
+        path={field.path}
+      />
     </FieldContainer>
   );
 };
@@ -84,18 +91,15 @@ export const controller = (
     deserialize: data => {
       return data[config.path];
     },
-    validate(value) {
-      return !!value;
-    },
     serialize: value => {
-      if (value && !value.value || !value?.initialValue) {
+      if ((value && !value.value) || !value?.initialValue) {
         return {
           [config.path]: {
-            ...value
-          }
-        }
+            ...value,
+          },
+        };
       }
-      return value
-    }
+      return value;
+    },
   };
 };
