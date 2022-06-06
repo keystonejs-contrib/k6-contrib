@@ -177,7 +177,6 @@ export const NestedSetInput = ({
       data,
     })) || [];
 
-  // if parentId get this entity
   let value: { [key: string]: any } = {};
   if (state?.parentId) {
     value = options.find(option => option.value === state.parentId);
@@ -286,14 +285,6 @@ export const NestedSetInput = ({
   const radioButton = {
     marginBottom: '1rem',
   };
-  const showError = (value: { [key: string]: any }) => {
-    console.log('value', value);
-    if (!value || !Object.keys(value).length) {
-      if (!state || !options.length || (state.parentId === null && state.left === 1)) return;
-      return <div css={{ color: 'red' }}>Please choose value.</div>;
-    }
-    return;
-  };
 
   const prepareData = (value: { [key: string]: any }) => {
     if (value) {
@@ -313,7 +304,6 @@ export const NestedSetInput = ({
           return;
       }
     }
-    // onChange(null);
     return;
   };
   return (
@@ -321,8 +311,6 @@ export const NestedSetInput = ({
       <div style={selectWidth}>
         <LoadingIndicatorContext.Provider value={loadingIndicatorContextVal}>
           <Select
-            // this is necessary because react-select passes a second argument to onInputChange
-            // and useState setters log a warning if a second argument is passed
             onInputChange={val => setSearch(val)}
             placeholder="Select"
             isLoading={loading || isLoading}
@@ -338,7 +326,6 @@ export const NestedSetInput = ({
             isClearable
           />
         </LoadingIndicatorContext.Provider>
-        {/* {showError(value)} */}
       </div>
       <div style={radioClass}>
         {radioVariants.map((variant, index) => (

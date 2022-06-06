@@ -1,6 +1,5 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-// import { Fragment } from 'react';
 import { jsx, useTheme } from '@keystone-ui/core';
 import { FieldContainer, FieldLabel } from '@keystone-ui/fields';
 
@@ -13,7 +12,7 @@ import {
   ListMeta,
 } from '@keystone-6/core/types';
 
-import { useKeystone, useList } from '@keystone-6/core/admin-ui/context';
+import { useList } from '@keystone-6/core/admin-ui/context';
 
 import { CellLink, CellContainer } from '@keystone-6/core/admin-ui/components';
 
