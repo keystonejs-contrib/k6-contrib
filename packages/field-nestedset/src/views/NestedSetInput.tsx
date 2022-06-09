@@ -172,7 +172,7 @@ export const NestedSetInput = ({
   const options =
     data?.items?.map(({ [idField]: value, [labelField]: label, ...data }) => ({
       value,
-      label: generateIndent(label || value, data[path].depth),
+      label: generateIndent(label || value, data[path].depth || 0),
       [path]: data[path],
       data,
     })) || [];

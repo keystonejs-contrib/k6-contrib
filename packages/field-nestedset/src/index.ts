@@ -25,6 +25,7 @@ import {
   moveNode,
   deleteResolver,
   updateEntityIsNullFields,
+  getRoot,
 } from './utils';
 
 import { Path } from 'graphql/jsutils/Path';
@@ -128,6 +129,11 @@ async function inputResolver(
   fieldKey: string
 ) {
   if (data === null || data === undefined) {
+    const isRoot = await getRoot(context, fieldKey, listKey);
+    if (isRoot) {
+      return await insertLastChildOf(isRoot.id, context, listKey, fieldKey);
+    }
+
     return createRoot();
   }
   const { parentId, prevSiblingOf, nextSiblingOf } = data;
