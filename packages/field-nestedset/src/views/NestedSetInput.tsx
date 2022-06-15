@@ -20,7 +20,7 @@ const idField = '____id____';
 
 const labelField = '____label____';
 
-const nestedSetField = '____nestedSet____';
+let nestedSetField = '____nestedSet____';
 
 const LoadingIndicatorContext = createContext<{
   count: number;
@@ -153,7 +153,8 @@ export const NestedSetInput = ({
       }),
     [link, list.gqlNames.listQueryName]
   );
-  const generateIndent = (label: string, depth = 0) => {
+  const generateIndent = (label: string, data: any) => {
+    const depth = data && data[path] ? data[path].depth : 0;
     let text = '';
     if (depth > 0) {
       for (let i = 0; i < depth; i++) {
@@ -172,8 +173,9 @@ export const NestedSetInput = ({
   const options =
     data?.items?.map(({ [idField]: value, [labelField]: label, ...data }) => ({
       value,
-      label: generateIndent(label || value, data[path].depth || 0),
+      label: generateIndent(label || value, data),
       [path]: data[path],
+      isDisabled: !data[path] ? true : false,
       data,
     })) || [];
 
@@ -250,7 +252,7 @@ export const NestedSetInput = ({
   const radioVariants = [
     {
       label: 'Parent',
-      value: 'parenId',
+      value: 'parentId',
       checked: true,
       disabled: false,
     },

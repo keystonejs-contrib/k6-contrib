@@ -38,7 +38,6 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
   return (
     <FieldContainer>
       <FieldLabel htmlFor={field.path}>{field.label}</FieldLabel>
-      {/* {field.refListKey} */}
       <NestedSetInput
         list={foreignList}
         onChange={onChange}

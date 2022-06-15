@@ -4,7 +4,6 @@ import { nestedSet } from '@k6-contrib/fields-nestedset';
 
 import 'dotenv/config';
 
-
 export const lists = {
   Post: list({
     fields: {
@@ -19,7 +18,7 @@ export const lists = {
       content: text(),
       publishDate: timestamp(),
       author: relationship({ ref: 'Author.posts', many: false }),
-      nestedSet: nestedSet()
+      nestedSet: nestedSet(),
     },
   }),
   Author: list({
