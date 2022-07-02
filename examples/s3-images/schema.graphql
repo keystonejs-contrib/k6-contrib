@@ -25,7 +25,8 @@ interface S3ImagesFieldOutput {
   sizesMeta: JSON
   extension: S3ImagesExtension!
   ref(size: S3ImagesSizeEnum! = md, meta: Boolean! = false): String!
-  url(size: S3ImagesSizeEnum! = md): String!
+  url(size: S3ImagesSizeEnum! = md): String
+  srcSet(sizes: [S3ImagesSizeEnum!]! = [sm, md, lg, full]): String
 }
 
 enum S3ImagesExtension {
@@ -36,6 +37,7 @@ enum S3ImagesExtension {
 }
 
 enum S3ImagesSizeEnum {
+  base64
   sm
   md
   lg
@@ -57,7 +59,8 @@ type S3ImagesFieldOutputType implements S3ImagesFieldOutput {
   sizesMeta: JSON
   extension: S3ImagesExtension!
   ref(size: S3ImagesSizeEnum! = md, meta: Boolean! = false): String!
-  url(size: S3ImagesSizeEnum! = md): String!
+  url(size: S3ImagesSizeEnum! = md): String
+  srcSet(sizes: [S3ImagesSizeEnum!]! = [sm, md, lg, full]): String
 }
 
 input PostWhereInput {
@@ -339,6 +342,7 @@ type KeystoneAdminUIListMeta {
 type KeystoneAdminUIFieldMeta {
   path: String!
   label: String!
+  description: String
   isOrderable: Boolean!
   isFilterable: Boolean!
   fieldMeta: JSON

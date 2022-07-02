@@ -18,11 +18,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.16.3",
-    "@keystone-ui/button": "^6.0.0",
-    "@keystone-ui/core": "^4.0.0",
-    "@keystone-ui/fields": "^6.0.0",
-    "@keystone-ui/pill": "^6.0.0",
-    "@keystone-ui/toast": "^5.0.0",
+    "@keystone-ui/button": "^7.0.0",
+    "@keystone-ui/core": "^5.0.0",
+    "@keystone-ui/fields": "^7.1.0",
+    "@keystone-ui/pill": "^7.0.0",
+    "@keystone-ui/toast": "^6.0.0",
     "aws-sdk": "^2.1023.0",
     "bytes": "^3.1.0",
     "copy-to-clipboard": "^3.3.1",
@@ -32,22 +32,22 @@
     "url-join": "^4.0.1"
   },
   "peerDependencies": {
-    "@keystone-6/core": "^1.1.0",
+    "@keystone-6/core": "^2.1.0",
     "graphql-upload": "^13.0.0",
-    "react": "^17.0.2"
+    "react": "^18.1.0"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-s3images",
   "devDependencies": {
-    "@keystone-6/core": "^1.1.0",
+    "@keystone-6/core": "^2.1.0",
     "@types/bytes": "^3.1.1",
-    "@types/react": "^17.0.35",
-    "@types/sharp": "^0.29.3",
+    "@types/react": "^18.0.9",
+    "@types/sharp": "^0.30.4",
     "@types/url-join": "^4.0.1",
     "graphql": "^15.8.0",
     "graphql-upload": "^13.0.0",
     "mime": "^3.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
   },
   "engines": {
     "node": "^12.20 || >= 14.13"
