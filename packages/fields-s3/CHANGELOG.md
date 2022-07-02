@@ -1,5 +1,11 @@
 # @k6-contrib/fields-s3
 
+## 1.1.1
+
+### Patch Changes
+
+- Rmoved x-amz-meta-original-file-name which is causing issues for some non-English and special characters. If you need support for this open a new issue and preferrably a PR with configuration option to enable disable this meta header.
+
 ## 1.1.0
 
 ### Minor Changes

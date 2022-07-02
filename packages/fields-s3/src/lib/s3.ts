@@ -119,7 +119,7 @@ export const getDataFromStream = async (
         Bucket: config.bucket,
         Key: `${config.folder}/${getFilename(fileData)}`,
         Metadata: {
-          'x-amz-meta-original-filename': originalFilename,
+          // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
           ...(type === 'image'
             ? {
                 'x-amz-meta-image-height': `${metadata.height}`,

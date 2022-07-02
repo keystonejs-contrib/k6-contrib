@@ -63,7 +63,7 @@ export const getDataFromStream = async (
       Bucket: config.bucket,
       Key: `${config.folder}/${getFilename(fileData)}`,
       Metadata: {
-        'x-amz-meta-original-filename': originalFilename,
+        // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
         'x-amz-meta-image-height': `${metadata.height}`,
         'x-amz-meta-image-width': `${metadata.width}`,
       },
@@ -93,7 +93,7 @@ export const getDataFromStream = async (
       Bucket: config.bucket,
       Key: `${config.folder}/${getFilename(smFileData)}`,
       Metadata: {
-        'x-amz-meta-original-filename': originalFilename,
+        // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
         'x-amz-meta-image-height': `${smFileData.height}`,
         'x-amz-meta-image-width': `${smFileData.width}`,
       },
@@ -123,7 +123,7 @@ export const getDataFromStream = async (
       Bucket: config.bucket,
       Key: `${config.folder}/${getFilename(mdFileData)}`,
       Metadata: {
-        'x-amz-meta-original-filename': originalFilename,
+        // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
         'x-amz-meta-image-height': `${mdFileData.height}`,
         'x-amz-meta-image-width': `${mdFileData.width}`,
       },
@@ -152,7 +152,7 @@ export const getDataFromStream = async (
       Bucket: config.bucket,
       Key: `${config.folder}/${getFilename(lgFileData)}`,
       Metadata: {
-        'x-amz-meta-original-filename': originalFilename,
+        // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
         'x-amz-meta-image-height': `${lgFileData.height}`,
         'x-amz-meta-image-width': `${lgFileData.width}`,
       },
