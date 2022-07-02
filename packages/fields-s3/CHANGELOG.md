@@ -1,5 +1,11 @@
 # @k6-contrib/fields-s3
 
+## 2.0.0
+
+### Major Changes
+
+- 3219ffa: Upgraded to support latest keystone version (`@keystone-6/core@2.1.0`). This brings react@18 support
+
 ## 1.1.1
 
 ### Patch Changes

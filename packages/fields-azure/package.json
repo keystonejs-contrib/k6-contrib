@@ -1,7 +1,7 @@
 {
   "name": "@k6-contrib/fields-azure",
   "description": "Keystone6 Azure Storage File and Image Field Type",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "main": "dist/fields-azure.cjs.js",

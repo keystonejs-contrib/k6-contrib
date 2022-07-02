@@ -1,5 +1,16 @@
 # @k6-contrib/example-with-tracking
 
+## 1.0.0
+
+### Major Changes
+
+- 3219ffa: Upgraded to support latest keystone version (`@keystone-6/core@2.1.0`). This brings react@18 support
+
+### Patch Changes
+
+- Updated dependencies [3219ffa]
+  - @k6-contrib/list-plugins@2.0.0
+
 ## 0.7.1
 
 ### Patch Changes

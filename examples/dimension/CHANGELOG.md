@@ -1,5 +1,17 @@
 # @k6-contrib/example-dimension
 
+## 1.0.0
+
+### Major Changes
+
+- 3219ffa: Upgraded to support latest keystone version (`@keystone-6/core@2.1.0`). This brings react@18 support
+
+### Patch Changes
+
+- Updated dependencies [3219ffa]
+  - @k6-contrib/fields-dimension@2.0.0
+  - @k6-contrib/fields-weight@2.0.0
+
 ## 0.6.1
 
 ### Patch Changes
