@@ -151,7 +151,7 @@ async function inputResolver(
 }
 async function updateEntityIsNull(
   data: NestedSetFieldInputType,
-  id: ID,
+  id: string,
   context: KeystoneContext,
   listKey: string,
   fieldKey: string
@@ -264,7 +264,7 @@ export const nestedSet =
               };
             }
             if (!Object.keys(currentItem).length) {
-              return updateEntityIsNull(inputData[fieldKey], item.id, context, listKey, fieldKey);
+              return updateEntityIsNull(inputData[fieldKey], context, listKey, fieldKey);
             }
             return moveNode(inputData, context, listKey, fieldKey, currentItem);
           }

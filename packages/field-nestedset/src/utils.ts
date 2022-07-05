@@ -1,11 +1,31 @@
 import { KeystoneContext } from '@keystone-6/core/types';
 
+function listNameToPrismaModel(listKey: string) {
+  return listKey[0].toLowerCase() + listKey.slice(1);
+}
+
 export function isRoot(data: { [key: string]: any }) {
   return !!(data.left === 1);
 }
 
+type NodeType = {
+  left: string | number;
+  right: string | number;
+  depth?: string | number;
+};
+
+function isAncestorOf(parenNode: NodeType, current: NodeType) {
+  return parenNode.left > current.left && parenNode.right < current.right;
+}
+function isEqualTo(parenNode: NodeType, current: NodeType) {
+  return (
+    Number(parenNode.left) === Number(current.left) &&
+    Number(parenNode.right) === Number(current.right)
+  );
+}
+
 export async function getRoot(context: KeystoneContext, field: string, listType: string) {
-  const roots = await context.prisma[listType.toLowerCase()].findMany({
+  const roots = await context.prisma[listNameToPrismaModel(listType)].findMany({
     where: {
       [`${field}_depth`]: 0,
       [`${field}_left`]: 1,
@@ -15,7 +35,7 @@ export async function getRoot(context: KeystoneContext, field: string, listType:
     },
   });
   if (!roots) {
-    return false;
+    return {};
   }
   return roots[0];
 }
@@ -45,7 +65,7 @@ export async function getParentId(
   if (isRoot(data)) {
     return null;
   }
-  const dbTable = listType.toLowerCase();
+  const dbTable = listNameToPrismaModel(listType);
   const parent = await context.prisma[dbTable].findMany({
     where: {
       [`${field}_depth`]: data.depth - 1,
@@ -75,7 +95,7 @@ export async function getParent(
   if (isRoot(data)) {
     return null;
   }
-  const dbTable = listType.toLowerCase();
+  const dbTable = listNameToPrismaModel(listType);
   const parent = await context.prisma[dbTable].findMany({
     where: {
       [`${field}_depth`]: data[`${field}_depth`] - 1,
@@ -210,7 +230,7 @@ export async function insertLastChildOf(
   listKey: string,
   fieldKey: string
 ) {
-  const bdTable = listKey.toLowerCase();
+  const bdTable = listNameToPrismaModel(listKey);
   const parentNode = await context.prisma[bdTable].findUnique({
     where: { id: parentId },
     select: {
@@ -267,7 +287,7 @@ export async function insertNextSiblingOf(
   listKey: string,
   fieldKey: string
 ) {
-  const bdTable = listKey.toLowerCase();
+  const bdTable = listNameToPrismaModel(listKey);
   const destNode = await context.prisma[bdTable].findUnique({
     where: { id: nextSiblingId },
     select: {
@@ -298,7 +318,7 @@ export async function insertPrevSiblingOf(
   listKey: string,
   fieldKey: string
 ) {
-  const bdTable = listKey.toLowerCase();
+  const bdTable = listNameToPrismaModel(listKey);
   const destNode = await context.prisma[bdTable].findUnique({
     where: { id: nextSiblingId },
     select: {
@@ -391,6 +411,23 @@ async function moveAsChildOf(
       [`${fieldKey}_depth`]: true,
     },
   });
+  let prepareParentNode = {
+    right: parentNode[`${fieldKey}_right`],
+    left: parentNode[`${fieldKey}_left`],
+    depth: parentNode[`${fieldKey}_depth`],
+  };
+  let currentNode = {
+    right: current[`${fieldKey}_right`],
+    left: current[`${fieldKey}_left`],
+    depth: current[`${fieldKey}_depth`],
+  };
+  if (
+    parentId === current.id ||
+    isAncestorOf(prepareParentNode, currentNode) ||
+    isEqualTo(prepareParentNode, currentNode)
+  ) {
+    throw new Error('Cannot move node as first child of itself or into a descendant');
+  }
   if (parentNode && parentNode.id) {
     const newDepth = parentNode[`${fieldKey}_depth`] + 1;
     await updateNode(
@@ -420,10 +457,27 @@ async function moveAsPrevSiblingOf(
       [`${fieldKey}_depth`]: true,
     },
   });
+  let parentNode = {
+    right: prevSiblingNode[`${fieldKey}_right`],
+    left: prevSiblingNode[`${fieldKey}_left`],
+    depth: prevSiblingNode[`${fieldKey}_depth`],
+  };
+  let currentNode = {
+    right: current[`${fieldKey}_right`],
+    left: current[`${fieldKey}_left`],
+    depth: current[`${fieldKey}_depth`],
+  };
+  if (
+    prevSiblingOfId === current.id ||
+    isAncestorOf(parentNode, currentNode) ||
+    isEqualTo(parentNode, currentNode)
+  ) {
+    throw new Error('Cannot move node as previous sibling of itself');
+  }
   const newDepth = prevSiblingNode[`${fieldKey}_depth`];
   await updateNode(
     prevSiblingNode[`${fieldKey}_left`],
-    newDepth,
+    newDepth - current[`${fieldKey}_depth`],
     { context, fieldKey, listKey },
     current
   );
@@ -446,10 +500,27 @@ async function moveAsNextSiblingOf(
       [`${fieldKey}_depth`]: true,
     },
   });
+  let parentNode = {
+    right: prevSiblingNode[`${fieldKey}_right`],
+    left: prevSiblingNode[`${fieldKey}_left`],
+    depth: prevSiblingNode[`${fieldKey}_depth`],
+  };
+  let currentNode = {
+    right: current[`${fieldKey}_right`],
+    left: current[`${fieldKey}_left`],
+    depth: current[`${fieldKey}_depth`],
+  };
+  if (
+    nextSiblingId === current.id ||
+    isAncestorOf(parentNode, currentNode) ||
+    isEqualTo(parentNode, currentNode)
+  ) {
+    throw new Error('Cannot move node as next sibling of itself');
+  }
   const newDepth = prevSiblingNode[`${fieldKey}_depth`];
   await updateNode(
     prevSiblingNode[`${fieldKey}_right`] + 1,
-    newDepth,
+    newDepth - current[`${fieldKey}_depth`],
     { context, fieldKey, listKey },
     current
   );
@@ -463,7 +534,7 @@ export async function deleteResolver(
 ) {
   if (!current.id) return;
   const { context, listKey, fieldKey } = options;
-  const bdTable = listKey.toLowerCase();
+  const bdTable = listNameToPrismaModel(listKey);
   const left = current[`${fieldKey}_left`];
   const right = current[`${fieldKey}_right`];
   const depth = current[`${fieldKey}_depth`];
@@ -584,7 +655,7 @@ async function updateNode(
   current: { [key: string]: any }
 ) {
   const { context, fieldKey, listKey } = options;
-  const bdTable = listKey.toLowerCase();
+  const bdTable = listNameToPrismaModel(listKey);
   let left = current[`${fieldKey}_left`];
   let right = current[`${fieldKey}_right`];
   const treeSize = right - left + 1;
@@ -643,7 +714,7 @@ async function shiftLeftRightRange(
   options: { [key: string]: any }
 ) {
   const { context, fieldKey, listKey } = options;
-  const bdTable = listKey.toLowerCase();
+  const bdTable = listNameToPrismaModel(listKey);
   const transactions = [];
   const leftTree = await context.prisma[bdTable].findMany({
     where: {
@@ -725,26 +796,22 @@ type NestedSetFieldInputType = {
 
 export async function updateEntityIsNullFields(
   data: NestedSetFieldInputType,
-  id: ID,
   context: KeystoneContext,
   listKey: string,
   fieldKey: string
 ) {
-  const bdTable = listKey.toLowerCase();
+  const bdTable = listNameToPrismaModel(listKey);
   const root = await getRoot(context, fieldKey, listKey);
-  if (!data && root.id) {
+  if (!data && root && root.id) {
     const { left, right, depth } = await insertLastChildOf(root.id, context, listKey, fieldKey);
     return {
       left,
       right,
       depth,
     };
-  } else if (!root.id) {
-    return {
-      left: 1,
-      right: 2,
-      depth: 0,
-    };
+  }
+  if (!data && !root) {
+    throw new Error('Please< create root before update this entity');
   }
   let entityId = '';
   let entityType = '';
@@ -763,26 +830,9 @@ export async function updateEntityIsNullFields(
       [`${fieldKey}_depth`]: true,
     },
   });
-  const isEntityWithField = entity[`${fieldKey}_right`] && entity[`${fieldKey}_left`];
-  if (!root || root.id === entityId) {
-    return {
-      left: 1,
-      right: 2,
-      depth: 0,
-    };
-  }
-  if (!isEntityWithField && root && root.id !== entityId) {
+  const isEntityWithField = !!(entity[`${fieldKey}_right`] && entity[`${fieldKey}_left`]);
+  if (!isEntityWithField && root) {
     const { left, right, depth } = await insertLastChildOf(root.id, context, listKey, fieldKey);
-    context.prisma[bdTable].update({
-      where: {
-        id: entityId,
-      },
-      data: {
-        [`${fieldKey}_left`]: left,
-        [`${fieldKey}_right`]: right,
-        [`${fieldKey}_depth`]: depth,
-      },
-    });
     return {
       left,
       right,
@@ -802,7 +852,7 @@ export async function updateEntityIsNullFields(
 }
 export async function nodeIsInTree(data: NestedSetFieldInputType, options: { [key: string]: any }) {
   const { fieldKey, listKey, context } = options;
-  const bdTable = listKey.toLowerCase();
+  const bdTable = listNameToPrismaModel(listKey);
   let entityId = '';
   for (const [key, value] of Object.entries(data)) {
     if (value) {
