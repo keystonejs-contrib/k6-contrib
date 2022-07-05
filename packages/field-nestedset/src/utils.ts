@@ -125,7 +125,7 @@ export async function getchildrenCount(
   if (isLeaf(data)) {
     return 0;
   }
-  const children = await context.prisma[listType.toLowerCase()].findMany({
+  const children = await context.prisma[listNameToPrismaModel(listType)].findMany({
     where: {
       [`${field}_left`]: {
         gt: data.left,
@@ -149,7 +149,9 @@ export async function fetchRoot(
   listKey: string,
   fieldKey: string
 ) {
-  const root = await context.prisma[listKey.toLowerCase()].findUnique({ where: { id: rootId } });
+  const root = await context.prisma[listNameToPrismaModel(listKey)].findUnique({
+    where: { id: rootId },
+  });
   if (root[`${fieldKey}_left`] === 1) return root;
   return false;
 }
@@ -160,7 +162,7 @@ export async function getPrevSibling(
   listKey: string,
   fieldKey: string
 ) {
-  const currentNode = await context.prisma[listKey.toLowerCase()].findUnique({
+  const currentNode = await context.prisma[listNameToPrismaModel(listKey)].findUnique({
     where: { id: prevSibling },
   });
   if (!currentNode) return false;
@@ -175,7 +177,7 @@ export async function getNextSibling(
   listKey: string,
   fieldKey: string
 ) {
-  const currentNode = await context.prisma[listKey.toLowerCase()].findUnique({
+  const currentNode = await context.prisma[listNameToPrismaModel(listKey)].findUnique({
     where: { id: nextSibling },
   });
   if (!currentNode) return false;
@@ -190,7 +192,7 @@ export async function getChildOf(
   listKey: string,
   fieldKey: string
 ) {
-  const currentNode = await context.prisma[listKey.toLowerCase()].findUnique({
+  const currentNode = await context.prisma[listNameToPrismaModel(listKey)].findUnique({
     where: { id: childOf },
   });
   return {
@@ -210,7 +212,7 @@ export async function getParentOf(
   listKey: string,
   fieldKey: string
 ) {
-  const currentNode = await context.prisma[listKey.toLowerCase()].findUnique({
+  const currentNode = await context.prisma[listNameToPrismaModel(listKey)].findUnique({
     where: { id: parentId },
   });
   return {
@@ -368,7 +370,7 @@ async function fetchTree(
       [`${fieldKey}_depth`]: true,
     },
   };
-  return await context.prisma[listKey.toLowerCase()].findMany(options);
+  return await context.prisma[listNameToPrismaModel(listKey)].findMany(options);
 }
 
 export async function moveNode(
@@ -402,7 +404,7 @@ async function moveAsChildOf(
 ) {
   if (!parentId) return { depth: null };
   const { context, fieldKey, listKey } = options;
-  const parentNode = await context.prisma[listKey.toLowerCase()].findUnique({
+  const parentNode = await context.prisma[listNameToPrismaModel(listKey)].findUnique({
     where: { id: parentId },
     select: {
       id: true,
@@ -448,7 +450,7 @@ async function moveAsPrevSiblingOf(
   options: { [key: string]: any }
 ) {
   const { context, fieldKey, listKey } = options;
-  const prevSiblingNode = await context.prisma[listKey.toLowerCase()].findUnique({
+  const prevSiblingNode = await context.prisma[listNameToPrismaModel(listKey)].findUnique({
     where: { id: prevSiblingOfId },
     select: {
       id: true,
@@ -491,7 +493,7 @@ async function moveAsNextSiblingOf(
   options: { [key: string]: any }
 ) {
   const { context, fieldKey, listKey } = options;
-  const prevSiblingNode = await context.prisma[listKey.toLowerCase()].findUnique({
+  const prevSiblingNode = await context.prisma[listNameToPrismaModel(listKey)].findUnique({
     where: { id: nextSiblingId },
     select: {
       id: true,
