@@ -2,7 +2,7 @@ import path from 'path';
 import { Path } from 'graphql/jsutils/Path';
 
 import {
-  BaseGeneratedListTypes,
+  BaseListTypeInfo,
   fieldType,
   FieldTypeFunc,
   ImageExtension,
@@ -18,8 +18,6 @@ import {
   AzureStorageDataType,
 } from './types';
 import { getDataFromRef, getDataFromStream, getUrl } from './blob';
-
-const views = path.join(path.dirname(__dirname), 'views/image');
 
 const ImageExtensionEnum = graphql.enum({
   name: 'AzureStorageImageExtension',
@@ -95,58 +93,58 @@ const AzureStorageImageFieldOutputType = graphql.object<Omit<ImageData, 'type'>>
 });
 
 export const azureStorageImage =
-  <TGeneratedListTypes extends BaseGeneratedListTypes>({
+  <ListTypeInfo extends BaseListTypeInfo>({
     azureStorageConfig,
     ...config
-  }: AzureStorageFieldConfig<TGeneratedListTypes>): FieldTypeFunc =>
-  meta => {
-    if ((config as any).isUnique) {
-      throw Error('isUnique is not a supported option for field type image');
-    }
-    if (typeof azureStorageConfig === 'undefined') {
-      throw new Error(
-        `Must provide azureStorageConfig option in AzureStorageImage field for List: ${meta.listKey}, field: ${meta.fieldKey}`
-      );
-    }
-    _fieldConfigs[`${meta.listKey}-${meta.fieldKey}`] = azureStorageConfig;
-    return fieldType({
-      kind: 'multi',
-      fields: {
-        filesize: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
-        extension: { kind: 'scalar', scalar: 'String', mode: 'optional' },
-        width: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
-        height: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
-        id: { kind: 'scalar', scalar: 'String', mode: 'optional' },
-      },
-    })({
-      ...config,
-      input: {
-        create: {
-          arg: graphql.arg({ type: AzureStorageFieldInput }),
-          resolve: createInputResolver(azureStorageConfig as AzureStorageConfig),
+  }: AzureStorageFieldConfig<ListTypeInfo>): FieldTypeFunc<ListTypeInfo> =>
+    meta => {
+      if ((config as any).isUnique) {
+        throw Error('isUnique is not a supported option for field type image');
+      }
+      if (typeof azureStorageConfig === 'undefined') {
+        throw new Error(
+          `Must provide azureStorageConfig option in AzureStorageImage field for List: ${meta.listKey}, field: ${meta.fieldKey}`
+        );
+      }
+      _fieldConfigs[`${meta.listKey}-${meta.fieldKey}`] = azureStorageConfig;
+      return fieldType({
+        kind: 'multi',
+        fields: {
+          filesize: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
+          extension: { kind: 'scalar', scalar: 'String', mode: 'optional' },
+          width: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
+          height: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
+          id: { kind: 'scalar', scalar: 'String', mode: 'optional' },
         },
-        update: {
-          arg: graphql.arg({ type: AzureStorageFieldInput }),
-          resolve: createInputResolver(azureStorageConfig as AzureStorageConfig),
+      })({
+        ...config,
+        input: {
+          create: {
+            arg: graphql.arg({ type: AzureStorageFieldInput }),
+            resolve: createInputResolver(azureStorageConfig as AzureStorageConfig),
+          },
+          update: {
+            arg: graphql.arg({ type: AzureStorageFieldInput }),
+            resolve: createInputResolver(azureStorageConfig as AzureStorageConfig),
+          },
         },
-      },
-      output: graphql.field({
-        type: AzureStorageImageFieldOutput,
-        resolve({ value: { extension, filesize, height, width, id } }) {
-          if (
-            extension === null ||
-            !isValidImageExtension(extension) ||
-            filesize === null ||
-            height === null ||
-            width === null ||
-            id === null
-          ) {
-            return null;
-          }
-          return { extension, filesize, height, width, id };
-        },
-      }),
-      unreferencedConcreteInterfaceImplementations: [AzureStorageImageFieldOutputType],
-      views,
-    });
-  };
+        output: graphql.field({
+          type: AzureStorageImageFieldOutput,
+          resolve({ value: { extension, filesize, height, width, id } }) {
+            if (
+              extension === null ||
+              !isValidImageExtension(extension) ||
+              filesize === null ||
+              height === null ||
+              width === null ||
+              id === null
+            ) {
+              return null;
+            }
+            return { extension, filesize, height, width, id };
+          },
+        }),
+        unreferencedConcreteInterfaceImplementations: [AzureStorageImageFieldOutputType],
+        views: '@k6-contrib/fields-azure/image',
+      });
+    };

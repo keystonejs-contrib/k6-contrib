@@ -1,15 +1,13 @@
 import path from 'path';
 
 import {
-  BaseGeneratedListTypes,
+  BaseListTypeInfo,
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
 } from '@keystone-6/core/types';
 import { graphql } from '@keystone-6/core';
 import { WeightData, WeightFieldConfig, WeightFieldInputType } from './types';
-
-const views = path.join(path.dirname(__dirname), 'views');
 
 const WeightFieldInput = graphql.inputObject({
   name: 'WeightFieldInput',
@@ -58,13 +56,13 @@ const WeightFieldOutputType = graphql.object<WeightData>()({
 });
 
 export const weight =
-  <TGeneratedListTypes extends BaseGeneratedListTypes>({
+  <ListTypeInfo extends BaseListTypeInfo>({
     validation,
     units = [],
     displayMode = 'select',
     defaultUnit = 'g',
     ...config
-  }: WeightFieldConfig<TGeneratedListTypes> = {}): FieldTypeFunc =>
+  }: WeightFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
     meta => {
       if ((config as any).isUnique) {
         throw Error('isUnique is not a supported option for field type weight');
@@ -116,6 +114,6 @@ export const weight =
           },
         }),
         unreferencedConcreteInterfaceImplementations: [WeightFieldOutputType],
-        views,
+        views: '@k6-contrib/fields-weight/views',
       });
     };

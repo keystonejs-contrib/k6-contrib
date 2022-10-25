@@ -13,8 +13,8 @@
     "cookie": "^0.5.0"
   },
   "devDependencies": {
-    "@keystone-6/core": "^2.1.0",
-    "typescript": "^4.4.4"
+    "@keystone-6/core": "^3.0.0",
+    "typescript": "~4.7.4"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/session"
 }

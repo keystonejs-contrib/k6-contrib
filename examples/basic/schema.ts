@@ -1,4 +1,5 @@
-import { list, graphQLSchemaExtension, gql, graphql } from '@keystone-6/core';
+import { mergeSchemas } from '@graphql-tools/schema';
+import { list, graphql } from '@keystone-6/core';
 import {
   text,
   relationship,
@@ -10,6 +11,8 @@ import {
   image,
   file,
 } from '@keystone-6/core/fields';
+import { allowAll } from '@keystone-6/core/access';
+import { gql } from '@keystone-6/core/admin-ui/apollo';
 import { document } from '@keystone-6/fields-document';
 import { encrypted } from '@k6-contrib/fields-encrypted';
 import { configureTracking } from '@k6-contrib/list-plugins';
@@ -43,6 +46,7 @@ const withTracking = configureTracking({});
 export const lists = {
   User: list(
     {
+      access: allowAll,
       db: {},
       ui: {
         listView: {
@@ -76,8 +80,8 @@ export const lists = {
           secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
         }),
         /** Avatar upload for the users profile, stored locally */
-        avatar: image(),
-        attachment: file(),
+        // avatar: image(),
+        // attachment: file(),
         /** Used to log in. */
         password: password(),
         /** Administrators have more access to various lists and fields. */
@@ -126,6 +130,7 @@ export const lists = {
   ),
   PhoneNumber: list(
     withTracking({
+      access: allowAll,
       ui: {
         isHidden: true,
         // parentRelationship: 'user',
@@ -164,6 +169,7 @@ export const lists = {
   ),
   Post: list(
     withTracking({
+      access: allowAll,
       fields: {
         title: text(),
         // TODO: expand this out into a proper example project
@@ -178,26 +184,26 @@ export const lists = {
             displayMode: 'segmented-control',
           },
         }),
-        content: document({
-          ui: { views: require.resolve('./admin/fieldViews/Content.tsx') },
-          relationships: {
-            mention: {
-              label: 'Mention',
-              listKey: 'User',
-            },
-          },
-          formatting: true,
-          layouts: [
-            [1, 1],
-            [1, 1, 1],
-            [2, 1],
-            [1, 2],
-            [1, 2, 1],
-          ],
-          links: true,
-          dividers: true,
-          componentBlocks,
-        }),
+        // content: document({
+        //   ui: { views: require.resolve('./admin/fieldViews/Content.tsx') },
+        //   relationships: {
+        //     mention: {
+        //       label: 'Mention',
+        //       listKey: 'User',
+        //     },
+        //   },
+        //   formatting: true,
+        //   layouts: [
+        //     [1, 1],
+        //     [1, 1, 1],
+        //     [2, 1],
+        //     [1, 2],
+        //     [1, 2, 1],
+        //   ],
+        //   links: true,
+        //   dividers: true,
+        //   componentBlocks,
+        // }),
         publishDate: timestamp(),
         author: relationship({
           ref: 'User.posts',
@@ -214,14 +220,15 @@ export const lists = {
   ),
 };
 
-export const extendGraphqlSchema = graphQLSchemaExtension({
+export const extendGraphqlSchema = schema => mergeSchemas({
+  schemas: [schema],
   typeDefs: gql`
     type Query {
       randomNumber: RandomNumber
     }
     type RandomNumber {
       number: Int
-      generatedAt: Int
+      generatedAt: String
     }
     type Mutation {
       createRandomPosts: [Post!]!
@@ -237,10 +244,11 @@ export const extendGraphqlSchema = graphQLSchemaExtension({
       createRandomPosts(root, args, context) {
         // TODO: add a way to verify access control here, e.g
         // await context.verifyAccessControl(userIsAdmin);
-        const data = Array.from({ length: 238 }).map((x, i) => ({ data: { title: `Post ${i}` } }));
+        const data = Array.from({ length: 238 }).map((x, i) => ({ title: `Post ${i}` }));
         // note this usage of the type is important because it tests that the generated
         // KeystoneListsTypeInfo extends Record<string, BaseGeneratedListTypes>
         const lists: KeystoneListsAPI<any> = context.query;
+        console.log(data);
         return lists.Post.createMany({ data });
       },
     },
