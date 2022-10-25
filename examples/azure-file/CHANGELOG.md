@@ -1,5 +1,16 @@
 # @k6-contrib/example-azure-file
 
+## 2.0.0
+
+### Major Changes
+
+- a2af848: upgraded keystone version to 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [a2af848]
+  - @k6-contrib/fields-azure@3.0.0
+
 ## 1.0.0
 
 ### Major Changes

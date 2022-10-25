@@ -1,5 +1,11 @@
 # @k6-contrib/fields-s3-images
 
+## 3.0.0
+
+### Major Changes
+
+- a2af848: upgraded keystone version to 3.0.0
+
 ## 2.0.0
 
 ### Major Changes

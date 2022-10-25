@@ -1,5 +1,17 @@
 # @k6-contrib/example-dimension
 
+## 2.0.0
+
+### Major Changes
+
+- a2af848: upgraded keystone version to 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [a2af848]
+  - @k6-contrib/fields-dimension@3.0.0
+  - @k6-contrib/fields-weight@3.0.0
+
 ## 1.0.0
 
 ### Major Changes

@@ -1,5 +1,16 @@
 # @k6-contrib/example-with-tracking
 
+## 2.0.0
+
+### Major Changes
+
+- a2af848: upgraded keystone version to 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [a2af848]
+  - @k6-contrib/list-plugins@3.0.0
+
 ## 1.0.0
 
 ### Major Changes
