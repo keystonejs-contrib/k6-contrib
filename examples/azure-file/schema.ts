@@ -1,7 +1,8 @@
+import 'dotenv/config';
 import { list } from '@keystone-6/core';
 import { select, relationship, text, timestamp } from '@keystone-6/core/fields';
 import { azureStorageImage, azureStorageFile, AzureStorageConfig } from '@k6-contrib/fields-azure';
-import 'dotenv/config';
+import { allowAll } from '@keystone-6/core/access';
 
 const config: AzureStorageConfig = {
   azureStorageOptions: {
@@ -16,6 +17,7 @@ const config: AzureStorageConfig = {
 
 export const lists = {
   Post: list({
+    access: allowAll,
     fields: {
       title: text({ validation: { isRequired: true } }),
       status: select({
@@ -37,6 +39,7 @@ export const lists = {
     },
   }),
   Author: list({
+    access: allowAll,
     fields: {
       name: text({ validation: { isRequired: true } }),
       email: text({ validation: { isRequired: true }, isIndexed: 'unique' }),

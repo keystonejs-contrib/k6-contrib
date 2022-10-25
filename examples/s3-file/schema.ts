@@ -1,4 +1,5 @@
 import { list } from '@keystone-6/core';
+import { allowAll } from '@keystone-6/core/access';
 import { select, relationship, text, timestamp } from '@keystone-6/core/fields';
 import { S3Config, s3File, s3Image } from '@k6-contrib/fields-s3';
 import 'dotenv/config';
@@ -21,6 +22,7 @@ const s3Config: S3Config = {
 
 export const lists = {
   Post: list({
+    access: allowAll,
     fields: {
       title: text({ validation: { isRequired: true } }),
       status: select({
@@ -40,6 +42,7 @@ export const lists = {
     },
   }),
   Author: list({
+    access: allowAll,
     fields: {
       name: text({ validation: { isRequired: true } }),
       email: text({ validation: { isRequired: true }, isIndexed: 'unique' }),

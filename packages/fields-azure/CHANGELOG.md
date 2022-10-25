@@ -1,5 +1,11 @@
 # @k6-contrib/fields-azure
 
+## 3.0.0
+
+### Major Changes
+
+- a2af848: upgraded keystone version to 3.0.0
+
 ## 2.0.0
 
 ### Major Changes

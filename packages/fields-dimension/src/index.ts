@@ -1,15 +1,13 @@
 import path from 'path';
 
 import {
-  BaseGeneratedListTypes,
+  BaseListTypeInfo,
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
 } from '@keystone-6/core/types';
 import { graphql } from '@keystone-6/core';
 import { DimensionData, DimensionFieldConfig, DimensionFieldInputType } from './types';
-
-const views = path.join(path.dirname(__dirname), 'views');
 
 const DimensionFieldInput = graphql.inputObject({
   name: 'DimensionFieldInput',
@@ -62,13 +60,13 @@ const DimensionFieldOutputType = graphql.object<DimensionData>()({
 });
 
 export const dimension =
-  <TGeneratedListTypes extends BaseGeneratedListTypes>({
+  <ListTypeInfo extends BaseListTypeInfo>({
     validation,
     units = [],
     ui: { displayMode = 'select', ...ui } = {},
     defaultUnit = null,
     ...config
-  }: DimensionFieldConfig<TGeneratedListTypes> = {}): FieldTypeFunc =>
+  }: DimensionFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
     meta => {
       if ((config as any).isUnique) {
         throw Error('isUnique is not a supported option for field type dimension');
@@ -122,6 +120,6 @@ export const dimension =
           },
         }),
         unreferencedConcreteInterfaceImplementations: [DimensionFieldOutputType],
-        views,
+        views: '@k6-contrib/fields-dimension/views',
       });
     };

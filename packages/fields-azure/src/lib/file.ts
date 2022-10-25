@@ -2,7 +2,7 @@ import path from 'path';
 import { Path } from 'graphql/jsutils/Path';
 
 import {
-  BaseGeneratedListTypes,
+  BaseListTypeInfo,
   fieldType,
   FieldTypeFunc,
   KeystoneContext,
@@ -11,8 +11,6 @@ import { graphql } from '@keystone-6/core';
 import { getFileRef } from './utils';
 import { AzureStorageFieldConfig, AzureStorageFieldInputType, AzureStorageConfig, AzureStorageDataType, FileData } from './types';
 import { getDataFromRef, getDataFromStream, getUrl } from './blob';
-
-const views = path.join(path.dirname(__dirname), 'views/file');
 
 const _fieldConfigs: { [key: string]: AzureStorageConfig } = {};
 
@@ -75,50 +73,50 @@ function createInputResolver(config: AzureStorageConfig) {
 }
 
 export const azureStorageFile =
-  <TGeneratedListTypes extends BaseGeneratedListTypes>({
+  <ListTypeInfo extends BaseListTypeInfo>({
     azureStorageConfig,
     ...config
-  }: AzureStorageFieldConfig<TGeneratedListTypes>): FieldTypeFunc =>
-  meta => {
-    if ((config as any).isUnique) {
-      throw Error('isUnique is not a supported option for field type file');
-    }
+  }: AzureStorageFieldConfig<ListTypeInfo>): FieldTypeFunc<ListTypeInfo> =>
+    meta => {
+      if ((config as any).isUnique) {
+        throw Error('isUnique is not a supported option for field type file');
+      }
 
-    if (typeof azureStorageConfig === 'undefined') {
-      throw new Error(
-        `Must provide AzureStorageConfig option in AzureStorageImage field for List: ${meta.listKey}, field: ${meta.fieldKey}`
-      );
-    }
-    _fieldConfigs[`${meta.listKey}-${meta.fieldKey}`] = azureStorageConfig;
+      if (typeof azureStorageConfig === 'undefined') {
+        throw new Error(
+          `Must provide AzureStorageConfig option in AzureStorageImage field for List: ${meta.listKey}, field: ${meta.fieldKey}`
+        );
+      }
+      _fieldConfigs[`${meta.listKey}-${meta.fieldKey}`] = azureStorageConfig;
 
-    return fieldType({
-      kind: 'multi',
-      fields: {
-        filename: { kind: 'scalar', scalar: 'String', mode: 'optional' },
-        filesize: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
-      },
-    })({
-      ...config,
-      input: {
-        create: {
-          arg: graphql.arg({ type: AzureStorageFileFieldInput }),
-          resolve: createInputResolver(azureStorageConfig as AzureStorageConfig),
+      return fieldType({
+        kind: 'multi',
+        fields: {
+          filename: { kind: 'scalar', scalar: 'String', mode: 'optional' },
+          filesize: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
         },
-        update: {
-          arg: graphql.arg({ type: AzureStorageFileFieldInput }),
-          resolve: createInputResolver(azureStorageConfig as AzureStorageConfig),
+      })({
+        ...config,
+        input: {
+          create: {
+            arg: graphql.arg({ type: AzureStorageFileFieldInput }),
+            resolve: createInputResolver(azureStorageConfig as AzureStorageConfig),
+          },
+          update: {
+            arg: graphql.arg({ type: AzureStorageFileFieldInput }),
+            resolve: createInputResolver(azureStorageConfig as AzureStorageConfig),
+          },
         },
-      },
-      output: graphql.field({
-        type: AzureStorageFileFieldOutput,
-        resolve({ value: { filename, filesize } }) {
-          if (filename === null || filesize === null) {
-            return null;
-          }
-          return { filename, filesize };
-        },
-      }),
-      unreferencedConcreteInterfaceImplementations: [AzureStorageFileFieldOutputType],
-      views,
-    });
-  };
+        output: graphql.field({
+          type: AzureStorageFileFieldOutput,
+          resolve({ value: { filename, filesize } }) {
+            if (filename === null || filesize === null) {
+              return null;
+            }
+            return { filename, filesize };
+          },
+        }),
+        unreferencedConcreteInterfaceImplementations: [AzureStorageFileFieldOutputType],
+        views: '@k6-contrib/fields-azure/file',
+      });
+    };

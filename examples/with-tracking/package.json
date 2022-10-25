@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/example-with-tracking",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=\"--inspect -r dotenv/config\" keystone dev",
@@ -8,13 +8,13 @@
     "build": "keystone build"
   },
   "dependencies": {
-    "@k6-contrib/list-plugins": "^2.0.0",
-    "@keystone-6/auth": "^4.0.0",
-    "@keystone-6/core": "^2.1.0",
-    "@keystone-6/fields-document": "^4.0.0",
+    "@k6-contrib/list-plugins": "^3.0.0",
+    "@keystone-6/auth": "^5.0.0",
+    "@keystone-6/core": "^3.0.0",
+    "@keystone-6/fields-document": "^5.0.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "typescript": "^4.4.4"
+    "typescript": "~4.7.4"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/examples/with-tracking"
 }

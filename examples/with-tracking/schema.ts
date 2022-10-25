@@ -2,12 +2,14 @@ import { list } from '@keystone-6/core';
 import { text, relationship, password, timestamp, select } from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
 import { configureTracking } from '@k6-contrib/list-plugins';
+import { allowAll } from '@keystone-6/core/access';
 
 const withTracking = configureTracking({ atTrackingOptions: { isIndexed: true } });
 
 export const lists = {
   User: list(
     withTracking({
+      access: allowAll,
       ui: {
         listView: {
           initialColumns: ['name', 'posts'],
@@ -23,6 +25,7 @@ export const lists = {
   ),
   Post: list(
     withTracking({
+      access: allowAll,
       fields: {
         title: text(),
         status: select({
@@ -74,6 +77,7 @@ export const lists = {
   ),
   Tag: list(
     withTracking({
+      access: allowAll,
       ui: {
         isHidden: true,
       },
