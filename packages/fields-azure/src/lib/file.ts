@@ -117,6 +117,6 @@ export const azureStorageFile =
           },
         }),
         unreferencedConcreteInterfaceImplementations: [AzureStorageFileFieldOutputType],
-        views: '@k6-contrib/fields-azure/file',
+        views: '@k6-contrib/fields-azure/views/file',
       });
     };

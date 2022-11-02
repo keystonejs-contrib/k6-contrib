@@ -145,6 +145,6 @@ export const azureStorageImage =
           },
         }),
         unreferencedConcreteInterfaceImplementations: [AzureStorageImageFieldOutputType],
-        views: '@k6-contrib/fields-azure/image',
+        views: '@k6-contrib/fields-azure/views/image',
       });
     };

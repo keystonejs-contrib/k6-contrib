@@ -1,5 +1,11 @@
 # @k6-contrib/fields-azure
 
+## 3.0.1
+
+### Patch Changes
+
+- Fixed view path
+
 ## 3.0.0
 
 ### Major Changes
