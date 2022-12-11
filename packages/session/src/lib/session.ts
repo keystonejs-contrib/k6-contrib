@@ -79,12 +79,14 @@ export function statelessApiKeySessions<T>({
     throw new Error('The session secret must be at least 32 characters long');
   }
   return {
-    async get({ req, createContext }) {
-      const apiKey: string = (req.headers[apiKeyHeader] as string) || ''
+    async get({ context }) {
+      if (!context?.req) {
+        return;
+      }
+      const apiKey: string = (context.req.headers[apiKeyHeader] as string) || ''
       if (apiKey?.toString().length >= 16) {
-        const sudoContext = createContext({ sudo: true });
         try {
-          const data = await sudoContext.query[listKey].findMany({
+          const data = await context.sudo().query[listKey].findMany({
             where: { [apiKeyField]: { equals: apiKey } },
           });
           if (!data || data.length > 1) return;
@@ -93,18 +95,17 @@ export function statelessApiKeySessions<T>({
           return;
         }
       }
-      const cookies = cookie.parse(req.headers.cookie || '');
-      const bearer = req.headers.authorization?.replace('Bearer ', '');
+      const cookies = cookie.parse(context.req.headers.cookie || '');
+      const bearer = context.req.headers.authorization?.replace('Bearer ', '');
       const token = bearer || cookies[TOKEN_NAME];
       if (!token) return;
       try {
         return await Iron.unseal(token, secret, ironOptions);
-      } catch (err) {
-        return;
-      }
+      } catch (err) { }
     },
-    async end({ res }) {
-      res.setHeader(
+    async end({ context }) {
+      if (!context?.res) return;
+      context.res.setHeader(
         'Set-Cookie',
         cookie.serialize(TOKEN_NAME, '', {
           maxAge: 0,
@@ -117,10 +118,11 @@ export function statelessApiKeySessions<T>({
         })
       );
     },
-    async start({ res, data }) {
+    async start({ context, data }) {
+      if (!context?.res) return;
       const sealedData = await Iron.seal(data, secret, { ...ironOptions, ttl: maxAge * 1000 });
 
-      res.setHeader(
+      context.res.setHeader(
         'Set-Cookie',
         cookie.serialize(TOKEN_NAME, sealedData, {
           maxAge,

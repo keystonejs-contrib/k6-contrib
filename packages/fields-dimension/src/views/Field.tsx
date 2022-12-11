@@ -141,13 +141,13 @@ function createErrorMessage(value: DimensionValue) {
 export function validateDimension(data: DimensionValue): string | undefined {
   if (data) {
     const { unit, length, width, height } = data;
-    if (
-      (!unit && isNaN(parseFloat(length))) ||
+    if (!unit && (
+      isNaN(parseFloat(length)) ||
       isNaN(parseFloat(width)) ||
       isNaN(parseFloat(height))
-    )
+    ))
       return undefined;
-    if (!unit || parseFloat(length) < 0 || parseFloat(width) < 0 || parseFloat(height) < 0)
+    if (!unit || [length, width, height].some(value => isNaN(parseFloat(value)) || parseFloat(value) < 0))
       return 'invalid dimension values';
   }
 }

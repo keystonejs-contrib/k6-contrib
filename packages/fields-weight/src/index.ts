@@ -81,7 +81,7 @@ export const weight =
           ...config.hooks,
           async validateInput(args) {
             const value = args.resolvedData[meta.fieldKey];
-            if ((validation?.isRequired) && (!value || !value.unit || !value.value)) {
+            if (validation?.isRequired && (value === null || (args.operation === 'create' && [value.unit, value.value].some(item => typeof item === 'undefined' || item === null)))) {
               args.addValidationError(`${fieldLabel} is required`);
             }
 
