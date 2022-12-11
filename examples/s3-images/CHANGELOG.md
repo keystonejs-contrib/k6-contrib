@@ -1,5 +1,16 @@
 # @k6-contrib/example-s3-file
 
+## 2.1.0
+
+### Minor Changes
+
+- Upgraded to support latest keystone version (`@keystone-6/core@4.0.0`)
+
+### Patch Changes
+
+- Updated dependencies
+  - @k6-contrib/fields-s3-images@4.0.0
+
 ## 2.0.0
 
 ### Major Changes

@@ -1,5 +1,11 @@
 # fields-bigint
 
+## 3.0.0
+
+### Major Changes
+
+- Upgraded to support latest keystone version (`@keystone-6/core@4.0.0`)
+
 ## 2.0.0
 
 ### Major Changes
