@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/example-with-tracking",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=\"--inspect -r dotenv/config\" keystone dev",
@@ -8,7 +8,7 @@
     "build": "keystone build"
   },
   "dependencies": {
-    "@k6-contrib/list-plugins": "^4.0.0",
+    "@k6-contrib/list-plugins": "^5.0.0",
     "@keystone-6/auth": "^7.0.0",
     "@keystone-6/core": "^5.1.0",
     "@keystone-6/fields-document": "^7.0.0",

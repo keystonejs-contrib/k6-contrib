@@ -1,5 +1,16 @@
 # @k6-contrib/example-azure-file
 
+## 2.2.0
+
+### Minor Changes
+
+- Upgraded to support latest keystone version (`@keystone-6/core@5.1.0`)
+
+### Patch Changes
+
+- Updated dependencies [0a35c51]
+  - @k6-contrib/fields-azure@5.0.0
+
 ## 2.1.0
 
 ### Minor Changes
