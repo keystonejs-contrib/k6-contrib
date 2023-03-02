@@ -29,12 +29,12 @@
     "cuid": "^2.1.8"
   },
   "peerDependencies": {
-    "@keystone-6/core": "^4.0.0",
+    "@keystone-6/core": "^5.1.0",
     "react": "^18.2.0"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-weight",
   "devDependencies": {
-    "@keystone-6/core": "^4.0.0",
+    "@keystone-6/core": "^5.1.0",
     "@types/bytes": "^3.1.1",
     "@types/react": "^18.0.9",
     "graphql": "^16.6.0",

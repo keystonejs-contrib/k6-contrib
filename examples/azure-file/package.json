@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@k6-contrib/fields-azure": "^4.0.0",
-    "@keystone-6/core": "^4.0.0",
+    "@keystone-6/core": "^5.1.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "graphql": "^16.6.0",

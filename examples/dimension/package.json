@@ -12,7 +12,7 @@
   "dependencies": {
     "@k6-contrib/fields-dimension": "^4.0.0",
     "@k6-contrib/fields-weight": "^4.0.0",
-    "@keystone-6/core": "^4.0.0",
+    "@keystone-6/core": "^5.1.0",
     "dotenv": "^16.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
