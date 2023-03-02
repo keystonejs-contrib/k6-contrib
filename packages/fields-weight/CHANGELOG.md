@@ -1,5 +1,11 @@
 # @k6-contrib/fields-weight
 
+## 5.0.0
+
+### Major Changes
+
+- Upgraded to support latest keystone version (`@keystone-6/core@5.1.0`)
+
 ## 4.0.0
 
 ### Major Changes

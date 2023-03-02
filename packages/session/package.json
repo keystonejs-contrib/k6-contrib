@@ -1,7 +1,7 @@
 {
   "name": "@k6-contrib/session",
   "description": "Add API key support for k6",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "main": "dist/session.cjs.js",
@@ -9,12 +9,12 @@
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@babel/runtime": "^7.16.3",
-    "@hapi/iron": "^6.0.0",
+    "@hapi/iron": "^7.0.0",
     "cookie": "^0.5.0"
   },
   "devDependencies": {
-    "@keystone-6/core": "^4.0.0",
-    "typescript": "~4.7.4"
+    "@keystone-6/core": "^5.1.0",
+    "typescript": "~4.9.4"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/session"
 }

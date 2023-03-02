@@ -12,9 +12,9 @@ type User {
   password: PasswordState
   isAdmin: Boolean
   roles: String
-  phoneNumbers(where: PhoneNumberWhereInput! = {}, orderBy: [PhoneNumberOrderByInput!]! = [], take: Int, skip: Int! = 0): [PhoneNumber!]
+  phoneNumbers(where: PhoneNumberWhereInput! = {}, orderBy: [PhoneNumberOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PhoneNumberWhereUniqueInput): [PhoneNumber!]
   phoneNumbersCount(where: PhoneNumberWhereInput! = {}): Int
-  posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0): [Post!]
+  posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
   randomNumber: Float
   apiKey: String
@@ -260,6 +260,10 @@ input PhoneNumberUpdateInput {
   user: UserRelateToOneForUpdateInput
   type: String
   value: String
+  updatedAt: DateTime
+  createdAt: DateTime
+  updatedBy: UserRelateToOneForUpdateInput
+  createdBy: UserRelateToOneForUpdateInput
 }
 
 input UserRelateToOneForUpdateInput {
@@ -277,6 +281,10 @@ input PhoneNumberCreateInput {
   user: UserRelateToOneForCreateInput
   type: String
   value: String
+  updatedAt: DateTime
+  createdAt: DateTime
+  updatedBy: UserRelateToOneForCreateInput
+  createdBy: UserRelateToOneForCreateInput
 }
 
 input UserRelateToOneForCreateInput {
@@ -329,6 +337,10 @@ input PostUpdateInput {
   status: String
   publishDate: DateTime
   author: UserRelateToOneForUpdateInput
+  updatedAt: DateTime
+  createdAt: DateTime
+  updatedBy: UserRelateToOneForUpdateInput
+  createdBy: UserRelateToOneForUpdateInput
 }
 
 input PostUpdateArgs {
@@ -341,6 +353,10 @@ input PostCreateInput {
   status: String
   publishDate: DateTime
   author: UserRelateToOneForCreateInput
+  updatedAt: DateTime
+  createdAt: DateTime
+  updatedBy: UserRelateToOneForCreateInput
+  createdBy: UserRelateToOneForCreateInput
 }
 
 """
@@ -391,13 +407,13 @@ input CreateInitialUserInput {
 }
 
 type Query {
-  users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0): [User!]
+  users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
-  phoneNumbers(where: PhoneNumberWhereInput! = {}, orderBy: [PhoneNumberOrderByInput!]! = [], take: Int, skip: Int! = 0): [PhoneNumber!]
+  phoneNumbers(where: PhoneNumberWhereInput! = {}, orderBy: [PhoneNumberOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PhoneNumberWhereUniqueInput): [PhoneNumber!]
   phoneNumber(where: PhoneNumberWhereUniqueInput!): PhoneNumber
   phoneNumbersCount(where: PhoneNumberWhereInput! = {}): Int
-  posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0): [Post!]
+  posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
   post(where: PostWhereUniqueInput!): Post
   postsCount(where: PostWhereInput! = {}): Int
   keystone: KeystoneMeta!
@@ -443,6 +459,7 @@ type KeystoneAdminUIFieldMeta {
   description: String
   isOrderable: Boolean!
   isFilterable: Boolean!
+  isNonNull: [KeystoneAdminUIFieldMetaIsNonNull!]
   fieldMeta: JSON
   viewsIndex: Int!
   customViewsIndex: Int
@@ -450,6 +467,12 @@ type KeystoneAdminUIFieldMeta {
   listView: KeystoneAdminUIFieldMetaListView!
   itemView(id: ID): KeystoneAdminUIFieldMetaItemView
   search: QueryMode
+}
+
+enum KeystoneAdminUIFieldMetaIsNonNull {
+  read
+  create
+  update
 }
 
 type KeystoneAdminUIFieldMetaCreateView {

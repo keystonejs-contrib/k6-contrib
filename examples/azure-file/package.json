@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/example-azure",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -11,8 +11,8 @@
     "build": "keystone build"
   },
   "dependencies": {
-    "@k6-contrib/fields-azure": "^4.0.0",
-    "@keystone-6/core": "^4.0.0",
+    "@k6-contrib/fields-azure": "^5.0.0",
+    "@keystone-6/core": "^5.1.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "graphql": "^16.6.0",
@@ -21,7 +21,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "typescript": "~4.7.4"
+    "typescript": "~4.9.4"
   },
   "engines": {
     "node": "^12.20 || >= 14.13"
