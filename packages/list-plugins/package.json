@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@keystone-6/core": "^5.1.0",
-    "typescript": "~4.7.4"
+    "typescript": "~4.9.4"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/list-plugins"
 }

@@ -14,7 +14,7 @@
     "@keystone-6/fields-document": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "~4.7.4"
+    "typescript": "~4.9.4"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/examples/with-tracking"
 }
