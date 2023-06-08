@@ -22,49 +22,6 @@ export function createHistory({ listName }: argsType) {
    */
 
   const withHistory = (keystoneConfig: KeystoneConfig): KeystoneConfig => {
-    // History List
-    // keystoneConfig.lists = {
-    //   ...keystoneConfig.lists,
-    //   [listName ? listName : listName]: list({
-    //     access: {
-    //       operation: allowAll,
-    //     },
-
-    //     ui: {
-    //       isHidden: true,
-    //     },
-    //     fields: {
-    //       list: text(),
-    //       itemId: text({
-    //         ui: {
-    //           createView: {
-    //             fieldMode: 'hidden',
-    //           },
-    //           itemView: {
-    //             fieldMode: 'read',
-    //           },
-    //         },
-    //       }),
-
-    //       field: text(),
-    //       oldValue: text(),
-    //       newValue: text(),
-    //       modifiedBy: relationship({ ref: 'User' }),
-    //       modifiedAt: timestamp({
-    //         defaultValue: { kind: 'now' },
-    //         ui: {
-    //           createView: {
-    //             fieldMode: 'hidden',
-    //           },
-    //           itemView: {
-    //             fieldMode: 'read',
-    //           },
-    //         },
-    //       }),
-    //     },
-    //   }),
-    // };
-
     Object.keys(keystoneConfig.lists).forEach(key => {
       let name = key + listName;
       if (keystoneConfig.lists[key]?.history?.suffix)
