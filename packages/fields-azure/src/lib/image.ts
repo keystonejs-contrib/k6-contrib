@@ -17,7 +17,7 @@ import {
   AzureStorageConfig,
   AzureStorageDataType,
 } from './types';
-import { getDataFromRef, getDataFromStream, getUrl } from './blob';
+import { deleteImageAtSource, getDataFromRef, getDataFromStream, getUrl } from './blob';
 
 const ImageExtensionEnum = graphql.enum({
   name: 'AzureStorageImageExtension',
@@ -118,6 +118,33 @@ export const azureStorageImage =
         },
       })({
         ...config,
+        hooks: azureStorageConfig.preserve
+        ? config.hooks
+        : {
+            ...config.hooks,
+            async beforeOperation(args) {
+              await config.hooks?.beforeOperation?.(args);
+              if (args.operation === 'update' || args.operation === 'delete') {
+                const idKey = `${meta.fieldKey}_id`;
+                const id = args.item[idKey];
+                const extensionKey = `${meta.fieldKey}_extension`;
+                const extension = args.item[extensionKey];
+
+                // This will occur on an update where an image already existed but has been
+                // changed, or on a delete, where there is no longer an item
+                if (
+                  (args.operation === 'delete' ||
+                    typeof args.resolvedData[meta.fieldKey].id === 'string' ||
+                    args.resolvedData[meta.fieldKey].id === null) &&
+                  typeof id === 'string' &&
+                  typeof extension === 'string' &&
+                  isValidImageExtension(extension)
+                ) {
+                  await deleteImageAtSource(azureStorageConfig, id);
+                }
+              }
+            },
+          },
         input: {
           create: {
             arg: graphql.arg({ type: AzureStorageFieldInput }),

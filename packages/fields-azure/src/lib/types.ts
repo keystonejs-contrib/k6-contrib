@@ -36,6 +36,7 @@ export type AzureStorageConfig = {
   transformFilename?: (str: string) => string;
   getFilename?: (args: GetFileNameFunc) => string;
   getUrl?: (config: AzureStorageConfig, fileData: AzureStorageDataType) => string;
+  preserve?: boolean;
   azureStorageOptions: {
     account: string;
     accessKey: string;

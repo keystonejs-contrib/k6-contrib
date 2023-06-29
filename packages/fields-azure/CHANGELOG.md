@@ -1,5 +1,11 @@
 # @k6-contrib/fields-azure
 
+## 6.0.0
+
+### Major Changes
+
+- Add support for azureStorageConfig.preserve: it defines whether the items should be deleted at the source when they are removed from Keystone's database. The default is false.
+
 ## 5.0.0
 
 ### Major Changes

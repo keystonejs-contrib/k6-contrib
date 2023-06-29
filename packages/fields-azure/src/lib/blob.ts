@@ -203,3 +203,26 @@ export const getDataFromRef = async (
     throw error;
   }
 };
+
+const getContainerClient = (config: AzureStorageConfig) => {
+  const creds = new StorageSharedKeyCredential(
+    config.azureStorageOptions.account,
+    config.azureStorageOptions.accessKey
+  );
+  const blobServiceClient = new BlobServiceClient(getBlobHost(config), creds);
+  return blobServiceClient.getContainerClient(config.azureStorageOptions.container);
+};
+
+const deleteBlob = async (config: AzureStorageConfig, blobName: string) => {
+  try {
+    return await getContainerClient(config).deleteBlob(blobName);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteFileAtSource = async (config: AzureStorageConfig, filename: string) =>
+  await deleteBlob(config, filename);
+
+export const deleteImageAtSource = async (config: AzureStorageConfig, id: string) =>
+  await deleteBlob(config, id);
