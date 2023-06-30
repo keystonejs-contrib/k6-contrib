@@ -10,7 +10,7 @@ import {
 import { graphql } from '@keystone-6/core';
 import { getFileRef } from './utils';
 import { AzureStorageFieldConfig, AzureStorageFieldInputType, AzureStorageConfig, AzureStorageDataType, FileData } from './types';
-import { deleteFileAtSource, getDataFromRef, getDataFromStream, getUrl } from './blob';
+import { deleteAtSource, getDataFromRef, getDataFromStream, getUrl } from './blob';
 
 const _fieldConfigs: { [key: string]: AzureStorageConfig } = {};
 
@@ -115,7 +115,7 @@ export const azureStorageFile =
                     args.resolvedData[meta.fieldKey].filename === null) &&
                   typeof filename === 'string'
                 ) {
-                  await deleteFileAtSource(azureStorageConfig, filename);
+                  await deleteAtSource(azureStorageConfig, filename);
                 }
               }
             },

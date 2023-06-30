@@ -4,7 +4,11 @@
 
 ### Major Changes
 
-- Add support for azureStorageConfig.preserve: it defines whether the items should be deleted at the source when they are removed from Keystone's database. The default is false.
+- Add support for `preserve` in storage config. This defines whether the items should be deleted at the source when they are removed from Keystone's database. The default is `false`.
+
+**Breaking Changes**
+
+  The `preserve` property is `false` by default, this is line with the same settings in Keystone storage config. Add `preserve` with `true` to keep the old behavior.
 
 ## 5.0.0
 
