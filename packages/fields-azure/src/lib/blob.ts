@@ -119,7 +119,7 @@ export const getDataFromStream = async (
     });
 
     await blockBlobClient.setMetadata({
-      originalFilename,
+      // originalFilename, // disabled per github issue #25
       ...(type === 'image'
         ? {
             extension: metadata.extension,
