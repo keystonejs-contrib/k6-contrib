@@ -8,7 +8,7 @@ import {
   KeystoneContext,
 } from '@keystone-6/core/types';
 import { graphql } from '@keystone-6/core';
-import { getFileRef } from './utils';
+import { getFileRef, getPreserve } from './utils';
 import { AzureStorageFieldConfig, AzureStorageFieldInputType, AzureStorageConfig, AzureStorageDataType, FileData } from './types';
 import { deleteAtSource, getDataFromRef, getDataFromStream, getUrl } from './blob';
 
@@ -63,6 +63,9 @@ function createInputResolver(config: AzureStorageConfig) {
       if (data.upload) {
         throw new Error('Only one of ref and upload can be passed to AzureStorageFileFieldInput');
       }
+      if (data.ref && !getPreserve(config)) {
+        throw new Error('Ref can not be passed to FileFieldInput when preserve is not enabled in storage config');
+      }
       return getDataFromRef(config, 'file', data.ref) as any;
     }
     if (!data.upload) {
@@ -97,7 +100,7 @@ export const azureStorageFile =
         },
       })({
         ...config,
-        hooks: azureStorageConfig.preserve
+        hooks: getPreserve(azureStorageConfig)
         ? config.hooks
         : {
             ...config.hooks,

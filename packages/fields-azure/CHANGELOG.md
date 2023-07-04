@@ -4,11 +4,7 @@
 
 ### Major Changes
 
-- Add support for `preserve` in storage config. This defines whether the items should be deleted at the source when they are removed from Keystone's database. The default is `false`.
-
-**Breaking Changes**
-
-  The `preserve` property is `false` by default, this is line with the same settings in Keystone storage config. Add `preserve` with `true` to keep the old behavior.
+- Add support for `preserve` in storage config. This defines whether the items should be deleted at the source when they are removed from Keystone's database. The default is `true` to keep the compatibility with the previous versions.
 
 ## 5.0.1
 

@@ -9,7 +9,7 @@ import {
   KeystoneContext,
 } from '@keystone-6/core/types';
 import { graphql } from '@keystone-6/core';
-import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
+import { getImageRef, getPreserve, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 import {
   ImageData,
   AzureStorageFieldConfig,
@@ -41,6 +41,9 @@ function createInputResolver(config: AzureStorageConfig) {
     if (data.ref) {
       if (data.upload) {
         throw new Error('Only one of ref and upload can be passed to ImageFieldInput');
+      }
+      if (data.ref && !getPreserve(config)) {
+        throw new Error('Ref can not be passed to ImageFieldInput when preserve is not enabled in storage config');
       }
       return getDataFromRef(config, 'image', data.ref) as any;
     }
@@ -118,7 +121,7 @@ export const azureStorageImage =
         },
       })({
         ...config,
-        hooks: azureStorageConfig.preserve
+        hooks: getPreserve(azureStorageConfig)
         ? config.hooks
         : {
             ...config.hooks,
