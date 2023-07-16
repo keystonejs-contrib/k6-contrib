@@ -1,6 +1,5 @@
 import { ImageExtension } from '@keystone-6/core/types';
 import { AssetType, AzureStorageConfig } from './types';
-import { config } from 'dotenv';
 
 const IMAGEREGEX = /^azure:image:([^\\\/:\n]+)\.(gif|jpg|png|webp)$/;
 const FILEREGEX = /^azure:file:([^\\\/:\n]+)/;
