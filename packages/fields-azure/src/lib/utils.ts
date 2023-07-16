@@ -1,5 +1,5 @@
 import { ImageExtension } from '@keystone-6/core/types';
-import { AssetType } from './types';
+import { AssetType, AzureStorageConfig } from './types';
 
 const IMAGEREGEX = /^azure:image:([^\\\/:\n]+)\.(gif|jpg|png|webp)$/;
 const FILEREGEX = /^azure:file:([^\\\/:\n]+)/;
@@ -45,3 +45,6 @@ export const parseImageRef = (
   }
   return undefined;
 };
+
+export const getPreserve = (config: AzureStorageConfig) =>
+  config.preserve ?? true; // default is `true` to keep the compatibility with the previous versions

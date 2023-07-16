@@ -8,9 +8,9 @@ import {
   KeystoneContext,
 } from '@keystone-6/core/types';
 import { graphql } from '@keystone-6/core';
-import { getFileRef } from './utils';
+import { getFileRef, getPreserve } from './utils';
 import { AzureStorageFieldConfig, AzureStorageFieldInputType, AzureStorageConfig, AzureStorageDataType, FileData } from './types';
-import { getDataFromRef, getDataFromStream, getUrl } from './blob';
+import { deleteAtSource, getDataFromRef, getDataFromStream, getUrl } from './blob';
 
 const _fieldConfigs: { [key: string]: AzureStorageConfig } = {};
 
@@ -63,6 +63,9 @@ function createInputResolver(config: AzureStorageConfig) {
       if (data.upload) {
         throw new Error('Only one of ref and upload can be passed to AzureStorageFileFieldInput');
       }
+      if (data.ref && !getPreserve(config)) {
+        throw new Error('Ref can not be passed to FileFieldInput when preserve is not enabled in storage config');
+      }
       return getDataFromRef(config, 'file', data.ref) as any;
     }
     if (!data.upload) {
@@ -97,6 +100,29 @@ export const azureStorageFile =
         },
       })({
         ...config,
+        hooks: getPreserve(azureStorageConfig)
+        ? config.hooks
+        : {
+            ...config.hooks,
+            async beforeOperation(args) {
+              await config.hooks?.beforeOperation?.(args);
+              if (args.operation === 'update' || args.operation === 'delete') {
+                const filenameKey = `${meta.fieldKey}_filename`;
+                const filename = args.item[filenameKey];
+
+                // This will occur on an update where a file already existed but has been
+                // changed, or on a delete, where there is no longer an item
+                if (
+                  (args.operation === 'delete' ||
+                    typeof args.resolvedData[meta.fieldKey].filename === 'string' ||
+                    args.resolvedData[meta.fieldKey].filename === null) &&
+                  typeof filename === 'string'
+                ) {
+                  await deleteAtSource(azureStorageConfig, filename);
+                }
+              }
+            },
+          },
         input: {
           create: {
             arg: graphql.arg({ type: AzureStorageFileFieldInput }),

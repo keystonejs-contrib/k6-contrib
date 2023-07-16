@@ -9,7 +9,7 @@ import {
   KeystoneContext,
 } from '@keystone-6/core/types';
 import { graphql } from '@keystone-6/core';
-import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
+import { getImageRef, getPreserve, SUPPORTED_IMAGE_EXTENSIONS } from './utils';
 import {
   ImageData,
   AzureStorageFieldConfig,
@@ -17,7 +17,7 @@ import {
   AzureStorageConfig,
   AzureStorageDataType,
 } from './types';
-import { getDataFromRef, getDataFromStream, getUrl } from './blob';
+import { deleteAtSource, getDataFromRef, getDataFromStream, getUrl } from './blob';
 
 const ImageExtensionEnum = graphql.enum({
   name: 'AzureStorageImageExtension',
@@ -41,6 +41,9 @@ function createInputResolver(config: AzureStorageConfig) {
     if (data.ref) {
       if (data.upload) {
         throw new Error('Only one of ref and upload can be passed to ImageFieldInput');
+      }
+      if (data.ref && !getPreserve(config)) {
+        throw new Error('Ref can not be passed to ImageFieldInput when preserve is not enabled in storage config');
       }
       return getDataFromRef(config, 'image', data.ref) as any;
     }
@@ -118,6 +121,29 @@ export const azureStorageImage =
         },
       })({
         ...config,
+        hooks: getPreserve(azureStorageConfig)
+        ? config.hooks
+        : {
+            ...config.hooks,
+            async beforeOperation(args) {
+              await config.hooks?.beforeOperation?.(args);
+              if (args.operation === 'update' || args.operation === 'delete') {
+                const idKey = `${meta.fieldKey}_id`;
+                const id = args.item[idKey];
+
+                // This will occur on an update where an image already existed but has been
+                // changed, or on a delete, where there is no longer an item
+                if (
+                  (args.operation === 'delete' ||
+                    typeof args.resolvedData[meta.fieldKey].id === 'string' ||
+                    args.resolvedData[meta.fieldKey].id === null) &&
+                  typeof id === 'string'
+                ) {
+                  await deleteAtSource(azureStorageConfig, id);
+                }
+              }
+            },
+          },
         input: {
           create: {
             arg: graphql.arg({ type: AzureStorageFieldInput }),

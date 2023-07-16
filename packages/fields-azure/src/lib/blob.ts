@@ -83,6 +83,15 @@ const getImageMetadataFromStream = async (stream: ReadStream): Promise<ImageMeta
   return { width, height, filesize, extension };
 };
 
+const getContainerClient = (config: AzureStorageConfig) => {
+  const creds = new StorageSharedKeyCredential(
+    config.azureStorageOptions.account,
+    config.azureStorageOptions.accessKey
+  );
+  const blobServiceClient = new BlobServiceClient(getBlobHost(config), creds);
+  return blobServiceClient.getContainerClient(config.azureStorageOptions.container);
+};
+
 const getBlobHost = (config: AzureStorageConfig) =>
   config.azureStorageOptions.url ||
   `https://${config.azureStorageOptions.account}.blob.core.windows.net`;
@@ -94,14 +103,8 @@ export const getDataFromStream = async (
 ): Promise<Omit<ImageData, 'type'> | Omit<FileData, 'type'>> => {
   const { createReadStream, filename: originalFilename, mimetype } = upload;
   const filename = generateSafeFilename(originalFilename, config.transformFilename);
-  const creds = new StorageSharedKeyCredential(
-    config.azureStorageOptions.account,
-    config.azureStorageOptions.accessKey
-  );
-  const blobServiceClient = new BlobServiceClient(getBlobHost(config), creds);
-  const containerClient = blobServiceClient.getContainerClient(
-    config.azureStorageOptions.container
-  );
+
+  const containerClient = getContainerClient(config);
 
   let stream = createReadStream();
 
@@ -171,15 +174,7 @@ export const getDataFromRef = async (
         }),
   };
 
-  const creds = new StorageSharedKeyCredential(
-    config.azureStorageOptions.account,
-    config.azureStorageOptions.accessKey
-  );
-  const blobServiceClient = new BlobServiceClient(getBlobHost(config), creds);
-
-  const containerClient = blobServiceClient.getContainerClient(
-    config.azureStorageOptions.container
-  );
+  const containerClient = getContainerClient(config);
 
   try {
     const blockBlob = containerClient.getBlockBlobClient(
@@ -203,3 +198,6 @@ export const getDataFromRef = async (
     throw error;
   }
 };
+
+export const deleteAtSource = async (config: AzureStorageConfig, filename: string) =>
+  await getContainerClient(config).deleteBlob(filename);
