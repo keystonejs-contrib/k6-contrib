@@ -1,6 +1,6 @@
 import { FileUpload } from 'graphql-upload';
 import {
-  BaseGeneratedListTypes,
+  BaseListTypeInfo,
   CommonFieldConfig,
   ImageMetadata,
 } from '@keystone-6/core/types';
@@ -48,7 +48,7 @@ export type S3FieldInputType =
   | null
   | { upload?: Promise<FileUpload> | null; ref?: string | null };
 
-export type S3FieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
-  CommonFieldConfig<TGeneratedListTypes> & {
+export type S3FieldConfig<ListTypeInfo extends BaseListTypeInfo> =
+  CommonFieldConfig<ListTypeInfo> & {
     s3Config: S3Config;
   };

@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@k6-contrib/fields-azure": "^5.0.0",
-    "@keystone-6/core": "^5.1.0",
+    "@keystone-6/core": "^5.3.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "graphql": "^16.6.0",
@@ -21,10 +21,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "typescript": "~4.9.4"
-  },
-  "engines": {
-    "node": "^12.20 || >= 14.13"
+    "typescript": "~5.1.0"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/examples/azure-file"
 }

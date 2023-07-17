@@ -246,7 +246,7 @@ export const extendGraphqlSchema = schema => mergeSchemas({
         // await context.verifyAccessControl(userIsAdmin);
         const data = Array.from({ length: 238 }).map((x, i) => ({ title: `Post ${i}` }));
         // note this usage of the type is important because it tests that the generated
-        // KeystoneListsTypeInfo extends Record<string, BaseGeneratedListTypes>
+        // KeystoneListsTypeInfo extends Record<string, BaseListTypeInfo>
         const lists: KeystoneListsAPI<any> = context.query;
         console.log(data);
         return lists.Post.createMany({ data });

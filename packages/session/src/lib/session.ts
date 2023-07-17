@@ -1,17 +1,14 @@
+import { randomBytes } from 'crypto';
 import * as cookie from 'cookie';
 import Iron from '@hapi/iron';
-// uid-safe is what express-session uses so let's just use it
-import { SessionStrategy } from '@keystone-6/core/types';
-
-const TOKEN_NAME = 'keystonejs-session';
-const MAX_AGE = 60 * 60 * 8; // 8 hours
+import type { SessionStrategy } from '@keystone-6/core/types';
 
 // should we also accept httpOnly?
 type StatelessSessionsOptions = {
   /**
    * Secret used by https://github.com/hapijs/iron for encapsulating data. Must be at least 32 characters long
    */
-  secret: string;
+  secret?: string;
   /**
    * Iron seal options for customizing the key derivation algorithm used to generate encryption and integrity verification keys as well as the algorithms and salt sizes used.
    * See https://hapi.dev/module/iron/api/?v=6.0.0#options for available options.
@@ -26,6 +23,12 @@ type StatelessSessionsOptions = {
    * @default 60 * 60 * 8 // 8 hours
    */
   maxAge?: number;
+  /**
+   * The name of the cookie used by `Set-Cookie`.
+   *
+   * @default keystonejs-session
+   */
+  cookieName?: string;
   /**
    * Specifies the boolean value for the [`Secure` `Set-Cookie` attribute](https://tools.ietf.org/html/rfc6265#section-5.2.5).
    *
@@ -61,8 +64,9 @@ type StatelessSessionsOptions = {
 };
 
 export function statelessApiKeySessions<T>({
-  secret,
-  maxAge = MAX_AGE,
+  secret = randomBytes(32).toString('base64url'),
+  maxAge = 60 * 60 * 8, // 8 hours,
+  cookieName = 'keystonejs-session',
   path = '/',
   secure = process.env.NODE_ENV === 'production',
   ironOptions = Iron.defaults,
@@ -71,18 +75,15 @@ export function statelessApiKeySessions<T>({
   listKey = 'User',
   apiKeyField = 'apiKey',
   apiKeyHeader = 'x-api-key',
-}: StatelessSessionsOptions): SessionStrategy<T> {
-  if (!secret) {
-    throw new Error('You must specify a session secret to use sessions');
-  }
+}: StatelessSessionsOptions = {}): SessionStrategy<T, any> {
   if (secret.length < 32) {
     throw new Error('The session secret must be at least 32 characters long');
   }
   return {
     async get({ context }) {
-      if (!context?.req) {
-        return;
-      }
+      if (!context?.req) return;
+
+      // API Key auth support
       const apiKey: string = (context.req.headers[apiKeyHeader] as string) || ''
       if (apiKey?.toString().length >= 16) {
         try {
@@ -97,7 +98,7 @@ export function statelessApiKeySessions<T>({
       }
       const cookies = cookie.parse(context.req.headers.cookie || '');
       const bearer = context.req.headers.authorization?.replace('Bearer ', '');
-      const token = bearer || cookies[TOKEN_NAME];
+      const token = bearer || cookies[cookieName];
       if (!token) return;
       try {
         return await Iron.unseal(token, secret, ironOptions);
@@ -105,9 +106,10 @@ export function statelessApiKeySessions<T>({
     },
     async end({ context }) {
       if (!context?.res) return;
+
       context.res.setHeader(
         'Set-Cookie',
-        cookie.serialize(TOKEN_NAME, '', {
+        cookie.serialize(cookieName, '', {
           maxAge: 0,
           expires: new Date(),
           httpOnly: true,
@@ -120,11 +122,11 @@ export function statelessApiKeySessions<T>({
     },
     async start({ context, data }) {
       if (!context?.res) return;
-      const sealedData = await Iron.seal(data, secret, { ...ironOptions, ttl: maxAge * 1000 });
 
+      const sealedData = await Iron.seal(data, secret, { ...ironOptions, ttl: maxAge * 1000 });
       context.res.setHeader(
         'Set-Cookie',
-        cookie.serialize(TOKEN_NAME, sealedData, {
+        cookie.serialize(cookieName, sealedData, {
           maxAge,
           expires: new Date(Date.now() + maxAge * 1000),
           httpOnly: true,

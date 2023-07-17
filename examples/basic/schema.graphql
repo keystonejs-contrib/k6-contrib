@@ -220,21 +220,7 @@ input StringNullableFilter {
   contains: String
   startsWith: String
   endsWith: String
-  not: NestedStringNullableFilter
-}
-
-input NestedStringNullableFilter {
-  equals: String
-  in: [String!]
-  notIn: [String!]
-  lt: String
-  lte: String
-  gt: String
-  gte: String
-  contains: String
-  startsWith: String
-  endsWith: String
-  not: NestedStringNullableFilter
+  not: StringNullableFilter
 }
 
 input DateTimeNullableFilter {
@@ -260,10 +246,6 @@ input PhoneNumberUpdateInput {
   user: UserRelateToOneForUpdateInput
   type: String
   value: String
-  updatedAt: DateTime
-  createdAt: DateTime
-  updatedBy: UserRelateToOneForUpdateInput
-  createdBy: UserRelateToOneForUpdateInput
 }
 
 input UserRelateToOneForUpdateInput {
@@ -281,10 +263,6 @@ input PhoneNumberCreateInput {
   user: UserRelateToOneForCreateInput
   type: String
   value: String
-  updatedAt: DateTime
-  createdAt: DateTime
-  updatedBy: UserRelateToOneForCreateInput
-  createdBy: UserRelateToOneForCreateInput
 }
 
 input UserRelateToOneForCreateInput {
@@ -337,10 +315,6 @@ input PostUpdateInput {
   status: String
   publishDate: DateTime
   author: UserRelateToOneForUpdateInput
-  updatedAt: DateTime
-  createdAt: DateTime
-  updatedBy: UserRelateToOneForUpdateInput
-  createdBy: UserRelateToOneForUpdateInput
 }
 
 input PostUpdateArgs {
@@ -353,10 +327,6 @@ input PostCreateInput {
   status: String
   publishDate: DateTime
   author: UserRelateToOneForCreateInput
-  updatedAt: DateTime
-  createdAt: DateTime
-  updatedBy: UserRelateToOneForCreateInput
-  createdBy: UserRelateToOneForCreateInput
 }
 
 """
