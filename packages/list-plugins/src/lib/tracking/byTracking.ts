@@ -8,9 +8,9 @@ import { composeHook } from '../utils';
 
 export const byTracking =
   (options: ByTrackingOptions = { ref: 'User' }) =>
-    <Fields extends BaseFields<BaseListTypeInfo>>(
-      listConfig: ListConfig<BaseListTypeInfo, Fields>
-    ): ListConfig<BaseListTypeInfo, Fields> => {
+    <__Fields extends BaseFields<ListTypeInfo>, ListTypeInfo extends BaseListTypeInfo>(
+      listConfig: ListConfig<ListTypeInfo>
+    ): ListConfig<ListTypeInfo> => {
       const {
         created = true,
         updated = true,
@@ -35,7 +35,7 @@ export const byTracking =
             fieldMode: 'read',
           },
         },
-        graphql: { omit: ['update', 'create'] },
+        graphql: { omit: { update: true, create: true } },
         ...byFieldOptions,
       };
 

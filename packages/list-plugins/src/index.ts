@@ -5,19 +5,20 @@ import { byTracking } from './lib/tracking/byTracking';
 
 import { AtTrackingOptions, ByTrackingOptions } from './lib/types';
 
-export const configureTracking =
-  ({
-    atTrackingOptions = {},
-    byTrackingOptions = { ref: 'User' },
-  }: {
-    atTrackingOptions?: AtTrackingOptions;
-    byTrackingOptions?: ByTrackingOptions;
-  }) =>
-    <Fields extends BaseFields<BaseListTypeInfo>>(
-      listConfig: ListConfig<BaseListTypeInfo, Fields>
-    ): ListConfig<BaseListTypeInfo, Fields> => {
-      return byTracking(byTrackingOptions)(atTracking(atTrackingOptions)(listConfig));
-    };
+export function configureTracking({
+  atTrackingOptions = {},
+  byTrackingOptions = { ref: 'User' },
+}: {
+  atTrackingOptions?: AtTrackingOptions;
+  byTrackingOptions?: ByTrackingOptions;
+}) {
+  return function list<
+    __Fields extends BaseFields<ListTypeInfo>, ListTypeInfo extends BaseListTypeInfo>(
+      listConfig: ListConfig<ListTypeInfo>
+    ): ListConfig<ListTypeInfo> {
+    return byTracking(byTrackingOptions)(atTracking(atTrackingOptions)(listConfig));
+  }
+}
 
 export type { AtTrackingOptions, ByTrackingOptions } from './lib/types';
 export { atTracking, createdAt, updatedAt } from './lib/tracking/atTracking';
