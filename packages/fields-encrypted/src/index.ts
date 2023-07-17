@@ -1,4 +1,3 @@
-import path from 'path';
 import Cryptr from 'cryptr';
 
 import {
@@ -9,8 +8,8 @@ import {
 } from '@keystone-6/core/types';
 import { graphql } from '@keystone-6/core';
 
-export type EncryptedFieldConfig<TGeneratedListTypes extends BaseListTypeInfo> =
-  CommonFieldConfig<TGeneratedListTypes> & {
+export type EncryptedFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
+  CommonFieldConfig<ListTypeInfo> & {
     isIndexed?: boolean;
     secret: string;
     reverse?: boolean;

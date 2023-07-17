@@ -1,4 +1,3 @@
-import path from 'path';
 import { Path } from 'graphql/jsutils/Path';
 
 import {

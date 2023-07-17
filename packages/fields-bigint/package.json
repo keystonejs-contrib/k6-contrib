@@ -5,6 +5,7 @@
   "license": "MIT",
   "main": "dist/fields-bigint.cjs.js",
   "module": "dist/fields-bigint.esm.js",
+  "deprecated": true,
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@keystone-ui/core": "^5.0.2",

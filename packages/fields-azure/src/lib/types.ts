@@ -1,6 +1,6 @@
 import { FileUpload } from 'graphql-upload';
 import {
-  BaseGeneratedListTypes,
+  BaseListTypeInfo,
   CommonFieldConfig,
   ImageMetadata,
 } from '@keystone-6/core/types';
@@ -50,7 +50,7 @@ export type AzureStorageFieldInputType =
   | null
   | { upload?: Promise<FileUpload> | null; ref?: string | null };
 
-export type AzureStorageFieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> =
-  CommonFieldConfig<TGeneratedListTypes> & {
+export type AzureStorageFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
+  CommonFieldConfig<ListTypeInfo> & {
     azureStorageConfig: AzureStorageConfig;
   };
