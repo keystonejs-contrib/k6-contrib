@@ -1,5 +1,11 @@
 # @k6-contrib-next/list-plugins
 
+## 5.1.0
+
+### Minor Changes
+
+- 6bbca4f: upgraded keystone version support to 5.3.2
+
 ## 5.0.0
 
 ### Major Changes

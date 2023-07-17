@@ -1,5 +1,11 @@
 # fields-bigint
 
+## 5.0.0
+
+### Major Changes
+
+- 6bbca4f: Deprecated package, use included bigInt field in keystonejs
+
 ## 4.0.0
 
 ### Major Changes
