@@ -1,5 +1,11 @@
 # @k6-contrib/fields-s3
 
+## 6.0.0
+
+### Major Changes
+
+- 821bd33: Update @keystone-6 packages with major version
+
 ## 5.1.0
 
 ### Minor Changes
