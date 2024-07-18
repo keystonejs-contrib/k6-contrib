@@ -1,5 +1,12 @@
 # @k6-contrib/example-azure-file
 
+## 2.2.2
+
+### Patch Changes
+
+- Updated dependencies [821bd33]
+  - @k6-contrib/fields-azure@7.0.0
+
 ## 2.2.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @k6-contrib/example-basic
 
+## 2.2.1
+
+### Patch Changes
+
+- Updated dependencies [821bd33]
+  - @k6-contrib/fields-encrypted@6.0.0
+  - @k6-contrib/list-plugins@6.0.0
+
 ## 2.2.0
 
 ### Minor Changes

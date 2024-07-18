@@ -1,5 +1,16 @@
 # @k6-contrib/example-with-tracking
 
+## 3.0.0
+
+### Major Changes
+
+- 821bd33: Update @keystone-6 packages with major version
+
+### Patch Changes
+
+- Updated dependencies [821bd33]
+  - @k6-contrib/list-plugins@6.0.0
+
 ## 2.2.0
 
 ### Minor Changes

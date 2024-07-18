@@ -1,5 +1,12 @@
 # @k6-contrib/fields-azure
 
+## 6.1.0
+
+### Minor Changes
+
+- 821bd33: Update @keystone-6 packages with major version
+- keeping major version in line with @keystone-6/core
+
 ## 6.0.0
 
 ### Major Changes

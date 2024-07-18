@@ -1,5 +1,12 @@
 # @k6-contrib/example-s3-file
 
+## 2.2.1
+
+### Patch Changes
+
+- Updated dependencies [821bd33]
+  - @k6-contrib/fields-s3-images@6.0.0
+
 ## 2.2.0
 
 ### Minor Changes

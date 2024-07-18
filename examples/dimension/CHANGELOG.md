@@ -1,5 +1,13 @@
 # @k6-contrib/example-dimension
 
+## 2.2.1
+
+### Patch Changes
+
+- Updated dependencies [821bd33]
+  - @k6-contrib/fields-dimension@6.0.0
+  - @k6-contrib/fields-weight@6.0.0
+
 ## 2.2.0
 
 ### Minor Changes
