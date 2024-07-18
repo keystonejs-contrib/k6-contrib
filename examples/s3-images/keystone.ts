@@ -1,6 +1,6 @@
+import 'dotenv/config';
 import { config } from '@keystone-6/core';
 import { lists } from './schema';
-import 'dotenv/config';
 
 export default config({
   db: {

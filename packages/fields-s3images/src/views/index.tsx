@@ -82,6 +82,7 @@ type ImageController = FieldController<ImageValue>;
 
 export const controller = (config: FieldControllerConfig): ImageController => {
   return {
+    ...config,
     path: config.path,
     label: config.label,
     graphqlSelection: `${config.path} {

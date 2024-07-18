@@ -12,7 +12,6 @@
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "types": ["@types/jest"],
     "typeRoots": []
   },
   "include": ["**/*"],
