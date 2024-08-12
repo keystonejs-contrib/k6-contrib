@@ -26,10 +26,17 @@ model Post {
   image2_width     Int?
   image2_height    Int?
   image2_id        String?
+  image3_filesize  Int?
+  image3_extension String?
+  image3_width     Int?
+  image3_height    Int?
+  image3_id        String?
   file_filename    String?
   file_filesize    Int?
   file2_filename   String?
   file2_filesize   Int?
+  file3_filename   String?
+  file3_filesize   Int?
   publishDate      DateTime?
   author           Author?   @relation("Post_author", fields: [authorId], references: [id])
   authorId         String?   @map("author")

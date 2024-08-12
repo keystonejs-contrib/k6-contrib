@@ -1,5 +1,11 @@
 # @k6-contrib/fields-s3
 
+## 6.1.1
+
+### Patch Changes
+
+- Fixed file type read mode
+
 ## 6.1.0
 
 ### Minor Changes
