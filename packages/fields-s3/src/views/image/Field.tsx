@@ -218,7 +218,6 @@ function ImgView({
           </ImageWrapper>
         )
       ) : null}
-      {onChange && (
         <Stack gap="small">
           {value.kind === 'from-server' && (
             <Stack padding="xxsmall" gap="xxsmall">
@@ -240,6 +239,7 @@ function ImgView({
           <Stack across gap="small" align="center">
             <Button
               size="small"
+              isDisabled={onChange === undefined}
               onClick={() => {
                 inputRef.current?.click();
               }}
@@ -249,9 +249,10 @@ function ImgView({
             {value.kind !== 'upload' ? (
               <Button
                 size="small"
+                isDisabled={onChange === undefined}
                 tone="passive"
                 onClick={() => {
-                  onChange({
+                  onChange?.({
                     kind: 'ref',
                     data: { ref: '' },
                     previous: value,
@@ -264,9 +265,10 @@ function ImgView({
             {value.kind === 'from-server' && (
               <Button
                 size="small"
+                isDisabled={onChange === undefined}
                 tone="negative"
                 onClick={() => {
-                  onChange({ kind: 'remove', previous: value });
+                  onChange?.({ kind: 'remove', previous: value });
                 }}
               >
                 Remove
@@ -277,7 +279,7 @@ function ImgView({
                 size="small"
                 tone="negative"
                 onClick={() => {
-                  onChange(value.previous);
+                  onChange?.(value.previous);
                 }}
               >
                 Cancel
@@ -296,7 +298,6 @@ function ImgView({
             )}
           </Stack>
         </Stack>
-      )}
     </Stack>
   ) : (
     <Stack gap="small">

@@ -1,5 +1,11 @@
 # @k6-contrib/fields-encrypted
 
+## 6.1.0
+
+### Minor Changes
+
+- 740bc83: Update hooks in line with @keystone-6/core@6.2.0
+
 ## 6.0.0
 
 ### Major Changes

@@ -1,5 +1,14 @@
 # @k6-contrib/fields-s3
 
+## 6.1.0
+
+### Minor Changes
+
+- 740bc83: Allowed saving svg files
+  Fixed excluding image size on upload
+  Added defaultSize option to config which overrides the default md size in url
+- 740bc83: Update hooks in line with @keystone-6/core@6.2.0
+
 ## 6.0.0
 
 ### Major Changes
