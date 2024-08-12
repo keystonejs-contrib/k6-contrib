@@ -13,7 +13,14 @@ import {
   isValidImageExtension,
   SUPPORTED_IMAGE_EXTENSIONS,
 } from './utils';
-import { ImagesData, ImageSize, S3FieldConfig, S3FieldInputType, S3ImagesConfig } from './types';
+import {
+  ImagesData,
+  ImageSize,
+  S3FieldConfig,
+  S3FieldInputType,
+  S3ImagesConfig,
+  S3ImagesSizes,
+} from './types';
 import { getDataFromRef, getDataFromStream, getUrl } from './s3';
 
 const ImageExtensionEnum = graphql.enum({
@@ -88,14 +95,14 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
     type: graphql.String,
     args: {
       size: graphql.arg({
-        type: graphql.nonNull(imageSizeEnum),
-        defaultValue: 'md',
+        type: imageSizeEnum,
+        // defaultValue:  'md',
       }),
     },
     resolve(data, args, context, info) {
       const { key, typename } = info.path.prev as Path;
       const config = _fieldConfigs[`${typename}-${key}`];
-      return getUrl(config, { ...data, size: args.size });
+      return getUrl(config, { ...data, size: args.size! });
     },
   }),
   srcSet: graphql.field({
@@ -130,20 +137,34 @@ const S3ImagesFieldOutputType = graphql.object<Omit<ImagesData, 'size'>>()({
   fields: imagesOutputFields,
 });
 
+function getDefaultSize(sizes: S3ImagesSizes) {
+  const excludedSizes = Object.entries(sizes)
+    .filter(([, value]) => value === 0)
+    .map(([size]) => size);
+  const availableSizes = ['sm', 'md', 'lg', 'full'].filter(size => !excludedSizes.includes(size));
+  console.log('excludedSizes', excludedSizes);
+  console.log('availableSizes', availableSizes);
+  return availableSizes.includes('md') ? 'md' : (availableSizes[0] as Exclude<ImageSize, 'base64'>);
+}
+
+function setDefaultConfig(config: S3ImagesConfig) {
+  config.sizes = config.sizes || {};
+  config.defaultSize = config.defaultSize || getDefaultSize(config.sizes);
+  return config;
+}
+
 export const s3Images =
   <ListTypeInfo extends BaseListTypeInfo>({
-    s3Config,
+    s3Config: _s3Config,
     ...config
   }: S3FieldConfig<ListTypeInfo>): FieldTypeFunc<ListTypeInfo> =>
     meta => {
-      if ((config as any).isUnique) {
-        throw Error('isUnique is not a supported option for field type image');
-      }
-      if (typeof s3Config === 'undefined') {
+      if (typeof _s3Config === 'undefined') {
         throw new Error(
           `Must provide s3Config option in S3Image field for List: ${meta.listKey}, field: ${meta.fieldKey}`
         );
       }
+      const s3Config = setDefaultConfig(_s3Config);
       _fieldConfigs[`${meta.listKey}-${meta.fieldKey}`] = s3Config;
       return fieldType({
         kind: 'multi',

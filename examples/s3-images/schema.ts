@@ -35,7 +35,28 @@ export const lists = {
       }),
       content: text(),
       image: s3Images({ s3Config }),
-      image2: s3Images({ s3Config: { ...s3Config, folder: `${process.env.S3_PATH}2`, sizes: { sm: 480, md: 1024, lg: 1920 } } }),
+      image2: s3Images({
+        s3Config: {
+          ...s3Config,
+          folder: `${process.env.S3_PATH}2`,
+          sizes: { sm: 480, md: 1024, lg: 1920 },
+        },
+      }),
+      image3: s3Images({
+        s3Config: {
+          ...s3Config,
+          folder: `${process.env.S3_PATH}`,
+          sizes: { sm: 480, md: 1024, lg: 0 },
+        },
+      }),
+      image4: s3Images({
+        s3Config: { ...s3Config, folder: `${process.env.S3_PATH}`, sizes: { sm: 0, md: 0 } },
+        ui: { itemView: { fieldMode: 'read' } },
+      }),
+      image5: s3Images({
+        s3Config: { ...s3Config, folder: `${process.env.S3_PATH}`, sizes: { md: 0, base64: 100 } },
+        ui: { itemView: { fieldMode: 'read' } },
+      }),
       publishDate: timestamp(),
       author: relationship({ ref: 'Author.posts', many: false }),
     },

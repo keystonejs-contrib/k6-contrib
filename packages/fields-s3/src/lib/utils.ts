@@ -1,8 +1,10 @@
-import { ImageExtension } from '@keystone-6/core/types';
+import { type ImageExtension as KeystoneImageExtension } from '@keystone-6/core/types';
 import { AssetType } from './types';
 
 const IMAGEREGEX = /^s3:image:([^\\\/:\n]+)\.(gif|jpg|png|webp)$/;
 const FILEREGEX = /^s3:file:([^\\\/:\n]+)/;
+
+type ImageExtension = KeystoneImageExtension | 'svg';
 
 export const getS3FileRef = (type: AssetType, nameOrId: string, extension: ImageExtension = 'png') => {
   if (type === 'file') return getFileRef(nameOrId)
@@ -23,7 +25,7 @@ export const parseFileRef = (ref: string): { type: 'file', filename: string; } |
   return undefined;
 };
 
-export const SUPPORTED_IMAGE_EXTENSIONS = ['jpg', 'png', 'webp', 'gif'] as const;
+export const SUPPORTED_IMAGE_EXTENSIONS = ['jpg', 'png', 'webp', 'gif', 'svg'] as const;
 
 export const ALIAS_IMAGE_EXTENSIONS_MAP: Record<string, typeof SUPPORTED_IMAGE_EXTENSIONS[number]> = {'jpeg': 'jpg'};
 

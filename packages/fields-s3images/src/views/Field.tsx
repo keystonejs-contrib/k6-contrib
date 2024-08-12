@@ -218,85 +218,87 @@ function ImgView({
           </ImageWrapper>
         )
       ) : null}
-      {onChange && (
-        <Stack gap="small">
-          {value.kind === 'from-server' && (
-            <Stack padding="xxsmall" gap="xxsmall">
-              <Stack across align="center" gap="small">
-                <Text size="small">
-                  <a href={value.data.url} target="_blank">
-                    {`${value.data.id}.${value.data.extension}`}
-                  </a>
-                </Text>
-                <Button size="small" tone="passive" onClick={copyRef}>
-                  Copy Ref
-                </Button>
-              </Stack>
-              <Text size="xsmall">{`${value.data.width} x ${value.data.height} (${bytes(
-                value.data.filesize
-              )})`}</Text>
+      <Stack gap="small">
+        {value.kind === 'from-server' && (
+          <Stack padding="xxsmall" gap="xxsmall">
+            <Stack across align="center" gap="small">
+              <Text size="small">
+                <a href={value.data.url} target="_blank">
+                  {`${value.data.id}.${value.data.extension}`}
+                </a>
+              </Text>
+              <Button size="small" tone="passive" onClick={copyRef}>
+                Copy Ref
+              </Button>
             </Stack>
-          )}
-          <Stack across gap="small" align="center">
+            <Text size="xsmall">{`${value.data.width} x ${value.data.height} (${bytes(
+              value.data.filesize
+            )})`}</Text>
+          </Stack>
+        )}
+        <Stack across gap="small" align="center">
+          <Button
+            size="small"
+            isDisabled={onChange === undefined}
+            onClick={() => {
+              inputRef.current?.click();
+            }}
+          >
+            Change
+          </Button>
+          {value.kind !== 'upload' ? (
             <Button
               size="small"
+              isDisabled={onChange === undefined}
+              tone="passive"
               onClick={() => {
-                inputRef.current?.click();
+                onChange?.({
+                  kind: 'ref',
+                  data: { ref: '' },
+                  previous: value,
+                });
               }}
             >
-              Change
+              Paste Ref
             </Button>
-            {value.kind !== 'upload' ? (
-              <Button
-                size="small"
-                tone="passive"
-                onClick={() => {
-                  onChange({
-                    kind: 'ref',
-                    data: { ref: '' },
-                    previous: value,
-                  });
-                }}
-              >
-                Paste Ref
-              </Button>
-            ) : null}
-            {value.kind === 'from-server' && (
-              <Button
-                size="small"
-                tone="negative"
-                onClick={() => {
-                  onChange({ kind: 'remove', previous: value });
-                }}
-              >
-                Remove
-              </Button>
-            )}
-            {value.kind === 'upload' && (
-              <Button
-                size="small"
-                tone="negative"
-                onClick={() => {
-                  onChange(value.previous);
-                }}
-              >
-                Cancel
-              </Button>
-            )}
-            {errorMessage ? (
-              <Pill tone="negative" weight="light">
-                {errorMessage}
+          ) : null}
+          {value.kind === 'from-server' && (
+            <Button
+              size="small"
+              isDisabled={onChange === undefined}
+              tone="negative"
+              onClick={() => {
+                onChange?.({ kind: 'remove', previous: value });
+              }}
+            >
+              Remove
+            </Button>
+          )}
+          {value.kind === 'upload' && (
+            <Button
+              size="small"
+              isDisabled={onChange === undefined}
+              tone="negative"
+              onClick={() => {
+                onChange?.(value.previous);
+              }}
+            >
+              Cancel
+            </Button>
+          )}
+          {errorMessage ? (
+            <Pill tone="negative" weight="light">
+              {errorMessage}
+            </Pill>
+          ) : (
+            value.kind === 'upload' && (
+              <Pill weight="light" tone="positive">
+                Save to upload this image
               </Pill>
-            ) : (
-              value.kind === 'upload' && (
-                <Pill weight="light" tone="positive">
-                  Save to upload this image
-                </Pill>
-              )
-            )}
-          </Stack>
+            )
+          )}
         </Stack>
-      )}
+      </Stack>
     </Stack>
   ) : (
     <Stack gap="small">

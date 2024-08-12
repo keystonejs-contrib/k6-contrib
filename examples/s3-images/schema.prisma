@@ -28,6 +28,24 @@ model Post {
   image2_height    Int?
   image2_id        String?
   image2_sizesMeta Json?
+  image3_filesize  Int?
+  image3_extension String?
+  image3_width     Int?
+  image3_height    Int?
+  image3_id        String?
+  image3_sizesMeta Json?
+  image4_filesize  Int?
+  image4_extension String?
+  image4_width     Int?
+  image4_height    Int?
+  image4_id        String?
+  image4_sizesMeta Json?
+  image5_filesize  Int?
+  image5_extension String?
+  image5_width     Int?
+  image5_height    Int?
+  image5_id        String?
+  image5_sizesMeta Json?
   publishDate      DateTime?
   author           Author?         @relation("Post_author", fields: [authorId], references: [id])
   authorId         String?         @map("author")

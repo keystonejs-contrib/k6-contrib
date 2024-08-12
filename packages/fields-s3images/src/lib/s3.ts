@@ -5,17 +5,20 @@ import urlJoin from 'url-join';
 import cuid from 'cuid';
 import sharp from 'sharp';
 import { KeystoneContext } from '@keystone-6/core/types';
-import { S3ImagesConfig, ImagesData } from './types';
+import { S3ImagesConfig, ImagesData, ImageSize } from './types';
 import { normalizeImageExtension, parseImageRef, parseImagesMetaRef } from './utils';
 
-const getFilename = ({ id, size, extension }: ImagesData) => `${id}_${size}.${extension}`;
+function getFilename({ id, size, extension, sizesMeta }: ImagesData) {
+  return `${id}_${size}.${extension}`;
+}
 
-const defaultGetUrl = ({ bucket, folder }: S3ImagesConfig, fileData: ImagesData) => {
+function defaultGetUrl({ bucket, folder }: S3ImagesConfig, fileData: ImagesData) {
   const filename = getFilename(fileData);
   return urlJoin(`https://${bucket}.s3.amazonaws.com`, folder as string, filename);
-};
+}
 
-export function getUrl(config: S3ImagesConfig, fileData: ImagesData) {
+export function getUrl(config: S3ImagesConfig, fileData: ImagesData & { size?: ImageSize }) {
+  fileData.size = fileData.size || config.defaultSize;
   if (fileData.size === 'base64') {
     return fileData.sizesMeta?.base64?.base64Data;
   }
@@ -26,11 +29,11 @@ export function getUrl(config: S3ImagesConfig, fileData: ImagesData) {
   return config.getUrl?.(config, fileData) || defaultGetUrl(config, fileData);
 }
 
-export const getDataFromStream = async (
+export async function getDataFromStream(
   config: S3ImagesConfig,
   upload: FileUpload,
   context: KeystoneContext
-): Promise<Omit<ImagesData, 'size'>> => {
+): Promise<Omit<ImagesData, 'size'>> {
   const { createReadStream, filename: originalFilename, mimetype } = upload;
 
   const extension = normalizeImageExtension(
@@ -70,97 +73,96 @@ export const getDataFromStream = async (
       ...uploadParams,
     })
     .promise();
+  const sm = config.sizes?.sm ?? 360;
+  if (sm) {
+    // upload sm image
+    const smFile = await imagePipeline.clone().resize(sm).toBuffer({ resolveWithObject: true });
+    const smFileData: ImagesData = {
+      id,
+      height: smFile.info.height,
+      width: smFile.info.width,
+      filesize: smFile.info.size,
+      extension,
+      size: 'sm',
+    };
+    fileData.sizesMeta.sm = smFileData;
 
-  // upload sm image
-  const smFile = await imagePipeline
-    .clone()
-    .resize(config.sizes?.sm || 360)
-    .toBuffer({ resolveWithObject: true });
-  const smFileData: ImagesData = {
-    id,
-    height: smFile.info.height,
-    width: smFile.info.width,
-    filesize: smFile.info.size,
-    extension,
-    size: 'sm',
-  };
-  fileData.sizesMeta.sm = smFileData;
+    await s3
+      .upload({
+        Body: smFile.data,
+        ContentType: mimetype,
+        Bucket: config.bucket,
+        Key: `${config.folder}/${getFilename(smFileData)}`,
+        Metadata: {
+          // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
+          'x-amz-meta-image-height': `${smFileData.height}`,
+          'x-amz-meta-image-width': `${smFileData.width}`,
+        },
+        ...uploadParams,
+      })
+      .promise();
+    // upload md image
+  }
 
-  await s3
-    .upload({
-      Body: smFile.data,
-      ContentType: mimetype,
-      Bucket: config.bucket,
-      Key: `${config.folder}/${getFilename(smFileData)}`,
-      Metadata: {
-        // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
-        'x-amz-meta-image-height': `${smFileData.height}`,
-        'x-amz-meta-image-width': `${smFileData.width}`,
-      },
-      ...uploadParams,
-    })
-    .promise();
-  // upload md image
+  const md = config.sizes?.md ?? 720;
+  if (md) {
+    const mdFile = await imagePipeline.clone().resize(md).toBuffer({ resolveWithObject: true });
+    const mdFileData: ImagesData = {
+      id,
+      height: mdFile.info.height,
+      width: mdFile.info.width,
+      filesize: mdFile.info.size,
+      extension,
+      size: 'md',
+    };
+    fileData.sizesMeta.md = mdFileData;
 
-  const mdFile = await imagePipeline
-    .clone()
-    .resize(config.sizes?.md || 720)
-    .toBuffer({ resolveWithObject: true });
-  const mdFileData: ImagesData = {
-    id,
-    height: mdFile.info.height,
-    width: mdFile.info.width,
-    filesize: mdFile.info.size,
-    extension,
-    size: 'md',
-  };
-  fileData.sizesMeta.md = mdFileData;
+    await s3
+      .upload({
+        Body: mdFile.data,
+        ContentType: mimetype,
+        Bucket: config.bucket,
+        Key: `${config.folder}/${getFilename(mdFileData)}`,
+        Metadata: {
+          // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
+          'x-amz-meta-image-height': `${mdFileData.height}`,
+          'x-amz-meta-image-width': `${mdFileData.width}`,
+        },
+        ...uploadParams,
+      })
+      .promise();
+  }
 
-  await s3
-    .upload({
-      Body: mdFile.data,
-      ContentType: mimetype,
-      Bucket: config.bucket,
-      Key: `${config.folder}/${getFilename(mdFileData)}`,
-      Metadata: {
-        // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
-        'x-amz-meta-image-height': `${mdFileData.height}`,
-        'x-amz-meta-image-width': `${mdFileData.width}`,
-      },
-      ...uploadParams,
-    })
-    .promise();
+  const lg = config.sizes?.lg ?? 1280;
   // upload lg image
-  const lgFile = await imagePipeline
-    .clone()
-    .resize(config.sizes?.lg || 1280)
-    .toBuffer({ resolveWithObject: true });
-  const lgFileData: ImagesData = {
-    id,
-    height: lgFile.info.height,
-    width: lgFile.info.width,
-    filesize: lgFile.info.size,
-    extension,
-    size: 'lg',
-  };
-  fileData.sizesMeta.lg = lgFileData;
+  if (lg) {
+    const lgFile = await imagePipeline.clone().resize(lg).toBuffer({ resolveWithObject: true });
+    const lgFileData: ImagesData = {
+      id,
+      height: lgFile.info.height,
+      width: lgFile.info.width,
+      filesize: lgFile.info.size,
+      extension,
+      size: 'lg',
+    };
+    fileData.sizesMeta.lg = lgFileData;
 
-  await s3
-    .upload({
-      Body: lgFile.data,
-      ContentType: mimetype,
-      Bucket: config.bucket,
-      Key: `${config.folder}/${getFilename(lgFileData)}`,
-      Metadata: {
-        // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
-        'x-amz-meta-image-height': `${lgFileData.height}`,
-        'x-amz-meta-image-width': `${lgFileData.width}`,
-      },
-      ...uploadParams,
-    })
-    .promise();
-  fileData.sizesMeta.lg = lgFileData;
-
+    await s3
+      .upload({
+        Body: lgFile.data,
+        ContentType: mimetype,
+        Bucket: config.bucket,
+        Key: `${config.folder}/${getFilename(lgFileData)}`,
+        Metadata: {
+          // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
+          'x-amz-meta-image-height': `${lgFileData.height}`,
+          'x-amz-meta-image-width': `${lgFileData.width}`,
+        },
+        ...uploadParams,
+      })
+      .promise();
+    fileData.sizesMeta.lg = lgFileData;
+  }
   if (config.sizes?.base64) {
     const base64 = await imagePipeline
       .clone()
@@ -182,12 +184,12 @@ export const getDataFromStream = async (
 
   const { size, ...result } = fileData;
   return result;
-};
+}
 
-export const getDataFromRef = async (
+export async function getDataFromRef(
   config: S3ImagesConfig,
   ref: string
-): Promise<Omit<ImagesData, 'size'>> => {
+): Promise<Omit<ImagesData, 'size'>> {
   const metaRef = parseImagesMetaRef(ref);
 
   if (metaRef) {
@@ -215,7 +217,7 @@ export const getDataFromRef = async (
     ...imageData,
     sizesMeta,
   };
-};
+}
 
 async function getS3ImageMeta(s3: AWS.S3, config: S3ImagesConfig, fileData: ImagesData) {
   const result = await s3
