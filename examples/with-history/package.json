@@ -1,0 +1,18 @@
+{
+  "name": "@k6-contrib/example-with-history",
+  "version": "0.6.0",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_OPTIONS=\"--inspect -r dotenv/config\" keystone dev",
+    "start": "keystone start",
+    "build": "keystone build"
+  },
+  "dependencies": {
+    "@k6-contrib/list-plugins": "^1.0.0",
+    "@keystone-6/auth": "^1.0.0",
+    "@keystone-6/fields-document": "^1.0.0",
+    "@keystone-6/core": "^1.0.0",
+    "typescript": "^4.4.4"
+  },
+  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/examples/with-tracking"
+}
