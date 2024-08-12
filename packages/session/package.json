@@ -13,7 +13,7 @@
     "cookie": "^0.6.0"
   },
   "devDependencies": {
-    "@keystone-6/core": "^6.1.0"
+    "@keystone-6/core": "^6.2.0"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/session"
 }

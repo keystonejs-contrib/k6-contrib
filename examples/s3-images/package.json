@@ -4,19 +4,19 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS=\"--inspect -r dotenv/config\" keystone dev",
-    "devb": "cross-env NODE_OPTIONS=\"--inspect -r dotenv/config\" keystone dev",
+    "dev": "keystone dev",
+    "devb": "keystone dev",
     "start": "keystone start",
     "build": "keystone build"
   },
   "dependencies": {
     "@k6-contrib/fields-s3-images": "^6.0.0",
-    "@keystone-6/core": "^6.1.0",
+    "@keystone-6/core": "^6.2.0",
     "dotenv": "^16.0.0",
     "graphql": "^16.8.1",
     "graphql-upload": "^15.0.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
   },
   "devDependencies": {
     "typescript": "^5.5.0"

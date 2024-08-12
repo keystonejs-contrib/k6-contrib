@@ -1,11 +1,12 @@
 import type { TimestampFieldConfig } from '@keystone-6/core/fields';
 import { timestamp } from '@keystone-6/core/fields';
-import type { ListConfig, BaseListTypeInfo, BaseFields } from '@keystone-6/core/types';
+import type { ListConfig, BaseListTypeInfo } from '@keystone-6/core/types';
 import type { AtTrackingOptions } from '../types';
 
 export const atTracking =
   (options: AtTrackingOptions = {}) =>
-    <__Fields extends BaseFields<ListTypeInfo>, ListTypeInfo extends BaseListTypeInfo>(listConfig: ListConfig<ListTypeInfo>
+    <ListTypeInfo extends BaseListTypeInfo>(
+      listConfig: ListConfig<ListTypeInfo>
     ): ListConfig<ListTypeInfo> => {
       const {
         created = true,
@@ -37,7 +38,10 @@ export const atTracking =
       if (updated) {
         fields = {
           ...fields,
-          [updatedAtField]: timestamp({ ...fieldOptions, db: { ...fieldOptions.db, updatedAt: true } }),
+          [updatedAtField]: timestamp({
+            ...fieldOptions,
+            db: { ...fieldOptions.db, updatedAt: true },
+          }),
         };
       }
 

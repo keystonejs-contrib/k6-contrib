@@ -11,10 +11,10 @@
     "@babel/runtime": "^7.16.3"
   },
   "peerDependencies": {
-    "@keystone-6/core": "^6.1.0"
+    "@keystone-6/core": "^6.2.0"
   },
   "devDependencies": {
-    "@keystone-6/core": "^6.1.0"
+    "@keystone-6/core": "^6.2.0"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/list-plugins"
 }

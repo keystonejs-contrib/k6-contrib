@@ -12,8 +12,7 @@ export function configureTracking({
   atTrackingOptions?: AtTrackingOptions;
   byTrackingOptions?: ByTrackingOptions;
 }) {
-  return function list<
-    __Fields extends BaseFields<ListTypeInfo>, ListTypeInfo extends BaseListTypeInfo>(
+  return function list<ListTypeInfo extends BaseListTypeInfo>(
       listConfig: ListConfig<ListTypeInfo>
     ): ListConfig<ListTypeInfo> {
     return byTracking(byTrackingOptions)(atTracking(atTrackingOptions)(listConfig));

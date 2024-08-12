@@ -16,9 +16,13 @@ model User {
   name                       String        @default("")
   email                      String        @unique @default("")
   secret                     String?
+  secretRequired             String?
   superSecret                String?
+  superSecretRequired        String?
   secret2                    String?
+  secret2Required            String?
   superSecret2               String?
+  superSecret2Required       String?
   password                   String?
   isAdmin                    Boolean       @default(false)
   roles                      String        @default("")

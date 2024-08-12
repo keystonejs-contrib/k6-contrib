@@ -8,7 +8,7 @@ import { composeHook } from '../utils';
 
 export const byTracking =
   (options: ByTrackingOptions = { ref: 'User' }) =>
-    <__Fields extends BaseFields<ListTypeInfo>, ListTypeInfo extends BaseListTypeInfo>(
+    <ListTypeInfo extends BaseListTypeInfo>(
       listConfig: ListConfig<ListTypeInfo>
     ): ListConfig<ListTypeInfo> => {
       const {
@@ -85,8 +85,9 @@ export const byTracking =
         return resolvedData;
       };
 
-      const originalResolveInput = listConfig.hooks?.resolveInput;
-      const resolveInput: ResolveInputHook = composeHook(originalResolveInput, newResolveInput);
+      const originalCreateHook = listConfig.hooks?.resolveInput?.create;
+      const originalUpdateHook = listConfig.hooks?.resolveInput?.update;
+
       return {
         ...listConfig,
         fields: {
@@ -95,7 +96,10 @@ export const byTracking =
         },
         hooks: {
           ...listConfig.hooks,
-          resolveInput,
+          resolveInput: {
+            create: composeHook(originalCreateHook, newResolveInput),
+            update: composeHook(originalUpdateHook, newResolveInput),
+          },
         },
       };
     };

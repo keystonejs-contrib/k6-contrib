@@ -31,7 +31,7 @@ export const encrypted =
   }: EncryptedFieldConfig<ListTypeInfo>): FieldTypeFunc<ListTypeInfo> =>
     meta => {
       const inputResolver = async (data: string | undefined | null) => {
-        if (data === null || data === undefined) {
+        if (data === null || data === undefined || data === '') {
           return data;
         }
         try {
@@ -53,13 +53,25 @@ export const encrypted =
         ...config,
         hooks: {
           ...config.hooks,
-          async validateInput(args) {
-            const value = args.resolvedData[meta.fieldKey];
-            if ((validation?.isRequired && value === null)) {
-              args.addValidationError(`${fieldLabel} is required`);
-            }
+          validate: {
+            ...config.hooks?.validate,
+            async create(args) {
+              const value = args.resolvedData[meta.fieldKey];
+              if (validation?.isRequired && !value) {
+                args.addValidationError(`${fieldLabel} is required`);
+              }
 
-            await config.hooks?.validateInput?.(args);
+              await config.hooks?.validate?.create?.(args);
+            },
+            async update(args) {
+              const hasValue = typeof args.inputData[meta.fieldKey] !== 'undefined';
+              const value = args.resolvedData[meta.fieldKey];
+              if (hasValue && validation?.isRequired && (value === null || value === '')) {
+                args.addValidationError(`${fieldLabel} is required`);
+              }
+
+              await config.hooks?.validate?.update?.(args);
+            },
           },
         },
         input: {

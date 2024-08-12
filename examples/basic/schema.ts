@@ -44,90 +44,108 @@ const randomNumber = () => Math.round(Math.random() * 10);
 const withTracking = configureTracking({});
 
 export const lists = {
-  User: list(
-    {
-      access: allowAll,
-      db: {},
-      ui: {
-        listView: {
-          initialColumns: ['name', 'posts', 'avatar'],
+  User: list({
+    access: allowAll,
+    db: {},
+    ui: {
+      listView: {
+        initialColumns: ['name', 'posts', 'avatar'],
+      },
+    },
+    fields: {
+      /** The user's first and last name. */
+      name: text({ validation: { isRequired: true } }),
+      /** Email is used to log into the system. */
+      email: text({
+        validation: { isRequired: true },
+        isIndexed: 'unique',
+        isFilterable: true,
+        isOrderable: true,
+      }),
+      secret: encrypted({
+        reverse: true,
+        secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
+      }),
+      secretRequired: encrypted({
+        validation: { isRequired: true },
+        reverse: true,
+        secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
+      }),
+      superSecret: encrypted({
+        secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
+      }),
+      superSecretRequired: encrypted({
+        validation: { isRequired: true },
+        secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
+      }),
+      secret2: encrypted({
+        reverse: true,
+        ui: { displayMode: 'textarea' },
+        secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
+      }),
+      secret2Required: encrypted({
+        validation: { isRequired: true },
+        reverse: true,
+        ui: { displayMode: 'textarea' },
+        secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
+      }),
+      superSecret2: encrypted({
+        ui: { displayMode: 'textarea' },
+        secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
+      }),
+      superSecret2Required: encrypted({
+        validation: { isRequired: true },
+        ui: { displayMode: 'textarea' },
+        secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
+      }),
+      /** Avatar upload for the users profile, stored locally */
+      // avatar: image(),
+      // attachment: file(),
+      /** Used to log in. */
+      password: password(),
+      /** Administrators have more access to various lists and fields. */
+      isAdmin: checkbox({
+        access: {
+          create: access.isAdmin,
+          read: access.isAdmin,
+          update: access.isAdmin,
         },
-      },
-      fields: {
-        /** The user's first and last name. */
-        name: text({ validation: { isRequired: true } }),
-        /** Email is used to log into the system. */
-        email: text({
-          validation: { isRequired: true },
-          isIndexed: 'unique',
-          isFilterable: true,
-          isOrderable: true,
-        }),
-        secret: encrypted({
-          reverse: true,
-          secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
-        }),
-        superSecret: encrypted({
-          secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
-        }),
-        secret2: encrypted({
-          reverse: true,
-          ui: { displayMode: 'textarea' },
-          secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
-        }),
-        superSecret2: encrypted({
-          ui: { displayMode: 'textarea' },
-          secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
-        }),
-        /** Avatar upload for the users profile, stored locally */
-        // avatar: image(),
-        // attachment: file(),
-        /** Used to log in. */
-        password: password(),
-        /** Administrators have more access to various lists and fields. */
-        isAdmin: checkbox({
-          access: {
-            create: access.isAdmin,
-            read: access.isAdmin,
-            update: access.isAdmin,
+        ui: {
+          createView: {
+            fieldMode: args => (access.isAdmin(args) ? 'edit' : 'hidden'),
           },
-          ui: {
-            createView: {
-              fieldMode: args => (access.isAdmin(args) ? 'edit' : 'hidden'),
-            },
-            itemView: {
-              fieldMode: args => (access.isAdmin(args) ? 'edit' : 'read'),
-            },
+          itemView: {
+            fieldMode: args => (access.isAdmin(args) ? 'edit' : 'read'),
+          },
+        },
+      }),
+      roles: text({}),
+      phoneNumbers: relationship({
+        ref: 'PhoneNumber.user',
+        many: true,
+        ui: {
+          // TODO: Work out how to use custom views to customise the card + edit / create forms
+          // views: './admin/fieldViews/user/phoneNumber',
+          displayMode: 'cards',
+          cardFields: ['type', 'value'],
+          inlineEdit: { fields: ['type', 'value'] },
+          inlineCreate: { fields: ['type', 'value'] },
+          linkToItem: true,
+          // removeMode: 'delete',
+        },
+      }),
+      posts: relationship({ ref: 'Post.author', many: true }),
+      randomNumber: virtual({
+        field: graphql.field({
+          type: graphql.Float,
+          resolve() {
+            return randomNumber();
           },
         }),
-        roles: text({}),
-        phoneNumbers: relationship({
-          ref: 'PhoneNumber.user',
-          many: true,
-          ui: {
-            // TODO: Work out how to use custom views to customise the card + edit / create forms
-            // views: './admin/fieldViews/user/phoneNumber',
-            displayMode: 'cards',
-            cardFields: ['type', 'value'],
-            inlineEdit: { fields: ['type', 'value'] },
-            inlineCreate: { fields: ['type', 'value'] },
-            linkToItem: true,
-            // removeMode: 'delete',
-          },
-        }),
-        posts: relationship({ ref: 'Post.author', many: true }),
-        randomNumber: virtual({
-          field: graphql.field({
-            type: graphql.Float,
-            resolve() {
-              return randomNumber();
-            },
-          }),
-        }),
-        apiKey: text({}),
-      },
-    }
-  ),
+      }),
+      apiKey: text({}),
+    },
+  }),
   PhoneNumber: list(
     withTracking({
       access: allowAll,

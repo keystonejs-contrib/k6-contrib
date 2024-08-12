@@ -25,7 +25,7 @@
     "@keystone-ui/pill": "^7.0.2",
     "@keystone-ui/toast": "^6.0.2",
     "@sindresorhus/slugify": "^1.1.2",
-    "aws-sdk": "^2.1023.0",
+    "aws-sdk": "^2.1672.0",
     "bytes": "^3.1.0",
     "copy-to-clipboard": "^3.3.1",
     "cuid": "^2.1.8",
@@ -36,19 +36,19 @@
     "url-join": "^4.0.1"
   },
   "peerDependencies": {
-    "@keystone-6/core": "^6.1.0",
+    "@keystone-6/core": "^6.2.0",
     "graphql-upload": "^15.0.2",
-    "react": "^18.2.0"
+    "react": "^18.3.0"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-s3",
   "devDependencies": {
-    "@keystone-6/core": "^6.1.0",
+    "@keystone-6/core": "^6.2.0",
     "@types/bytes": "^3.1.4",
     "@types/react": "^18.3.0",
     "graphql": "^16.8.1",
     "graphql-upload": "^15.0.2",
     "mime": "^3.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
   }
 }

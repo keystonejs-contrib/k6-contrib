@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS=--inspect keystone dev",
+    "dev": "keystone dev",
     "start": "keystone start",
     "build": "keystone build"
   },
@@ -14,9 +14,9 @@
     "@k6-contrib/fields-encrypted": "^6.0.0",
     "@k6-contrib/list-plugins": "^6.0.0",
     "@keystone-6/auth": "^8.0.0",
-    "@keystone-6/core": "^6.1.0",
+    "@keystone-6/core": "^6.2.0",
     "@keystone-6/document-renderer": "^1.1.2",
-    "@keystone-6/fields-document": "^9.0.0",
+    "@keystone-6/fields-document": "^9.1.0",
     "@keystone-ui/core": "^5.0.2",
     "@keystone-ui/fields": "^7.2.0",
     "@keystone-ui/icons": "^6.0.2",
@@ -25,8 +25,8 @@
     "@types/react": "^18.3.0",
     "dotenv": "^16.0.0",
     "graphql": "^16.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
   },
   "devDependencies": {
     "typescript": "^5.5.0"

@@ -27,15 +27,15 @@
     "cryptr": "^6.3.0"
   },
   "peerDependencies": {
-    "@keystone-6/core": "^6.1.0",
-    "react": "^18.2.0"
+    "@keystone-6/core": "^6.2.0",
+    "react": "^18.3.0"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-encrypted",
   "devDependencies": {
-    "@keystone-6/core": "^6.1.0",
+    "@keystone-6/core": "^6.2.0",
     "@types/cryptr": "^4.0.1",
     "@types/react": "^18.3.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
   }
 }
