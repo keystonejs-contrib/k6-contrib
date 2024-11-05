@@ -41,7 +41,9 @@ export default auth.withAuth(
     images: { upload: 'local' },
     files: { upload: 'local' },
     lists,
-    extendGraphqlSchema,
+    graphql: {
+      extendGraphqlSchema,
+    },
     session: statelessApiKeySessions({ maxAge: sessionMaxAge, secret: sessionSecret }),
     // TODO -- Create a separate example for stored/redis sessions
     // session: storedSessions({

@@ -187,7 +187,14 @@ export const lists = {
   ),
   Post: list(
     withTracking({
-      access: allowAll,
+      access: {
+        operation: {
+          query: access.isAdmin,
+          create: access.isAdmin,
+          update: access.isAdmin,
+          delete: access.isAdmin,
+        },
+      },
       fields: {
         title: text(),
         // TODO: expand this out into a proper example project
@@ -238,43 +245,45 @@ export const lists = {
   ),
 };
 
-export const extendGraphqlSchema = schema => mergeSchemas({
-  schemas: [schema],
-  typeDefs: gql`
-    type Query {
-      randomNumber: RandomNumber
-    }
-    type RandomNumber {
-      number: Int
-      generatedAt: String
-    }
-    type Mutation {
-      createRandomPosts: [Post!]!
-    }
-  `,
-  resolvers: {
-    RandomNumber: {
-      number(rootVal: { number: number; }) {
-        return rootVal.number * 1000;
+export const extendGraphqlSchema = schema =>
+  mergeSchemas({
+    schemas: [schema],
+    typeDefs: gql`
+      type Query {
+        randomNumber: RandomNumber
+      }
+      type RandomNumber {
+        number: Int
+        generatedAt: String
+      }
+      type Mutation {
+        createRandomPosts: [Post!]!
+      }
+    `,
+    resolvers: {
+      RandomNumber: {
+        number(rootVal: { number: number }) {
+          return rootVal.number * 1000;
+        },
+      },
+      Mutation: {
+        createRandomPosts(root, args, context) {
+          // TODO: add a way to verify access control here, e.g
+          // await context.verifyAccessControl(userIsAdmin);
+          const data = Array.from({ length: 2 }).map((x, i) => ({ title: `Post ${i}` }));
+          // note this usage of the type is important because it tests that the generated
+          // KeystoneListsTypeInfo extends Record<string, BaseListTypeInfo>
+          const lists: KeystoneListsAPI<any> = context.query;
+          console.log(data);
+          // context.sudo().query.Post.createMany({ data });
+          return context.sudo().db.Post.createMany({ data });
+        },
+      },
+      Query: {
+        randomNumber: () => ({
+          number: randomNumber(),
+          generatedAt: Date.now(),
+        }),
       },
     },
-    Mutation: {
-      createRandomPosts(root, args, context) {
-        // TODO: add a way to verify access control here, e.g
-        // await context.verifyAccessControl(userIsAdmin);
-        const data = Array.from({ length: 238 }).map((x, i) => ({ title: `Post ${i}` }));
-        // note this usage of the type is important because it tests that the generated
-        // KeystoneListsTypeInfo extends Record<string, BaseListTypeInfo>
-        const lists: KeystoneListsAPI<any> = context.query;
-        console.log(data);
-        return lists.Post.createMany({ data });
-      },
-    },
-    Query: {
-      randomNumber: () => ({
-        number: randomNumber(),
-        generatedAt: Date.now(),
-      }),
-    },
-  },
-});
+  });
