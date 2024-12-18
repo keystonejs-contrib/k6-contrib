@@ -13,7 +13,7 @@ export type ImageSize = 'base64' | 'sm' | 'md' | 'lg' | 'full';
 
 export type ImagesData = {
   id: string;
-  size: ImageSize,
+  size: ImageSize;
   sizesMeta?: Partial<Record<ImageSize, ImagesData>>;
   base64Data?: string;
 } & ImageMetadata;
@@ -41,19 +41,48 @@ export type S3ImagesSizes = {
 };
 
 export type S3ImagesConfig = {
-  bucket: string;
-  folder?: string;
-  baseUrl?: string;
+  /** Sets signing of the asset - for use when you want private assets */
+  signed?: { expiry: number }
+  generateUrl?: (path: string) => string
+  /** Sets whether the assets should be preserved locally on removal from keystone's database */
+  preserve?: boolean
+  pathPrefix?: string
+  /** Your s3 instance's bucket name */
+  bucketName: string
+  /** Your s3 instance's region */
+  region: string
+  /** An access Key ID with write access to your S3 instance */
+  accessKeyId?: string
+  /** The secret access key that gives permissions to your access Key Id */
+  secretAccessKey?: string
+  /** An endpoint to use - to be provided if you are not using AWS as your endpoint */
+  endpoint?: string
+  /** If true, will force the 'old' S3 path style of putting bucket name at the start of the pathname of the URL  */
+  forcePathStyle?: boolean
+  /** A string that sets permissions for the uploaded assets. Default is 'private'.
+   *
+   * Amazon S3 supports a set of predefined grants, known as canned ACLs.
+   * See https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl
+   * for more details.
+   */
+  acl?:
+    | 'private'
+    | 'public-read'
+    | 'public-read-write'
+    | 'aws-exec-read'
+    | 'authenticated-read'
+    | 'bucket-owner-read'
+    | 'bucket-owner-full-control'
+  transformName?: (filename: string, extension: string, size: S3ImagesSizes) => string | Promise<string>;
   /** default to os.tmpdir() */
   tmpdir?: string;
   /** define width, set value 0 to not generate that image, it will be same as next bigger size */
   sizes?: S3ImagesSizes;
   defaultSize?: Exclude<ImageSize, 'base64'>;
-  transformFilename?: (str: string) => string;
-  getFilename?: (args: GetFileNameArg) => string;
-  getUrl?: (config: S3ImagesConfig, fileData: ImagesData) => string;
-  uploadParams?: (args: ImagesData) => Partial<AWS.S3.Types.PutObjectRequest>;
-  s3Options: AWS.S3.ClientConfiguration;
+  // getFilename?: (args: GetFileNameArg) => string;
+  // getUrl?: (config: S3ImagesConfig, fileData: ImagesData) => string;
+  // uploadParams?: (args: ImagesData) => Partial<PutObjectRequest>;
+  // s3Options: S3ClientConfig;
 };
 
 export type S3FieldInputType =
@@ -64,4 +93,17 @@ export type S3FieldInputType =
 export type S3FieldConfig<ListTypeInfo extends BaseListTypeInfo> =
   CommonFieldConfig<ListTypeInfo> & {
     s3Config: S3ImagesConfig;
+    db?: {
+      extendPrismaSchema?: (field: string) => string
+    }
   };
+
+  export type ImageExtension = 'jpg' | 'png' | 'webp' | 'gif'
+
+export type ImageAdapter = {
+  upload(buffer: Buffer, id: string, extension: string): Promise<void>
+  delete(id: string, extension: ImageExtension): Promise<void>
+  url(id: string, extension: ImageExtension): Promise<string>
+}
+
+export type MaybePromise<T> = T | Promise<T>
