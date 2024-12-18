@@ -9,27 +9,27 @@
     "build": "keystone build"
   },
   "dependencies": {
-    "@babel/runtime": "^7.16.3",
+    "@babel/runtime": "^7.26.0",
     "@graphql-tools/schema": "^9.0.4",
     "@k6-contrib/fields-encrypted": "^6.0.0",
     "@k6-contrib/list-plugins": "^6.0.0",
-    "@keystone-6/auth": "^8.0.0",
-    "@keystone-6/core": "^6.2.0",
+    "@keystone-6/auth": "^8.1.0",
+    "@keystone-6/core": "^6.3.1",
     "@keystone-6/document-renderer": "^1.1.2",
-    "@keystone-6/fields-document": "^9.1.0",
+    "@keystone-6/fields-document": "^9.1.1",
     "@keystone-ui/core": "^5.0.2",
     "@keystone-ui/fields": "^7.2.0",
     "@keystone-ui/icons": "^6.0.2",
     "@keystone-ui/tooltip": "^6.0.2",
     "@preconstruct/next": "^4.0.0",
-    "@types/react": "^18.3.0",
-    "dotenv": "^16.0.0",
+    "@types/react": "^19.0.1",
+    "dotenv": "^16.4.7",
     "graphql": "^16.8.1",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.5.0"
+    "typescript": "^5.7.2"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/examples/basic"
 }

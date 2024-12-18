@@ -17,7 +17,7 @@
     ]
   },
   "dependencies": {
-    "@babel/runtime": "^7.16.3",
+    "@babel/runtime": "^7.26.0",
     "@keystone-ui/button": "^7.0.2",
     "@keystone-ui/core": "^5.0.2",
     "@keystone-ui/fields": "^7.2.0",
@@ -25,20 +25,21 @@
     "@keystone-ui/segmented-control": "^7.0.3",
     "@keystone-ui/toast": "^6.0.2",
     "@sindresorhus/slugify": "^1.1.2",
-    "copy-to-clipboard": "^3.3.1",
+    "copy-to-clipboard": "^3.3.3",
     "cuid": "^2.1.8"
   },
   "peerDependencies": {
-    "@keystone-6/core": "^6.2.0",
-    "react": "^18.3.0"
+    "@keystone-6/core": "^6.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-weight",
   "devDependencies": {
-    "@keystone-6/core": "^6.2.0",
-    "@types/bytes": "^3.1.4",
-    "@types/react": "^18.3.0",
+    "@keystone-6/core": "^6.3.1",
+    "@types/bytes": "^3.1.5",
+    "@types/react": "^19.0.1",
     "graphql": "^16.8.1",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }
