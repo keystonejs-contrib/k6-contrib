@@ -1,6 +1,7 @@
 import { ReadStream } from 'fs';
 import { FileUpload } from 'graphql-upload';
-import AWS from 'aws-sdk';
+import { Upload } from '@aws-sdk/lib-storage';
+import { S3Client, HeadObjectCommand } from '@aws-sdk/client-s3';
 import urlJoin from 'url-join';
 import cuid from 'cuid';
 import slugify from '@sindresorhus/slugify';
@@ -9,7 +10,6 @@ import { ImageMetadata } from '@keystone-6/core/types';
 import fromBuffer from 'image-type';
 import imageSize from 'image-size';
 import { AssetType, S3DataType, S3Config, FileData, ImageData } from './types';
-import { parseFileRef, parseImageRef } from './utils';
 
 const defaultTransformer = (str: string) => slugify(str);
 
@@ -91,7 +91,7 @@ export const getDataFromStream = async (
 ): Promise<Omit<ImageData, 'type'> | Omit<FileData, 'type'>> => {
   const { createReadStream, filename: originalFilename, mimetype } = upload;
   const filename = generateSafeFilename(originalFilename, config.transformFilename);
-  const s3 = new AWS.S3(config.s3Options);
+  const s3 = new S3Client(config.s3Options);
 
   let stream = createReadStream();
   let filesize = 0;
@@ -112,89 +112,33 @@ export const getDataFromStream = async (
 
   try {
     const uploadParams = config.uploadParams?.(fileData) || {};
-    const result = await s3
-      .upload({
-        Body: createReadStream(),
-        ContentType: mimetype,
-        Bucket: config.bucket,
-        Key: `${config.folder}/${getFilename(fileData)}`,
-        Metadata: {
-          // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
-          ...(type === 'image'
-            ? {
-                'x-amz-meta-image-height': `${metadata.height}`,
-                'x-amz-meta-image-width': `${metadata.width}`,
-              }
-            : {}),
-        },
-        ...uploadParams,
-      })
-      .promise();
+  await new Upload({
+    client: s3,
+    params: {
+      Body: createReadStream(),
+      ContentType: mimetype,
+      Bucket: config.bucket,
+      Key: `${config.folder}/${getFilename(fileData)}`,
+      Metadata: {
+        // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
+        'x-amz-meta-image-height': `${metadata.height}`,
+        'x-amz-meta-image-width': `${metadata.width}`,
+      },
+      ...uploadParams,
+    },
+  }).done();
     if (type === 'file') {
-      const head = await s3
-        .headObject({
-          Bucket: config.bucket,
-          Key: result.Key,
-        })
-        .promise();
+      const headObjectCommand = new HeadObjectCommand({
+        Bucket: config.bucket,
+        Key: urlJoin(config.folder as string, getFilename(fileData)),
+      });
+      const head = await s3.send(headObjectCommand);
       filesize = head.ContentLength || 0;
       return { filename, filesize };
     }
     return { id, ...metadata };
   } catch (error) {
     stream.destroy();
-    throw error;
-  }
-};
-
-const parseRef = (type: AssetType, ref: string) => {
-  if (type === 'image') return parseImageRef(ref);
-  return parseFileRef(ref);
-};
-
-export const getDataFromRef = async (
-  config: S3Config,
-  type: AssetType,
-  ref: string
-): Promise<Partial<ImageData | FileData>> => {
-  const fileRef = parseRef(type, ref);
-
-  if (!fileRef) {
-    throw new Error('Invalid image reference');
-  }
-
-  const fileData = {
-    type,
-    ...(fileRef.type === 'file'
-      ? {
-          filename: fileRef.filename,
-        }
-      : {
-          id: fileRef.id,
-          extension: fileRef.extension,
-        }),
-  };
-
-  const s3 = new AWS.S3(config.s3Options);
-  try {
-    const result = await s3
-      .headObject({
-        Bucket: config.bucket,
-        Key: urlJoin(config.folder || '', getFilename(fileData as S3DataType)),
-      })
-      .promise();
-    const { type, ...refData } = fileRef;
-    return {
-      ...refData,
-      ...(type === 'image'
-        ? {
-            height: Number(result.Metadata?.['x-amz-meta-image-height'] || 0),
-            width: Number(result.Metadata?.['x-amz-meta-image-width'] || 0),
-          }
-        : {}),
-      filesize: result.ContentLength || 0,
-    };
-  } catch (error) {
     throw error;
   }
 };

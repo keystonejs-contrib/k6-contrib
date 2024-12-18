@@ -4,6 +4,7 @@ import {
   CommonFieldConfig,
   ImageMetadata,
 } from '@keystone-6/core/types';
+import { PutObjectRequest, S3ClientConfig } from '@aws-sdk/client-s3';
 
 export type AssetMode = 's3';
 export type AssetType = 'file' | 'image';
@@ -39,8 +40,8 @@ export type S3Config = {
   transformFilename?: (str: string) => string;
   getFilename?: (args: GetFileNameFunc) => string;
   getUrl?: (config: S3Config, fileData: S3DataType) => string;
-  uploadParams?: (args: S3DataType) => Partial<AWS.S3.Types.PutObjectRequest>;
-  s3Options: AWS.S3.ClientConfiguration;
+  uploadParams?: (args: S3DataType) => Partial<PutObjectRequest>;
+  s3Options: S3ClientConfig;
 };
 
 export type S3FieldInputType =
