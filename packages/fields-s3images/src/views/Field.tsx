@@ -13,7 +13,6 @@ import { FieldContainer, FieldLabel } from '@keystone-ui/fields';
 import { Pill } from '@keystone-ui/pill';
 import { Button } from '@keystone-ui/button';
 import { FieldProps } from '@keystone-6/core/types';
-import { parseImageRef, parseImagesMetaRef } from '../lib/utils';
 import { ImageValue } from './index';
 
 function useObjectURL(fileData: File | undefined) {
@@ -112,30 +111,13 @@ export function Field({
   return (
     <FieldContainer as="fieldset">
       <FieldLabel as="legend">{field.label}</FieldLabel>
-      {value.kind === 'ref' ? (
-        <RefView
-          field={field}
-          onChange={ref => {
-            onChange?.({
-              kind: 'ref',
-              data: { ref },
-              previous: value.previous,
-            });
-          }}
-          error={forceValidation && errorMessage ? errorMessage : undefined}
-          onCancel={() => {
-            onChange?.(value.previous);
-          }}
-        />
-      ) : (
-        <ImgView
-          errorMessage={errorMessage}
-          value={value}
-          onChange={onChange}
-          field={field}
-          inputRef={inputRef}
-        />
-      )}
+      <ImgView
+        errorMessage={errorMessage}
+        value={value}
+        onChange={onChange}
+        field={field}
+        inputRef={inputRef}
+      />
       <input
         css={{ display: 'none' }}
         autoComplete="off"
@@ -227,9 +209,6 @@ function ImgView({
                   {`${value.data.id}.${value.data.extension}`}
                 </a>
               </Text>
-              <Button size="small" tone="passive" onClick={copyRef}>
-                Copy Ref
-              </Button>
             </Stack>
             <Text size="xsmall">{`${value.data.width} x ${value.data.height} (${bytes(
               value.data.filesize
@@ -246,22 +225,6 @@ function ImgView({
           >
             Change
           </Button>
-          {value.kind !== 'upload' ? (
-            <Button
-              size="small"
-              isDisabled={onChange === undefined}
-              tone="passive"
-              onClick={() => {
-                onChange?.({
-                  kind: 'ref',
-                  data: { ref: '' },
-                  previous: value,
-                });
-              }}
-            >
-              Paste Ref
-            </Button>
-          ) : null}
           {value.kind === 'from-server' && (
             <Button
               size="small"
@@ -313,22 +276,6 @@ function ImgView({
         >
           Upload Image
         </Button>
-        <Button
-          size="small"
-          tone="passive"
-          disabled={onChange === undefined}
-          onClick={() => {
-            onChange?.({
-              kind: 'ref',
-              data: {
-                ref: '',
-              },
-              previous: value,
-            });
-          }}
-        >
-          Paste Ref
-        </Button>
         {value.kind === 'remove' && value.previous && (
           <Button
             size="small"
@@ -354,17 +301,9 @@ function ImgView({
   );
 }
 
-export function validateRef({ ref }: { ref: string }) {
-  if (!parseImagesMetaRef(ref)) return;
-  if (!parseImageRef(ref)) return;
-  return 'Invalid ref';
-}
-
 function createErrorMessage(value: ImageValue, forceValidation?: boolean) {
   if (value.kind === 'upload') {
     return validateImage(value.data);
-  } else if (value.kind === 'ref') {
-    return forceValidation ? validateRef(value.data) : undefined;
   }
 }
 

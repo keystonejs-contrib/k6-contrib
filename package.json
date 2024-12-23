@@ -59,5 +59,15 @@
     "prettier": "^3.4.2",
     "rimraf": "^3.0.2",
     "typescript": "^5.7.2"
+  },
+  "resolutions": {
+    "@whatwg-node/server": "0.9.19",
+    "@whatwg-node/fetch": "0.9.14",
+    "@keystone-6/core": "npm:@k6js-next/core-next@0.0.0-20241215-01",
+    "@keystone-6/auth": "npm:@k6js-next/auth-next@0.0.0-20241215-01",
+    "@keystone-ui/models": "npm:@k6js-next/models@0.0.0-20241215-01",
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }

@@ -27,7 +27,6 @@ interface S3ImagesFieldOutput {
   height: Int!
   sizesMeta: JSON
   extension: S3ImagesExtension!
-  ref(size: S3ImagesSizeEnum! = md, meta: Boolean! = false): String!
   url(size: S3ImagesSizeEnum): String
   srcSet(sizes: [S3ImagesSizeEnum!]! = [sm, md, lg, full]): String
 }
@@ -60,7 +59,6 @@ type S3ImagesFieldOutputType implements S3ImagesFieldOutput {
   height: Int!
   sizesMeta: JSON
   extension: S3ImagesExtension!
-  ref(size: S3ImagesSizeEnum! = md, meta: Boolean! = false): String!
   url(size: S3ImagesSizeEnum): String
   srcSet(sizes: [S3ImagesSizeEnum!]! = [sm, md, lg, full]): String
 }
@@ -168,7 +166,6 @@ input PostUpdateInput {
 
 input S3ImagesFieldInput {
   upload: Upload
-  ref: String
 }
 
 """The `Upload` scalar type represents a file upload."""

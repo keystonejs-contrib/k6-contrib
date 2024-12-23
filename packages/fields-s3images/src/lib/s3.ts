@@ -18,18 +18,20 @@ export function merge<
 export function s3ImageAssetsAPI(storageConfig: S3ImagesConfig): ImageAdapter {
   const { generateUrl, s3, presign, s3Endpoint } = s3AssetsCommon(storageConfig);
   return {
-    async url(id, extension) {
+    async url(id, extension, size) {
       if (!storageConfig.signed) {
-        return generateUrl(`${s3Endpoint}${storageConfig.pathPrefix || ''}${id}.${extension}`);
+        return generateUrl(
+          `${s3Endpoint}${storageConfig.pathPrefix || ''}${id}_${size}.${extension}`
+        );
       }
-      return generateUrl(await presign(`${id}.${extension}`));
+      return generateUrl(await presign(`${id}_${size}.${extension}`));
     },
-    async upload(buffer, id, extension) {
+    async upload(buffer, id, extension, size, height, width) {
       const upload = new Upload({
         client: s3,
         params: {
           Bucket: storageConfig.bucketName,
-          Key: `${storageConfig.pathPrefix || ''}${id}.${extension}`,
+          Key: `${storageConfig.pathPrefix || ''}${id}_${size}.${extension}`,
           Body: buffer,
           ContentType: {
             png: 'image/png',
@@ -38,15 +40,27 @@ export function s3ImageAssetsAPI(storageConfig: S3ImagesConfig): ImageAdapter {
             jpg: 'image/jpeg',
           }[extension],
           ACL: storageConfig.acl,
+          Metadata: {
+            // 'x-amz-meta-original-filename': originalFilename, // disabled per github issue #25
+            'x-amz-meta-image-height': `${height}`,
+            'x-amz-meta-image-width': `${width}`,
+          },
         },
       });
       await upload.done();
     },
-    async delete(id, extension) {
-      await s3.deleteObject({
-        Bucket: storageConfig.bucketName,
-        Key: `${storageConfig.pathPrefix || ''}${id}.${extension}`,
-      });
+    async delete(id, extension, size) {
+      await s3
+        .deleteObject({
+          Bucket: storageConfig.bucketName,
+          Key: `${storageConfig.pathPrefix || ''}${id}_${size}.${extension}`,
+        })
+        .catch(err => {
+          console.log(err);
+          if (err.name !== 'NoSuchKey') {
+            throw err;
+          }
+        });
     },
   };
 }

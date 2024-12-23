@@ -7,7 +7,6 @@ import cuid from 'cuid';
 import sharp from 'sharp';
 import { KeystoneContext } from '@keystone-6/core/types';
 import { S3ImagesConfig, ImagesData, ImageSize } from './types';
-import { normalizeImageExtension, parseImageRef, parseImagesMetaRef } from './utils';
 
 function getFilename({ id, size, extension, sizesMeta }: ImagesData) {
   return `${id}_${size}.${extension}`;

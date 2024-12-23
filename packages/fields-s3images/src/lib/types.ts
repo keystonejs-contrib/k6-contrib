@@ -73,7 +73,7 @@ export type S3ImagesConfig = {
     | 'authenticated-read'
     | 'bucket-owner-read'
     | 'bucket-owner-full-control'
-  transformName?: (filename: string, extension: string, size: S3ImagesSizes) => string | Promise<string>;
+  transformName?: (filename: string, extension: string, size: ImageSize) => string | Promise<string>;
   /** default to os.tmpdir() */
   tmpdir?: string;
   /** define width, set value 0 to not generate that image, it will be same as next bigger size */
@@ -101,9 +101,9 @@ export type S3FieldConfig<ListTypeInfo extends BaseListTypeInfo> =
   export type ImageExtension = 'jpg' | 'png' | 'webp' | 'gif'
 
 export type ImageAdapter = {
-  upload(buffer: Buffer, id: string, extension: string): Promise<void>
-  delete(id: string, extension: ImageExtension): Promise<void>
-  url(id: string, extension: ImageExtension): Promise<string>
+  upload(buffer: Buffer, id: string, extension: string, size: ImageSize, height: number, width: number): Promise<void>
+  delete(id: string, extension: ImageExtension, size: ImageSize): Promise<void>
+  url(id: string, extension: ImageExtension, size: ImageSize): Promise<string>
 }
 
 export type MaybePromise<T> = T | Promise<T>
