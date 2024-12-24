@@ -9,7 +9,7 @@ import {
   FieldControllerConfig,
 } from '@keystone-6/core/types';
 import { FieldContainer, FieldLabel } from '@keystone-ui/fields';
-import { validateImage, validateRef, ImageWrapper } from './Field';
+import { validateImage, ImageWrapper } from './Field';
 
 export { Field } from './Field';
 
@@ -46,8 +46,7 @@ export const CardValue: CardValueComponent = ({ item, field }) => {
 };
 
 type ImageData = {
-  url: string;
-  ref: string;
+  src: string;
   height: number;
   width: number;
   filesize: number;
@@ -57,13 +56,6 @@ type ImageData = {
 
 export type ImageValue =
   | { kind: 'empty' }
-  | {
-      kind: 'ref';
-      data: {
-        ref: string;
-      };
-      previous: ImageValue;
-    }
   | {
       kind: 'from-server';
       data: ImageData;
@@ -85,10 +77,10 @@ export const controller = (config: FieldControllerConfig): ImageController => {
     ...config,
     path: config.path,
     label: config.label,
+    description: config.description,
     graphqlSelection: `${config.path} {
         url
         id
-        ref
         extension
         width
         height
@@ -101,7 +93,7 @@ export const controller = (config: FieldControllerConfig): ImageController => {
       return {
         kind: 'from-server',
         data: {
-          url: value.url,
+          src: value.url,
           id: value.id,
           extension: value.extension,
           ref: value.ref,
@@ -112,18 +104,13 @@ export const controller = (config: FieldControllerConfig): ImageController => {
       };
     },
     validate(value): boolean {
-      if (value.kind === 'ref') {
-        return validateRef(value.data) === undefined;
-      }
       return value.kind !== 'upload' || validateImage(value.data) === undefined;
     },
     serialize(value) {
       if (value.kind === 'upload') {
         return { [config.path]: { upload: value.data.file } };
       }
-      if (value.kind === 'ref') {
-        return { [config.path]: { ref: value.data.ref } };
-      }
+
       if (value.kind === 'remove') {
         return { [config.path]: null };
       }

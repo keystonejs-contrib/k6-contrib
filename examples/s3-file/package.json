@@ -11,15 +11,15 @@
   },
   "dependencies": {
     "@k6-contrib/fields-s3": "^6.0.0",
-    "@keystone-6/core": "^6.2.0",
-    "dotenv": "^16.0.0",
+    "@keystone-6/core": "^6.3.1",
+    "dotenv": "^16.4.7",
     "graphql": "^16.8.1",
     "graphql-upload": "^15.0.2",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.5.0"
+    "typescript": "^5.7.2"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/examples/s3-file"
 }

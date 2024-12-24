@@ -5,20 +5,15 @@ import { S3ImagesConfig, s3Images } from '@k6-contrib/fields-s3-images';
 import { allowAll } from '@keystone-6/core/access';
 
 const s3Config: S3ImagesConfig = {
-  bucket: process.env.S3_BUCKET as string,
-  folder: process.env.S3_PATH,
-  baseUrl: process.env.S3_BASE_URL,
-  s3Options: {
-    accessKeyId: process.env.S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-    endpoint: process.env.S3_ENDPOINT,
-    region: process.env.S3_REGION,
-  },
-  uploadParams() {
-    return {
-      ACL: 'public-read',
-    };
-  },
+  bucketName: process.env.S3_BUCKET as string,
+  pathPrefix: process.env.S3_PATH,
+  // baseUrl: process.env.S3_BASE_URL,
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  endpoint: process.env.S3_ENDPOINT,
+  region: process.env.S3_REGION!,
+  acl: 'public-read',
+  // preserve: true,
 };
 
 export const lists = {
@@ -34,27 +29,42 @@ export const lists = {
         ],
       }),
       content: text(),
-      image: s3Images({ s3Config }),
+      image: s3Images({
+        s3Config: {
+          ...s3Config,
+          pathPrefix: `${process.env.S3_PATH}/`,
+        },
+      }),
       image2: s3Images({
         s3Config: {
           ...s3Config,
-          folder: `${process.env.S3_PATH}2`,
-          sizes: { sm: 480, md: 1024, lg: 1920 },
+          pathPrefix: `${process.env.S3_PATH}2/`,
+          sizes: { sm: 480, md: 1024, lg: 1920, base64: 300 },
+          preserve: true,
+          signed: { expiry: 30 },
         },
       }),
       image3: s3Images({
         s3Config: {
           ...s3Config,
-          folder: `${process.env.S3_PATH}`,
+          pathPrefix: `${process.env.S3_PATH}3/`,
           sizes: { sm: 480, md: 1024, lg: 0 },
+          preserve: false,
+          transformName: async (filename, extension, size) => {
+            return `custom-${filename}.${extension}`;
+          },
         },
       }),
       image4: s3Images({
-        s3Config: { ...s3Config, folder: `${process.env.S3_PATH}`, sizes: { sm: 0, md: 0 } },
+        s3Config: { ...s3Config, pathPrefix: `${process.env.S3_PATH}4/`, sizes: { sm: 0, md: 0 } },
         ui: { itemView: { fieldMode: 'read' } },
       }),
       image5: s3Images({
-        s3Config: { ...s3Config, folder: `${process.env.S3_PATH}`, sizes: { md: 0, base64: 100 } },
+        s3Config: {
+          ...s3Config,
+          pathPrefix: `${process.env.S3_PATH}5/`,
+          sizes: { md: 0, base64: 100 },
+        },
         ui: { itemView: { fieldMode: 'read' } },
       }),
       publishDate: timestamp(),
