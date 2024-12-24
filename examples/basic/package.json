@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.26.0",
-    "@graphql-tools/schema": "^9.0.4",
+    "@graphql-tools/schema": "^9.0.19",
     "@k6-contrib/fields-encrypted": "^6.0.0",
     "@k6-contrib/list-plugins": "^6.0.0",
     "@keystone-6/auth": "^8.1.0",
@@ -22,7 +22,7 @@
     "@keystone-ui/icons": "^6.0.2",
     "@keystone-ui/tooltip": "^6.0.2",
     "@preconstruct/next": "^4.0.0",
-    "@types/react": "^19.0.1",
+    "@types/react": "^19.0.0",
     "dotenv": "^16.4.7",
     "graphql": "^16.8.1",
     "react": "^19.0.0",

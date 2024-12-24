@@ -37,14 +37,14 @@
   "peerDependencies": {
     "@keystone-6/core": "^6.3.1",
     "graphql-upload": "^15.0.2",
-    "react": "^18.3.0 || ^19.0.0",
-    "react-dom": "^18.3.0 || ^19.0.0"
+    "react": "^18.1.0 || ^19.0.0",
+    "react-dom": "^18.1.0 || ^19.0.0"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-azure",
   "devDependencies": {
     "@keystone-6/core": "^6.3.1",
     "@types/bytes": "^3.1.5",
-    "@types/react": "^19.0.1",
+    "@types/react": "^19.0.0",
     "graphql": "^16.8.1",
     "graphql-upload": "^15.0.2",
     "mime": "^3.0.0",

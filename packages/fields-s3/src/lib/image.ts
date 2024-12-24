@@ -9,7 +9,7 @@ import {
 import { graphql } from '@keystone-6/core';
 import { getImageRef, SUPPORTED_IMAGE_EXTENSIONS, isValidImageExtension } from './utils';
 import { ImageData, S3FieldConfig, S3FieldInputType, S3Config, S3DataType } from './types';
-import { getDataFromRef, getDataFromStream, getUrl } from './s3';
+import { getDataFromStream, getUrl } from './s3';
 
 const ImageExtensionEnum = graphql.enum({
   name: 'S3ImageExtension',
@@ -30,12 +30,6 @@ function createInputResolver(config: S3Config) {
       return { extension: data, filesize: data, height: data, id: data, width: data };
     }
 
-    if (data.ref) {
-      if (data.upload) {
-        throw new Error('Only one of ref and upload can be passed to ImageFieldInput');
-      }
-      return getDataFromRef(config, 'image', data.ref) as any;
-    }
     if (!data.upload) {
       throw new Error('Either ref or upload must be passed to ImageFieldInput');
     }

@@ -9,7 +9,7 @@ import {
 import { graphql } from '@keystone-6/core';
 import { getFileRef } from './utils';
 import { S3FieldConfig, S3FieldInputType, S3Config, S3DataType, FileData } from './types';
-import { getDataFromRef, getDataFromStream, getUrl } from './s3';
+import { getDataFromStream, getUrl } from './s3';
 
 const _fieldConfigs: { [key: string]: S3Config } = {};
 
@@ -58,12 +58,6 @@ function createInputResolver(config: S3Config) {
       return { filename: data, filesize: data };
     }
 
-    if (data.ref) {
-      if (data.upload) {
-        throw new Error('Only one of ref and upload can be passed to S3FileFieldInput');
-      }
-      return getDataFromRef(config, 'file', data.ref) as any;
-    }
     if (!data.upload) {
       throw new Error('Either ref or upload must be passed to FileFieldInput');
     }

@@ -25,13 +25,13 @@
   },
   "peerDependencies": {
     "@keystone-6/core": "^6.3.1",
-    "react": "^18.3.0 || ^19.0.0",
-    "react-dom": "^18.3.0 || ^19.0.0"
+    "react": "^18.1.0 || ^19.0.0",
+    "react-dom": "^18.1.0 || ^19.0.0"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-dimension",
   "devDependencies": {
     "@keystone-6/core": "^6.3.1",
-    "@types/react": "^19.0.1",
+    "@types/react": "^19.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   }
