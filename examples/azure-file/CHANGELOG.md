@@ -1,5 +1,11 @@
 # @k6-contrib/example-azure-file
 
+## 2.2.3
+
+### Patch Changes
+
+- Update packages
+
 ## 2.2.2
 
 ### Patch Changes

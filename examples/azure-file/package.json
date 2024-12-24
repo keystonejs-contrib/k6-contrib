@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/example-azure",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "private": true,
   "license": "MIT",
   "scripts": {

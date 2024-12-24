@@ -1,5 +1,11 @@
 # @k6-contrib/example-s3-file
 
+## 2.2.1
+
+### Patch Changes
+
+- Update packages
+
 ## 2.2.0
 
 ### Minor Changes

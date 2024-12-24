@@ -1,5 +1,13 @@
 # @k6-contrib/fields-s3-images
 
+## 6.2.0
+
+### Minor Changes
+
+- Update dependency react@19 and next@15
+- field-s3-images is now inline with K6 image field in config and display,
+- Major - fields-s3 is deprecated, fields-s3-images is now not using refs anymore.
+
 ## 6.1.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/example-basic",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -11,8 +11,8 @@
   "dependencies": {
     "@babel/runtime": "^7.26.0",
     "@graphql-tools/schema": "^9.0.19",
-    "@k6-contrib/fields-encrypted": "^6.0.0",
-    "@k6-contrib/list-plugins": "^6.0.0",
+    "@k6-contrib/fields-encrypted": "^6.2.0",
+    "@k6-contrib/list-plugins": "^6.2.0",
     "@keystone-6/auth": "^8.1.0",
     "@keystone-6/core": "^6.3.1",
     "@keystone-6/document-renderer": "^1.1.2",

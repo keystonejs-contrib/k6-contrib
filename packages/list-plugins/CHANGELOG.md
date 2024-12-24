@@ -1,5 +1,11 @@
 # @k6-contrib-next/list-plugins
 
+## 6.2.0
+
+### Minor Changes
+
+- Update dependency react@19 and next@15
+
 ## 6.1.0
 
 ### Minor Changes
