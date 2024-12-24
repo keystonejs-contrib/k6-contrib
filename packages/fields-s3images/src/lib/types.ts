@@ -74,8 +74,6 @@ export type S3ImagesConfig = {
     | 'bucket-owner-read'
     | 'bucket-owner-full-control'
   transformName?: (filename: string, extension: string, size: ImageSize) => string | Promise<string>;
-  /** default to os.tmpdir() */
-  tmpdir?: string;
   /** define width, set value 0 to not generate that image, it will be same as next bigger size */
   sizes?: S3ImagesSizes;
   defaultSize?: Exclude<ImageSize, 'base64'>;
