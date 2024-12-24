@@ -29,32 +29,40 @@ export const lists = {
         ],
       }),
       content: text(),
-      image: s3Images({ s3Config: {
-        ...s3Config,
-        pathPrefix: `${process.env.S3_PATH}/`,
-      } }),
+      image: s3Images({
+        s3Config: {
+          ...s3Config,
+          pathPrefix: `${process.env.S3_PATH}/`,
+        },
+      }),
       image2: s3Images({
         s3Config: {
           ...s3Config,
           pathPrefix: `${process.env.S3_PATH}2/`,
-          sizes: { sm: 480, md: 1024, lg: 1920 },
+          sizes: { sm: 480, md: 1024, lg: 1920, base64: 300 },
+          preserve: true,
+          signed: { expiry: 30 },
         },
       }),
       image3: s3Images({
         s3Config: {
           ...s3Config,
-          pathPrefix: `${process.env.S3_PATH}/`,
+          pathPrefix: `${process.env.S3_PATH}3/`,
           sizes: { sm: 480, md: 1024, lg: 0 },
+          preserve: false,
+          transformName: async (filename, extension, size) => {
+            return `custom-${filename}.${extension}`;
+          },
         },
       }),
       image4: s3Images({
-        s3Config: { ...s3Config, pathPrefix: `${process.env.S3_PATH}/`, sizes: { sm: 0, md: 0 } },
+        s3Config: { ...s3Config, pathPrefix: `${process.env.S3_PATH}4/`, sizes: { sm: 0, md: 0 } },
         ui: { itemView: { fieldMode: 'read' } },
       }),
       image5: s3Images({
         s3Config: {
           ...s3Config,
-          pathPrefix: `${process.env.S3_PATH}/`,
+          pathPrefix: `${process.env.S3_PATH}5/`,
           sizes: { md: 0, base64: 100 },
         },
         ui: { itemView: { fieldMode: 'read' } },

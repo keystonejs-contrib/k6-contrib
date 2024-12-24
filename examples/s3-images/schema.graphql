@@ -27,7 +27,7 @@ interface S3ImagesFieldOutput {
   height: Int!
   sizesMeta: JSON
   extension: S3ImagesExtension!
-  url(size: S3ImagesSizeEnum): String
+  url(size: S3ImagesSizeEnum = sm): String
   srcSet(sizes: [S3ImagesSizeEnum!]! = [sm, md, lg, full]): String
 }
 
@@ -59,7 +59,7 @@ type S3ImagesFieldOutputType implements S3ImagesFieldOutput {
   height: Int!
   sizesMeta: JSON
   extension: S3ImagesExtension!
-  url(size: S3ImagesSizeEnum): String
+  url(size: S3ImagesSizeEnum = sm): String
   srcSet(sizes: [S3ImagesSizeEnum!]! = [sm, md, lg, full]): String
 }
 
@@ -305,24 +305,25 @@ type KeystoneAdminMeta {
 
 type KeystoneAdminUIListMeta {
   key: String!
-  itemQueryName: String!
-  listQueryName: String!
-  hideCreate: Boolean!
-  hideDelete: Boolean!
   path: String!
   label: String!
   singular: String!
   plural: String!
   description: String
-  initialColumns: [String!]!
   pageSize: Int!
   labelField: String!
   fields: [KeystoneAdminUIFieldMeta!]!
   groups: [KeystoneAdminUIFieldGroupMeta!]!
   graphql: KeystoneAdminUIGraphQL!
+  initialColumns: [String!]!
+  initialSearchFields: [String!]!
   initialSort: KeystoneAdminUISort
-  isHidden: Boolean!
   isSingleton: Boolean!
+  hideCreate: Boolean!
+  hideDelete: Boolean!
+  isHidden: Boolean!
+  itemQueryName: String!
+  listQueryName: String!
 }
 
 type KeystoneAdminUIFieldMeta {
