@@ -222,7 +222,7 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
     resolve(data, args, context, info) {
       const { key, typename } = info.path.prev as Path;
       const adapter = imageAssetsAPIs.get(`${typename}-${key}`);
-      return adapter?.url(data.id, data.extension, args.size!);
+      return adapter?.url(data.id, data.extension, args.size!, data.sizesMeta!);
     },
   }),
   srcSet: graphql.field({
@@ -242,7 +242,10 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
       return (
         args.sizes
           // .map(size => `${getUrl(adapter, { ...data, size })} ${sizesMeta[size]?.width}w`)
-          .map(size => `${adapter?.url(data.id, data.extension, size)} ${sizesMeta[size]?.width}w`)
+          .map(
+            size =>
+              `${adapter?.url(data.id, data.extension, size, sizesMeta)} ${sizesMeta[size]?.width}w`
+          )
           .join(', ')
       );
     },

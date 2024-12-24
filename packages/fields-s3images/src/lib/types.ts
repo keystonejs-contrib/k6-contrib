@@ -103,7 +103,7 @@ export type S3FieldConfig<ListTypeInfo extends BaseListTypeInfo> =
 export type ImageAdapter = {
   upload(buffer: Buffer, id: string, extension: string, size: ImageSize, height: number, width: number): Promise<void>
   delete(id: string, extension: ImageExtension, size: ImageSize): Promise<void>
-  url(id: string, extension: ImageExtension, size: ImageSize): Promise<string>
+  url(id: string, extension: ImageExtension, size: ImageSize, sizesMeta: Partial<Record<ImageSize, ImagesData>>): Promise<string>
 }
 
 export type MaybePromise<T> = T | Promise<T>

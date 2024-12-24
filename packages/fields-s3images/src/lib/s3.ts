@@ -18,7 +18,10 @@ export function merge<
 export function s3ImageAssetsAPI(storageConfig: S3ImagesConfig): ImageAdapter {
   const { generateUrl, s3, presign, s3Endpoint } = s3AssetsCommon(storageConfig);
   return {
-    async url(id, extension, size) {
+    async url(id, extension, size, sizesMeta) {
+      if (size === 'base64') {
+        return sizesMeta.base64?.base64Data || '';
+      }
       if (!storageConfig.signed) {
         return generateUrl(
           `${s3Endpoint}${storageConfig.pathPrefix || ''}${id}_${size}.${extension}`
