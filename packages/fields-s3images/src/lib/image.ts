@@ -64,7 +64,6 @@ export async function getDataFromStream(
 
   const fileId = cuid();
   const id = (await transformName(originalFilename, extension, 'full')) || fileId;
-  console.log('id', id);
   const fileData: ImagesData = {
     id,
     height: metadata.height as number,
@@ -224,7 +223,6 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
       const { key, typename } = info.path.prev as Path;
       const adapter = imageAssetsAPIs.get(`${typename}-${key}`);
       return adapter?.url(data.id, data.extension, args.size!);
-      // return getUrl(adapter, { ...data, size: args.size! });
     },
   }),
   srcSet: graphql.field({

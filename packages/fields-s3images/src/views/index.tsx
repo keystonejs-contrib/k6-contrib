@@ -46,7 +46,7 @@ export const CardValue: CardValueComponent = ({ item, field }) => {
 };
 
 type ImageData = {
-  url: string;
+  src: string;
   height: number;
   width: number;
   filesize: number;
@@ -77,6 +77,7 @@ export const controller = (config: FieldControllerConfig): ImageController => {
     ...config,
     path: config.path,
     label: config.label,
+    description: config.description,
     graphqlSelection: `${config.path} {
         url
         id
@@ -92,9 +93,10 @@ export const controller = (config: FieldControllerConfig): ImageController => {
       return {
         kind: 'from-server',
         data: {
-          url: value.url,
+          src: value.url,
           id: value.id,
           extension: value.extension,
+          ref: value.ref,
           width: value.width,
           height: value.height,
           filesize: value.filesize,
@@ -108,6 +110,7 @@ export const controller = (config: FieldControllerConfig): ImageController => {
       if (value.kind === 'upload') {
         return { [config.path]: { upload: value.data.file } };
       }
+
       if (value.kind === 'remove') {
         return { [config.path]: null };
       }
