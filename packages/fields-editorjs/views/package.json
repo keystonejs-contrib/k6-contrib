@@ -1,0 +1,4 @@
+{
+  "main": "dist/fields-editorjs.cjs.js",
+  "module": "dist/fields-editorjs.esm.js"
+}

@@ -15,6 +15,7 @@ import { allowAll } from '@keystone-6/core/access';
 import { gql } from '@keystone-6/core/admin-ui/apollo';
 import { document } from '@keystone-6/fields-document';
 import { encrypted } from '@k6-contrib/fields-encrypted';
+import { editorJs } from '@k6-contrib/fields-editorjs';
 import { configureTracking } from '@k6-contrib/list-plugins';
 import { fields } from '@keystone-6/fields-document/component-blocks';
 
@@ -62,6 +63,9 @@ export const lists = {
         isFilterable: true,
         isOrderable: true,
       }),
+      editorJs: editorJs({tools: {
+        
+      }}),
       secret: encrypted({
         reverse: true,
         secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',
