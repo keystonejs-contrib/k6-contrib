@@ -7,13 +7,12 @@ import { allowAll } from '@keystone-6/core/access';
 const s3Config: S3ImagesConfig = {
   bucketName: process.env.S3_BUCKET as string,
   pathPrefix: process.env.S3_PATH,
-  // baseUrl: process.env.S3_BASE_URL,
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
   endpoint: process.env.S3_ENDPOINT,
   region: process.env.S3_REGION!,
   acl: 'public-read',
-  // preserve: true,
+  preserve: true,
 };
 
 export const lists = {

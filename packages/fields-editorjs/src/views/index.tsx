@@ -44,6 +44,7 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
         //     },
         //   },
         // },
+        ...field.tools,
       },
       onChange: () => {
         editor.save().then(data => {
@@ -94,13 +95,14 @@ type Config = FieldControllerConfig<{
 
 export const controller = (
   config: Config
-): FieldController<string, string> & { displayMode: 'input' | 'textarea' } => {
+): FieldController<string, string> & { displayMode: 'input' | 'textarea'; tools: any } => {
   return {
     path: config.path,
     label: config.label,
     description: config.description,
     graphqlSelection: config.path,
     defaultValue: '',
+    tools: config.customViews.tools || {},
     displayMode: config.fieldMeta.displayMode,
     deserialize: data => {
       const value = data[config.path];
@@ -176,3 +178,5 @@ export const controller = (
     },
   };
 };
+
+export const allowedExportsOnCustomViews = ['tools'];
