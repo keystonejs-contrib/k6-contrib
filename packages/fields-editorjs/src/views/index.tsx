@@ -1,9 +1,9 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 
-import { useEffect, useRef } from 'react';
-import { Box, jsx, Stack } from '@keystone-ui/core';
-import { FieldContainer, FieldLabel, TextArea, TextInput } from '@keystone-ui/fields';
+import { useEffect, useRef, useState } from 'react';
+import { Box, jsx } from '@keystone-ui/core';
+import { FieldContainer, FieldLabel, TextInput } from '@keystone-ui/fields';
 import {
   CardValueComponent,
   CellComponent,
@@ -18,6 +18,7 @@ import List from '@editorjs/list';
 
 export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof controller>) => {
   const editorRef = useRef<EditorJS | null>(null);
+  const [isFocused, setIsFocused] = useState(false);
   useEffect(() => {
     if (editorRef.current) return;
     const editor = new EditorJS({
@@ -35,15 +36,6 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
           class: List,
           inlineToolbar: true,
         },
-        // image: {
-        //   class: ImageTool,
-        //   config: {
-        //     endpoints: {
-        //       byFile: 'http://localhost:3000/images',
-        //       byUrl: 'http://localhost:3000/images',
-        //     },
-        //   },
-        // },
         ...field.tools,
       },
       onChange: () => {
@@ -54,13 +46,29 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
     });
     editorRef.current = editor;
   }, []);
+
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setIsFocused(false);
   return (
     <FieldContainer>
       <FieldLabel htmlFor={field.path}>
         <Box> {field.label}</Box>
       </FieldLabel>
       {onChange ? (
-        <div id={field.path}></div>
+        <div
+          id={field.path}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          tabIndex={0} // To make the div focusable
+          style={{
+            border: `1px solid ${isFocused ? '#3b82f6' : '#e1e5e9'}`,
+            borderRadius: '6px',
+            padding: '12px',
+            minHeight: '150px',
+            backgroundColor: `${isFocused ? '#fff' : '#fafbfc'}`,
+            boxShadow: `${isFocused ? '0 0 0 2px #bfdbfe' : ''}`,
+          }}
+        ></div>
       ) : (
         // <TextArea
         //   id={field.path}

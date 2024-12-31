@@ -3,6 +3,8 @@ import { statelessApiKeySessions } from '@k6-contrib/session';
 import { createAuth } from '@keystone-6/auth';
 
 import { lists, extendGraphqlSchema } from './schema';
+import uploadImageHandler from './api/uploadImage';
+import uploadFileHandler from './api/uploadFile';
 
 let sessionSecret = '-- DEV COOKIE SECRET; CHANGE ME --';
 let sessionMaxAge = 60 * 60 * 24 * 30; // 30 days
@@ -45,6 +47,13 @@ export default auth.withAuth(
       extendGraphqlSchema,
     },
     session: statelessApiKeySessions({ maxAge: sessionMaxAge, secret: sessionSecret }),
+    server: {
+      cors: { origin: '*', credentials: true },
+      extendExpressApp(app) {
+        app.use('/api/uploadImage', uploadImageHandler);
+        app.use('/api/uploadFile', uploadFileHandler);
+      },
+    },
     // TODO -- Create a separate example for stored/redis sessions
     // session: storedSessions({
     //   store: new Map(),
