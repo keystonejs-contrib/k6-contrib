@@ -38,20 +38,26 @@ export const logging =
   }: ListConfig<ListTypeInfo>): ListConfig<ListTypeInfo> => ({
     hooks: {
       ...hooks,
-      afterOperation: {
-        create: async (args: any) => {
-          await hooks.afterOperation?.create?.(args);
-          afterOperation(args, loggingFn);
-        },
-        update: async (args: any) => {
-          await hooks.afterOperation?.update?.(args);
-          afterOperation(args, loggingFn);
-        },
-        delete: async (args: any) => {
-          await hooks.afterOperation?.delete?.(args);
-          afterOperation(args, loggingFn);
-        },
-      },
+      afterOperation:
+        typeof hooks.afterOperation === 'function' 
+          ? async (args: any) => {
+              await hooks.afterOperation(args);
+              afterOperation(args, loggingFn);
+            }
+          : {
+              create: async (args: any) => {
+                await hooks.afterOperation?.create?.(args);
+                afterOperation(args, loggingFn);
+              },
+              update: async (args: any) => {
+                await hooks.afterOperation?.update?.(args);
+                afterOperation(args, loggingFn);
+              },
+              delete: async (args: any) => {
+                await hooks.afterOperation?.delete?.(args);
+                afterOperation(args, loggingFn);
+              },
+            },
 
       // TODO Disabled until this is supported again
       //@ts-ignore
