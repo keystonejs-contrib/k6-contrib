@@ -85,8 +85,16 @@ export const byTracking =
         return resolvedData;
       };
 
+      const originalResolveInput = listConfig.hooks?.resolveInput;
       const originalCreateHook = listConfig.hooks?.resolveInput?.create;
       const originalUpdateHook = listConfig.hooks?.resolveInput?.update;
+      const resolveInput =
+        typeof originalResolveInput === 'function'
+          ? composeHook(originalResolveInput, newResolveInput)
+          : {
+              create: composeHook(originalCreateHook, newResolveInput),
+              update: composeHook(originalUpdateHook, newResolveInput),
+            };
 
       return {
         ...listConfig,
@@ -96,10 +104,7 @@ export const byTracking =
         },
         hooks: {
           ...listConfig.hooks,
-          resolveInput: {
-            create: composeHook(originalCreateHook, newResolveInput),
-            update: composeHook(originalUpdateHook, newResolveInput),
-          },
+          resolveInput,
         },
       };
     };
