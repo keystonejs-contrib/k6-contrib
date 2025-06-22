@@ -7,13 +7,13 @@
   "main": "dist/session.cjs.js",
   "module": "dist/session.esm.js",
   "dependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/runtime": "^7.26.0",
-    "@hapi/iron": "^7.0.0",
+    "@babel/core": "^7.27.4",
+    "@babel/runtime": "^7.27.6",
+    "@hapi/iron": "^7.0.1",
     "cookie": "^0.6.0"
   },
   "devDependencies": {
-    "@keystone-6/core": "^6.3.1"
+    "@keystone-6/core": "^6.5.1"
   },
-  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/session"
+  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/main/packages/session"
 }

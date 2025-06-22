@@ -10,11 +10,11 @@
   "dependencies": {
     "@k6-contrib/list-plugins": "^6.2.0",
     "@keystone-6/auth": "^8.1.0",
-    "@keystone-6/core": "^6.3.1",
+    "@keystone-6/core": "^6.5.1",
     "@keystone-6/fields-document": "^9.1.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "typescript": "^5.7.2"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "^5.8.3"
   },
-  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/examples/with-tracking"
+  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/main/examples/with-tracking"
 }

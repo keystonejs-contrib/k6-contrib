@@ -7,7 +7,7 @@
   "module": "dist/fields-bigint.esm.js",
   "deprecated": true,
   "dependencies": {
-    "@babel/runtime": "^7.26.0",
+    "@babel/runtime": "^7.27.6",
     "@keystone-ui/core": "^5.0.2",
     "@keystone-ui/fields": "^7.2.0"
   },
@@ -17,10 +17,10 @@
     "react-dom": "^18.1.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@keystone-6/core": "^6.3.1",
+    "@keystone-6/core": "^6.5.1",
     "@types/react": "^19.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "preconstruct": {
     "entrypoints": [
@@ -28,5 +28,5 @@
       "views/index.tsx"
     ]
   },
-  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/master/packages/fields-bigint"
+  "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/main/packages/fields-bigint"
 }
