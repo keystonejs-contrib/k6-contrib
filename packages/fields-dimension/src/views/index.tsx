@@ -1,52 +1,19 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-
-import { jsx } from '@keystone-ui/core';
-import {
-  CardValueComponent,
-  CellComponent,
-  FieldController,
-  FieldControllerConfig,
-} from '@keystone-6/core/types';
-import { FieldContainer, FieldLabel } from '@keystone-ui/fields';
+import { CellComponent, FieldController, FieldControllerConfig } from '@keystone-6/core/types';
 
 export { Field } from './Field';
 
 export const Cell: CellComponent = ({ item, field }) => {
-  const data = item[field.path];
+  const data = item[field.path] as DimensionData | null;
   if (!data) return null;
   const { unit, length, width, height } = data;
   return (
-    <div
-      css={{
-        alignItems: 'center',
-        display: 'flex',
-        height: 24,
-        lineHeight: 0,
-        width: 24,
-      }}
-    >
+    <div style={{ alignItems: 'center', display: 'flex', height: 24, lineHeight: 0, width: 24 }}>
       {`${length}x${width}x${height}${unit.toUpperCase()}`}
     </div>
   );
 };
 
-export const CardValue: CardValueComponent = ({ item, field }) => {
-  const { unit, length, width, height } = item[field.path];
-  return (
-    <FieldContainer>
-      <FieldLabel>{field.label}</FieldLabel>
-      <div>{`${length}x${width}x${height}${unit.toUpperCase()}`}</div>
-    </FieldContainer>
-  );
-};
-
-type DimensionData = {
-  unit: string;
-  length: string;
-  width: string;
-  height: string;
-};
+type DimensionData = { unit: string; length: string; width: string; height: string };
 
 export type DimensionValue = DimensionData | null;
 
@@ -80,6 +47,7 @@ export const controller = (config: Config): DimensionController => {
     displayMode: config.fieldMeta.displayMode,
     units: optionsWithStringValues,
     defaultUnit: config.fieldMeta.defaultUnit,
+    description: config.description || null,
     deserialize(item) {
       const value = item[config.path];
       if (value) {

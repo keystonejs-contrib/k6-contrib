@@ -18,10 +18,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.27.6",
-    "@keystone-ui/core": "^5.0.2",
-    "@keystone-ui/fields": "^7.2.0",
-    "@keystone-ui/pill": "^7.0.2",
-    "@keystone-ui/segmented-control": "^7.0.3"
+    "@keystar/ui": "^0.7.19"
   },
   "peerDependencies": {
     "@keystone-6/core": "^6.3.1",
