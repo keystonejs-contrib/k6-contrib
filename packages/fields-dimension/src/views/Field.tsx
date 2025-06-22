@@ -5,7 +5,6 @@ import { type FieldProps as FT1, FieldPrimitive } from '@keystar/ui/field';
 import { HStack, VStack } from '@keystar/ui/layout';
 import { css, tokenSchema } from '@keystar/ui/style';
 
-import { FieldLabel } from '@keystar/ui/field';
 import { ActionGroup, Item } from '@keystar/ui/action-group';
 
 import { FieldProps } from '@keystone-6/core/types';

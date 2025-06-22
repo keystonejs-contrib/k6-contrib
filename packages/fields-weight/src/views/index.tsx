@@ -1,50 +1,19 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-
-import { jsx } from '@keystone-ui/core';
-import {
-  CardValueComponent,
-  CellComponent,
-  FieldController,
-  FieldControllerConfig,
-} from '@keystone-6/core/types';
-import { FieldContainer, FieldLabel } from '@keystone-ui/fields';
+import { CellComponent, FieldController, FieldControllerConfig } from '@keystone-6/core/types';
 
 export { Field } from './Field';
 
 export const Cell: CellComponent = ({ item, field }) => {
-  const data: WeightData = item[field.path];
+  const data = item[field.path] as WeightData | null;
   if (!data) return null;
   const { unit, value } = data;
   return (
-    <div
-      css={{
-        alignItems: 'center',
-        display: 'flex',
-        height: 24,
-        lineHeight: 0,
-        width: 24,
-      }}
-    >
-      {`${value}${unit.toUpperCase()}`}
+    <div style={{ alignItems: 'center', display: 'flex', height: 24, lineHeight: 0, width: 24 }}>
+      {`${value}${unit ? unit.toUpperCase() : ''}`}
     </div>
   );
 };
 
-export const CardValue: CardValueComponent = ({ item, field }) => {
-  const { unit, value } = item[field.path];
-  return (
-    <FieldContainer>
-      <FieldLabel>{field.label}</FieldLabel>
-      <div>{`${value}${unit.toUpperCase()}`}</div>
-    </FieldContainer>
-  );
-};
-
-type WeightData = {
-  unit: string;
-  value: string;
-};
+type WeightData = { unit: string; value: string };
 
 export type WeightValue = null | WeightData;
 
@@ -76,6 +45,7 @@ export const controller = (config: Config): WeightController => {
     displayMode: config.fieldMeta.displayMode,
     units: optionsWithStringValues,
     defaultUnit: config.fieldMeta.defaultUnit,
+    description: config.description || null,
     deserialize(item) {
       const weight = item[config.path];
       if (weight) {
@@ -96,12 +66,7 @@ export const controller = (config: Config): WeightController => {
       if (!weight) return { [config.path]: null };
       const { unit, value } = weight;
       if (!unit && isNaN(parseFloat(value))) return null;
-      return {
-        [config.path]: {
-          unit,
-          value: parseFloat(value),
-        },
-      };
+      return { [config.path]: { unit, value: parseFloat(value) } };
     },
   };
 };
