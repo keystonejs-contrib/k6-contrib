@@ -1,15 +1,16 @@
 import Cryptr from 'cryptr';
 
 import {
+  BaseFieldTypeInfo,
   BaseListTypeInfo,
   CommonFieldConfig,
   fieldType,
   FieldTypeFunc,
 } from '@keystone-6/core/types';
-import { graphql } from '@keystone-6/core';
+import { g } from '@keystone-6/core';
 
 export type EncryptedFieldConfig<ListTypeInfo extends BaseListTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> & {
+  CommonFieldConfig<ListTypeInfo, BaseFieldTypeInfo> & {
     isIndexed?: boolean;
     secret: string;
     reverse?: boolean;
@@ -43,7 +44,7 @@ export const encrypted =
         }
       };
 
-      const fieldLabel = config.label ?? meta.fieldKey;
+      const fieldLabel = config.ui?.label ?? meta.fieldKey;
       return fieldType({
         kind: 'scalar',
         mode: 'optional',
@@ -75,11 +76,11 @@ export const encrypted =
           },
         },
         input: {
-          create: { arg: graphql.arg({ type: graphql.String }), resolve: inputResolver },
-          update: { arg: graphql.arg({ type: graphql.String }), resolve: inputResolver },
+          create: { arg: g.arg({ type: g.String }), resolve: inputResolver },
+          update: { arg: g.arg({ type: g.String }), resolve: inputResolver },
         },
-        output: graphql.field({
-          type: graphql.String,
+        output: g.field({
+          type: g.String,
           resolve: ({ value }) => {
             if (reverse && value) {
               try {
