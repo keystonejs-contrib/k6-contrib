@@ -1,24 +1,14 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-
-import { jsx } from '@keystone-ui/core';
-import {
-  CardValueComponent,
-  CellComponent,
-  FieldController,
-  FieldControllerConfig,
-} from '@keystone-6/core/types';
-import { FieldContainer, FieldLabel } from '@keystone-ui/fields';
-import { validateImage, ImageWrapper } from './Field';
+import { CellComponent, FieldController, FieldControllerConfig } from '@keystone-6/core/types';
 
 export { Field } from './Field';
 
-export const Cell: CellComponent = ({ item, field }) => {
-  const data = item[field.path];
-  if (!data) return null;
+import { validateImage } from './Field';
+
+export const Cell: CellComponent<typeof controller> = ({ value }) => {
+  if (!value) return null;
   return (
     <div
-      css={{
+      style={{
         alignItems: 'center',
         display: 'flex',
         height: 24,
@@ -26,39 +16,23 @@ export const Cell: CellComponent = ({ item, field }) => {
         width: 24,
       }}
     >
-      <img alt={data.filename} css={{ maxHeight: '100%', maxWidth: '100%' }} src={data.url} />
+      <img style={{ maxHeight: '100%', maxWidth: '100%' }} src={value.url} alt={value.filename} />
     </div>
   );
-};
-
-export const CardValue: CardValueComponent = ({ item, field }) => {
-  const data = item[field.path];
-  return (
-    <FieldContainer>
-      <FieldLabel>{field.label}</FieldLabel>
-      {data && (
-        <ImageWrapper>
-          <img css={{ width: '100%' }} alt={data.filename} src={data.url} />
-        </ImageWrapper>
-      )}
-    </FieldContainer>
-  );
-};
-
-type ImageData = {
-  src: string;
-  height: number;
-  width: number;
-  filesize: number;
-  extension: string;
-  id: string;
 };
 
 export type ImageValue =
   | { kind: 'empty' }
   | {
       kind: 'from-server';
-      data: ImageData;
+      data: {
+        id: string;
+        url: string;
+        extension: string;
+        filesize: number;
+        width: number;
+        height: number;
+      };
     }
   | {
       kind: 'upload';
@@ -79,38 +53,38 @@ export const controller = (config: FieldControllerConfig): ImageController => {
     label: config.label,
     description: config.description,
     graphqlSelection: `${config.path} {
-        url
-        id
-        extension
-        width
-        height
-        filesize
-      }`,
+      id
+      url
+      extension
+      filesize
+      width
+      height
+      #sizesMeta
+    }`,
     defaultValue: { kind: 'empty' },
-    deserialize(item) {
+    deserialize(item): ImageValue {
       const value = item[config.path];
       if (!value) return { kind: 'empty' };
+      console.log('Deserializing image value', value);
       return {
         kind: 'from-server',
         data: {
-          src: value.url,
           id: value.id,
+          url: value.url,
           extension: value.extension,
-          ref: value.ref,
+          filesize: value.filesize,
           width: value.width,
           height: value.height,
-          filesize: value.filesize,
         },
       };
     },
-    validate(value): boolean {
+    validate(value: ImageValue): boolean {
       return value.kind !== 'upload' || validateImage(value.data) === undefined;
     },
-    serialize(value) {
+    serialize(value: ImageValue) {
       if (value.kind === 'upload') {
         return { [config.path]: { upload: value.data.file } };
       }
-
       if (value.kind === 'remove') {
         return { [config.path]: null };
       }

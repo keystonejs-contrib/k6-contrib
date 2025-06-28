@@ -2,20 +2,29 @@ import { FileUpload } from 'graphql-upload';
 import {
   BaseListTypeInfo,
   CommonFieldConfig,
-  ImageMetadata,
   KeystoneContext,
 } from '@keystone-6/core/types';
+import type { GArg, GInputObjectType, InferValueFromArg, InferValueFromInputType } from '@graphql-ts/schema'
+import { GraphQLScalarType } from 'graphql';
 
 export type AssetMode = 's3';
 export type AssetType = 'image';
+
+type ImageMetadata = {
+  width: number;
+  height: number;
+  extension: "jpg" | "png" | "webp" | "gif";
+};
 
 export type ImageSize = 'base64' | 'sm' | 'md' | 'lg' | 'full';
 
 export type ImagesData = {
   id: string;
   size: ImageSize;
-  sizesMeta?: Partial<Record<ImageSize, ImagesData>>;
+  sizesMeta?: Partial<Record<ImageSize, Omit<ImagesData, 'url'>>>;
   base64Data?: string;
+  filesize: number
+  url: (_args: {}, context: KeystoneContext) => Promise<string>
 } & ImageMetadata;
 
 export type GetFileNameArg = {
@@ -83,25 +92,43 @@ export type S3ImagesConfig = {
   // s3Options: S3ClientConfig;
 };
 
+type ImageFieldInput = GInputObjectType<{
+    upload: GArg<GraphQLScalarType<Promise<FileUpload>, {}>, false>;
+}, false>
+export type FieldTypeInfo = {
+  item: undefined
+  inputs: {
+    create: InferValueFromInputType<ImageFieldInput> | null | undefined
+    update: InferValueFromInputType<ImageFieldInput> | null | undefined
+    where: undefined
+    uniqueWhere: undefined
+    orderBy: undefined
+  }
+  prisma: {
+    create: undefined
+    update: undefined
+  }
+}
+
 export type S3FieldInputType =
   | undefined
   | null
   | { upload?: Promise<FileUpload> | null; ref?: string | null };
 
 export type S3FieldConfig<ListTypeInfo extends BaseListTypeInfo> =
-  CommonFieldConfig<ListTypeInfo> & {
+  CommonFieldConfig<ListTypeInfo, FieldTypeInfo> & {
     s3Config: S3ImagesConfig;
     db?: {
       extendPrismaSchema?: (field: string) => string
     }
   };
 
-  export type ImageExtension = 'jpg' | 'png' | 'webp' | 'gif'
+export type ImageExtension = 'jpg' | 'png' | 'webp' | 'gif'
 
 export type ImageAdapter = {
   upload(buffer: Buffer, id: string, extension: string, size: ImageSize, height: number, width: number): Promise<void>
   delete(id: string, extension: ImageExtension, size: ImageSize): Promise<void>
-  url(id: string, extension: ImageExtension, size: ImageSize, sizesMeta: Partial<Record<ImageSize, ImagesData>>): Promise<string>
+  url(id: string, extension: ImageExtension, size: ImageSize, sizesMeta: Partial<Record<ImageSize, Omit<ImagesData, 'url'>>>): Promise<string>
 }
 
 export type MaybePromise<T> = T | Promise<T>
