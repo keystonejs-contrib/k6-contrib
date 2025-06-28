@@ -12,29 +12,33 @@ generator client {
 }
 
 model Product {
-  id                       String    @id @default(cuid())
-  title                    String    @default("")
-  status                   String?
-  description              String    @default("")
-  dimension_unit           String?
-  dimension_length         Float?
-  dimension_width          Float?
-  dimension_height         Float?
-  dimensionRequired_unit   String?
-  dimensionRequired_length Float?
-  dimensionRequired_width  Float?
-  dimensionRequired_height Float?
-  packageDimension_unit    String?
-  packageDimension_length  Float?
-  packageDimension_width   Float?
-  packageDimension_height  Float?
-  weight_unit              String?
-  weight_value             Float?
-  weightRequired_unit      String?
-  weightRequired_value     Float?
-  publishDate              DateTime?
-  author                   Author?   @relation("Product_author", fields: [authorId], references: [id])
-  authorId                 String?   @map("author")
+  id                          String    @id @default(cuid())
+  title                       String    @default("")
+  status                      String?
+  description                 String    @default("")
+  dimension_unit              String?
+  dimension_length            Float?
+  dimension_width             Float?
+  dimension_height            Float?
+  dimensionRequired_unit      String?
+  dimensionRequired_length    Float?
+  dimensionRequired_width     Float?
+  dimensionRequired_height    Float?
+  packageDimension_unit       String?
+  packageDimension_length     Float?
+  packageDimension_width      Float?
+  packageDimension_height     Float?
+  weight_unit                 String?
+  weight_value                Float?
+  weightRequired_unit         String?
+  weightRequired_value        Float?
+  weightSegment_unit          String?
+  weightSegment_value         Float?
+  weightSegmentRequired_unit  String?
+  weightSegmentRequired_value Float?
+  publishDate                 DateTime?
+  author                      Author?   @relation("Product_author", fields: [authorId], references: [id])
+  authorId                    String?   @map("author")
 
   @@index([authorId])
 }
