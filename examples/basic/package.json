@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/example-basic",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -11,8 +11,8 @@
   "dependencies": {
     "@babel/runtime": "^7.27.6",
     "@graphql-tools/schema": "^9.0.19",
-    "@k6-contrib/fields-encrypted": "^6.2.0",
-    "@k6-contrib/list-plugins": "^6.2.0",
+    "@k6-contrib/fields-encrypted": "^7.0.0",
+    "@k6-contrib/list-plugins": "^7.0.0",
     "@keystone-6/auth": "^8.1.0",
     "@keystone-6/core": "^6.5.1",
     "@keystone-6/document-renderer": "^1.1.2",
@@ -22,7 +22,7 @@
     "@keystone-ui/icons": "^6.0.2",
     "@keystone-ui/tooltip": "^6.0.2",
     "@preconstruct/next": "^4.0.0",
-    "@types/react": "^19.0.0",
+    "@types/react": "^19.1.0",
     "dotenv": "^16.5.0",
     "graphql": "^16.8.1",
     "react": "^19.1.0",

@@ -1,5 +1,11 @@
 # @k6-contrib/fields-weight
 
+## 7.0.0
+
+### Major Changes
+
+- Upgraded design to match keystone upcoming design
+
 ## 6.2.0
 
 ### Minor Changes

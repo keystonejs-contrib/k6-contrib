@@ -4227,8 +4227,8 @@ __metadata:
   dependencies:
     "@babel/runtime": "npm:^7.27.6"
     "@graphql-tools/schema": "npm:^9.0.19"
-    "@k6-contrib/fields-encrypted": "npm:^6.2.0"
-    "@k6-contrib/list-plugins": "npm:^6.2.0"
+    "@k6-contrib/fields-encrypted": "npm:^7.0.0"
+    "@k6-contrib/list-plugins": "npm:^7.0.0"
     "@keystone-6/auth": "npm:^8.1.0"
     "@keystone-6/core": "npm:^6.5.1"
     "@keystone-6/document-renderer": "npm:^1.1.2"
@@ -4238,7 +4238,7 @@ __metadata:
     "@keystone-ui/icons": "npm:^6.0.2"
     "@keystone-ui/tooltip": "npm:^6.0.2"
     "@preconstruct/next": "npm:^4.0.0"
-    "@types/react": "npm:^19.0.0"
+    "@types/react": "npm:^19.1.0"
     dotenv: "npm:^16.5.0"
     graphql: "npm:^16.8.1"
     react: "npm:^19.1.0"
@@ -4251,8 +4251,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@k6-contrib/example-dimension@workspace:examples/dimension"
   dependencies:
-    "@k6-contrib/fields-dimension": "npm:^6.2.0"
-    "@k6-contrib/fields-weight": "npm:^6.2.0"
+    "@k6-contrib/fields-dimension": "npm:^7.0.0"
+    "@k6-contrib/fields-weight": "npm:^7.0.0"
     "@keystone-6/core": "npm:^6.5.1"
     dotenv: "npm:^16.5.0"
     react: "npm:^19.1.0"
@@ -4265,7 +4265,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@k6-contrib/example-s3-images@workspace:examples/s3-images"
   dependencies:
-    "@k6-contrib/fields-s3-images": "npm:^6.2.0"
+    "@k6-contrib/fields-s3-images": "npm:^7.0.0"
     "@keystone-6/core": "npm:^6.5.1"
     dotenv: "npm:^16.5.0"
     graphql: "npm:^16.8.1"
@@ -4295,7 +4295,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@k6-contrib/example-with-tracking@workspace:examples/with-tracking"
   dependencies:
-    "@k6-contrib/list-plugins": "npm:^6.2.0"
+    "@k6-contrib/list-plugins": "npm:^7.0.0"
     "@keystone-6/auth": "npm:^8.1.0"
     "@keystone-6/core": "npm:^6.5.1"
     "@keystone-6/fields-document": "npm:^9.1.1"
@@ -4319,7 +4319,7 @@ __metadata:
     "@keystone-ui/toast": "npm:^6.0.2"
     "@sindresorhus/slugify": "npm:^1.1.2"
     "@types/bytes": "npm:^3.1.5"
-    "@types/react": "npm:^19.0.0"
+    "@types/react": "npm:^19.1.0"
     bytes: "npm:^3.1.2"
     copy-to-clipboard: "npm:^3.3.3"
     cuid: "npm:^2.1.8"
@@ -4348,7 +4348,7 @@ __metadata:
     "@keystone-6/core": "npm:^6.5.1"
     "@keystone-ui/core": "npm:^5.0.2"
     "@keystone-ui/fields": "npm:^7.2.0"
-    "@types/react": "npm:^19.0.0"
+    "@types/react": "npm:^19.1.0"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
   peerDependencies:
@@ -4358,48 +4358,44 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@k6-contrib/fields-dimension@npm:^6.2.0, @k6-contrib/fields-dimension@workspace:packages/fields-dimension":
+"@k6-contrib/fields-dimension@npm:^7.0.0, @k6-contrib/fields-dimension@workspace:packages/fields-dimension":
   version: 0.0.0-use.local
   resolution: "@k6-contrib/fields-dimension@workspace:packages/fields-dimension"
   dependencies:
     "@babel/runtime": "npm:^7.27.6"
-    "@keystar/ui": "npm:^0.7.19"
+    "@keystar/ui": "npm:0.7.19"
     "@keystone-6/core": "npm:^6.5.1"
-    "@types/react": "npm:^19.0.0"
+    "@types/react": "npm:^19.1.0"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
   peerDependencies:
-    "@keystone-6/core": ^6.3.1
-    react: ^18.1.0 || ^19.0.0
-    react-dom: ^18.1.0 || ^19.0.0
+    "@keystone-6/core": ^6.5.1
+    react: ^19.1.0
+    react-dom: ^19.1.0
   languageName: unknown
   linkType: soft
 
-"@k6-contrib/fields-encrypted@npm:^6.2.0, @k6-contrib/fields-encrypted@workspace:packages/fields-encrypted":
+"@k6-contrib/fields-encrypted@npm:^7.0.0, @k6-contrib/fields-encrypted@workspace:packages/fields-encrypted":
   version: 0.0.0-use.local
   resolution: "@k6-contrib/fields-encrypted@workspace:packages/fields-encrypted"
   dependencies:
     "@babel/runtime": "npm:^7.27.6"
+    "@keystar/ui": "npm:0.7.19"
     "@keystone-6/core": "npm:^6.5.1"
-    "@keystone-ui/button": "npm:^7.0.2"
-    "@keystone-ui/core": "npm:^5.0.2"
-    "@keystone-ui/fields": "npm:^7.2.0"
-    "@keystone-ui/icons": "npm:^6.0.2"
-    "@keystone-ui/tooltip": "npm:^6.0.2"
     "@types/cryptr": "npm:^4.0.3"
-    "@types/react": "npm:^19.0.0"
+    "@types/react": "npm:^19.1.0"
     copy-to-clipboard: "npm:^3.3.3"
     cryptr: "npm:^6.3.0"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
   peerDependencies:
-    "@keystone-6/core": ^6.3.1
-    react: ^18.1.0 || ^19.0.0
-    react-dom: ^18.1.0 || ^19.0.0
+    "@keystone-6/core": ^6.5.1
+    react: ^19.1.0
+    react-dom: ^19.1.0
   languageName: unknown
   linkType: soft
 
-"@k6-contrib/fields-s3-images@npm:^6.2.0, @k6-contrib/fields-s3-images@workspace:packages/fields-s3images":
+"@k6-contrib/fields-s3-images@npm:^7.0.0, @k6-contrib/fields-s3-images@workspace:packages/fields-s3images":
   version: 0.0.0-use.local
   resolution: "@k6-contrib/fields-s3-images@workspace:packages/fields-s3images"
   dependencies:
@@ -4407,14 +4403,11 @@ __metadata:
     "@aws-sdk/lib-storage": "npm:^3.832.0"
     "@aws-sdk/s3-request-presigner": "npm:^3.832.0"
     "@babel/runtime": "npm:^7.27.6"
+    "@keystar/ui": "npm:0.7.19"
     "@keystone-6/core": "npm:^6.5.1"
-    "@keystone-ui/button": "npm:^7.0.2"
-    "@keystone-ui/core": "npm:^5.0.2"
-    "@keystone-ui/fields": "npm:^7.2.0"
-    "@keystone-ui/pill": "npm:^7.0.2"
-    "@keystone-ui/toast": "npm:^6.0.2"
+    "@react-aria/i18n": "npm:^3.12.1"
     "@types/bytes": "npm:^3.1.5"
-    "@types/react": "npm:^19.0.0"
+    "@types/react": "npm:^19.1.0"
     "@types/sharp": "npm:^0.32.0"
     "@types/url-join": "npm:^4.0.3"
     bytes: "npm:^3.1.2"
@@ -4429,10 +4422,10 @@ __metadata:
     sharp: "npm:^0.34.2"
     url-join: "npm:^4.0.1"
   peerDependencies:
-    "@keystone-6/core": ^6.3.1
+    "@keystone-6/core": ^6.5.1
     graphql-upload: ^15.0.2
-    react: ^18.1.0 || ^19.0.0
-    react-dom: ^18.1.0 || ^19.0.0
+    react: ^19.1.0
+    react-dom: ^19.1.0
   languageName: unknown
   linkType: soft
 
@@ -4451,7 +4444,7 @@ __metadata:
     "@keystone-ui/toast": "npm:^6.0.2"
     "@sindresorhus/slugify": "npm:^1.1.2"
     "@types/bytes": "npm:^3.1.5"
-    "@types/react": "npm:^19.0.0"
+    "@types/react": "npm:^19.1.0"
     bytes: "npm:^3.1.2"
     copy-to-clipboard: "npm:^3.3.3"
     cuid: "npm:^2.1.8"
@@ -4473,34 +4466,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@k6-contrib/fields-weight@npm:^6.2.0, @k6-contrib/fields-weight@workspace:packages/fields-weight":
+"@k6-contrib/fields-weight@npm:^7.0.0, @k6-contrib/fields-weight@workspace:packages/fields-weight":
   version: 0.0.0-use.local
   resolution: "@k6-contrib/fields-weight@workspace:packages/fields-weight"
   dependencies:
     "@babel/runtime": "npm:^7.27.6"
+    "@keystar/ui": "npm:0.7.19"
     "@keystone-6/core": "npm:^6.5.1"
-    "@keystone-ui/button": "npm:^7.0.2"
-    "@keystone-ui/core": "npm:^5.0.2"
-    "@keystone-ui/fields": "npm:^7.2.0"
-    "@keystone-ui/pill": "npm:^7.0.2"
-    "@keystone-ui/segmented-control": "npm:^7.0.3"
-    "@keystone-ui/toast": "npm:^6.0.2"
-    "@sindresorhus/slugify": "npm:^1.1.2"
     "@types/bytes": "npm:^3.1.5"
-    "@types/react": "npm:^19.0.0"
-    copy-to-clipboard: "npm:^3.3.3"
-    cuid: "npm:^2.1.8"
+    "@types/react": "npm:^19.1.0"
     graphql: "npm:^16.8.1"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
   peerDependencies:
-    "@keystone-6/core": ^6.3.1
-    react: ^18.1.0 || ^19.0.0
-    react-dom: ^18.1.0 || ^19.0.0
+    "@keystone-6/core": ^6.5.1
+    react: ^19.1.0
+    react-dom: ^19.1.0
   languageName: unknown
   linkType: soft
 
-"@k6-contrib/list-plugins@npm:^6.2.0, @k6-contrib/list-plugins@workspace:packages/list-plugins":
+"@k6-contrib/list-plugins@npm:^7.0.0, @k6-contrib/list-plugins@workspace:packages/list-plugins":
   version: 0.0.0-use.local
   resolution: "@k6-contrib/list-plugins@workspace:packages/list-plugins"
   dependencies:
@@ -4864,18 +4849,6 @@ __metadata:
     react: ^18.1.0
     react-dom: ^18.1.0
   checksum: 10c0/d68426eed1912b8b216e67b9dbdf86e2e34d021316c181c6b9f441f3c888cf28a301c56389c63503161f38439933a34acb656b8d03b9f709689407b1b884f9ac
-  languageName: node
-  linkType: hard
-
-"@keystone-ui/segmented-control@npm:^7.0.3":
-  version: 7.0.3
-  resolution: "@keystone-ui/segmented-control@npm:7.0.3"
-  dependencies:
-    "@babel/runtime": "npm:^7.16.3"
-    "@keystone-ui/core": "npm:^5.0.2"
-  peerDependencies:
-    react: ^18.2.0
-  checksum: 10c0/29377356986eec0c5af5d53870378222ae0dc0897ace0606d37135a0cfa8bd949e952e42bdbb83ea981946c36b7b189faa6089f26004d6b337eeb03b391c9b4d
   languageName: node
   linkType: hard
 
@@ -7941,16 +7914,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^19.0.0":
-  version: 19.0.2
-  resolution: "@types/react@npm:19.0.2"
-  dependencies:
-    csstype: "npm:^3.0.2"
-  checksum: 10c0/8992f39701fcf1bf893ef8f94a56196445667baf08fe4f6050a14e229a17aad3265ad3efc01595ff3b4d5d5c69da885f9aa4ff80f164a613018734efcff1eb8f
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^19.0.8":
+"@types/react@npm:^19.0.8, @types/react@npm:^19.1.0":
   version: 19.1.8
   resolution: "@types/react@npm:19.1.8"
   dependencies:

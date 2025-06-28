@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@keystone-6/core": "^6.5.1",
-    "@types/react": "^19.0.0",
+    "@types/react": "^19.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

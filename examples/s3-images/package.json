@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/example-s3-images",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -10,7 +10,7 @@
     "build": "keystone build"
   },
   "dependencies": {
-    "@k6-contrib/fields-s3-images": "^6.2.0",
+    "@k6-contrib/fields-s3-images": "^7.0.0",
     "@keystone-6/core": "^6.5.1",
     "dotenv": "^16.5.0",
     "graphql": "^16.8.1",

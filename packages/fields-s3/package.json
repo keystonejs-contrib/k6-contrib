@@ -47,7 +47,7 @@
   "devDependencies": {
     "@keystone-6/core": "^6.5.1",
     "@types/bytes": "^3.1.5",
-    "@types/react": "^19.0.0",
+    "@types/react": "^19.1.0",
     "graphql": "^16.8.1",
     "graphql-upload": "^15.0.2",
     "mime": "^3.0.0",

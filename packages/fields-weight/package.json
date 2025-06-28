@@ -1,7 +1,7 @@
 {
   "name": "@k6-contrib/fields-weight",
   "description": "Keystone 6 Weight Field Type",
-  "version": "6.2.0",
+  "version": "7.0.0",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "main": "dist/fields-weight.cjs.js",
@@ -18,26 +18,18 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.27.6",
-    "@keystone-ui/button": "^7.0.2",
-    "@keystone-ui/core": "^5.0.2",
-    "@keystone-ui/fields": "^7.2.0",
-    "@keystone-ui/pill": "^7.0.2",
-    "@keystone-ui/segmented-control": "^7.0.3",
-    "@keystone-ui/toast": "^6.0.2",
-    "@sindresorhus/slugify": "^1.1.2",
-    "copy-to-clipboard": "^3.3.3",
-    "cuid": "^2.1.8"
+    "@keystar/ui": "0.7.19"
   },
   "peerDependencies": {
-    "@keystone-6/core": "^6.3.1",
-    "react": "^18.1.0 || ^19.0.0",
-    "react-dom": "^18.1.0 || ^19.0.0"
+    "@keystone-6/core": "^6.5.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/main/packages/fields-weight",
   "devDependencies": {
     "@keystone-6/core": "^6.5.1",
     "@types/bytes": "^3.1.5",
-    "@types/react": "^19.0.0",
+    "@types/react": "^19.1.0",
     "graphql": "^16.8.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

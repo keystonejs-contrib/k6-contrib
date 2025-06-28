@@ -1,6 +1,6 @@
 {
   "name": "@k6-contrib/example-dimension",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -10,8 +10,8 @@
     "build": "keystone build"
   },
   "dependencies": {
-    "@k6-contrib/fields-dimension": "^6.2.0",
-    "@k6-contrib/fields-weight": "^6.2.0",
+    "@k6-contrib/fields-dimension": "^7.0.0",
+    "@k6-contrib/fields-weight": "^7.0.0",
     "@keystone-6/core": "^6.5.1",
     "dotenv": "^16.5.0",
     "react": "^19.1.0",

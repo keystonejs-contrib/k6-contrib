@@ -1,7 +1,7 @@
 {
   "name": "@k6-contrib/fields-dimension",
   "description": "Keystone 6 Dimension Field Type",
-  "version": "6.2.0",
+  "version": "7.0.0",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "main": "dist/fields-dimension.cjs.js",
@@ -18,17 +18,17 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.27.6",
-    "@keystar/ui": "^0.7.19"
+    "@keystar/ui": "0.7.19"
   },
   "peerDependencies": {
-    "@keystone-6/core": "^6.3.1",
-    "react": "^18.1.0 || ^19.0.0",
-    "react-dom": "^18.1.0 || ^19.0.0"
+    "@keystone-6/core": "^6.5.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "repository": "https://github.com/keystonejs-contrib/k6-contrib/tree/main/packages/fields-dimension",
   "devDependencies": {
     "@keystone-6/core": "^6.5.1",
-    "@types/react": "^19.0.0",
+    "@types/react": "^19.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   }
