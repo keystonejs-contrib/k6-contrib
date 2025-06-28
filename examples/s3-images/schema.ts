@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { list } from '@keystone-6/core';
-import { select, relationship, text, timestamp } from '@keystone-6/core/fields';
+import { select, relationship, text, timestamp, image } from '@keystone-6/core/fields';
 import { S3ImagesConfig, s3Images } from '@k6-contrib/fields-s3-images';
 import { allowAll } from '@keystone-6/core/access';
 

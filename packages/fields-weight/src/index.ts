@@ -57,7 +57,6 @@ export const weight =
   <ListTypeInfo extends BaseListTypeInfo>({
     validation,
     units = [],
-    displayMode = 'select',
     defaultUnit = 'g',
     ...config
   }: WeightFieldConfig<ListTypeInfo> = {}): FieldTypeFunc<ListTypeInfo> =>
@@ -65,7 +64,7 @@ export const weight =
       if ((config as any).isUnique) {
         throw Error('isUnique is not a supported option for field type weight');
       }
-
+      const displayMode = config.ui?.displayMode ?? 'select';
       const fieldLabel = config.label ?? meta.fieldKey;
       return fieldType({
         kind: 'multi',

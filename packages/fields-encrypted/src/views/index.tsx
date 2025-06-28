@@ -1,120 +1,83 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
 import copy from 'copy-to-clipboard';
-import { Tooltip } from '@keystone-ui/tooltip';
 import { useState } from 'react';
-import { ClipboardIcon } from '@keystone-ui/icons/icons/ClipboardIcon';
-import { EyeIcon } from '@keystone-ui/icons/icons/EyeIcon';
-import { PlusIcon } from '@keystone-ui/icons/icons/PlusIcon';
-import { MinusIcon } from '@keystone-ui/icons/icons/MinusIcon';
-import { EyeOffIcon } from '@keystone-ui/icons/icons/EyeOffIcon';
-import { Button } from '@keystone-ui/button';
-
-import { Box, jsx, Stack } from '@keystone-ui/core';
-import { FieldContainer, FieldLabel, TextArea, TextInput } from '@keystone-ui/fields';
+import { TextField, TextArea } from '@keystar/ui/text-field';
+import { ActionButton } from '@keystar/ui/button';
+import { VStack, HStack, Box } from '@keystar/ui/layout';
+import { Icon } from '@keystar/ui/icon';
+import { eyeIcon } from '@keystar/ui/icon/icons/eyeIcon';
+import { eyeOffIcon } from '@keystar/ui/icon/icons/eyeOffIcon';
+import { clipboardIcon } from '@keystar/ui/icon/icons/clipboardIcon';
+import { plusIcon } from '@keystar/ui/icon/icons/plusIcon';
+import { minusIcon } from '@keystar/ui/icon/icons/minusIcon';
 import {
-  CardValueComponent,
   CellComponent,
   FieldController,
   FieldControllerConfig,
   FieldProps,
 } from '@keystone-6/core/types';
-import { CellContainer, CellLink } from '@keystone-6/core/admin-ui/components';
 
 export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof controller>) => {
   const [reveal, setReveal] = useState(false);
   const [expand, setExpand] = useState(field.displayMode === 'textarea');
   return (
-    <FieldContainer>
-      <FieldLabel htmlFor={field.path}>
-        <Stack
-          css={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}
+    <VStack gap="small">
+      <HStack alignItems="center" gap="small">
+        <Box>{field.label}</Box>
+        <ActionButton
+          aria-label={expand ? 'Collapse' : 'Expand'}
+          onPress={() => setExpand(!expand)}
+          prominence="low"
         >
-          <Box> {field.label}</Box>
-          <Tooltip content="Copy ID">
-            {props => (
-              <Box css={{ cursor: 'pointer' }} onClick={() => setExpand(!expand)}>
-                {expand ? <MinusIcon size="small" /> : <PlusIcon size="small" />}
-              </Box>
-            )}
-          </Tooltip>
-        </Stack>
-      </FieldLabel>
-      <Stack
-        css={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          '& :first-child': { flex: '1 1 auto' },
-        }}
-      >
+          <Icon src={expand ? minusIcon : plusIcon} />
+        </ActionButton>
+      </HStack>
+      <HStack gap="small" alignItems="center">
         {onChange ? (
           expand ? (
             <TextArea
               id={field.path}
               autoFocus={autoFocus}
-              onChange={event => onChange(event.target.value)}
+              onChange={onChange}
               value={value}
+              width={'100%'}
             />
           ) : (
-            <TextInput
+            <TextField
               id={field.path}
               type={reveal ? 'text' : 'password'}
               autoFocus={autoFocus}
-              onChange={event => onChange(event.target.value)}
+              onChange={onChange}
               value={value}
+              width={'100%'}
             />
           )
         ) : (
           value
         )}
-        {!expand ? (
-          <Tooltip content="Copy ID">
-            {props => (
-              <Stack css={{ display: 'flex', flexDirection: 'row' }}>
-                <Button
-                  {...props}
-                  aria-label="Copy ID"
-                  onClick={() => {
-                    setReveal(!reveal);
-                  }}
-                >
-                  {reveal ? <EyeOffIcon size="small" /> : <EyeIcon size="small" />}
-                </Button>
-                <Button
-                  {...props}
-                  aria-label="Copy ID"
-                  onClick={() => {
-                    copy(value);
-                  }}
-                >
-                  <ClipboardIcon size="small" />
-                </Button>
-              </Stack>
-            )}
-          </Tooltip>
-        ) : null}
-      </Stack>
-    </FieldContainer>
+        {!expand && (
+          <HStack gap="small">
+            <ActionButton
+              aria-label={reveal ? 'Hide' : 'Show'}
+              onPress={() => setReveal(!reveal)}
+            >
+              <Icon src={reveal ? eyeOffIcon : eyeIcon} />
+            </ActionButton>
+            <ActionButton
+              aria-label="Copy"
+              onPress={() => copy(value)}
+            >
+              <Icon src={clipboardIcon} />
+            </ActionButton>
+          </HStack>
+        )}
+      </HStack>
+    </VStack>
   );
 };
 
-export const Cell: CellComponent = ({ item, field, linkTo }) => {
+export const Cell: CellComponent = ({ item, field }) => {
   let value = item[field.path] + '';
-  return linkTo ? <CellLink {...linkTo}>{value}</CellLink> : <CellContainer>{value}</CellContainer>;
-};
-Cell.supportsLinkTo = true;
-
-export const CardValue: CardValueComponent = ({ item, field }) => {
-  return (
-    <FieldContainer>
-      <FieldLabel>{field.label}</FieldLabel>
-      {item[field.path]}
-    </FieldContainer>
-  );
+  return <Box>{value}</Box>;
 };
 
 type Config = FieldControllerConfig<{
@@ -141,9 +104,9 @@ export const controller = (
     filter: {
       Filter(props) {
         return (
-          <TextInput
-            onChange={event => {
-              props.onChange(event.target.value);
+          <TextField
+            onChange={text => {
+              props.onChange(text);
             }}
             value={props.value}
             autoFocus={props.autoFocus}
@@ -172,38 +135,14 @@ export const controller = (
         return `${label.toLowerCase()}: "${value}"`;
       },
       types: {
-        contains_i: {
-          label: 'Contains',
-          initialValue: '',
-        },
-        not_contains_i: {
-          label: 'Does not contain',
-          initialValue: '',
-        },
-        is_i: {
-          label: 'Is exactly',
-          initialValue: '',
-        },
-        not_i: {
-          label: 'Is not exactly',
-          initialValue: '',
-        },
-        starts_with_i: {
-          label: 'Starts with',
-          initialValue: '',
-        },
-        not_starts_with_i: {
-          label: 'Does not start with',
-          initialValue: '',
-        },
-        ends_with_i: {
-          label: 'Ends with',
-          initialValue: '',
-        },
-        not_ends_with_i: {
-          label: 'Does not end with',
-          initialValue: '',
-        },
+        contains_i: { label: 'Contains', initialValue: '' },
+        not_contains_i: { label: 'Does not contain', initialValue: '' },
+        is_i: { label: 'Is exactly', initialValue: '' },
+        not_i: { label: 'Is not exactly', initialValue: '' },
+        starts_with_i: { label: 'Starts with', initialValue: '' },
+        not_starts_with_i: { label: 'Does not start with', initialValue: '' },
+        ends_with_i: { label: 'Ends with', initialValue: '' },
+        not_ends_with_i: { label: 'Does not end with', initialValue: '' },
       },
     },
   };

@@ -1,16 +1,13 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-
-import { Fragment } from 'react';
-
-import { jsx, Stack } from '@keystone-ui/core';
-import { TextInput } from '@keystone-ui/fields';
-
-import { FieldContainer, FieldLabel, Select } from '@keystone-ui/fields';
-import { SegmentedControl } from '@keystone-ui/segmented-control';
-
-import { Pill } from '@keystone-ui/pill';
+import { useMemo, useState } from 'react';
+import { TextField } from '@keystar/ui/text-field';
+import { type FieldProps as FT1, FieldPrimitive } from '@keystar/ui/field';
+import { HStack, VStack } from '@keystar/ui/layout';
+import { css, tokenSchema } from '@keystar/ui/style';
+import { ActionGroup, Item } from '@keystar/ui/action-group';
+import { Picker } from '@keystar/ui/picker';
 import { FieldProps } from '@keystone-6/core/types';
+import { NullableFieldWrapper } from '@keystone-6/core/admin-ui/components';
+
 import { WeightValue } from './index';
 
 export function Field({
@@ -18,90 +15,101 @@ export function Field({
   field,
   value,
   forceValidation,
+  isRequired,
   onChange,
-}: FieldProps<typeof import('.').controller>) {
+}: FieldProps<typeof import('./index').controller>) {
+  const [preNullValue, setPreNullValue] = useState(value);
   const errorMessage = createErrorMessage(value);
   const error = forceValidation && errorMessage ? errorMessage : undefined;
-
   const handleChange = (path: string, data: string | undefined) => {
-    let updatedValue = {
-      ...value,
-      [path]: data,
-    } as WeightValue;
+    let updatedValue = { ...value, [path]: data } as WeightValue;
     //return null if all values are cleared
-    if (
-      !updatedValue?.unit &&
-      isNaN(parseFloat(updatedValue?.value as string))
-    ) {
+    if (!updatedValue?.unit && isNaN(parseFloat(updatedValue?.value as string))) {
       updatedValue = null;
     }
     onChange?.(updatedValue);
   };
+  const longestLabelLength = useMemo(() => {
+    return field.units.reduce((a, item) => Math.max(a, item.label.length), 0);
+  }, [field.units]);
+  const isNullable = !isRequired;
+  const isNull = isNullable && value === null;
+  const isReadOnly = onChange == null;
+  const onNullChange = (isChecked: boolean) => {
+    if (!onChange) return;
+    if (isChecked) {
+      setPreNullValue(value);
+      onChange(null);
+    } else {
+      onChange(preNullValue ?? { unit: field.defaultUnit ?? '', value: '' });
+    }
+  };
   return (
-    <FieldContainer as="fieldset">
-      <FieldLabel as="legend">{field.label}</FieldLabel>
-      <Fragment>
-        <Stack
-          gap="small"
-          across
-          css={{
-            width: '100%',
-            justifyContent: 'space-between',
-            '&>div:nth-of-type(2)': {
-              flex: '1',
-            },
-          }}
-        >
-          <TextInput
-            id={`${field.path}--value`}
-            autoFocus
-            placeholder="Weight Value"
-            onChange={event =>
-              handleChange('value', event.target.value.replace(/[^\d\.,\s-]/g, ''))
-            }
-            value={value?.value || ''}
-          />
-          {field.displayMode === 'select' ? (
-            <Fragment>
-              {/* <FieldLabel htmlFor={field.path}>Unit</FieldLabel> */}
-              <Select
-                id={field.path}
-                isClearable
-                autoFocus={autoFocus}
-                options={field.units}
-                isDisabled={onChange === undefined}
-                defaultValue={field.units.find(u => u.value === field.defaultUnit)}
-                onChange={option => {
-                  handleChange('unit', option?.value);
-                }}
-                value={field.units.find(u => value?.unit == u.value) || null}
-                portalMenu
-              />
-            </Fragment>
-          ) : (
-            <Fragment>
-              {/* <FieldLabel as="legend">{field.label}</FieldLabel> */}
-              <SegmentedControl
-                segments={field.units.map(x => x.label)}
-                selectedIndex={
-                  value
-                    ? field.units.findIndex(x => x.value === value.unit)
-                    : field.units.findIndex(x => x.value === field.defaultUnit)
-                }
-                onChange={index => {
-                  handleChange('unit', field.units[index].value);
-                }}
-              />
-            </Fragment>
+    <NullableFieldWrapper
+      isAllowed={onchange !== undefined}
+      autoFocus={isNull && autoFocus}
+      label={field.label}
+      isReadOnly={isReadOnly}
+      isNull={isNull}
+      onChange={onNullChange}
+    >
+      <FieldPrimitive label={field.label} description={field.description} errorMessage={error}>
+        <VStack gap="xsmall">
+          {field.displayMode === 'segmented-control' && (
+            <ActionGroup
+              density="compact"
+              disallowEmptySelection
+              isDisabled={isNull}
+              overflowMode="collapse"
+              selectionMode="single"
+              items={field.units}
+              onSelectionChange={selection => {
+                if (selection === 'all') return;
+                const next = selection.values().next().value;
+                if (!next) return;
+                handleChange('unit', next as string);
+              }}
+              selectedKeys={value?.unit ? [value.unit] : []}
+            >
+              {item => <Item key={item.value}>{item.label}</Item>}
+            </ActionGroup>
           )}
-          {error ? (
-            <Pill weight="light" tone="negative">
-              {error}
-            </Pill>
-          ) : null}
-        </Stack>
-      </Fragment>
-    </FieldContainer>
+          <HStack
+            gap="small"
+            className={css({ width: '100%', justifyContent: 'stretch', '&>div': { flex: '1' } })}
+          >
+            {field.displayMode === 'select' && (
+              <Picker
+                isDisabled={isNull}
+                isReadOnly={isReadOnly}
+                isRequired={isRequired}
+                items={field.units}
+                onSelectionChange={value => handleChange('unit', value as string)}
+                selectedKey={value?.unit}
+                flex={{ mobile: true, desktop: 'initial' }}
+                UNSAFE_style={{
+                  fontSize: tokenSchema.typography.text.regular.size,
+                  width: `clamp(${tokenSchema.size.alias.singleLineWidth}, calc(${longestLabelLength}ex + ${tokenSchema.size.icon.regular}), 100%)`,
+                }}
+              >
+                {item => <Item key={item.value}>{item.label}</Item>}
+              </Picker>
+            )}
+            <TextField
+              id={`${field.path}--value`}
+              autoFocus={autoFocus}
+              isDisabled={isNull}
+              isReadOnly={isReadOnly}
+              isRequired={isRequired}
+              placeholder="Weight Value"
+              onChange={value => handleChange('value', value.replace(/[^\d\.,\s-]/g, ''))}
+              value={value?.value || ''}
+              UNSAFE_style={{ width: '100%' }}
+            />
+          </HStack>
+        </VStack>
+      </FieldPrimitive>
+    </NullableFieldWrapper>
   );
 }
 

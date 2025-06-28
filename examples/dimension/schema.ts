@@ -23,6 +23,8 @@ export const lists = {
       packageDimension: dimension({ ui: { displayMode: 'segmented-control' } }),
       weight: weight(),
       weightRequired: weight({ validation: { isRequired: true } }),
+      weightSegment: weight({ ui: { displayMode: 'segmented-control' } }),
+      weightSegmentRequired: weight({ validation: { isRequired: true }, ui: { displayMode: 'segmented-control' } }),
       publishDate: timestamp(),
       author: relationship({ ref: 'Author.products', many: false }),
     },

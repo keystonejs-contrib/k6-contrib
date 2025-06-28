@@ -9,7 +9,7 @@ import {
   FieldTypeFunc,
   KeystoneContext,
 } from '@keystone-6/core/types';
-import { graphql } from '@keystone-6/core';
+import { g } from '@keystone-6/core';
 import {
   isValidImageExtension,
   normalizeImageExtension,
@@ -17,6 +17,7 @@ import {
 } from './utils';
 import {
   ImageAdapter,
+  ImageExtension,
   ImagesData,
   ImageSize,
   S3FieldConfig,
@@ -28,15 +29,15 @@ import { merge, s3ImageAssetsAPI } from './s3';
 import sharp from 'sharp';
 import cuid from 'cuid';
 
-const ImageExtensionEnum = graphql.enum({
+const ImageExtensionEnum = g.enum({
   name: 'S3ImagesExtension',
-  values: graphql.enumValues(SUPPORTED_IMAGE_EXTENSIONS),
+  values: g.enumValues(SUPPORTED_IMAGE_EXTENSIONS),
 });
 
-const S3FieldInput = graphql.inputObject({
+const S3FieldInput = g.inputObject({
   name: 'S3ImagesFieldInput',
   fields: {
-    upload: graphql.arg({ type: graphql.Upload }),
+    upload: g.arg({ type: g.Upload }),
   },
 });
 
@@ -49,7 +50,7 @@ export async function getDataFromStream(
   adapter: ImageAdapter,
   upload: FileUpload,
   context: KeystoneContext
-): Promise<Omit<ImagesData, 'size'>> {
+): Promise<Omit<ImagesData, 'size' | 'url'>> {
   const { createReadStream, filename: originalFilename, mimetype } = upload;
 
   const extension = normalizeImageExtension(
@@ -64,7 +65,7 @@ export async function getDataFromStream(
 
   const fileId = cuid();
   const id = (await transformName(originalFilename, extension, 'full')) || fileId;
-  const fileData: ImagesData = {
+  const fileData: Omit<ImagesData, 'url'> = {
     id,
     height: metadata.height as number,
     width: metadata.width as number,
@@ -87,7 +88,7 @@ export async function getDataFromStream(
   if (sm) {
     // upload sm image
     const smFile = await imagePipeline.clone().resize(sm).toBuffer({ resolveWithObject: true });
-    const smFileData: ImagesData = {
+    const smFileData: Omit<ImagesData, 'url'> = {
       id,
       height: smFile.info.height,
       width: smFile.info.width,
@@ -111,7 +112,7 @@ export async function getDataFromStream(
   const md = config.sizes?.md ?? 720;
   if (md) {
     const mdFile = await imagePipeline.clone().resize(md).toBuffer({ resolveWithObject: true });
-    const mdFileData: ImagesData = {
+    const mdFileData: Omit<ImagesData, 'url'> = {
       id,
       height: mdFile.info.height,
       width: mdFile.info.width,
@@ -135,7 +136,7 @@ export async function getDataFromStream(
   // upload lg image
   if (lg) {
     const lgFile = await imagePipeline.clone().resize(lg).toBuffer({ resolveWithObject: true });
-    const lgFileData: ImagesData = {
+    const lgFileData: Omit<ImagesData, 'url'> = {
       id,
       height: lgFile.info.height,
       width: lgFile.info.width,
@@ -160,7 +161,7 @@ export async function getDataFromStream(
       .resize(config.sizes.base64)
       .toBuffer({ resolveWithObject: true });
 
-    const base64Data: ImagesData = {
+    const base64Data: Omit<ImagesData, 'url'> = {
       id,
       height: base64.info.height,
       width: base64.info.width,
@@ -194,27 +195,27 @@ function createInputResolver(config: S3ImagesConfig, adapter: ImageAdapter) {
 
 const imageAssetsAPIs = new Map<string, ImageAdapter>();
 
-const imageSizeEnum = graphql.enum({
+const imageSizeEnum = g.enum({
   name: 'S3ImagesSizeEnum',
-  values: graphql.enumValues(['base64', 'sm', 'md', 'lg', 'full']),
+  values: g.enumValues(['base64', 'sm', 'md', 'lg', 'full']),
 });
 
-const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
-  id: graphql.field({ type: graphql.nonNull(graphql.ID) }),
-  filesize: graphql.field({ type: graphql.nonNull(graphql.Int) }),
-  width: graphql.field({ type: graphql.nonNull(graphql.Int) }),
-  height: graphql.field({ type: graphql.nonNull(graphql.Int) }),
-  sizesMeta: graphql.field({
-    type: graphql.JSON,
+const imagesOutputFields = g.fields<Omit<ImagesData, 'size'>>()({
+  id: g.field({ type: g.nonNull(g.ID) }),
+  filesize: g.field({ type: g.nonNull(g.Int) }),
+  width: g.field({ type: g.nonNull(g.Int) }),
+  height: g.field({ type: g.nonNull(g.Int) }),
+  sizesMeta: g.field({
+    type: g.JSON,
     resolve(data) {
-      return data.sizesMeta; // TODO type
+      return data.sizesMeta as any; // TODO type
     },
   }),
-  extension: graphql.field({ type: graphql.nonNull(ImageExtensionEnum) }),
-  url: graphql.field({
-    type: graphql.String,
+  extension: g.field({ type: g.nonNull(ImageExtensionEnum) }),
+  url: g.field({
+    type: g.String,
     args: {
-      size: graphql.arg({
+      size: g.arg({
         type: imageSizeEnum,
         defaultValue: 'sm',
       }),
@@ -225,11 +226,11 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
       return adapter?.url(data.id, data.extension, args.size!, data.sizesMeta!);
     },
   }),
-  srcSet: graphql.field({
-    type: graphql.String,
+  srcSet: g.field({
+    type: g.String,
     args: {
-      sizes: graphql.arg({
-        type: graphql.nonNull(graphql.list(graphql.nonNull(imageSizeEnum))),
+      sizes: g.arg({
+        type: g.nonNull(g.list(g.nonNull(imageSizeEnum))),
         defaultValue: ['sm', 'md', 'lg', 'full'],
       }),
     },
@@ -252,15 +253,15 @@ const imagesOutputFields = graphql.fields<Omit<ImagesData, 'size'>>()({
   }),
 });
 
-const inputArg = graphql.arg({ type: S3FieldInput });
+const inputArg = g.arg({ type: S3FieldInput });
 
-const S3ImagesFieldOutput = graphql.interface<Omit<ImagesData, 'size'>>()({
+const S3ImagesFieldOutput = g.interface<Omit<ImagesData, 'size'>>()({
   name: 'S3ImagesFieldOutput',
   fields: imagesOutputFields,
   resolveType: () => 'S3ImagesFieldOutputType',
 });
 
-const S3ImagesFieldOutputType = graphql.object<Omit<ImagesData, 'size'>>()({
+const S3ImagesFieldOutputType = g.object<Omit<ImagesData, 'size'>>()({
   name: 'S3ImagesFieldOutputType',
   interfaces: [S3ImagesFieldOutput],
   fields: imagesOutputFields,
@@ -338,7 +339,7 @@ export const s3Images =
           isValidImageExtension(extension)
         ) {
           for (const size of ['sm', 'md', 'lg', 'full']) {
-            await adapter.delete(id, extension, size as ImageSize);
+            await adapter.delete(id, extension as ImageExtension, size as ImageSize);
           }
         }
       }
@@ -362,7 +363,9 @@ export const s3Images =
             ...config.hooks,
             beforeOperation: {
               ...config.hooks?.beforeOperation,
+              // @ts-expect-error
               update: merge(config.hooks?.beforeOperation?.update, beforeOperationResolver),
+              // @ts-expect-error
               delete: merge(config.hooks?.beforeOperation?.delete, beforeOperationResolver),
             },
           },
@@ -378,7 +381,7 @@ export const s3Images =
           resolve: createInputResolver(s3Config as S3ImagesConfig, adapter),
         },
       },
-      output: graphql.field({
+      output: g.field({
         type: S3ImagesFieldOutput,
         resolve({ value: { extension, filesize, height, width, id, sizesMeta } }) {
           if (
@@ -392,12 +395,14 @@ export const s3Images =
             return null;
           }
           return {
-            extension,
+            extension: extension as ImageExtension,
             filesize,
             height,
             width,
             id,
             sizesMeta: sizesMeta as Partial<Record<ImageSize, ImagesData>>,
+            url: (_args: {}, context: KeystoneContext) =>
+              adapter.url(id, extension as ImageExtension, s3Config.defaultSize!, sizesMeta as any),
           };
         },
       }),

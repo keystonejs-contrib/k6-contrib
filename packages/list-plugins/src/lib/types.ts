@@ -1,4 +1,4 @@
-import { BaseListTypeInfo, CommonFieldConfig, ListHooks } from '@keystone-6/core/types';
+import { BaseListTypeInfo, SimpleFieldTypeInfo, CommonFieldConfig, ListHooks } from '@keystone-6/core/types';
 
 export type AtTrackingOptions = {
   created?: boolean;
@@ -6,7 +6,7 @@ export type AtTrackingOptions = {
   createdAtField?: string;
   updatedAtField?: string;
   isIndexed?: boolean | 'unique';
-} & CommonFieldConfig<BaseListTypeInfo>;
+} & CommonFieldConfig<BaseListTypeInfo, SimpleFieldTypeInfo<'DateTime' | 'String'>>;
 
 export type ByTrackingOptions = {
   created?: boolean;
@@ -14,6 +14,6 @@ export type ByTrackingOptions = {
   createdByField?: string;
   updatedByField?: string;
   ref: string;
-} & CommonFieldConfig<BaseListTypeInfo>;
+} & CommonFieldConfig<BaseListTypeInfo, SimpleFieldTypeInfo<'DateTime' | 'String'>>;
 
 export type ResolveInputHook = ListHooks<BaseListTypeInfo>['resolveInput'];

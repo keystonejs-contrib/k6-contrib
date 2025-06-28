@@ -1,4 +1,5 @@
 # @k6-contrib/fields-s3
+deprecated in favor of original keystone field
 
 ## 6.1.1
 

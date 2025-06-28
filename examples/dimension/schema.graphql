@@ -11,6 +11,8 @@ type Product {
   packageDimension: DimensionFieldOutput
   weight: WeightFieldOutput
   weightRequired: WeightFieldOutput
+  weightSegment: WeightFieldOutput
+  weightSegmentRequired: WeightFieldOutput
   publishDate: DateTime
   author: Author
 }
@@ -157,6 +159,8 @@ input ProductUpdateInput {
   packageDimension: DimensionFieldInput
   weight: WeightFieldInput
   weightRequired: WeightFieldInput
+  weightSegment: WeightFieldInput
+  weightSegmentRequired: WeightFieldInput
   publishDate: DateTime
   author: AuthorRelateToOneForUpdateInput
 }
@@ -193,6 +197,8 @@ input ProductCreateInput {
   packageDimension: DimensionFieldInput
   weight: WeightFieldInput
   weightRequired: WeightFieldInput
+  weightSegment: WeightFieldInput
+  weightSegmentRequired: WeightFieldInput
   publishDate: DateTime
   author: AuthorRelateToOneForCreateInput
 }
@@ -307,24 +313,24 @@ type KeystoneAdminMeta {
 
 type KeystoneAdminUIListMeta {
   key: String!
-  itemQueryName: String!
-  listQueryName: String!
-  hideCreate: Boolean!
-  hideDelete: Boolean!
   path: String!
+  description: String
   label: String!
+  labelField: String!
   singular: String!
   plural: String!
-  description: String
-  initialColumns: [String!]!
-  pageSize: Int!
-  labelField: String!
   fields: [KeystoneAdminUIFieldMeta!]!
   groups: [KeystoneAdminUIFieldGroupMeta!]!
   graphql: KeystoneAdminUIGraphQL!
+  pageSize: Int!
+  initialColumns: [String!]!
+  initialSearchFields: [String!]!
   initialSort: KeystoneAdminUISort
-  isHidden: Boolean!
+  initialFilter: JSON
   isSingleton: Boolean!
+  hideNavigation: Boolean!
+  hideCreate: Boolean!
+  hideDelete: Boolean!
 }
 
 type KeystoneAdminUIFieldMeta {
@@ -350,12 +356,8 @@ enum KeystoneAdminUIFieldMetaIsNonNull {
 }
 
 type KeystoneAdminUIFieldMetaCreateView {
-  fieldMode: KeystoneAdminUIFieldMetaCreateViewFieldMode!
-}
-
-enum KeystoneAdminUIFieldMetaCreateViewFieldMode {
-  edit
-  hidden
+  fieldMode: JSON!
+  isRequired: JSON!
 }
 
 type KeystoneAdminUIFieldMetaListView {
@@ -368,14 +370,9 @@ enum KeystoneAdminUIFieldMetaListViewFieldMode {
 }
 
 type KeystoneAdminUIFieldMetaItemView {
-  fieldMode: KeystoneAdminUIFieldMetaItemViewFieldMode
-  fieldPosition: KeystoneAdminUIFieldMetaItemViewFieldPosition
-}
-
-enum KeystoneAdminUIFieldMetaItemViewFieldMode {
-  edit
-  read
-  hidden
+  fieldMode: JSON!
+  fieldPosition: KeystoneAdminUIFieldMetaItemViewFieldPosition!
+  isRequired: JSON!
 }
 
 enum KeystoneAdminUIFieldMetaItemViewFieldPosition {
