@@ -1,5 +1,11 @@
 # @k6-contrib/fields-encrypted
 
+## 7.0.1
+
+### Patch Changes
+
+- 46e6751: Fixed React Global errors
+
 ## 7.0.0
 
 ### Major Changes
