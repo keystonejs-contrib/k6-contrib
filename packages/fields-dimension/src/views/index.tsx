@@ -1,4 +1,8 @@
-import { CellComponent, FieldController, FieldControllerConfig } from '@keystone-6/core/types';
+import React, {
+  CellComponent,
+  FieldController,
+  FieldControllerConfig,
+} from '@keystone-6/core/types';
 
 export { Field } from './Field';
 

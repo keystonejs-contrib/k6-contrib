@@ -1,6 +1,6 @@
 import { useLocale } from '@react-aria/i18n'
 import bytes, { type BytesOptions } from 'bytes'
-import {
+import React, {
   type PropsWithChildren,
   type SyntheticEvent,
   Fragment,

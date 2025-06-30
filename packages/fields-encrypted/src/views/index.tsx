@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import copy from 'copy-to-clipboard';
-import { useState } from 'react';
 import { TextField, TextArea } from '@keystar/ui/text-field';
 import { ActionButton } from '@keystar/ui/button';
 import { VStack, HStack, Box } from '@keystar/ui/layout';
@@ -56,16 +56,10 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
         )}
         {!expand && (
           <HStack gap="small">
-            <ActionButton
-              aria-label={reveal ? 'Hide' : 'Show'}
-              onPress={() => setReveal(!reveal)}
-            >
+            <ActionButton aria-label={reveal ? 'Hide' : 'Show'} onPress={() => setReveal(!reveal)}>
               <Icon src={reveal ? eyeOffIcon : eyeIcon} />
             </ActionButton>
-            <ActionButton
-              aria-label="Copy"
-              onPress={() => copy(value)}
-            >
+            <ActionButton aria-label="Copy" onPress={() => copy(value)}>
               <Icon src={clipboardIcon} />
             </ActionButton>
           </HStack>

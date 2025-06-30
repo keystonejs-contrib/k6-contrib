@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { TextField } from '@keystar/ui/text-field';
-import { type FieldProps as FT1, FieldPrimitive } from '@keystar/ui/field';
+import { FieldPrimitive } from '@keystar/ui/field';
 import { HStack, VStack } from '@keystar/ui/layout';
 import { css, tokenSchema } from '@keystar/ui/style';
 import { ActionGroup, Item } from '@keystar/ui/action-group';
