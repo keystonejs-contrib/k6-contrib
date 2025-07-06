@@ -17,9 +17,9 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.832.0",
-    "@aws-sdk/lib-storage": "^3.832.0",
-    "@aws-sdk/s3-request-presigner": "^3.832.0",
+    "@aws-sdk/client-s3": "^3.842.0",
+    "@aws-sdk/lib-storage": "^3.842.0",
+    "@aws-sdk/s3-request-presigner": "^3.842.0",
     "@babel/runtime": "^7.27.6",
     "@keystar/ui": "0.7.19",
     "@react-aria/i18n": "^3.12.1",

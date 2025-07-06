@@ -15,6 +15,7 @@ import { allowAll } from '@keystone-6/core/access';
 import { gql } from '@keystone-6/core/admin-ui/apollo';
 import { document } from '@keystone-6/fields-document';
 import { encrypted } from '@k6-contrib/fields-encrypted';
+import { editorJs } from '@k6-contrib/fields-editorjs';
 import { configureTracking } from '@k6-contrib/list-plugins';
 import { fields } from '@keystone-6/fields-document/component-blocks';
 
@@ -61,6 +62,11 @@ export const lists = {
         isIndexed: 'unique',
         isFilterable: true,
         isOrderable: true,
+      }),
+      editorJs: editorJs({
+        ui: {
+          views: './admin/tools',
+        },
       }),
       secret: encrypted({
         reverse: true,
@@ -232,13 +238,6 @@ export const lists = {
         publishDate: timestamp(),
         author: relationship({
           ref: 'User.posts',
-          ui: {
-            displayMode: 'cards',
-            cardFields: ['name', 'email'],
-            inlineEdit: { fields: ['name', 'email'] },
-            linkToItem: true,
-            inlineCreate: { fields: ['name', 'email'] },
-          },
         }),
       },
     })

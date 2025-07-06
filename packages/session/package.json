@@ -7,7 +7,7 @@
   "main": "dist/session.cjs.js",
   "module": "dist/session.esm.js",
   "dependencies": {
-    "@babel/core": "^7.27.4",
+    "@babel/core": "^7.28.0",
     "@babel/runtime": "^7.27.6",
     "@hapi/iron": "^7.0.1",
     "cookie": "^0.6.0"
