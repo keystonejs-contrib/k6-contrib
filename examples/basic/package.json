@@ -11,6 +11,7 @@
   "dependencies": {
     "@babel/runtime": "^7.27.6",
     "@editorjs/quote": "^2.7.6",
+    "@editorjs/table": "^2.4.5",
     "@graphql-tools/schema": "^9.0.19",
     "@k6-contrib/fields-editorjs": "workspace:^",
     "@k6-contrib/fields-encrypted": "^7.0.0",
@@ -26,6 +27,7 @@
     "@preconstruct/next": "^4.0.0",
     "@types/react": "^19.1.0",
     "dotenv": "^16.5.0",
+    "editorjs-drag-drop": "^1.1.16",
     "graphql": "^16.8.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

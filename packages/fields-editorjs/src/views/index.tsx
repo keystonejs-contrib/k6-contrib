@@ -1,20 +1,18 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-
-import { useEffect, useRef } from 'react';
-import { Box, jsx, Stack } from '@keystone-ui/core';
-import { FieldContainer, FieldLabel, TextArea, TextInput } from '@keystone-ui/fields';
+import React, { useEffect, useRef } from 'react';
 import {
-  CardValueComponent,
   CellComponent,
   FieldController,
   FieldControllerConfig,
   FieldProps,
 } from '@keystone-6/core/types';
-import { CellContainer, CellLink } from '@keystone-6/core/admin-ui/components';
+import { TextField } from '@keystar/ui/text-field';
+import { FieldPrimitive } from '@keystar/ui/field';
+import { CellContainer } from '@keystone-6/core/admin-ui/components';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
+import DragDrop from 'editorjs-drag-drop';
+import { Box } from '@keystar/ui/layout';
 
 export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof controller>) => {
   const editorRef = useRef<EditorJS | null>(null);
@@ -23,6 +21,8 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
     const editor = new EditorJS({
       data: value ? JSON.parse(value) : undefined,
       holder: field.path,
+      autofocus: autoFocus,
+      readOnly: !onChange,
       tools: {
         header: {
           class: Header,
@@ -51,51 +51,37 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
           onChange?.(JSON.stringify(data));
         });
       },
+      onReady() {
+        new DragDrop(editor);
+      },
     });
     editorRef.current = editor;
   }, []);
+  let error = '';
   return (
-    <FieldContainer>
-      <FieldLabel htmlFor={field.path}>
-        <Box> {field.label}</Box>
-      </FieldLabel>
-      {onChange ? (
-        <div id={field.path}></div>
-      ) : (
-        // <TextArea
-        //   id={field.path}
-        //   autoFocus={autoFocus}
-        //   onChange={event => onChange(event.target.value)}
-        //   value={value}
-        // />
-        value
-      )}
-    </FieldContainer>
+    <FieldPrimitive label={field.label} description={field.description} errorMessage={error}>
+      <Box
+        id={field.path}
+        UNSAFE_style={{
+          backgroundColor: 'white',
+          minHeight: '200px',
+          borderRadius: '4px',
+          maxHeight: 600,
+          overflowY: 'auto',
+        }}
+      ></Box>
+    </FieldPrimitive>
   );
 };
 
-export const Cell: CellComponent = ({ item, field, linkTo }) => {
+export const Cell: CellComponent = ({ item, field }) => {
   let value = item[field.path] + '';
-  return linkTo ? <CellLink {...linkTo}>{value}</CellLink> : <CellContainer>{value}</CellContainer>;
-};
-Cell.supportsLinkTo = true;
-
-export const CardValue: CardValueComponent = ({ item, field }) => {
-  return (
-    <FieldContainer>
-      <FieldLabel>{field.label}</FieldLabel>
-      {item[field.path]}
-    </FieldContainer>
-  );
+  return <CellContainer>{value}</CellContainer>;
 };
 
-type Config = FieldControllerConfig<{
-  displayMode: 'input' | 'textarea';
-}>;
+type Config = FieldControllerConfig<{}>;
 
-export const controller = (
-  config: Config
-): FieldController<string, string> & { displayMode: 'input' | 'textarea'; tools: any } => {
+export const controller = (config: Config): FieldController<string, string> & { tools: any } => {
   return {
     path: config.path,
     label: config.label,
@@ -103,18 +89,24 @@ export const controller = (
     graphqlSelection: config.path,
     defaultValue: '',
     tools: config.customViews.tools || {},
-    displayMode: config.fieldMeta.displayMode,
     deserialize: data => {
       const value = data[config.path];
       return typeof value === 'string' ? value : '';
     },
     serialize: value => ({ [config.path]: value }),
     filter: {
+      parseGraphQL: value => {
+        try {
+          return JSON.parse(value);
+        } catch {
+          return {};
+        }
+      },
       Filter(props) {
         return (
-          <TextInput
-            onChange={event => {
-              props.onChange(event.target.value);
+          <TextField
+            onChange={text => {
+              props.onChange(text);
             }}
             value={props.value}
             autoFocus={props.autoFocus}

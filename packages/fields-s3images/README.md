@@ -12,7 +12,7 @@ const s3sConfig: S3sConfig = {
   endpoint: process.env.S3_ENDPOINT, // use region for aws, endpoint for s3 compatible storage
   region: process.env.S3_REGION!,
   acl: 'public-read',
-  signed: {expiry: 3600}, // in seconds to generate pre signed urls.
+  signed: { expiry: 3600 }, // in seconds to generate pre signed urls.
   preserve: true, // do not delete the old image automatically
   sizes: {
     sm: 360,
@@ -25,7 +25,7 @@ const s3sConfig: S3sConfig = {
     base64: 200,
   },
   // optional - use it to use a meaningful name to uploads
-  transformName: url => url
+  transformName: url => url,
 };
 
 const Post = list({
