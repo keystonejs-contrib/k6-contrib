@@ -1,5 +1,12 @@
 # @k6-contrib/example-basic
 
+## 2.2.4
+
+### Patch Changes
+
+- Updated dependencies [9525ac1]
+  - @k6-contrib/fields-editorjs@7.0.0
+
 ## 2.2.3
 
 ### Patch Changes
