@@ -63,9 +63,11 @@ export const lists = {
         isFilterable: true,
         isOrderable: true,
       }),
-      editorJs: editorJs({tools: {
-        
-      }}),
+      editorJs: editorJs({
+        ui: {
+          views: './admin/tools',
+        },
+      }),
       secret: encrypted({
         reverse: true,
         secret: process.env.ENCRYPTION_KEYS || 'Super secret encryption keys for testing',

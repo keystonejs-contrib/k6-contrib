@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.27.6",
+    "@editorjs/quote": "^2.7.6",
     "@graphql-tools/schema": "^9.0.19",
     "@k6-contrib/fields-editorjs": "workspace:^",
     "@k6-contrib/fields-encrypted": "^7.0.0",

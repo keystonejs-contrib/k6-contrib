@@ -3040,6 +3040,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@editorjs/dom@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@editorjs/dom@npm:0.0.5"
+  dependencies:
+    "@editorjs/helpers": "npm:^0.0.4"
+  checksum: 10c0/3618980264104d41fc1ad5472ec00cbb09c9294bd0b0632599fc3547951336c1b012128f0c7525d35599c6627d6963e67abf730d0819ae1502cd5d5800bd4afc
+  languageName: node
+  linkType: hard
+
 "@editorjs/editorjs@npm:^2.29.1, @editorjs/editorjs@npm:^2.30.7":
   version: 2.30.7
   resolution: "@editorjs/editorjs@npm:2.30.7"
@@ -3057,12 +3066,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@editorjs/helpers@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "@editorjs/helpers@npm:0.0.4"
+  checksum: 10c0/fe6993119313166a9d5e91ea399f3ae3551db049026b218ab177d39154d64ea8d6f6e95fa29ae64756e2b74208e74dd0d89197610143be48aed3aa60465177cf
+  languageName: node
+  linkType: hard
+
 "@editorjs/list@npm:^2.0.2":
   version: 2.0.2
   resolution: "@editorjs/list@npm:2.0.2"
   dependencies:
     "@codexteam/icons": "npm:^0.3.2"
   checksum: 10c0/86602377d49b54673c9ca104c6e9a5971390b49edbc5bcce229ecab81e4bba12171a7d40441e33984bb4b118c321951cd4804075c43afa302552d320ac43a18e
+  languageName: node
+  linkType: hard
+
+"@editorjs/quote@npm:^2.7.6":
+  version: 2.7.6
+  resolution: "@editorjs/quote@npm:2.7.6"
+  dependencies:
+    "@codexteam/icons": "npm:^0.3.2"
+    "@editorjs/dom": "npm:^0.0.5"
+  checksum: 10c0/7e47c32589fe5bfbf4808ed5153d465d01c35428f5aa549267cad86f8710365167a3c113f0dcbf954629b31436d453832e5ff88e30ed5643faae64c5e34b5d73
   languageName: node
   linkType: hard
 
@@ -4275,6 +4301,7 @@ __metadata:
   resolution: "@k6-contrib/example-basic@workspace:examples/basic"
   dependencies:
     "@babel/runtime": "npm:^7.27.6"
+    "@editorjs/quote": "npm:^2.7.6"
     "@graphql-tools/schema": "npm:^9.0.19"
     "@k6-contrib/fields-editorjs": "workspace:^"
     "@k6-contrib/fields-encrypted": "npm:^7.0.0"
