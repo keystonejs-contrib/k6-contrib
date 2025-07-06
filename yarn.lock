@@ -2631,6 +2631,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.26.0":
+  version: 7.26.0
+  resolution: "@babel/runtime@npm:7.26.0"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10c0/12c01357e0345f89f4f7e8c0e81921f2a3e3e101f06e8eaa18a382b517376520cd2fa8c237726eb094dab25532855df28a7baaf1c26342b52782f6936b07c287
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.27.6":
   version: 7.27.6
   resolution: "@babel/runtime@npm:7.27.6"
@@ -2955,6 +2964,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@codexteam/icons@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@codexteam/icons@npm:0.0.5"
+  checksum: 10c0/5f73f137a65a17959d758a80a3b3846801475a9555791a13561b4a2fcb57664bb7a667b6c27ea1da6f9d462b5b0657b2c35164928ad6c0a10b7e4737ddd79104
+  languageName: node
+  linkType: hard
+
+"@codexteam/icons@npm:^0.3.2":
+  version: 0.3.3
+  resolution: "@codexteam/icons@npm:0.3.3"
+  checksum: 10c0/336245f38a2b2a53626a552a5f0f32c822ee1265be6827670ba157c9fa101cb23e6c75e625aa067e4577c2d805e261f4ffcb61097ea94c034c0a3c0cae7d7271
+  languageName: node
+  linkType: hard
+
 "@dnd-kit/accessibility@npm:^3.1.0":
   version: 3.1.0
   resolution: "@dnd-kit/accessibility@npm:3.1.0"
@@ -3014,6 +3037,32 @@ __metadata:
   peerDependencies:
     react: ">=16.8.0"
   checksum: 10c0/9aa90526f3e3fd567b5acc1b625a63177b9e8d00e7e50b2bd0e08fa2bf4dba7e19529777e001fdb8f89a7ce69f30b190c8364d390212634e0afdfa8c395e85a0
+  languageName: node
+  linkType: hard
+
+"@editorjs/editorjs@npm:^2.29.1, @editorjs/editorjs@npm:^2.30.7":
+  version: 2.30.7
+  resolution: "@editorjs/editorjs@npm:2.30.7"
+  checksum: 10c0/22cfd862226a709efbf438b1f4195234a30a0580cd1262dd1155454fdc1b7a968e4909afde52ce9d928e35aba7b858da672b2fe8ebc6400eed207402b34d966c
+  languageName: node
+  linkType: hard
+
+"@editorjs/header@npm:^2.8.8":
+  version: 2.8.8
+  resolution: "@editorjs/header@npm:2.8.8"
+  dependencies:
+    "@codexteam/icons": "npm:^0.0.5"
+    "@editorjs/editorjs": "npm:^2.29.1"
+  checksum: 10c0/c208d2ea852c0e75b09a03ce08db558249c0e1efd17459f4adc80de9c30963b69129f744764769047e1766403e2e0fa249a5086eefdbcd5f3a082fbcd3ee4ec6
+  languageName: node
+  linkType: hard
+
+"@editorjs/list@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@editorjs/list@npm:2.0.2"
+  dependencies:
+    "@codexteam/icons": "npm:^0.3.2"
+  checksum: 10c0/86602377d49b54673c9ca104c6e9a5971390b49edbc5bcce229ecab81e4bba12171a7d40441e33984bb4b118c321951cd4804075c43afa302552d320ac43a18e
   languageName: node
   linkType: hard
 
@@ -4227,6 +4276,7 @@ __metadata:
   dependencies:
     "@babel/runtime": "npm:^7.27.6"
     "@graphql-tools/schema": "npm:^9.0.19"
+    "@k6-contrib/fields-editorjs": "workspace:^"
     "@k6-contrib/fields-encrypted": "npm:^7.0.0"
     "@k6-contrib/list-plugins": "npm:^7.0.0"
     "@keystone-6/auth": "npm:^8.1.0"
@@ -4372,6 +4422,33 @@ __metadata:
     "@keystone-6/core": ^6.5.1
     react: ^19.1.0
     react-dom: ^19.1.0
+  languageName: unknown
+  linkType: soft
+
+"@k6-contrib/fields-editorjs@workspace:^, @k6-contrib/fields-editorjs@workspace:packages/fields-editorjs":
+  version: 0.0.0-use.local
+  resolution: "@k6-contrib/fields-editorjs@workspace:packages/fields-editorjs"
+  dependencies:
+    "@babel/runtime": "npm:^7.26.0"
+    "@editorjs/editorjs": "npm:^2.30.7"
+    "@editorjs/header": "npm:^2.8.8"
+    "@editorjs/list": "npm:^2.0.2"
+    "@keystone-6/core": "npm:^6.3.1"
+    "@keystone-ui/button": "npm:^7.0.2"
+    "@keystone-ui/core": "npm:^5.0.2"
+    "@keystone-ui/fields": "npm:^7.2.0"
+    "@keystone-ui/icons": "npm:^6.0.2"
+    "@keystone-ui/tooltip": "npm:^6.0.2"
+    "@types/cryptr": "npm:^4.0.3"
+    "@types/react": "npm:^19.0.0"
+    copy-to-clipboard: "npm:^3.3.3"
+    cryptr: "npm:^6.3.0"
+    react: "npm:^19.0.0"
+    react-dom: "npm:^19.0.0"
+  peerDependencies:
+    "@keystone-6/core": ^6.3.1
+    react: ^18.1.0 || ^19.0.0
+    react-dom: ^18.1.0 || ^19.0.0
   languageName: unknown
   linkType: soft
 
@@ -7911,6 +7988,15 @@ __metadata:
     "@types/prop-types": "npm:*"
     csstype: "npm:^3.0.2"
   checksum: 10c0/fe455f805c5da13b89964c3d68060cebd43e73ec15001a68b34634604a78140e6fc202f3f61679b9d809dde6d7a7c2cb3ed51e0fd1462557911db09879b55114
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^19.0.0":
+  version: 19.0.2
+  resolution: "@types/react@npm:19.0.2"
+  dependencies:
+    csstype: "npm:^3.0.2"
+  checksum: 10c0/8992f39701fcf1bf893ef8f94a56196445667baf08fe4f6050a14e229a17aad3265ad3efc01595ff3b4d5d5c69da885f9aa4ff80f164a613018734efcff1eb8f
   languageName: node
   linkType: hard
 
