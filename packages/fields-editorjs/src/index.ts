@@ -1,4 +1,4 @@
-import Cryptr from 'cryptr';
+'use client';
 
 import {
   BaseListTypeInfo,

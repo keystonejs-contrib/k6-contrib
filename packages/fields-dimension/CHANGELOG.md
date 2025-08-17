@@ -1,5 +1,11 @@
 # @k6-contrib/fields-dimension
 
+## 7.1.0
+
+### Minor Changes
+
+- 4d37399: Update with latest keystonejs. It changes fieldKey
+
 ## 7.0.1
 
 ### Patch Changes

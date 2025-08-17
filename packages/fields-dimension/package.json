@@ -1,7 +1,7 @@
 {
   "name": "@k6-contrib/fields-dimension",
   "description": "Keystone 6 Dimension Field Type",
-  "version": "7.0.1",
+  "version": "7.1.0",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
   "main": "dist/fields-dimension.cjs.js",
