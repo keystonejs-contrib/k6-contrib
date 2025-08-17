@@ -106,7 +106,7 @@ export function Field({
               </Picker>
             )}
             <TextField
-              id={`${field.path}--length`}
+              id={`${field.fieldKey}--length`}
               autoFocus
               isDisabled={isNull}
               isReadOnly={isReadOnly}
@@ -117,7 +117,7 @@ export function Field({
               UNSAFE_style={{ width: '30%' }}
             />
             <TextField
-              id={`${field.path}--width`}
+              id={`${field.fieldKey}--width`}
               isDisabled={isNull}
               isReadOnly={isReadOnly}
               isRequired={isRequired}
@@ -127,7 +127,7 @@ export function Field({
               UNSAFE_style={{ width: '30%' }}
             />
             <TextField
-              id={`${field.path}--height`}
+              id={`${field.fieldKey}--height`}
               isDisabled={isNull}
               isReadOnly={isReadOnly}
               isRequired={isRequired}

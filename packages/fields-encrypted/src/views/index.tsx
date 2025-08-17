@@ -35,7 +35,7 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
         {onChange ? (
           expand ? (
             <TextArea
-              id={field.path}
+              id={field.fieldKey}
               autoFocus={autoFocus}
               onChange={onChange}
               value={value}
@@ -43,7 +43,7 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
             />
           ) : (
             <TextField
-              id={field.path}
+              id={field.fieldKey}
               type={reveal ? 'text' : 'password'}
               autoFocus={autoFocus}
               onChange={onChange}
@@ -70,7 +70,7 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
 };
 
 export const Cell: CellComponent = ({ item, field }) => {
-  let value = item[field.path] + '';
+  let value = item[field.fieldKey] + '';
   return <Box>{value}</Box>;
 };
 
@@ -84,17 +84,17 @@ export const controller = (
   config: Config
 ): FieldController<string, string> & { displayMode: 'input' | 'textarea'; reverse: boolean } => {
   return {
-    path: config.path,
+    fieldKey: config.fieldKey,
     label: config.label,
-    graphqlSelection: config.path,
+    graphqlSelection: config.fieldKey,
     defaultValue: '',
     displayMode: config.fieldMeta.displayMode,
     reverse: config.fieldMeta.reverse,
     deserialize: data => {
-      const value = data[config.path];
+      const value = data[config.fieldKey];
       return typeof value === 'string' ? value : '';
     },
-    serialize: value => ({ [config.path]: value }),
+    serialize: value => ({ [config.fieldKey]: value }),
     filter: {
       Filter(props) {
         return (
@@ -107,7 +107,6 @@ export const controller = (
           />
         );
       },
-
       graphql: ({ type, value }) => {
         const isNot = type.startsWith('not_');
         const key =
@@ -119,7 +118,7 @@ export const controller = (
                 .replace(/_([a-z])/g, (_, char: string) => char.toUpperCase());
         const filter = { [key]: value };
         return {
-          [config.path]: {
+          [config.fieldKey]: {
             ...(isNot ? { not: filter } : filter),
             mode: config.fieldMeta.shouldUseModeInsensitive ? 'insensitive' : undefined,
           },

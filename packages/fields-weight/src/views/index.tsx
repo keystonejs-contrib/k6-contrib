@@ -4,7 +4,7 @@ import { CellComponent, FieldController, FieldControllerConfig } from '@keystone
 export { Field } from './Field';
 
 export const Cell: CellComponent = ({ item, field }) => {
-  const data = item[field.path] as WeightData | null;
+  const data = item[field.fieldKey] as WeightData | null;
   if (!data) return null;
   const { unit, value } = data;
   return (
@@ -36,9 +36,9 @@ export const controller = (config: Config): WeightController => {
     value: x.value.toString(),
   }));
   return {
-    path: config.path,
+    fieldKey: config.fieldKey,
     label: config.label,
-    graphqlSelection: `${config.path} {
+    graphqlSelection: `${config.fieldKey} {
         unit
         value
       }`,
@@ -46,9 +46,9 @@ export const controller = (config: Config): WeightController => {
     displayMode: config.fieldMeta.displayMode,
     units: optionsWithStringValues,
     defaultUnit: config.fieldMeta.defaultUnit,
-    description: config.description || null,
+    description: config.description,
     deserialize(item) {
-      const weight = item[config.path];
+      const weight = item[config.fieldKey];
       if (weight) {
         return {
           unit: weight.unit,
@@ -64,10 +64,10 @@ export const controller = (config: Config): WeightController => {
       return typeof unit === 'string' && !isNaN(parseFloat(value));
     },
     serialize(weight) {
-      if (!weight) return { [config.path]: null };
+      if (!weight) return { [config.fieldKey]: null };
       const { unit, value } = weight;
       if (!unit && isNaN(parseFloat(value))) return null;
-      return { [config.path]: { unit, value: parseFloat(value) } };
+      return { [config.fieldKey]: { unit, value: parseFloat(value) } };
     },
   };
 };

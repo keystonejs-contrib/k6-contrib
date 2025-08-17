@@ -64,8 +64,8 @@
     "@whatwg-node/fetch": "0.9.14",
     "@keystar/ui": "^0.7.19",
     "next": "^15.3.4",
-    "@keystone-6/core": "npm:@k6js-next/core-next@0.0.0-20250622-04",
-    "@keystone-6/auth": "npm:@k6js-next/auth-next@0.0.0-20250622-04",
+    "@keystone-6/core": "npm:@k6js-next/core-next@0.0.0-20250815-01",
+    "@keystone-6/auth": "npm:@k6js-next/auth-next@0.0.0-20250815-01",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   }

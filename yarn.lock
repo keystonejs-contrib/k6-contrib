@@ -4824,9 +4824,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keystone-6/auth@npm:@k6js-next/auth-next@0.0.0-20250622-04":
-  version: 0.0.0-20250622-04
-  resolution: "@k6js-next/auth-next@npm:0.0.0-20250622-04"
+"@keystone-6/auth@npm:@k6js-next/auth-next@0.0.0-20250815-01":
+  version: 0.0.0-20250815-01
+  resolution: "@k6js-next/auth-next@npm:0.0.0-20250815-01"
   dependencies:
     "@babel/runtime": "npm:^7.24.7"
     "@keystar/ui": "npm:^0.7.16"
@@ -4836,13 +4836,13 @@ __metadata:
   peerDependencies:
     "@keystone-6/core": ^6.0.0
     react: ^19.0.0
-  checksum: 10c0/4e387c835b79cb547c356c63ae65767465eb053149d6f31aba7fe03c17d95d4d1e1664dc73a3e902f686099b9792b9a1b54b98e0a94ad5209e5497b72f0ea4a6
+  checksum: 10c0/10fe1ed14631896093d763e30e61c1920bab5a4f4875324be8cd8772946b1a7211c99b7f1152028d5ab0ec61a3f7dbb6127263477982cda6e4709a62bba07acc
   languageName: node
   linkType: hard
 
-"@keystone-6/core@npm:@k6js-next/core-next@0.0.0-20250622-04":
-  version: 0.0.0-20250622-04
-  resolution: "@k6js-next/core-next@npm:0.0.0-20250622-04"
+"@keystone-6/core@npm:@k6js-next/core-next@0.0.0-20250815-01":
+  version: 0.0.0-20250815-01
+  resolution: "@k6js-next/core-next@npm:0.0.0-20250815-01"
   dependencies:
     "@apollo/cache-control-types": "npm:^1.0.3"
     "@apollo/client": "npm:^3.12.2"
@@ -4897,7 +4897,7 @@ __metadata:
     uuid: "npm:^11.0.0"
   bin:
     keystone: bin/cli.js
-  checksum: 10c0/b11c18ed7da5e51a57d9529c77a1aed7be7f6f8c70a7e86bed9a3d7898f10dc349e67d39b4a255d7628bbc234064942574f44f90fbd76f9297a6b90b06e7256f
+  checksum: 10c0/2cb177f9ddbbc40cdc55c234e7cee1b02260143676a14d0fd910623222544b5f26dfd6f8e07483c3e40e999cef66aa62224958863d1f64e7fb7c0d85b74a896d
   languageName: node
   linkType: hard
 

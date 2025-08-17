@@ -70,7 +70,7 @@ export function Field(props: FieldProps<typeof controller>) {
         disabled={onChange === undefined}
         hidden
         key={inputKey}
-        name={field.path}
+        name={field.fieldKey}
         onChange={onUploadChange}
         ref={inputRef}
         type="file"

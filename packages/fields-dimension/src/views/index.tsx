@@ -7,7 +7,7 @@ import React, {
 export { Field } from './Field';
 
 export const Cell: CellComponent = ({ item, field }) => {
-  const data = item[field.path] as DimensionData | null;
+  const data = item[field.fieldKey] as DimensionData | null;
   if (!data) return null;
   const { unit, length, width, height } = data;
   return (
@@ -39,9 +39,9 @@ export const controller = (config: Config): DimensionController => {
     value: x.value.toString(),
   }));
   return {
-    path: config.path,
+    fieldKey: config.fieldKey,
     label: config.label,
-    graphqlSelection: `${config.path} {
+    graphqlSelection: `${config.fieldKey} {
         unit
         length
         width
@@ -51,9 +51,9 @@ export const controller = (config: Config): DimensionController => {
     displayMode: config.fieldMeta.displayMode,
     units: optionsWithStringValues,
     defaultUnit: config.fieldMeta.defaultUnit,
-    description: config.description || null,
+    description: config.description,
     deserialize(item) {
-      const value = item[config.path];
+      const value = item[config.fieldKey];
       if (value) {
         return {
           unit: value.unit,
@@ -83,7 +83,7 @@ export const controller = (config: Config): DimensionController => {
       );
     },
     serialize(value) {
-      if (!value) return { [config.path]: null };
+      if (!value) return { [config.fieldKey]: null };
       const { unit, length, width, height } = value;
       if (
         !unit &&
@@ -93,7 +93,7 @@ export const controller = (config: Config): DimensionController => {
       )
         return null;
       return {
-        [config.path]: {
+        [config.fieldKey]: {
           unit,
           length: parseFloat(length),
           width: parseFloat(width),

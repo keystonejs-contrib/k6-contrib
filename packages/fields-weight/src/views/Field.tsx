@@ -96,7 +96,7 @@ export function Field({
               </Picker>
             )}
             <TextField
-              id={`${field.path}--value`}
+              id={`${field.fieldKey}--value`}
               autoFocus={autoFocus}
               isDisabled={isNull}
               isReadOnly={isReadOnly}

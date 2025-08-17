@@ -4,7 +4,6 @@
   "version": "7.0.0",
   "author": "The KeystoneJS Contrib Development Team",
   "license": "MIT",
-  "private": false,
   "main": "dist/fields-editorjs.cjs.js",
   "module": "dist/fields-editorjs.esm.js",
   "files": [

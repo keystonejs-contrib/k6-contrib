@@ -20,7 +20,7 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
     if (editorRef.current) return;
     const editor = new EditorJS({
       data: value ? JSON.parse(value) : undefined,
-      holder: field.path,
+      holder: field.fieldKey,
       autofocus: autoFocus,
       readOnly: !onChange,
       tools: {
@@ -61,7 +61,7 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
   return (
     <FieldPrimitive label={field.label} description={field.description} errorMessage={error}>
       <Box
-        id={field.path}
+        id={field.fieldKey}
         UNSAFE_style={{
           backgroundColor: 'white',
           minHeight: '200px',
@@ -75,7 +75,7 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
 };
 
 export const Cell: CellComponent = ({ item, field }) => {
-  let value = item[field.path] + '';
+  let value = item[field.fieldKey] + '';
   return <CellContainer>{value}</CellContainer>;
 };
 
@@ -83,17 +83,17 @@ type Config = FieldControllerConfig<{}>;
 
 export const controller = (config: Config): FieldController<string, string> & { tools: any } => {
   return {
-    path: config.path,
+    fieldKey: config.fieldKey,
     label: config.label,
     description: config.description,
-    graphqlSelection: config.path,
+    graphqlSelection: config.fieldKey,
     defaultValue: '',
     tools: config.customViews.tools || {},
     deserialize: data => {
-      const value = data[config.path];
+      const value = data[config.fieldKey];
       return typeof value === 'string' ? value : '';
     },
-    serialize: value => ({ [config.path]: value }),
+    serialize: value => ({ [config.fieldKey]: value }),
     filter: {
       parseGraphQL: value => {
         try {
@@ -124,7 +124,7 @@ export const controller = (config: Config): FieldController<string, string> & { 
                 .replace(/_([a-z])/g, (_, char: string) => char.toUpperCase());
         const filter = { [key]: value };
         return {
-          [config.path]: {
+          [config.fieldKey]: {
             ...(isNot ? { not: filter } : filter),
             mode: 'insensitive',
           },

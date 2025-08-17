@@ -50,21 +50,12 @@ type ImageController = FieldController<ImageValue>;
 export const controller = (config: FieldControllerConfig): ImageController => {
   return {
     ...config,
-    path: config.path,
+    fieldKey: config.fieldKey,
     label: config.label,
     description: config.description,
-    graphqlSelection: `${config.path} {
-      id
-      url
-      extension
-      filesize
-      width
-      height
-      #sizesMeta
-    }`,
     defaultValue: { kind: 'empty' },
     deserialize(item): ImageValue {
-      const value = item[config.path];
+      const value = item[config.fieldKey];
       if (!value) return { kind: 'empty' };
       console.log('Deserializing image value', value);
       return {
@@ -79,17 +70,26 @@ export const controller = (config: FieldControllerConfig): ImageController => {
         },
       };
     },
-    validate(value: ImageValue): boolean {
-      return value.kind !== 'upload' || validateImage(value.data) === undefined;
-    },
     serialize(value: ImageValue) {
       if (value.kind === 'upload') {
-        return { [config.path]: { upload: value.data.file } };
+        return { [config.fieldKey]: { upload: value.data.file } };
       }
       if (value.kind === 'remove') {
-        return { [config.path]: null };
+        return { [config.fieldKey]: null };
       }
       return {};
     },
+    validate(value: ImageValue): boolean {
+      return value.kind !== 'upload' || validateImage(value.data) === undefined;
+    },
+    graphqlSelection: `${config.fieldKey} {
+      id
+      url
+      extension
+      filesize
+      width
+      height
+      #sizesMeta
+    }`,
   };
 };
