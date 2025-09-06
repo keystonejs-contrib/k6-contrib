@@ -87,7 +87,7 @@ export async function getDataFromStream(
   const sm = config.sizes?.sm ?? 360;
   if (sm) {
     // upload sm image
-    const smFile = await imagePipeline.clone().resize(sm).toBuffer({ resolveWithObject: true });
+    const smFile = await imagePipeline.clone().resize({ width: sm, withoutEnlargement: !config.upscale }).toBuffer({ resolveWithObject: true });
     const smFileData: Omit<ImagesData, 'url'> = {
       id,
       height: smFile.info.height,
@@ -111,7 +111,7 @@ export async function getDataFromStream(
   // upload md image
   const md = config.sizes?.md ?? 720;
   if (md) {
-    const mdFile = await imagePipeline.clone().resize(md).toBuffer({ resolveWithObject: true });
+    const mdFile = await imagePipeline.clone().resize({ width: md, withoutEnlargement: !config.upscale }).toBuffer({ resolveWithObject: true });
     const mdFileData: Omit<ImagesData, 'url'> = {
       id,
       height: mdFile.info.height,
@@ -135,7 +135,7 @@ export async function getDataFromStream(
   const lg = config.sizes?.lg ?? 1280;
   // upload lg image
   if (lg) {
-    const lgFile = await imagePipeline.clone().resize(lg).toBuffer({ resolveWithObject: true });
+    const lgFile = await imagePipeline.clone().resize({ width: lg, withoutEnlargement: !config.upscale }).toBuffer({ resolveWithObject: true });
     const lgFileData: Omit<ImagesData, 'url'> = {
       id,
       height: lgFile.info.height,
@@ -298,6 +298,7 @@ function setDefaultConfig(config: S3ImagesConfig) {
     );
   }
   config.defaultSize = defaultSize;
+  config.upscale = config.upscale ?? false;
   return config;
 }
 
@@ -306,60 +307,60 @@ export const s3Images =
     s3Config: _s3Config,
     ...config
   }: S3FieldConfig<ListTypeInfo>): FieldTypeFunc<ListTypeInfo> =>
-  meta => {
-    if (typeof _s3Config === 'undefined') {
-      throw new Error(
-        `Must provide s3Config option in S3Image field for List: ${meta.listKey}, field: ${meta.fieldKey}`
-      );
-    }
-    const { listKey, fieldKey } = meta;
-    const s3key = `${listKey}-${fieldKey}`;
-    const s3Config = setDefaultConfig(_s3Config);
-    const adapter = s3ImageAssetsAPI(s3Config);
-    imageAssetsAPIs.set(s3key, adapter);
+    meta => {
+      if (typeof _s3Config === 'undefined') {
+        throw new Error(
+          `Must provide s3Config option in S3Image field for List: ${meta.listKey}, field: ${meta.fieldKey}`
+        );
+      }
+      const { listKey, fieldKey } = meta;
+      const s3key = `${listKey}-${fieldKey}`;
+      const s3Config = setDefaultConfig(_s3Config);
+      const adapter = s3ImageAssetsAPI(s3Config);
+      imageAssetsAPIs.set(s3key, adapter);
 
-    async function beforeOperationResolver(args: any) {
-      // console.log('beforeOperationResolver', args);
-      if (args.operation === 'update' || args.operation === 'delete') {
-        const idKey = `${fieldKey}_id`;
-        const id = args.item[idKey];
-        const extensionKey = `${fieldKey}_extension`;
-        const extension = args.item[extensionKey];
+      async function beforeOperationResolver(args: any) {
+        // console.log('beforeOperationResolver', args);
+        if (args.operation === 'update' || args.operation === 'delete') {
+          const idKey = `${fieldKey}_id`;
+          const id = args.item[idKey];
+          const extensionKey = `${fieldKey}_extension`;
+          const extension = args.item[extensionKey];
 
-        if (args.operation === 'update' && args.resolvedData[fieldKey].id === id) return; // skip if same file is uploaded
+          if (args.operation === 'update' && args.resolvedData[fieldKey].id === id) return; // skip if same file is uploaded
 
-        // This will occur on an update where an image already existed but has been
-        // changed, or on a delete, where there is no longer an item
-        if (
-          (args.operation === 'delete' ||
-            typeof args.resolvedData[fieldKey].id === 'string' ||
-            args.resolvedData[fieldKey].id === null) &&
-          typeof id === 'string' &&
-          typeof extension === 'string' &&
-          isValidImageExtension(extension)
-        ) {
-          for (const size of ['sm', 'md', 'lg', 'full']) {
-            await adapter.delete(id, extension as ImageExtension, size as ImageSize);
+          // This will occur on an update where an image already existed but has been
+          // changed, or on a delete, where there is no longer an item
+          if (
+            (args.operation === 'delete' ||
+              typeof args.resolvedData[fieldKey].id === 'string' ||
+              args.resolvedData[fieldKey].id === null) &&
+            typeof id === 'string' &&
+            typeof extension === 'string' &&
+            isValidImageExtension(extension)
+          ) {
+            for (const size of ['sm', 'md', 'lg', 'full']) {
+              await adapter.delete(id, extension as ImageExtension, size as ImageSize);
+            }
           }
         }
       }
-    }
-    return fieldType({
-      kind: 'multi',
-      extendPrismaSchema: config.db?.extendPrismaSchema,
-      fields: {
-        id: { kind: 'scalar', scalar: 'String', mode: 'optional' },
-        filesize: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
-        width: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
-        height: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
-        extension: { kind: 'scalar', scalar: 'String', mode: 'optional' },
-        sizesMeta: { kind: 'scalar', scalar: 'Json', mode: 'optional' },
-      },
-    })({
-      ...config,
-      hooks: s3Config.preserve
-        ? config.hooks
-        : {
+      return fieldType({
+        kind: 'multi',
+        extendPrismaSchema: config.db?.extendPrismaSchema,
+        fields: {
+          id: { kind: 'scalar', scalar: 'String', mode: 'optional' },
+          filesize: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
+          width: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
+          height: { kind: 'scalar', scalar: 'Int', mode: 'optional' },
+          extension: { kind: 'scalar', scalar: 'String', mode: 'optional' },
+          sizesMeta: { kind: 'scalar', scalar: 'Json', mode: 'optional' },
+        },
+      })({
+        ...config,
+        hooks: s3Config.preserve
+          ? config.hooks
+          : {
             ...config.hooks,
             beforeOperation: {
               ...config.hooks?.beforeOperation,
@@ -369,44 +370,44 @@ export const s3Images =
               delete: merge(config.hooks?.beforeOperation?.delete, beforeOperationResolver),
             },
           },
-      input: {
-        create: {
-          arg: inputArg,
-          // @ts-expect-error
-          resolve: createInputResolver(s3Config as S3ImagesConfig, adapter),
+        input: {
+          create: {
+            arg: inputArg,
+            // @ts-expect-error
+            resolve: createInputResolver(s3Config as S3ImagesConfig, adapter),
+          },
+          update: {
+            arg: inputArg,
+            // @ts-expect-error
+            resolve: createInputResolver(s3Config as S3ImagesConfig, adapter),
+          },
         },
-        update: {
-          arg: inputArg,
-          // @ts-expect-error
-          resolve: createInputResolver(s3Config as S3ImagesConfig, adapter),
-        },
-      },
-      output: g.field({
-        type: S3ImagesFieldOutput,
-        resolve({ value: { extension, filesize, height, width, id, sizesMeta } }) {
-          if (
-            extension === null ||
-            !isValidImageExtension(extension) ||
-            filesize === null ||
-            height === null ||
-            width === null ||
-            id === null
-          ) {
-            return null;
-          }
-          return {
-            extension: extension as ImageExtension,
-            filesize,
-            height,
-            width,
-            id,
-            sizesMeta: sizesMeta as Partial<Record<ImageSize, ImagesData>>,
-            url: (_args: {}, context: KeystoneContext) =>
-              adapter.url(id, extension as ImageExtension, s3Config.defaultSize!, sizesMeta as any),
-          };
-        },
-      }),
-      unreferencedConcreteInterfaceImplementations: [S3ImagesFieldOutputType],
-      views: '@k6-contrib/fields-s3-images/views',
-    });
-  };
+        output: g.field({
+          type: S3ImagesFieldOutput,
+          resolve({ value: { extension, filesize, height, width, id, sizesMeta } }) {
+            if (
+              extension === null ||
+              !isValidImageExtension(extension) ||
+              filesize === null ||
+              height === null ||
+              width === null ||
+              id === null
+            ) {
+              return null;
+            }
+            return {
+              extension: extension as ImageExtension,
+              filesize,
+              height,
+              width,
+              id,
+              sizesMeta: sizesMeta as Partial<Record<ImageSize, ImagesData>>,
+              url: (_args: {}, context: KeystoneContext) =>
+                adapter.url(id, extension as ImageExtension, s3Config.defaultSize!, sizesMeta as any),
+            };
+          },
+        }),
+        unreferencedConcreteInterfaceImplementations: [S3ImagesFieldOutputType],
+        views: '@k6-contrib/fields-s3-images/views',
+      });
+    };

@@ -85,6 +85,7 @@ export type S3ImagesConfig = {
   transformName?: (filename: string, extension: string, size: ImageSize) => string | Promise<string>;
   /** define width, set value 0 to not generate that image, it will be same as next bigger size */
   sizes?: S3ImagesSizes;
+  upscale?: boolean;
   defaultSize?: Exclude<ImageSize, 'base64'>;
   // getFilename?: (args: GetFileNameArg) => string;
   // getUrl?: (config: S3ImagesConfig, fileData: ImagesData) => string;

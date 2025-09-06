@@ -1,5 +1,11 @@
 # @k6-contrib/fields-s3-images
 
+## 7.2.0
+
+### Minor Changes
+
+- 🔥Breaking: Disable upscaling image by default. use upscale option to allow enlarging which also loses quality.
+
 ## 7.1.0
 
 ### Minor Changes
